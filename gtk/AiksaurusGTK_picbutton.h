@@ -24,6 +24,8 @@
 #include <glib.h>
 #include <gtk/gtk.h>
 
+#include "AiksaurusGTK_strlist.h"
+
 class AiksaurusGTK_picbutton
 {
 	private:
@@ -59,8 +61,12 @@ class AiksaurusGTK_picbutton
 		GdkPixmap* d_menu_pixmap_ptr;
 		GdkBitmap* d_menu_mask_ptr;
 		GtkWidget* d_menu_pixmap_widget_ptr;
-		
-		
+	
+        GtkSignalFunc d_onclick_function;
+        gpointer d_onclick_data;
+        
+        AiksaurusGTK_strlist* d_menu_options_ptr;
+        
 	// Callback Functions
 		
 		static void cbHover(GtkWidget* w, gpointer data);
@@ -68,7 +74,7 @@ class AiksaurusGTK_picbutton
 		static void cbPopMenu(GtkWidget* w, gpointer data);
 		static void cbPopupFunction(GtkMenu* menu, int* x, int* y, gpointer data); 
 		static void cbSelectionDone(GtkMenuShell* menushell, gpointer data);
-	
+        static void cbMenuActivate(GtkMenuItem* item, gpointer data);    
 		
 	// Mouse Hovering Actions
 	
@@ -82,7 +88,10 @@ class AiksaurusGTK_picbutton
 		void popMenu();
 		void popupFunction(int* x, int* y);
 		void selectionDone();
+        void menuActivate(GtkMenuItem* item);
 	
+        void menuCreate();
+        
 		
 	// Prevent Copying and Assignment
 	
@@ -102,17 +111,16 @@ class AiksaurusGTK_picbutton
 	// Manipulation
 		
 		void setHoverPicture(const char** hover);
-		GtkWidget* addMenu();
+		void addMenu(GtkSignalFunc onClick, gpointer onClickData);
 
+        void updateMenuOptions();
+        AiksaurusGTK_strlist& getMenuOptions();
+        
 		void disable();
 		void enable();
-	
 		
-	// Inspection
-		
-		GtkWidget* getButton();
+        GtkWidget* getButton();
 		GtkWidget* getMenuButton();
-		GtkWidget* getMenu();
 };
 
 #endif // INCLUDED_GPL_JARED_AIKSAURUSGTK_PICBUTTON_H

@@ -40,15 +40,14 @@ test.strlist2 : test.strlist2.cpp AiksaurusGTK_strlist.o AiksaurusGTK_utils.o
 	$(CC) $(CPPFLAGS) $(GTKLINK) -o test.strlist2 \
 	test.strlist2.cpp AiksaurusGTK_utils.o AiksaurusGTK_strlist.o 
 
-test.picbutton : test.picbutton.cpp AiksaurusGTK_picbutton.o
+test.picbutton : test.picbutton.cpp AiksaurusGTK_utils.o AiksaurusGTK_strlist.o \
+                 AiksaurusGTK_picbutton.o
 	$(CC) $(CPPFLAGS) $(GTKLINK) -o test.picbutton \
-	test.picbutton.cpp AiksaurusGTK_picbutton.o
+	test.picbutton.cpp AiksaurusGTK_picbutton.o AiksaurusGTK_strlist.o AiksaurusGTK_utils.o
 
 test.utils : test.utils.cpp AiksaurusGTK_utils.o 
 	$(CC) $(CPPFLAGS) -o test.utils \
 	test.utils.cpp AiksaurusGTK_utils.o 
-
-
 
 
 AiksaurusGTK_histlist.o : AiksaurusGTK_histlist.cpp AiksaurusGTK_histlist.h AiksaurusGTK_strlist.h
@@ -60,7 +59,8 @@ AiksaurusGTK_history.o : AiksaurusGTK_history.cpp AiksaurusGTK_history.h Aiksaur
 AiksaurusGTK_strlist.o : AiksaurusGTK_strlist.cpp AiksaurusGTK_strlist.h AiksaurusGTK_utils.h
 	$(CC) $(CPPFLAGS) $(GTKLINK) -c AiksaurusGTK_strlist.cpp
 
-AiksaurusGTK_picbutton.o : AiksaurusGTK_picbutton.h AiksaurusGTK_picbutton.cpp
+AiksaurusGTK_picbutton.o : AiksaurusGTK_picbutton.h AiksaurusGTK_picbutton.cpp \
+                           AiksaurusGTK_strlist.h AiksaurusGTK_utils.h
 	$(CC) $(CPPFLAGS) $(GTKLINK) -c AiksaurusGTK_picbutton.cpp
 
 AiksaurusGTK_icons.o : AiksaurusGTK_icons.h AiksaurusGTK_icons.cpp

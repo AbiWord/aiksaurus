@@ -56,6 +56,10 @@ disablepb(GtkWidget* w, gpointer data)
 {
 	AiksaurusGTK_picbutton* pb = static_cast<AiksaurusGTK_picbutton*>(data);
 	pb->disable();
+
+    AiksaurusGTK_strlist& options = pb->getMenuOptions();
+    options.pop_front();
+    pb->updateMenuOptions();
 }
 
 void 
@@ -63,6 +67,12 @@ enablepb(GtkWidget* w, gpointer data)
 {
 	AiksaurusGTK_picbutton* pb = static_cast<AiksaurusGTK_picbutton*>(data);
 	pb->enable();
+}
+
+void
+menuselection(const char* selection, gpointer data)
+{
+    cout << "menuselection(" << selection << ") called." << endl;
 }
 
 
@@ -84,19 +94,20 @@ int main(int argc, char** argv)
 		layout
 	);
 	
+    cout << "Window created." << endl;
+    
 	AiksaurusGTK_picbutton pb(window, back_gray);
 	pb.setHoverPicture(back_green);
-	GtkWidget* menu = pb.addMenu();
+	pb.addMenu(GTK_SIGNAL_FUNC(menuselection), &pb);
 
-	
-	GtkWidget* item = gtk_menu_item_new_with_label("Sample Menu Item");
-	gtk_widget_show(item);
-
-	gtk_menu_append(
-		GTK_MENU(menu),
-		item
-	);
-	
+    cout << "Menu added." << endl;
+    AiksaurusGTK_strlist& options = pb.getMenuOptions();
+    options.push_back("Menu option 1");
+    options.push_back("Menu option 2");
+    options.push_back("Menu option 3");
+    options.push_back("Menu option 4");
+    pb.updateMenuOptions();
+    
 	GtkWidget *btnbox = gtk_hbox_new(false, 0);
 	gtk_widget_show(btnbox);
 	
@@ -124,16 +135,18 @@ int main(int argc, char** argv)
 		false,
 		4
 	);
-	
+
+    cout << "Creating enable button." << endl;    
 	GtkWidget* enablebtn = gtk_button_new_with_label("Enable");
 	gtk_widget_show(enablebtn);
-	gtk_signal_connect(
+    gtk_signal_connect(
 		GTK_OBJECT(enablebtn),
-		"clicked",
+    	"clicked",
 		GTK_SIGNAL_FUNC(enablepb),
 		&pb
 	);
 
+    cout << "Creating disable button." << endl;
 	GtkWidget* disablebtn = gtk_button_new_with_label("Disable");
 	gtk_widget_show(disablebtn);
 	gtk_signal_connect(
@@ -158,7 +171,9 @@ int main(int argc, char** argv)
 		false,
 		4
 	);
-			
+
+    cout << "About to enter gtk_main()" << endl;
+    
 	gtk_main();
 
 	return 0;

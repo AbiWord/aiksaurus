@@ -128,7 +128,10 @@ class AiksaurusGTK
 
 		void toolbarBackButtonClick();
 		void toolbarForwardButtonClick();
+        void toolbarBackButtonMenuClick(const char* s);
+        void toolbarForwardButtonMenuClick(const char* s);
 
+        
 		void toolbarSearchBarConnect();
 		void toolbarSearchBarDisconnect();
 		void toolbarSearchBarAppendItem(const char* str);
@@ -141,9 +144,10 @@ class AiksaurusGTK
 		static void toolbarSearchButtonClickCallback(GtkWidget* w, gpointer data);
 		static void toolbarSearchBarKeyPressedCallback(GtkWidget* w, GdkEventKey* k, gpointer data);
 		static void toolbarSearchBarDropdownChangedCallback(GtkList* l, GtkWidget* w, gpointer data);
+        static void toolbarBackButtonMenuClickCallback(const char* s, gpointer data);
+        static void toolbarForwardButtonMenuClickCallback(const char* s, gpointer data);
 
-
-
+        
 	// Replace-Bar GUI Functions and Data Members
 
 		GtkWidget *d_replacebar_ptr;
@@ -631,7 +635,10 @@ AiksaurusGTK::toolbarBackButtonCreate()
 		AiksaurusGTK_icons::s_backHover
 	);
 
-	d_backbutton_ptr->addMenu();
+	d_backbutton_ptr->addMenu(
+        GTK_SIGNAL_FUNC(toolbarBackButtonMenuClickCallback),
+        this        
+    );
 
 	dialogSetTooltip(
 		d_backbutton_ptr->getMenuButton(),
@@ -685,7 +692,10 @@ AiksaurusGTK::toolbarForwardButtonCreate()
 		AiksaurusGTK_icons::s_forwardHover
 	);
 
-	d_forwardbutton_ptr->addMenu();
+	d_forwardbutton_ptr->addMenu(
+        GTK_SIGNAL_FUNC(toolbarForwardButtonMenuClickCallback),
+        this
+    );
 
 	dialogSetTooltip(
 		d_forwardbutton_ptr->getMenuButton(),
@@ -901,6 +911,18 @@ AiksaurusGTK::toolbarForwardButtonClick()
     d_ishistorymove = false;
 }
 
+void 
+AiksaurusGTK::toolbarBackButtonMenuClick(const char* s)
+{
+    cout << "  <- Move Back to " << s << endl;
+}
+
+void 
+AiksaurusGTK::toolbarForwardButtonMenuClick(const char* s)
+{
+    cout << "  -> Move Forward to " << s << endl;
+}
+
 void
 AiksaurusGTK::toolbarSearchButtonClickCallback(GtkWidget* w, gpointer data)
 {
@@ -919,6 +941,18 @@ void
 AiksaurusGTK::toolbarForwardButtonClickCallback(GtkWidget* w, gpointer data)
 {
     static_cast<AiksaurusGTK*>(data)->toolbarForwardButtonClick();
+}
+        
+void 
+AiksaurusGTK::toolbarBackButtonMenuClickCallback(const char* s, gpointer data)
+{
+    static_cast<AiksaurusGTK*>(data)->toolbarBackButtonMenuClick(s);
+}
+
+void 
+AiksaurusGTK::toolbarForwardButtonMenuClickCallback(const char* s, gpointer data)
+{
+    static_cast<AiksaurusGTK*>(data)->toolbarForwardButtonMenuClick(s);
 }
 
 void

@@ -34,7 +34,9 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 {
 	d_window_ptr = window;
 	d_style_ptr = gtk_widget_get_style(window);
-
+    d_menu_options_ptr = NULL;
+    d_menu_ptr = NULL;
+    
 	d_enabled = true;
 	
 	d_menushowing = false;
@@ -55,7 +57,6 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 		&d_style_ptr->bg[GTK_STATE_NORMAL],
 		(gchar**)normal
 	);
-	
 
 	d_pixmap_ptr = gtk_pixmap_new(
 		d_normalpixmap_ptr,
@@ -73,7 +74,11 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 
 AiksaurusGTK_picbutton::~AiksaurusGTK_picbutton()
 {
-	gtk_widget_destroy(d_menu_ptr);
+    // TO DO: what if this is null?
+    gtk_widget_destroy(d_menu_ptr);
+
+    if (d_menu_options_ptr)
+        delete d_menu_options_ptr;
 }
 
 
@@ -107,9 +112,12 @@ AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
 }
 
 
-GtkWidget* 
-AiksaurusGTK_picbutton::addMenu()
+void
+AiksaurusGTK_picbutton::addMenu(GtkSignalFunc onClick, gpointer onClickData)
 {
+    d_onclick_function = onClick;
+    d_onclick_data = onClickData;
+    
 	d_hasmenu = true;
 
 	d_menu_button_ptr = gtk_button_new();
@@ -162,17 +170,9 @@ AiksaurusGTK_picbutton::addMenu()
 		this
 	);
 
-	d_menu_ptr = gtk_menu_new();
-	gtk_widget_show(d_menu_ptr);
-	
-	gtk_signal_connect(
-		GTK_OBJECT(d_menu_ptr),
-		"selection-done",
-		GTK_SIGNAL_FUNC(cbSelectionDone),
-		this
-	);
-	
-	return d_menu_ptr;
+    menuCreate();
+    
+    d_menu_options_ptr = new AiksaurusGTK_strlist;
 }
 
 
@@ -190,12 +190,58 @@ AiksaurusGTK_picbutton::getMenuButton()
 }
 
 
-GtkWidget* 
-AiksaurusGTK_picbutton::getMenu()
+AiksaurusGTK_strlist& 
+AiksaurusGTK_picbutton::getMenuOptions()
 {
-	return d_menu_ptr;
+	return *d_menu_options_ptr;
 }
 
+
+void
+AiksaurusGTK_picbutton::menuCreate()
+{
+    if (d_menu_ptr != NULL)
+        gtk_widget_destroy(d_menu_ptr);
+
+    d_menu_ptr = gtk_menu_new();
+	
+    gtk_widget_show(d_menu_ptr);
+	
+	gtk_signal_connect(
+		GTK_OBJECT(d_menu_ptr),
+		"selection-done",
+		GTK_SIGNAL_FUNC(cbSelectionDone),
+		this
+	);
+}
+
+
+void
+AiksaurusGTK_picbutton::updateMenuOptions()
+{
+    menuCreate();
+    
+    GList* l = const_cast<GList*>(d_menu_options_ptr->list());
+
+    while(l != NULL)
+    {
+        char* item = static_cast<char*>(l->data);
+
+        GtkWidget* option = gtk_menu_item_new_with_label(item);
+        gtk_widget_show(option);
+        
+        gtk_menu_append(GTK_MENU(d_menu_ptr), option);
+
+        gtk_signal_connect(
+            GTK_OBJECT(option),
+            "activate",
+            GTK_SIGNAL_FUNC(cbMenuActivate),
+            this 
+        );
+        
+        l = l->next;
+    }
+}
 
 
 //////////////////////////////////////////////////////////////////////////
@@ -367,6 +413,13 @@ AiksaurusGTK_picbutton::selectionDone()
 	handleRelief();
 }
 
+void
+AiksaurusGTK_picbutton::menuActivate(GtkMenuItem* item)
+{
+    char* s;
+    gtk_label_get(GTK_LABEL(GTK_BIN(item)->child), &s);
+    d_onclick_function(s, d_onclick_data);
+}
 
 
 
@@ -401,7 +454,10 @@ void AiksaurusGTK_picbutton::cbSelectionDone(GtkMenuShell* menushell, gpointer d
 	static_cast<AiksaurusGTK_picbutton*>(data)->selectionDone();
 }
 
-
+void AiksaurusGTK_picbutton::cbMenuActivate(GtkMenuItem* item, gpointer data)
+{
+    static_cast<AiksaurusGTK_picbutton*>(data)->menuActivate(item);
+}
 
 
 //////////////////////////////////////////////////////////////////////////
