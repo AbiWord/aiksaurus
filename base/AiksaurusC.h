@@ -21,7 +21,7 @@
 #ifndef INCLUDED_AIKSAURUSC_H
 #define INCLUDED_AIKSAURUSC_H
 
-	#if defined WIN32 
+	#if defined(WIN32)
 		#if defined _STATIC_BUILD
 			#define AIKEXPORT
 		#else
