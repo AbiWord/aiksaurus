@@ -91,17 +91,13 @@ AiksaurusABI_addToMenus()
         // Get this frame's menu object.
         EV_Menu* pMenu = pFrame->getMainMenu();
         
-        // Get the menu's layout object.  We need to modify it so we
-        // will simply cast away its const-ness.  This is kind of ugly.
-        EV_Menu_Layout* pLayout = const_cast<EV_Menu_Layout*>(
-            pMenu->getMenuLayout()
-        );
+        // Get the menu's layout object.  
+
+        EV_Menu_Layout* pLayout = pMenu->getLayout();
         
         // Get the menu's label set.  Again we need to modify it so we
         // are forced to cast away const-ness.  
-        EV_Menu_LabelSet* pLabelSet = const_cast<EV_Menu_LabelSet*>(
-            pMenu->getMenuLabelSet()
-        );
+        EV_Menu_LabelSet* pLabelSet = pMenu->getLabelSet();
 
         
         // Figure out where the tools menu is.
@@ -155,7 +151,8 @@ AiksaurusABI_addToMenus()
 //
 // -----------------------------------------------------------------------
     
-ABI_FAR extern "C"
+ABI_FAR_CALL extern "C"
+
 int abi_plugin_register (XAP_ModuleInfo * mi)
 {
     mi->name = "Aiksaurus";
@@ -175,7 +172,7 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
 }
 
 
-ABI_FAR extern "C"
+ABI_FAR_CALL extern "C"
 int abi_plugin_unregister (XAP_ModuleInfo * mi)
 {
     mi->name = 0;
@@ -187,7 +184,7 @@ int abi_plugin_unregister (XAP_ModuleInfo * mi)
 }
 
 
-ABI_FAR extern "C"
+ABI_FAR_CALL extern "C"
 int abi_plugin_supports_version (UT_uint32 major, UT_uint32 minor, UT_uint32 release)
 {
     return 1; 
