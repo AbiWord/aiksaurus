@@ -30,6 +30,7 @@
 #include "ev_Menu_Layouts.h"
 #include "ev_Menu_Labels.h"
 #include "ev_EditMethod.h"
+#include "xap_Menu_Layouts.h"
 
 #include <iostream>
 using namespace std;
@@ -81,66 +82,42 @@ AiksaurusABI_addToMenus()
     // of the application.  We can iterate through the frames by doing
     // XAP_App::getFrameCount() to tell us how many frames there are,
     // then calling XAP_App::getFrame(i) to get the i-th frame.
+
     int frameCount = pApp->getFrameCount();
+    XAP_Menu_Factory * pFact = pApp->getMenuFactory();
+//
+// Put it in the context menu.
+//
+    XAP_Menu_Id newID = pFact->addNewMenuAfter("contextText",NULL,"Bullets and &Numbering",EV_MLF_Normal);
+    pFact->addNewLabel(NULL,newID,AiksaurusABI_MenuLabel, AiksaurusABI_MenuTooltip);
+//
+// Also put it under word Wount in the main menu,
+//
+    pFact->addNewMenuAfter("Main",NULL,"&Word Count",EV_MLF_Normal,newID);
+
+    // Create the Action that will be called.
+    EV_Menu_Action* myAction = new EV_Menu_Action(
+	newID,                     // id that the layout said we could use
+	0,                      // no, we don't have a sub menu.
+	1,                      // yes, we raise a dialog.
+	0,                      // no, we don't have a checkbox.
+	"AiksaurusABI_invoke",  // name of callback function to call.
+	NULL,                   // don't know/care what this is for
+	NULL                    // don't know/care what this is for
+        );
+
+    // Now what we need to do is add this particular action to the ActionSet
+    // of the application.  This forms the link between our new ID that we 
+    // got for this particular frame with the EditMethod that knows how to 
+    // call our callback function.  
+
+    pActionSet->addAction(myAction);
     
     for(int i = 0;i < frameCount;++i)
     {
         // Get the current frame that we're iterating through.
-        XAP_Frame* pFrame = pApp->getFrame(i);
-
-        // Get this frame's menu object.
-        EV_Menu* pMenu = pFrame->getMainMenu();
-        
-        // Get the menu's layout object.  
-
-        EV_Menu_Layout* pLayout = pMenu->getLayout();
-        
-        // Get the menu's label set.  Again we need to modify it so we
-        // are forced to cast away const-ness.  
-        EV_Menu_LabelSet* pLabelSet = pMenu->getLabelSet();
-
-        
-        // Figure out where the tools menu is.
-        UT_uint32 toolsId = pLayout->getLayoutIndex(
-                EV_searchMenuLabel(*pLabelSet, "&Word Count")
-        );
-                   
-        // Get a new ID so that we can add ourself to this menu.
-        XAP_Menu_Id id = pLayout->addLayoutItem(
-            ++toolsId,          // position to add menu item to
-            EV_MLF_Normal       // i don't remember what this is for.
-        );
-      
-        
-        
-        // Create the AikSaurus menu label.
-        EV_Menu_Label* myLabel = new EV_Menu_Label(
-            id,                         // id that the layout said we could use.
-            AiksaurusABI_MenuLabel,     // the label that we want the menu option to have.
-            AiksaurusABI_MenuTooltip    // the toolltip text to display for this option
-        );
-        
-        // add the label to the label set so the user can see "Thesaurus"
-        pLabelSet->addLabel(myLabel);
-       
-        
-        // Create the Action that will be called.
-        EV_Menu_Action* myAction = new EV_Menu_Action(
-            id,                     // id that the layout said we could use
-            0,                      // no, we don't have a sub menu.
-            1,                      // yes, we raise a dialog.
-            0,                      // no, we don't have a checkbox.
-            "AiksaurusABI_invoke",  // name of callback function to call.
-            NULL,                   // don't know/care what this is for
-            NULL                    // don't know/care what this is for
-        );
-
-        // Now what we need to do is add this particular action to the ActionSet
-        // of the application.  This forms the link between our new ID that we 
-        // got for this particular frame with the EditMethod that knows how to 
-        // call our callback function.  (We got our pActionSet pointer right 
-        // before entering the loop.)
-        pActionSet->addAction(myAction);
+          XAP_Frame* pFrame = pApp->getFrame(i);
+	  pFrame->rebuildMenus();
     }
 }
 
