@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(AikSaurus.cpp)
+AC_INIT([AikSaurus.cpp],0.11,[jared@aiksaurus.com])
 
 dnl This next section is courtesy gtk+
 dnl
@@ -97,9 +97,10 @@ if test $aik_fe_gtk = yes; then
 	AM_CONDITIONAL(AIK_BUILD_GTK,true)
 fi
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
 	Makefile
 	data/Makefile
 	gtk/Makefile
 	aiksaurus.spec
 ])
+AC_OUTPUT

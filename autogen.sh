@@ -1,55 +1,40 @@
 #!/bin/sh
+# Run this to generate all the initial makefiles, etc.
 
-ACLOCAL=aclocal
-AUTOHEADER=autoheader
-AUTOMAKE=automake
-AUTOCONF=autoconf
-GNUM4=
-
-echo -n "Locating GNU m4... "
-for prog in $M4 gm4 gnum4 m4 ; do
-  case `$prog --version 2>&1` in
-    *GNU*) ok=yes
-           GNUM4=$prog
-	   echo "found: $GNUM4"
-	   break ;;
-    *) ;;
-  esac
-done
-if test x$ok = xno ; then
-    echo "not found."
+if test "x$SHELL" = "x"; then
+	SHELL=/bin/sh
 fi
 
-autoheader
- 
-# Generate the Makefiles and configure files
-if ( aclocal --version ) </dev/null > /dev/null 2>&1; then
-	echo -n "Building macros... "
-	$ACLOCAL
-	echo "done."
-else
-	echo "aclocal not found -- aborting"
-	exit
-fi
+$SHELL libtoolize --help > /dev/null 2> /dev/null || { echo "Unable to run libtoolize"; exit 1; }
+$SHELL autoconf   --help > /dev/null 2> /dev/null || { echo "Unable to run autoconf";   exit 1; }
+$SHELL automake   --help > /dev/null 2> /dev/null || { echo "Unable to run automake";   exit 1; }
 
-if ( $AUTOMAKE --version ) </dev/null > /dev/null 2>&1; then
-	echo -n "Building Makefile templates... "
-	$AUTOMAKE
-	echo "done."
-else
-	echo "automake not found -- aborting"
-	exit
-fi
+echo "Running: libtoolize --force --copy"
+$SHELL libtoolize --force --copy || {
+	echo "**Error**: libtoolize failed.";
+	exit 1;
+}
 
-if ( $AUTOCONF --version ) </dev/null > /dev/null 2>&1; then
-	echo -n "Building configure... "
-	$AUTOCONF
-	echo "done."
-else
-	echo "autoconf not found -- aborting"
-	exit
-fi
+echo "Running: aclocal"
+$SHELL aclocal || {
+	echo "**Error**: aclocal failed.";
+	exit 1;
+}
 
-echo
-echo 'run "./configure ; make"'
-echo
+echo "Running: autoheader"
+$SHELL autoheader || {
+	echo "**Error**: autoheader failed.";
+	exit 1;
+}
+
+echo "Running: automake -a --foreign"
+$SHELL automake -a --foreign || {
+	echo "**Error**: automake failed.";
+	exit 1;
+}
+
+echo "Running: autoconf"
+$SHELL autoconf || {
+	echo "**Error**: autoconf failed.";
+	exit 1;
+}

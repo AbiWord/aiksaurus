@@ -30,12 +30,33 @@ Core Library
 	  Then do the make, make install again, and try recompiling your
 	  program.
 
+	  Most operating systems have an environment variable such as
+	  LD_LIBRARY_PATH that you can set - e.g., in bash, type:
+
+		export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+	  Check the man page for your system's run-time linker (ld.so,
+	  dyld, etc.)
+
+	  Alternatively, when configuring AikSaurus, try:
+
+		./configure --disable-shared [OPTIONS]
+
+	  which will prevent shared libraries from being built.
+
     Questions/Comments:
         jared@aiksaurus.com
      
 
 AbiWord Plugin
 =======================================================================
+
+    Update
+    ------
+    AikSaurus is now one of AbiWord's default plugins. It is *highly*
+    recommended that you build it within the abiword-plugins framework.
+
+    -------------------------------------------------------------------
 
     Quick Instructions:
         1.  Compile core library as above.

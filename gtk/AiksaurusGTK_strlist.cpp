@@ -32,7 +32,7 @@
 AiksaurusGTK_strlist::AiksaurusGTK_strlist()
 {
 	d_size = 0;
-	d_front_ptr = d_back_ptr = NULL;
+	d_front_ptr = d_back_ptr = 0;
 }
 
 
@@ -69,7 +69,7 @@ AiksaurusGTK_strlist::look_back() const
 {
 	return (d_back_ptr)
 		? (static_cast<char*>(d_back_ptr->data))
-		: (NULL);
+		: (0);
 }
 
 
@@ -78,7 +78,7 @@ AiksaurusGTK_strlist::look_front() const
 {
 	return (d_front_ptr) 
 		? (static_cast<char*>(d_front_ptr->data))
-		: (NULL);
+		: (0);
 }
 
 
@@ -95,7 +95,7 @@ AiksaurusGTK_strlist::create_node(const char* str) const
 	char* x = AiksaurusGTK_strCopy(str);
 	GList* ret = g_list_alloc();
 	ret->data = x;
-	ret->prev = ret->next = NULL;
+	ret->prev = ret->next = 0;
 	return ret;
 }
 
@@ -129,7 +129,7 @@ AiksaurusGTK_strlist::remove_node(GList* node)
 		d_front_ptr = node_next;
 	
 		if (node_next)
-			node_next->prev = NULL;
+			node_next->prev = 0;
 	}
 
 	
@@ -140,13 +140,13 @@ AiksaurusGTK_strlist::remove_node(GList* node)
 		d_back_ptr = node_prev;
 		
 		if (node_prev)
-			node_prev->next = NULL;
+			node_prev->next = 0;
 	}
 	
 	
 	// delete the node itself.
 	free_data(node);
-	node->prev = node->next = NULL;
+	node->prev = node->next = 0;
 	g_list_free(node);
 	
 	
@@ -163,7 +163,7 @@ AiksaurusGTK_strlist::clear()
 
 	g_list_free(d_front_ptr);
 
-	d_front_ptr = d_back_ptr = NULL;
+	d_front_ptr = d_back_ptr = 0;
 
     d_size = 0;
 }
@@ -274,7 +274,7 @@ GList* AiksaurusGTK_strlist::find_first(const char* str)
 		}
 	}
 
-	return NULL;
+	return 0;
 }
 
 void AiksaurusGTK_strlist::remove_first(const char* str)
