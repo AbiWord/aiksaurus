@@ -117,6 +117,8 @@ namespace AiksaurusGTK_impl
             GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), "changed",
             GTK_SIGNAL_FUNC(_searchBarChanged), this
         );
+
+        _updateNavigation();
     }
 
 

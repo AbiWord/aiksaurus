@@ -29,12 +29,15 @@ libAiksaurusGTK_la_SOURCES = \
 	Replacebar.cpp \
 	Replacebar.h \
 	Toolbar.cpp \
-	Toolbar.h 
-
-libAiksaurusGTK_la_LDFLAGS = -version-info 0:13
+	Toolbar.h \
+        AiksaurusGTK-C.h \
+	AiksaurusGTK-C.cpp
+	
+libAiksaurusGTK_la_LDFLAGS = -version-info 0:14
 
 include_HEADERS = \
-	AiksaurusGTK.h
+	AiksaurusGTK.h \
+	AiksaurusGTK-C.h
 
 bin_PROGRAMS = AiksaurusGTK
 

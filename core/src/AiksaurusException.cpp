@@ -4,6 +4,7 @@
 #include <string>
 #include <cstring>
 #include <new>
+using namespace std;
 
 namespace AiksaurusImpl
 {

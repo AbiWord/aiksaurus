@@ -1,3 +1,13 @@
+Version 0.14
+-------------------------------------------------------------------------------
+
+   Jared Davis
+
+     + Fix compiler errors on gcc-2.96
+     + Fix compiler errors on gcc-3.03 (namespace issues)
+     + Add C Bindings
+     
+
 Version 0.13
 -------------------------------------------------------------------------------
 

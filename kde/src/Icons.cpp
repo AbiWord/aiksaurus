@@ -20,7 +20,7 @@
 
 #include "Icons.h"
 
-namespace AiksaurusKDE_impl
+namespace AiksaurusQT_impl
 {
     namespace Icons
     {

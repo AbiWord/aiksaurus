@@ -29,9 +29,9 @@ namespace AiksaurusImpl
     {
 	    private:
            
-    		// Prevent copying and assignment
-    		Aiksaurus(const Aiksaurus& rhs);
-	    	Aiksaurus& operator=(const Aiksaurus& rhs);
+            // Prevent copying and assignment
+            Aiksaurus(const Aiksaurus& rhs);
+            Aiksaurus& operator=(const Aiksaurus& rhs);
             
             ThesaurusImpl *d_impl_ptr;
             const char* d_error; 
@@ -39,23 +39,23 @@ namespace AiksaurusImpl
         public:
        		
             Aiksaurus() throw();
-	    	~Aiksaurus() throw();
+            ~Aiksaurus() throw();
             
-    		// word(): returns current word that is being
+            // word(): returns current word that is being
             // searched for.  You should not try to delete 
             // this string.
-	    	const char* word() const throw();
+            const char* word() const throw();
     		
             // error(): empty string if no problems encountered.
             // otherwise, a human-suitable description of the 
             // problem will be presented.
             //  + Do not try to delete this string.
-	    	const char* error() const throw();
+            const char* error() const throw();
            
             
-    		// find(): perform a search for a new word.  
+            // find(): perform a search for a new word.  
             // returns *true* if word is known, *false* otherwise.
-    		bool find(const char* word) throw();
+            bool find(const char* word) throw();
             
             // next(): return synonyms for the word.
             //  + Do not try to delete this string.
@@ -66,11 +66,11 @@ namespace AiksaurusImpl
             //  + returns an empty string when out of synonyms.
             const char* next(int& meaning) throw();
             
-    		// similar(): repeatdly to return one "nearby word" 
+            // similar(): repeatdly to return one "nearby word" 
             // at a time.  these are not synonyms: they are known
             // words that are alphabetically near the 
             // searched-for word.
-	    	const char* similar() throw();
+            const char* similar() throw();
     };
 }
 

@@ -1395,7 +1395,7 @@ fi
 
 # Define the identity of the package.
 PACKAGE=AiksaurusGTK
-VERSION=0.13
+VERSION=0.14
 
 cat >>confdefs.h <<EOF
 #define PACKAGE "$PACKAGE"

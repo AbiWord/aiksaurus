@@ -21,6 +21,8 @@
 #ifndef INCLUDED_JARED_GPL_AIKSAURUSGTK_H
 #define INCLUDED_JARED_GPL_AIKSAURUSGTK_H
 
+#include <new>
+
 namespace AiksaurusGTK_impl
 {
     class DialogImpl;

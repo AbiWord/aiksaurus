@@ -24,6 +24,7 @@
 #include "AiksaurusGTK_history.h"
 #include "AiksaurusGTK_histlist.h"
 #include <gtk/gtk.h>
+#include <new>
 
 class AiksaurusGTK_picbutton;
 

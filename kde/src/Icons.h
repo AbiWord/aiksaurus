@@ -18,10 +18,10 @@
  * 02111-1307, USA.
  */
 
-#ifndef INCLUDED_AIKSAURUS_KDE_ICONS_H
-#define INCLUDED_AIKSAURUS_KDE_ICONS_H
+#ifndef INCLUDED_AIKSAURUS_QT_ICONS_H
+#define INCLUDED_AIKSAURUS_QT_ICONS_H
 
-namespace AiksaurusKDE_impl
+namespace AiksaurusQT_impl
 {
     namespace Icons
     {
@@ -34,4 +34,4 @@ namespace AiksaurusKDE_impl
     }
 }
 
-#endif // INCLUDED_AIKSAURUS_KDE_ICONS_H
+#endif // INCLUDED_AIKSAURUS_QT_ICONS_H

@@ -5,11 +5,11 @@
 #include <gtk/gtk.h>
 #include <vector>
 #include <string>
+#include <new>
+#include "Exception.h"
 
 namespace AiksaurusGTK_impl 
 {
-
-    class Exception;
     class DialogMediator;
     class Meaning;
     class Display

@@ -10,7 +10,7 @@ extern "C" {
     const char* Aiksaurus_error();
     const char* Aiksaurus_word();
 
-    int Aiksaurus_find(const char* meaning);
+    int Aiksaurus_find(const char* word);
 
     const char* Aiksaurus_next(int* meaning);
     const char* Aiksaurus_similar();

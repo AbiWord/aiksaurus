@@ -55,12 +55,12 @@ int main(int argc, char** argv)
         "Welcome to AiksaurusGTK, Version " VERSION "\n"
         "    http://www.aiksaurus.com/\n\n"
         
+        "To find synonyms for a word, enter the word into the \"look\n"
+        "up\" box above.\n\n"
+        
         "Command line arguments are:\n"
         "   --help, -h      Displays a help message, then exits.\n"
         "   --version, -v  Displays version and license, then exits.\n\n"   
-        
-        "To find synonyms for a word, enter the word into the \"look\n"
-        "up\" box above.\n\n"
 
         "Also, you can send a word as an argument to this program \n"
         "to skip this screen and jump right to that word.";
