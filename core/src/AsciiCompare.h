@@ -1,6 +1,6 @@
 /*
- * Aiksaurus - An open source thesaurus library
- * Copyright (C) 2001 by Jared Davis
+ * Aiksaurus - An English-language thesaurus library
+ * Copyright (C) 2001-2002 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License

@@ -1,6 +1,6 @@
 /*
- * AikSaurus - An open source thesaurus library
- * Copyright (C) 2001 by Jared Davis
+ * Aiksaurus - An English-language thesaurus library
+ * Copyright (C) 2001-2002 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -19,20 +19,17 @@
  *
  */
 
-#include "WordsFile.h"         // Header we're implementing.
-#include "FileArray.h"         // Basis of words file.
-#include "AsciiCompare.h"      // For AsciiCompare function.
+#include "WordsFile.h"        
+#include "WordsHash.h"
+#include "AsciiCompare.h"     
+
+#include <iostream>
 #include <cassert>             
 #include <new>
 
+
 namespace AiksaurusImpl
 {
-    
-//////////////////////////////////////////////////////////////////////////
-//
-//  Static Data 
-//
-//////////////////////////////////////////////////////////////////////////
 
 //
 // ASCII_SPACE and ASCII_COLON
@@ -51,8 +48,7 @@ static const int ASCII_COLON = 58;
 //   Simple function to replace all instances of one letter in a 
 //   string with another letter.
 //
-static inline void 
-strReplace(char* str, char a, char b) throw()
+static inline void strReplace(char* str, char a, char b) throw()
 {
     for(;*str;++str)
     {
@@ -63,120 +59,15 @@ strReplace(char* str, char a, char b) throw()
 
 
 //
-// s_wordlen
-//   maximum length of a word in the thesaurus.
-//   this is the size of a buffer that you need to allocate to 
-//   guarantee that you can hold a word.
-//
-const int WordsFile::s_wordlen = 17;
-
-
-//
-// s_maxlinks
-//   maximum number of links a word can have.  
-//   this is the size of an array you need to allocate to 
-//   guarantee you can hold all the links a word has.
-//
-const int WordsFile::s_maxlinks = 5;
-
-
-// 
-// s_structsize
-//   the size of a words structure is one byte for every 
-//   letter a word can have (i.e., s_wordslen), plus two
-//   bytes for every link it has (i.e. 2 * s_maxlinks)
-//
-const int WordsFile::s_structsize = 
-    (2 * WordsFile::s_maxlinks) + WordsFile::s_wordlen;
-
-    
-//
 // maxWordLength()
 //   static function to return maximum length of any word.
 //   just returns s_wordlen to the user.
 //
-int 
-WordsFile::maxWordLength() throw()
+int WordsFile::maxWordLength() throw()
 {
-    return s_wordlen;
+    return s_maxWordLength;
 }
     
-
-
-//////////////////////////////////////////////////////////////////////////
-//
-//  Creation and Destruction
-//
-//////////////////////////////////////////////////////////////////////////
-
-
-//
-// WordsFile Constructor
-//   Attempt to safely initialize the Words file.  Might have problems
-//   with running out of memory or file not found.
-//
-WordsFile::WordsFile(const char* fname) throw(AiksaurusException)
-{
-    try
-    {
-        d_data_ptr = new FileArray(fname, s_structsize);
-        d_word = new char[s_wordlen + 1];
-        d_links = new int[s_maxlinks + 1];
-    
-        // initialize current word, links to be empty.  
-        d_word[0] = 0;
-        d_links[0] = -1;
-    
-        // set last position of word, links to be terminating.
-        // since we know there are at most s_wordlen characters 
-        // in a word, and at most s_maxlinks links per word, we
-        // know that these values will never be overwritten, 
-        // which means we can just define them now.    
-        d_word[s_wordlen] = 0; 
-        d_links[s_maxlinks] = -1;
-    }
-    
-    catch(std::bad_alloc)
-    {
-        throw AiksaurusException(
-                AiksaurusException::CANNOT_ALLOCATE_MEMORY
-        );
-    }
-    
-    catch(FileArray::OpenException)
-    {
-        throw AiksaurusException(
-                AiksaurusException::CANNOT_OPEN_WORDS_FILE
-        );
-    }
-
-    catch(FileArray::ReadException)
-    {
-        throw AiksaurusException(
-                AiksaurusException::CORRUPT_WORDS_FILE
-        );
-    }
-}
-
-
-// 
-// WordsFile Destructor
-//
-WordsFile::~WordsFile() throw()
-{
-    delete d_data_ptr;
-    delete d_links;
-    delete d_word;
-}
-       
-
-
-
-//////////////////////////////////////////////////////////////////////////
-//
-//  Inspection Routines
-//
-//////////////////////////////////////////////////////////////////////////
 
 //
 // getWord()
@@ -185,10 +76,9 @@ WordsFile::~WordsFile() throw()
 //   last requested word that succeeded, or the empty string if no
 //   calls to loadWord() were ever successful.
 //
-const char* 
-WordsFile::getWord() const throw()
+const char* WordsFile::getWord() const throw()
 {
-    strReplace(d_word, ASCII_COLON, ASCII_SPACE);
+//    strReplace(d_word, ASCII_COLON, ASCII_SPACE);
     return d_word;
 }
 
@@ -199,8 +89,7 @@ WordsFile::getWord() const throw()
 //   getWord(), this will return the last successful results or an
 //   empty list if there were no successful loads.
 //
-const int*
-WordsFile::getLinks() const throw()
+const int* WordsFile::getLinks() const throw()
 {
     return d_links;
 }
@@ -215,82 +104,67 @@ WordsFile::getLinks() const throw()
 int 
 AiksaurusImpl::WordsFile::getSize() const throw()
 {
-    return d_data_ptr->getSize();
+    return s_numLines;
 }
 
 
-
-//////////////////////////////////////////////////////////////////////////
 //
-//  Manipulation
+// WordsFile Constructor
+//   Attempt to safely initialize the Words file.  Might have problems
+//   with running out of memory or file not found.
 //
-//////////////////////////////////////////////////////////////////////////
-
-//
-// loadWord()
-//   Read a particular word from the Words file. 
-//
-void WordsFile::loadWord(int id) throw(AiksaurusException)
+WordsFile::WordsFile(const char* fname) throw(AiksaurusException)
 {
-    // Ensure that we are within bounds.
-    assert(id >= 0);
-    assert(id < getSize());
     
-    // Create a buffer to read the word into.  We will read
-    // the entire size of a structure. 
-    unsigned char buffer[s_structsize];
-   
     try
     {
-        // Read the word into our buffer.
-        d_data_ptr->read(id, buffer); 
-    }
-    
-    catch(FileArray::ReadException)
-    {
-        throw AiksaurusException(
-                AiksaurusException::CORRUPT_WORDS_FILE
-        );
-    }
-    
-    // Read the actual word part of this word into our d_word
-    // buffer.  We only want the first s_wordlen bytes for the 
-    // actual text.
-    int i = 0;
-    while(i < s_wordlen)
-    {
-        d_word[i] = buffer[i++];
-    }
-   
-    // Now that we've read the word, we want to read the links
-    // themselves.  x will count to tell us what numbered link
-    // we are reading.
-    int x = 0;
-    while(i < s_structsize)
-    {
-        // join the next two bytes.
-        unsigned int link = (buffer[i] << 8) | buffer[i+1];
+        d_word = 0;
+        d_links = 0;
         
-        // The constant 0xFFFF is used to denote that no more
-        // links are present.  If we run into it, set this link
-        // to -1 and stop processing.  Recall that we don't 
-        // need to handle the case where all available links are 
-        // present, because we put a -1 at the one-past-the-end
-        // slot in the constructor and this never gets overwritten.
-        if (link == 0xFFFF)
+        d_word = new char[maxWordLength() + 1];
+        d_links = new int[s_maxLinks + 1];
+        d_file_ptr = fopen(fname, "r");
+
+        if (!d_file_ptr)
         {
-            d_links[x] = -1;
-            break;
+            delete[] d_word;
+            delete[] d_links;
+            throw AiksaurusException(AiksaurusException::CANNOT_OPEN_WORDS_FILE);
         }
-        
-        // Otherwise set this link to the answer and advance 
-        // to read the next two bytes.
-        d_links[x++] = link;
-        i += 2;
     }
+    
+    catch(std::bad_alloc)
+    {
+        delete[] d_word;
+        delete[] d_links;
+        throw AiksaurusException(AiksaurusException::CANNOT_ALLOCATE_MEMORY);
+    }
+
+    
+    d_word[0] = 0;    // initialize current word to be empty on creation. 
+    d_links[0] = -1;  // initialize links to be empty on creation.
+    
+    
+    // set last position of word, links to be terminating.
+    // these values will never be overwritten, so this just 
+    // makes the load code more convenient.    
+    d_word[maxWordLength()] = 0; 
+    d_links[s_maxLinks] = -1;
 }
 
 
+// 
+// WordsFile Destructor
+//   Free up our memory and be sure to close the file.
+//
+WordsFile::~WordsFile() throw()
+{
+    delete[] d_links;
+    delete[] d_word;
+
+    fclose(d_file_ptr);
+}
+       
 
 //
 // findWord()
@@ -303,9 +177,9 @@ bool WordsFile::findWord(const char* str, int& index) throw(AiksaurusException)
     // Create copy of str, so that we can turn spaces into colons.
     // We only need to copy the first s_wordlen + 1 bytes to ensure
     // that we will get a correct match.
-    char s[s_wordlen + 2];          
-    s[s_wordlen + 1] = 0;               
-    for(int i = 0; i < (s_wordlen + 2); ++i)
+    char s[maxWordLength() + 2];          
+    s[maxWordLength() + 1] = 0;               
+    for(int i = 0; i < (maxWordLength() + 2); ++i)
     {
         s[i] = str[i];
         if (!str[i]) break;
@@ -351,6 +225,80 @@ bool WordsFile::findWord(const char* str, int& index) throw(AiksaurusException)
     
     return ret;
 }
+
+
+//
+// _readWord()
+//   Read a single word from the file, loading the word into d_word and 
+//   loading the links into d_links.
+//
+void WordsFile::_readWord()
+{
+    // First we will read in a word.
+    for(int i = 0; i <= maxWordLength(); ++i)
+    {
+        int c = fgetc(d_file_ptr);
+
+        if (ferror(d_file_ptr) || feof(d_file_ptr)) 
+            throw AiksaurusException(AiksaurusException::CORRUPT_WORDS_FILE);
+       
+        if (!c) {
+            d_word[i] = 0;
+            break;
+        }
+
+        else
+            d_word[i] = c;
+    }
+
+    
+    // Now we want to read links.
+    for(int i = 0; ;++i)
+    {
+        int x1 = fgetc(d_file_ptr), 
+            x2 = fgetc(d_file_ptr);
+
+        if (ferror(d_file_ptr) || feof(d_file_ptr)) 
+            throw AiksaurusException(AiksaurusException::CORRUPT_WORDS_FILE);
+      
+        if ((x1 == 0xFF) && (x2 == 0xFF))
+        {
+            d_links[i] = -1; 
+            break;
+        }
+
+        else if (i > s_maxLinks)
+            throw AiksaurusException(AiksaurusException::CORRUPT_WORDS_FILE);
+        
+        d_links[i] = (x1 << 8) | x2;
+    }
+}
+
+
+//
+// loadWord()
+//   Read a particular word from the Words file. 
+//
+void WordsFile::loadWord(int id) throw(AiksaurusException)
+{
+    assert(id >= 0);
+    assert(id < getSize());
+   
+    long partition_start = id / s_offsetModulus;
+    if (fseek(d_file_ptr, s_offsetData[partition_start], SEEK_SET) != 0)
+    {
+        throw AiksaurusException(AiksaurusException::CORRUPT_WORDS_FILE);
+    }   
+
+    int line = partition_start * s_offsetModulus;
+    for(; line < id; ++line)
+    {
+        _readWord();
+    }
+}
+
+
+
 
 
 }

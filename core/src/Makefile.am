@@ -11,18 +11,17 @@ libAiksaurus_la_SOURCES = \
 	AiksaurusException.h \
 	AsciiCompare.cpp \
 	AsciiCompare.h \
-	FileArray.cpp \
-	FileArray.h \
 	MeaningsFile.cpp \
 	MeaningsFile.h \
 	MeaningsHash.h \
 	WordStream.h \
 	WordsFile.cpp \
 	WordsFile.h \
+	WordsHash.h \
         AiksaurusC.cpp \
 	AiksaurusC.h	
 
-libAiksaurus_la_LDFLAGS = -version-info 0:14
+libAiksaurus_la_LDFLAGS = -version-info 0:15
 
 include_HEADERS = \
 	Aiksaurus.h \
@@ -33,5 +32,5 @@ bin_PROGRAMS = aiksaurus caiksaurus
 aiksaurus_SOURCES = aiksaurus.t.cpp
 aiksaurus_LDADD = libAiksaurus.la
 	
-caiksaurus_SOURCES = caiksaurus.c
+caiksaurus_SOURCES = caiksaurus.cpp
 caiksaurus_LDADD = libAiksaurus.la

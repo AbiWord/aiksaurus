@@ -1,6 +1,6 @@
 /*
- * Aiksaurus - An open source thesaurus library
- * Copyright (C) 2001 by Jared Davis
+ * Aiksaurus - An English-language thesaurus library
+ * Copyright (C) 2001-2002 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
@@ -22,13 +22,11 @@
 #ifndef INCLUDED_WORDSFILE_H
 #define INCLUDED_WORDSFILE_H
 
-#include "AiksaurusException.h"   // Error reporting mechanism.
+#include <cstdio>
+#include "AiksaurusException.h"   
 
 namespace AiksaurusImpl
 {
-    class FileArray;
-    class AiksaurusError; 
-
     class WordsFile
     {
         private:
@@ -37,18 +35,22 @@ namespace AiksaurusImpl
             WordsFile(const WordsFile& rhs);
             WordsFile& operator=(const WordsFile& rhs);
         
-        // Information about maximum word size, link size.
-            static const int s_wordlen;
-            static const int s_maxlinks;
-            static const int s_structsize;
+        // Static information about our datafile.
+            static const int s_offsetModulus;
+            static const int s_offsetData[];
+            static const int s_numLines;
+            static const int s_maxWordLength;
+            static const int s_maxLinks;
    
-        // Pointer to a file array, accesses the data.       
-            FileArray* d_data_ptr;
-
-        // Storage for arrays when doing word lookups.
+        // File pointer to the datafile itself.
+            FILE* d_file_ptr;
+            
+        // Storage for loading each word.
             char *d_word;
             int *d_links;       
-           
+          
+        // Helper functions for file i/o   
+            void _readWord(); 
             
         public:
 

@@ -1,9 +1,30 @@
+/*
+ * Aiksaurus - An English-language thesaurus library
+ * Copyright (C) 2001-2002 by Jared Davis
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
+ * 02111-1307, USA.
+ *
+ */
+
 #include "AiksaurusException.h"     // Header we're implementing.
 #include "config.h"                 // For AIK_DATA_DIR define.
-#include <cassert>                  
-#include <string>
-#include <cstring>
-#include <new>
+#include <cassert>                   
+#include <string>                   // for std::string
+#include <cstring>                  // for strcpy
+#include <new>                      // for std::bad_alloc
 using namespace std;
 
 namespace AiksaurusImpl
@@ -45,7 +66,7 @@ namespace AiksaurusImpl
                            "This most likely indicates that the file has been \n"
                            "moved or deleted.  If you cannot find the file, you \n"
                            "can download a new copy from: \n"
-                           "   http://www.aiksaurus.com/_support/012/meanings.dat\n";
+                           "   http://www.aiksaurus.com/_support/015/meanings.dat\n";
                     break;
 
                     
@@ -57,7 +78,7 @@ namespace AiksaurusImpl
                            "The file exists, but was not read correctly.  Either \n"
                            "the file has become corrupt or this is a bug. \n\n"
                            "Please download a new copy of the file from: \n"
-                           "   http://www.aiksaurus.com/_support/012/meanings.dat\n\n"
+                           "   http://www.aiksaurus.com/_support/015/meanings.dat\n\n"
                            "If this does not fix the problem, please contact \n"
                            "   jared@aiksaurus.com\n";
                     break;
@@ -71,7 +92,7 @@ namespace AiksaurusImpl
                            "This most likely indicates that the file has been \n"
                            "moved or deleted.  If you cannot find the file, you \n"
                            "can download a new copy from: \n"
-                           "   http://www.aiksaurus.com/_support/012/words.dat\n";
+                           "   http://www.aiksaurus.com/_support/015/words.dat\n";
                     break;
     
                     
@@ -83,7 +104,7 @@ namespace AiksaurusImpl
                            "The file exists, but was not read correctly.  Either \n"
                            "the file has become corrupt or this is a bug. \n\n"
                            "Please download a new copy of the file from: \n"
-                           "   http://www.aiksaurus.com/_support/012/words.dat\n\n"
+                           "   http://www.aiksaurus.com/_support/015/words.dat\n\n"
                            "If this does not fix the problem, please contact \n"
                            "   jared@aiksaurus.com\n";
                     break;
@@ -119,3 +140,4 @@ namespace AiksaurusImpl
         return d_description;
     }
 }
+
