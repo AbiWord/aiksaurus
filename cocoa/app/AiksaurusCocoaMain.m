@@ -183,7 +183,7 @@
 - (IBAction)aSearchField:(id)sender
 {
 	NSString * word = [oSearchField stringValue];
-#if 1
+#if 0
 	static AiksaurusCocoaPanel * panel = nil;
 	if (panel == nil)
 		{
