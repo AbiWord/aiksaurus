@@ -23,6 +23,12 @@
 #include "xap_App.h"
 #include "xap_Frame.h"
 #include "fv_View.h"
+#include "ev_Menu_Actions.h"
+#include "ap_Menu_Id.h"
+
+
+#include <iostream>
+using namespace std;
 
 void AiksaurusABI_invoke();
 
@@ -31,6 +37,8 @@ void AiksaurusABI_invoke();
 //      Abiword Plugin Code
 //
 // -----------------------------------------------------------------------
+
+static EV_Menu_Action* ThesaurusAction = NULL;
 
 ABI_FAR extern "C"
 int abi_plugin_register (XAP_ModuleInfo * mi)
@@ -44,9 +52,28 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
     
     AiksaurusGTK_setTitle("AbiWord Thesaurus");
 
-    // to do: remove this invocation (it shouldn't be here).
-    AiksaurusABI_invoke();
+    // add elements to menu.
+    XAP_App* pApp = XAP_App::getApp();
+    EV_Menu_ActionSet* pActions = pApp->getMenuActionSet();
+
+    
+    if (ThesaurusAction == NULL)
+    {
+        EV_Menu_Action* ThesaurusAction = new EV_Menu_Action(
+            AP_MENU_ID__BOGUS2__ + 3, // to do: figure out a real id to use.
+            0, // no sub menu
+            1, // yes raises dialog
+            0, // no not checkable
+            "/&Tools/AikSaurus", // method name ??
+            NULL,
+            NULL    
+        );
         
+        pActions->addAction(ThesaurusAction);
+    
+    
+    }
+    
     return 1;
 }
 
@@ -54,6 +81,11 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
 ABI_FAR extern "C"
 int abi_plugin_unregister (XAP_ModuleInfo * mi)
 {
+    if (ThesaurusAction != NULL)
+    {
+        delete ThesaurusAction;
+    }
+    
     mi->name = 0;
     mi->desc = 0;
     mi->version = 0;
