@@ -92,14 +92,14 @@ AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
 	gtk_signal_connect(
 		GTK_OBJECT(d_button_ptr),
 		"enter",
-		GTK_SIGNAL_FUNC(cbEnteredMain),
+		GTK_SIGNAL_FUNC(cbHover),
 		this
 	);
 
 	gtk_signal_connect(
 		GTK_OBJECT(d_button_ptr),
 		"leave",
-		GTK_SIGNAL_FUNC(cbLeftMain),
+		GTK_SIGNAL_FUNC(cbUnhover),
 		this
 	);
 
@@ -142,14 +142,14 @@ AiksaurusGTK_picbutton::addMenu()
 	gtk_signal_connect(
 		GTK_OBJECT(d_menu_button_ptr),
 		"enter",
-		GTK_SIGNAL_FUNC(cbEnteredMenu),
+		GTK_SIGNAL_FUNC(cbHover),
 		this
 	);
 
 	gtk_signal_connect(
 		GTK_OBJECT(d_menu_button_ptr),
 		"leave",
-		GTK_SIGNAL_FUNC(cbLeftMenu),
+		GTK_SIGNAL_FUNC(cbUnhover),
 		this
 	);
 	
@@ -249,7 +249,7 @@ AiksaurusGTK_picbutton::enable()
 
 //////////////////////////////////////////////////////////////////////////
 //                                                                      //
-//   Border Drawing/Hiding for Hover Effect                             //
+//   Hover Effect                                                       //
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
@@ -259,7 +259,7 @@ AiksaurusGTK_picbutton::handleRelief()
 	const GtkReliefStyle off = GTK_RELIEF_NONE;
 	const GtkReliefStyle on = GTK_RELIEF_HALF;
 	
-	GtkReliefStyle d_border_state = GTK_RELIEF_NONE;
+	GtkReliefStyle d_border_state = off;
 	
 	if (!d_hashover)
 	{
@@ -268,16 +268,24 @@ AiksaurusGTK_picbutton::handleRelief()
 	
 	else 
 	{
-		d_border_state = off;
-
-		if (d_menushowing)
+		if (d_menushowing || d_mouseover)
 		{
 			d_border_state = on;
+		
+			gtk_pixmap_set(
+				GTK_PIXMAP(d_pixmap_ptr),
+				d_hoverpixmap_ptr,
+				d_hovermask_ptr
+			);
 		}
 
-		if (d_mouseover)
+		else
 		{
-			d_border_state = on;
+			gtk_pixmap_set(
+				GTK_PIXMAP(d_pixmap_ptr),
+				d_normalpixmap_ptr,
+				d_normalmask_ptr
+			);
 		}
 	}
 	
@@ -296,74 +304,20 @@ AiksaurusGTK_picbutton::handleRelief()
 }
 
 
-
-
-
-//////////////////////////////////////////////////////////////////////////
-//                                                                      //
-//   Hover Effect                                                       //
-//                                                                      //
-//////////////////////////////////////////////////////////////////////////
-
 void
-AiksaurusGTK_picbutton::hoverMain()
+AiksaurusGTK_picbutton::hover()
 {
 	d_mouseover = true;
-	
-	gtk_pixmap_set(
-		GTK_PIXMAP(d_pixmap_ptr),
-		d_hoverpixmap_ptr,
-		d_hovermask_ptr
-	);
-	
 	handleRelief();
 }
 
+
 void 
-AiksaurusGTK_picbutton::unhoverMain()
+AiksaurusGTK_picbutton::unhover()
 {
 	d_mouseover = false;
-	
-	gtk_pixmap_set(
-		GTK_PIXMAP(d_pixmap_ptr),
-		d_normalpixmap_ptr,
-		d_normalmask_ptr
-	);
-	
 	handleRelief();
 }
-
-void 
-AiksaurusGTK_picbutton::hoverMenu()
-{
-	d_mouseover = true;
-	
-	if (d_hashover)
-	{
-		hoverMain();
-		gtk_button_set_relief(
-			GTK_BUTTON(d_button_ptr),
-			GTK_RELIEF_HALF
-		);
-	}
-}
-
-void 
-AiksaurusGTK_picbutton::unhoverMenu()
-{
-	d_mouseover = false;
-	
-	if (!d_menushowing)
-	{
-		if (d_hashover)
-		{
-			unhoverMain();
-		}
-	}
-
-	handleRelief();
-}
-
 
 
 
@@ -415,24 +369,14 @@ AiksaurusGTK_picbutton::selectionDone()
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
-void AiksaurusGTK_picbutton::cbEnteredMain(GtkWidget* w, gpointer data)
+void AiksaurusGTK_picbutton::cbHover(GtkWidget* w, gpointer data)
 {
-	static_cast<AiksaurusGTK_picbutton*>(data)->hoverMain();
+	static_cast<AiksaurusGTK_picbutton*>(data)->hover();
 }
 
-void AiksaurusGTK_picbutton::cbLeftMain(GtkWidget* w, gpointer data)
+void AiksaurusGTK_picbutton::cbUnhover(GtkWidget* w, gpointer data)
 {
-	static_cast<AiksaurusGTK_picbutton*>(data)->unhoverMain();
-}
-
-void AiksaurusGTK_picbutton::cbEnteredMenu(GtkWidget* w, gpointer data)
-{
-	static_cast<AiksaurusGTK_picbutton*>(data)->hoverMenu();
-}
-
-void AiksaurusGTK_picbutton::cbLeftMenu(GtkWidget* w, gpointer data)
-{
-	static_cast<AiksaurusGTK_picbutton*>(data)->unhoverMenu();
+	static_cast<AiksaurusGTK_picbutton*>(data)->unhover();
 }
 
 void AiksaurusGTK_picbutton::cbPopMenu(GtkWidget* w, gpointer data)

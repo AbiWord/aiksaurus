@@ -63,10 +63,8 @@ class AiksaurusGTK_picbutton
 		
 	// Callback Functions
 		
-		static void cbEnteredMain(GtkWidget* w, gpointer data);
-		static void cbLeftMain(GtkWidget* w, gpointer data);
-		static void cbEnteredMenu(GtkWidget* w, gpointer data);
-		static void cbLeftMenu(GtkWidget* w, gpointer data);
+		static void cbHover(GtkWidget* w, gpointer data);
+		static void cbUnhover(GtkWidget* w, gpointer data);
 		static void cbPopMenu(GtkWidget* w, gpointer data);
 		static void cbPopupFunction(GtkMenu* menu, int* x, int* y, gpointer data); 
 		static void cbSelectionDone(GtkMenuShell* menushell, gpointer data);
@@ -75,10 +73,8 @@ class AiksaurusGTK_picbutton
 	// Mouse Hovering Actions
 	
 		void handleRelief();
-		void hoverMain();
-		void hoverMenu();
-		void unhoverMain();
-		void unhoverMenu();
+		void hover();
+		void unhover();
 
 		
 	// Menu Activation and Deactivation
