@@ -10,7 +10,7 @@ EXTRA_DIST = README abiPlugin/AiksaurusABI.cpp abiPlugin/Makefile \
 	AiksaurusGTK_utils.Readme
 
 if AIK_BUILD_GTK
-AIK_GTK_HDRS = AikSaurusGTK.h
+AIK_GTK_HDRS = AiksaurusGTK.h
 AIK_GTK_LIBS = libAikSaurusGTK.la
 AIK_GTK_PROGS = gtkAiksaur
 AIK_GTK_TESTS = test.histlist test.strlist test.strlist2 test.picbutton test.utils test.history
@@ -42,7 +42,7 @@ libAikSaurusGTK_la_SOURCES = \
 	AiksaurusGTK_icons.cpp AiksaurusGTK_icons.h \
 	AiksaurusGTK_utils.cpp AiksaurusGTK_utils.h
 
-libAikSaurusGTK_la_LIBADD = $(top_builddir)/libAikSaurus.la @aik_gtk_libs@
+libAikSaurusGTK_la_LIBADD = @aik_gtk_libs@
 
 libAikSaurusGTK_la_LDFLAGS = -version-info $(LT_CURRENT):$(LT_REVISION):$(LT_AGE) -release $(LT_RELEASE) -export-dynamic
 
