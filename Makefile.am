@@ -2,6 +2,8 @@ AUTOMAKE_OPTIONS = foreign
  
 lib_LTLIBRARIES = libAikSaurus.la
 
+CXXFLAGS=@AIK_CXXFLAGS@ @CXXFLAGS@
+
 libAikSaurus_la_SOURCES = \
 	bzreader.cpp \
 	bzreader.h \
@@ -11,7 +13,7 @@ libAikSaurus_la_SOURCES = \
 
 libAikSaurus_la_LIBADD = -lbz2
 
-libAikSaurus_la_LDFLAGS = -version-info 0:9
+libAikSaurus_la_LDFLAGS = -version-info 0:10
  
 include_HEADERS = \
 	AikSaurus.h
@@ -64,5 +66,4 @@ pkgdata_DATA = \
 	32.bz2 \
 	33.bz2
 
-EXTRA_DIST = $(pkgdata_DATA) autogen.sh README LICENSE CHANGES \
-	CommandLineDemo.cpp InteractiveDemo.cpp
+EXTRA_DIST = $(pkgdata_DATA) autogen.sh ChangeLog README LICENSE CHANGES

@@ -1,0 +1,17 @@
+CommandLineDemo
+InteractiveDemo
+Makefile
+Makefile.in
+aclocal.m4 
+configure
+config.cache
+config.h.in
+config.h
+config.log
+config.status
+libtool
+stamp-h
+.deps
+.libs
+*.lo
+*.la
