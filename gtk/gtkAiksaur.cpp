@@ -48,7 +48,8 @@ class GtkAiksaur
 	
 		// Static pointer to the instance.
 		static GtkAiksaur* s_instance;
-	
+
+		
 		// The main dialog window and layout component.
 		GtkWidget* d_window_ptr;
 		  GtkWidget* d_layout_ptr;
@@ -63,19 +64,28 @@ class GtkAiksaur
 		  GtkWidget* d_searchbutton_label_ptr;
 		  GtkWidget* d_searchbar_ptr;
 		  GtkWidget* d_searchbar_label_ptr;
+		
+		// Icons for the tool bar.
+		static const char* s_forwardIcon[];
+		  GdkPixmap* d_forwardicon_pic_ptr;
+		  GtkWidget* d_forwardicon_ptr;
+		static const char* s_backIcon[];
+		  GdkPixmap* d_backicon_pic_ptr;
+		  GtkWidget* d_backicon_ptr;
 
+		  
 		// A listbox to list our synonyms.
 		GtkWidget* d_wordlist_ptr;
 
 		// The replace/ok/cancel bar and associated widgets
 		GtkWidget *d_replacebar_ptr;
-		  GtkWidget *d_okbutton_ptr;
-		  GtkWidget *d_okbutton_label_ptr;
+		  GtkWidget *d_replacebutton_ptr;
+		  GtkWidget *d_replacebutton_label_ptr;
 		  GtkWidget *d_cancelbutton_ptr;
 		  GtkWidget *d_cancelbutton_label_ptr;
 		  GtkWidget *d_replacewith_label_ptr;
 		  GtkWidget *d_replacewith_ptr;
-		
+
 		  
 		// The Actual Thesaurus
 		AikSaurus *d_aiksaurus_ptr;
@@ -140,9 +150,16 @@ GtkAiksaur::GtkAiksaur()
 	d_aiksaurus_ptr = new AikSaurus;
 	
 	createWindow();
+
 	createToolbar();
 	
 	d_wordlist_ptr = gtk_clist_new(1);
+	
+	gtk_clist_set_column_auto_resize(
+		GTK_CLIST(d_wordlist_ptr),
+		0, 
+		false
+	);
 
 	gtk_box_pack_start(
 		GTK_BOX(d_layout_ptr),
@@ -151,6 +168,7 @@ GtkAiksaur::GtkAiksaur()
 		true,
 		5
 	);
+
 	
 	createReplacebar();
 	
@@ -284,17 +302,17 @@ void GtkAiksaur::createReplaceentry()
 
 void GtkAiksaur::createOkbutton()
 {
-	d_okbutton_ptr = gtk_button_new();
-	d_okbutton_label_ptr = gtk_label_new("Ok");
+	d_replacebutton_ptr = gtk_button_new();
+	d_replacebutton_label_ptr = gtk_label_new("Replace");
 
 	gtk_container_add(
-		GTK_CONTAINER(d_okbutton_ptr),
-		d_okbutton_label_ptr
+		GTK_CONTAINER(d_replacebutton_ptr),
+		d_replacebutton_label_ptr
 	);
 
 	gtk_box_pack_end(
 		GTK_BOX(d_replacebar_ptr),
-		d_okbutton_ptr,
+		d_replacebutton_ptr,
 		false,
 		false,
 		2
@@ -322,13 +340,33 @@ void GtkAiksaur::createCancelbutton()
 
 void GtkAiksaur::createBackbutton()
 {
+	GdkBitmap *mask;
+	GtkStyle *style = gtk_widget_get_style(d_window_ptr);
+	
+	d_backicon_pic_ptr = gdk_pixmap_create_from_xpm_d(
+		d_window_ptr->window,
+		&mask,
+		&style->bg[GTK_STATE_NORMAL],
+		(gchar**)s_backIcon
+	);
+	
+	d_backicon_ptr = gtk_pixmap_new(
+		d_backicon_pic_ptr,
+		mask
+	);
+	
 	d_backbutton_ptr = gtk_button_new();
-	d_backbutton_label_ptr = gtk_label_new("Back");
+	//d_backbutton_label_ptr = gtk_label_new("Back");
 
 	gtk_container_add(
 		GTK_CONTAINER(d_backbutton_ptr),
-		d_backbutton_label_ptr
+		d_backicon_ptr
 	);
+	
+	//gtk_container_add(
+	//	GTK_CONTAINER(d_backbutton_ptr),
+	//	d_backbutton_label_ptr
+	//);
 	
 	gtk_signal_connect(
 		GTK_OBJECT(d_backbutton_ptr),
@@ -468,3 +506,144 @@ GtkAiksaur_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data)
 
 
 
+
+
+//////////////////////////////////////////////////////////////////////////
+//
+//   gtkAiksaur Icons
+//
+//////////////////////////////////////////////////////////////////////////
+
+const char *GtkAiksaur::s_forwardIcon[] = {
+"16 16 47 1",
+" 	g None",
+".	g #000000",
+"+	g #0E0E0E",
+"@	g #424242",
+"#	g #141414",
+"$	g #7D7D7D",
+"%	g #444444",
+"&	g #202020",
+"*	g #1F1F1F",
+"=	g #494949",
+"-	g #A9A9A9",
+";	g #6E6E6E",
+">	g #484848",
+",	g #646464",
+"'	g #6D6D6D",
+")	g #797979",
+"!	g #747474",
+"~	g #757575",
+"{	g #787878",
+"]	g #B2B2B2",
+"^	g #464646",
+"/	g #191919",
+"(	g #171717",
+"_	g #8E8E8E",
+":	g #9A9A9A",
+"<	g #AAAAAA",
+"[	g #727272",
+"}	g #111111",
+"|	g #959595",
+"1	g #878787",
+"2	g #A5A5A5",
+"3	g #EAEAEA",
+"4	g #989898",
+"5	g #3F3F3F",
+"6	g #161616",
+"7	g #B0B0B0",
+"8	g #E3E3E3",
+"9	g #FBFBFB",
+"0	g #CCCCCC",
+"a	g #B5B5B5",
+"b	g #FCFCFC",
+"c	g #393939",
+"d	g #3E3E3E",
+"e	g #ECECEC",
+"f	g #404040",
+"g	g #020202",
+"h	g #323232",
+"                ",
+"       .        ",
+"       .+       ",
+"       .@#      ",
+"       .$%#     ",
+"  ..&&*=-;>#    ",
+"  .,')!~{];^/   ",
+"  (_:<<_[{-;>}  ",
+"  (|[[[[[12345  ",
+"  6789801ab4%   ",
+"  @@@@@c2b4d    ",
+"       .e4f     ",
+"       g4@      ",
+"       hd       ",
+"       @        ",
+"                "
+};
+
+
+const char* GtkAiksaur::s_backIcon[] = {
+"16 16 47 1",
+" 	g None",
+".	g #424242",
+"+	g #3E3E3E",
+"@	g #323232",
+"#	g #989898",
+"$	g #020202",
+"%	g #404040",
+"&	g #ECECEC",
+"*	g #000000",
+"=	g #FCFCFC",
+"-	g #A5A5A5",
+";	g #393939",
+">	g #444444",
+",	g #B5B5B5",
+"'	g #878787",
+")	g #CCCCCC",
+"!	g #E3E3E3",
+"~	g #FBFBFB",
+"{	g #B0B0B0",
+"]	g #161616",
+"^	g #3F3F3F",
+"/	g #EAEAEA",
+"(	g #727272",
+"_	g #959595",
+":	g #171717",
+"<	g #111111",
+"[	g #484848",
+"}	g #6E6E6E",
+"|	g #A9A9A9",
+"1	g #787878",
+"2	g #8E8E8E",
+"3	g #AAAAAA",
+"4	g #9A9A9A",
+"5	g #191919",
+"6	g #464646",
+"7	g #B2B2B2",
+"8	g #757575",
+"9	g #747474",
+"0	g #797979",
+"a	g #6D6D6D",
+"b	g #646464",
+"c	g #141414",
+"d	g #494949",
+"e	g #1F1F1F",
+"f	g #202020",
+"g	g #7D7D7D",
+"h	g #0E0E0E",
+"                ",
+"        .       ",
+"       +@       ",
+"      .#$       ",
+"     %#&*       ",
+"    +#=-;.....  ",
+"   >#=,')!~!{]  ",
+"  ^#/-'(((((_:  ",
+"  <[}|1(23342:  ",
+"   56}71890ab*  ",
+"    c[}|deff**  ",
+"     c>g*       ",
+"      c.*       ",
+"       h*       ",
+"        *       ",
+"                "};
