@@ -19,35 +19,138 @@
  */
 
 #include <AiksaurusGTK.h>
+
 #include "xap_Module.h"
 #include "xap_App.h"
 #include "xap_Frame.h"
 #include "fv_View.h"
-#include "ev_Menu_Actions.h"
 #include "ap_Menu_Id.h"
+#include "ev_Menu_Actions.h"
 #include "ev_Menu.h"
 #include "ev_Menu_Layouts.h"
 #include "ev_Menu_Labels.h"
-//#include "av_View.h"
 #include "ev_EditMethod.h"
 
 #include <iostream>
 using namespace std;
 
-bool AiksaurusABI_callback(AV_View*, EV_EditMethodCallData*);
-void AiksaurusABI_addToMenus();
-void AiksaurusABI_invoke();
+bool AiksaurusABI_invoke(AV_View* v, EV_EditMethodCallData *d);
+
+static const char* AiksaurusABI_MenuLabel = "&Thesaurus";
+static const char* AiksaurusABI_MenuTooltip = "Opens the thesaurus and finds synonyms.";
 
 
-const char* AiksaurusABI_MenuLabel = "&Thesaurus";
-const char* AiksaurusABI_MenuTooltip = "Opens the thesaurus and finds synonyms.";
+//
+// AiksaurusABI_addToMenus
+// -----------------------
+//   Adds "Thesaurus" option to AbiWord's Tools Menu.
+//
+static void
+AiksaurusABI_addToMenus()
+{
+    // First we need to get a pointer to the application itself.
+    XAP_App *pApp = XAP_App::getApp();
 
+    
+    // Create an EditMethod that will link our method's name with
+    // it's callback function.  This is used to link the name to 
+    // the callback.
+    EV_EditMethod *myEditMethod = new EV_EditMethod(
+        "AiksaurusABI_invoke",  // name of callback function
+        AiksaurusABI_invoke,    // callback function itself.
+        0,                      // no additional data required.
+        ""                      // description -- allegedly never used for anything
+    );
+   
+    // Now we need to get the EditMethod container for the application.
+    // This holds a series of Edit Methods and links names to callbacks.
+    EV_EditMethodContainer* pEMC = pApp->getEditMethodContainer();
+    
+    // We have to add our EditMethod to the application's EditMethodList
+    // so that the application will know what callback to call when a call
+    // to "AiksaurusABI_invoke" is received.
+    pEMC->addEditMethod(myEditMethod);
+  
+
+    // Now we need to grab an ActionSet.  This is going to be used later
+    // on in our for loop.  Take a look near the bottom.
+    EV_Menu_ActionSet* pActionSet = pApp->getMenuActionSet();
+
+    
+    // We need to go through and add the menu element to each "frame" 
+    // of the application.  We can iterate through the frames by doing
+    // XAP_App::getFrameCount() to tell us how many frames there are,
+    // then calling XAP_App::getFrame(i) to get the i-th frame.
+    int frameCount = pApp->getFrameCount();
+    
+    for(int i = 0;i < frameCount;++i)
+    {
+        // Get the current frame that we're iterating through.
+        XAP_Frame* pFrame = pApp->getFrame(i);
+
+        // Get this frame's menu object.
+        EV_Menu* pMenu = pFrame->getMainMenu();
+        
+        // Get the menu's layout object.  We need to modify it so we
+        // will simply cast away its const-ness.  This is kind of ugly.
+        EV_Menu_Layout* pLayout = const_cast<EV_Menu_Layout*>(
+            pMenu->getMenuLayout()
+        );
+        
+        // Get the menu's label set.  Again we need to modify it so we
+        // are forced to cast away const-ness.  
+        EV_Menu_LabelSet* pLabelSet = const_cast<EV_Menu_LabelSet*>(
+            pMenu->getMenuLabelSet()
+        );
+
+         
+           
+        // Get a new ID so that we can add ourself to this menu.
+        XAP_Menu_Id id = pLayout->addLayoutItem(
+            1,              // position to add menu item to
+            EV_MLF_Normal   // i don't remember what this is for.
+        );
+      
+        
+        
+        // Create the AikSaurus menu label.
+        EV_Menu_Label* myLabel = new EV_Menu_Label(
+            id,                         // id that the layout said we could use.
+            AiksaurusABI_MenuLabel,     // the label that we want the menu option to have.
+            AiksaurusABI_MenuTooltip    // the toolltip text to display for this option
+        );
+        
+        // add the label to the label set so the user can see "Thesaurus"
+        pLabelSet->addLabel(myLabel);
+       
+        
+        // Create the Action that will be called.
+        EV_Menu_Action* myAction = new EV_Menu_Action(
+            id,                     // id that the layout said we could use
+            0,                      // no, we don't have a sub menu.
+            1,                      // yes, we raise a dialog.
+            0,                      // no, we don't have a checkbox.
+            "AiksaurusABI_invoke",  // name of callback function to call.
+            NULL,                   // don't know/care what this is for
+            NULL                    // don't know/care what this is for
+        );
+
+        // Now what we need to do is add this particular action to the ActionSet
+        // of the application.  This forms the link between our new ID that we 
+        // got for this particular frame with the EditMethod that knows how to 
+        // call our callback function.  (We got our pActionSet pointer right 
+        // before entering the loop.)
+        pActionSet->addAction(myAction);
+    }
+}
+
+    
 // -----------------------------------------------------------------------
 //
-//      Abiword Plugin Code
+//      Abiword Plugin Interface 
 //
 // -----------------------------------------------------------------------
-
+    
 ABI_FAR extern "C"
 int abi_plugin_register (XAP_ModuleInfo * mi)
 {
@@ -58,8 +161,10 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
     mi->author = "Jared Davis (jared@zeddiclan.com)";
     mi->usage = "No Usage";
     
+    // Set title of thesaurus to look like it is AbiWord's own.
     AiksaurusGTK_setTitle("AbiWord Thesaurus");
 
+    // Add the thesaurus to AbiWord's menus.
     AiksaurusABI_addToMenus();
     
     return 1;
@@ -82,74 +187,6 @@ ABI_FAR extern "C"
 int abi_plugin_supports_version (UT_uint32 major, UT_uint32 minor, UT_uint32 release)
 {
     return 1; 
-}
-
-
-
-
-// AiksaurusABI_callback
-// ---------------------
-//   Callback function that will be called when we need to activate the 
-//   thesaurus dialog.
-//    
-bool AiksaurusABI_callback(AV_View* v, EV_EditMethodCallData* d)
-{
-    AiksaurusABI_invoke();
-    return true;
-}
-
-
-
-// AiksaurusABI_addToMenus
-// -----------------------
-//   Adds "Thesaurus" option to AbiWord's Tools Menu.
-//
-void
-AiksaurusABI_addToMenus()
-{
-    XAP_App *pApp = XAP_App::getApp();
-
-    EV_Menu_ActionSet* pActionSet = pApp->getMenuActionSet();
-   
-    EV_EditMethodContainer* pEMC = pApp->getEditMethodContainer();
-    
-    pEMC->addEditMethod(new EV_EditMethod(
-        "AiksaurusABI_callback",
-        AiksaurusABI_callback,
-        0,
-        ""
-    ));
-        
-    
-    int frameCount = pApp->getFrameCount();
-    for(int i = 0;i < frameCount;++i)
-    {
-        XAP_Frame* pFrame = pApp->getFrame(i);
-        EV_Menu* pMenu = pFrame->getMainMenu();
-        
-        EV_Menu_Layout* pLayout = const_cast<EV_Menu_Layout*>(pMenu->getMenuLayout());
-        
-        XAP_Menu_Id id = pLayout->addLayoutItem(1, EV_MLF_Normal);
-        
-        EV_Menu_LabelSet* pLabelSet = const_cast<EV_Menu_LabelSet*>(pMenu->getMenuLabelSet());
-        pLabelSet->addLabel(
-                new EV_Menu_Label(
-                    id, 
-                    AiksaurusABI_MenuLabel,
-                    AiksaurusABI_MenuTooltip
-                )
-        );
-        
-        pActionSet->addAction(new EV_Menu_Action(
-            id,
-            0, // no, don't have a sub menu.
-            1, // yes, raises a dialog.
-            0, // no, don't have a checkbox.
-            "AiksaurusABI_callback",
-            NULL,
-            NULL        
-        ));
-    }
 }
 
 
@@ -242,7 +279,8 @@ AiksaurusABI_asciiToUcs(const char* text, int& length)
 //   It should be called when the user hits the thesaurus key (shift+f7?)
 //   or chooses "thesaurus" from a menu.
 //
-void AiksaurusABI_invoke()
+bool 
+AiksaurusABI_invoke(AV_View* v, EV_EditMethodCallData *d)
 {
     // Get the current view that the user is in.
         XAP_Frame *pFrame = XAP_App::getApp()->getLastFocussedFrame();
@@ -288,4 +326,6 @@ void AiksaurusABI_invoke()
             delete[] search;
     
         delete[] replacement;
+
+    return true;
 }
