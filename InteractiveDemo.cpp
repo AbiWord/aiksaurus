@@ -40,7 +40,7 @@ void checkError(const AikSaurus& T)
 
 int main()
 {
-	AikSaurus T("./data/");
+	AikSaurus T;
 	checkError(T);
 		
 	char buf[1024];
