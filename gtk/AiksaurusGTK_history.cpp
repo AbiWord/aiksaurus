@@ -156,6 +156,56 @@ AiksaurusGTK_history::move_forward()
 }
 
 
+void
+AiksaurusGTK_history::move_back_to(GList* element)
+{
+    int back_steps = 0;
+    for(GList* itor = const_cast<GList*>(d_back.list()); itor != NULL; itor = itor->next)
+    {
+        ++back_steps;
+        
+        if (itor == element)
+        {
+            for(int i = 0;i < back_steps;++i)
+                move_back();
+
+            return;
+        }
+    }
+    
+    #ifndef NDEBUG
+    cout << "AiksaurusGTK_history::move_back_to(" << element << ")\n"
+         << "Warning: element is not in back list, and it should be.\n";
+    debug();
+    #endif // NDEBUG
+}
+
+
+void
+AiksaurusGTK_history::move_forward_to(GList* element)
+{
+    int forward_steps = 0;
+    for(GList* itor = const_cast<GList*>(d_forward.list()); itor != NULL; itor = itor->next)
+    {
+        ++forward_steps;
+
+        if (itor == element)
+        {
+            for(int i = 0;i < forward_steps;++i)
+                move_forward();
+
+            return;
+        }
+    }
+    
+    #ifndef NDEBUG
+    cout << "AiksaurusGTK_history::move_forward_to(" << element << ")\n"
+         << "Warning: element is not in forward list, and it should be.\n";
+    debug();
+    #endif // NDEBUG
+}
+
+
 unsigned int 
 AiksaurusGTK_history::size_back() const
 {
@@ -202,15 +252,15 @@ AiksaurusGTK_history::list_forward() const
 #ifndef NDEBUG
 void AiksaurusGTK_history::debug()
 {
+    cout << "History Debug Information ======================" << endl;
+	cout << tip_back() << "      " << tip_forward() << endl;
 	cout << "Current: " << current() << endl;
 
-	cout << "Tip-back: " << tip_back() << endl;
-	cout << "Tip-forward: " << tip_forward() << endl;
-
-	cout << "Back: " << endl;
+	cout << "Back ";
 	d_back.debug();
 
-	cout << "\nForward: " << endl;
+	cout << "Forward: ";
 	d_forward.debug();
+    cout << "================================================" << endl;
 }
 #endif

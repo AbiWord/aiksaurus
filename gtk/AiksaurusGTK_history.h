@@ -47,7 +47,10 @@ class AiksaurusGTK_history
 		
 		void move_back();
 		void move_forward();
-	
+
+        void move_back_to(GList* element);
+        void move_forward_to(GList* element);
+        
 		const char* tip_back() const;
 		const char* tip_forward() const;
 		

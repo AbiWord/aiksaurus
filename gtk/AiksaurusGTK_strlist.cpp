@@ -309,15 +309,11 @@ void debugHelper(void* str, void* data)
 
 void AiksaurusGTK_strlist::debug()
 {
-	cout << "AiksaurusGTK_strlist::debug() { " << endl;
-	cout << " d_size = " << size() << endl;
-	cout << " d_front_ptr = " << d_front_ptr << endl;
-	cout << " d_back_ptr = " << d_back_ptr << endl;
-	cout << " front = " << look_front() << endl;
-	cout << " back = " << look_back() << endl;
-	cout << " Contents are: " << endl;
-	g_list_foreach(d_front_ptr, debugHelper, NULL);
-	cout << "}" << endl;
+    cout << "Strlist Contents: (" << size() << " elements)\n";
+    for(GList* i = d_front_ptr;i != NULL;i = i->next)
+    {
+        cout << "  " << i << ": " << static_cast<char*>(i->data) << "\n";
+    }
 }
 
 #endif // NDEBUG
