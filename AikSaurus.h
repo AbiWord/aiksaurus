@@ -57,6 +57,9 @@ class AikSaurus
 		AikSaurus(const char* data_dir = 0);
 		~AikSaurus();
 
+		// call 'word' to figure out what word is current.
+		const char* word() const;
+		
 		// call 'find' to set up which word you want 
 		// the results from. Returns true if the word is
 		// found, false otherwise.

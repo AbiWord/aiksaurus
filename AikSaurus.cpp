@@ -103,6 +103,11 @@ class AikSaurusImpl
 		//
 		string d_dataDirectory;
 
+		//
+		// current word being looked for.
+		// 
+		string d_word;
+		
 
 		// 
 		// static error strings.
@@ -251,6 +256,13 @@ class AikSaurusImpl
 		// 
 		inline
 		const char* similar();
+
+		
+		// 
+		// word returns the current word being looked at.
+		// 
+		inline
+		const char* word() const;
 };
 
 
@@ -356,6 +368,12 @@ const char* AikSaurusImpl::error() const
 	return d_error;
 }
 
+
+inline
+const char* AikSaurusImpl::word() const
+{
+	return d_word.c_str();
+}
 
 
 // 
@@ -527,6 +545,7 @@ inline
 bool AikSaurusImpl::find(const char* findme)
 {
 	string word(findme);
+	d_word = word;
 	strLower(word); // always search in lower case.
 	
 	// 
@@ -681,6 +700,11 @@ AikSaurus::~AikSaurus()
 bool AikSaurus::find(const char* word)
 {
 	return d_impl_ptr->find(word);
+}
+
+const char* AikSaurus::word() const
+{
+	return d_impl_ptr->word();
 }
 
 const char* AikSaurus::similar()
