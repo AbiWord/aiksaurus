@@ -23,6 +23,8 @@
 
 @interface AiksaurusCocoaMeaning : NSObject
 {
+	BOOL		m_titles;
+
 	NSString *	m_title_1;
 	NSString *	m_title_2;
 
@@ -30,12 +32,15 @@
 
 	int			m_rows;
 }
+- (id)initWithoutTitles;
 - (id)initWithTitle:(NSString *)title withAlternativeTitle:(NSString *)alt;
 - (void)dealloc;
 
 - (void)synonymAdd:(NSString *)synonym;
 - (NSString *)synonymAtPosition:(unsigned)position;
 - (unsigned)synonyms;
+
+- (NSString *)clickColumn:(int)column atRow:(int)row;
 
 - (int)numberOfRowsInTableView;
 - (NSString *)objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
@@ -74,7 +79,7 @@
 - (AiksaurusCocoaMeaning *)meaningAtPosition:(unsigned)position;
 - (unsigned)meanings;
 
-- (void)clickColumn:(int)column atRow:(int)row;
+- (NSString *)clickColumn:(int)column atRow:(int)row;
 
 /* NSTableDataSource informal protocol
  */

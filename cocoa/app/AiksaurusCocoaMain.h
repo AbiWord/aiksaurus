@@ -40,6 +40,7 @@
 - (IBAction)aBack:(id)sender;
 - (IBAction)aForward:(id)sender;
 - (IBAction)aHistory:(id)sender;
+- (IBAction)aDoubleClick:(id)sender;
 - (IBAction)aResultsTable:(id)sender;
 - (IBAction)aSearch:(id)sender;
 - (IBAction)aSearchField:(id)sender;

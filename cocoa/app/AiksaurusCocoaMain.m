@@ -57,6 +57,7 @@
 	size.height = 1;
 
 	[oResultsTable setIntercellSpacing:size];
+	[oResultsTable setDoubleAction:@selector(aDoubleClick:)];
 
 	[self sync];
 }
@@ -132,11 +133,27 @@
 		}
 }
 
+- (IBAction)aDoubleClick:(id)sender
+{
+	NSString * value = [m_aiksaurus clickColumn:[oResultsTable clickedColumn] atRow:[oResultsTable clickedRow]];
+
+	if (value)
+		{
+			[oSearchField setStringValue:value];
+			[self aSearchField:sender];
+		}
+}
+
 - (IBAction)aResultsTable:(id)sender
 {
-	[m_aiksaurus clickColumn:[oResultsTable clickedColumn] atRow:[oResultsTable clickedRow]];
+	NSString * value = [m_aiksaurus clickColumn:[oResultsTable clickedColumn] atRow:[oResultsTable clickedRow]];
 
-	[oResultsTable reloadData];
+	if (value)
+		{
+			[oSearchField setStringValue:value];
+			[oResultsTable reloadData];
+		}
+	[oStatus setStringValue:@""];
 }
 
 - (IBAction)aSearch:(id)sender
@@ -160,8 +177,9 @@
 				}
 			else if ([m_aiksaurus okay])
 				{
+					[self sync];
 					[oStatus setTextColor:[NSColor blueColor]];
-					[oStatus setStringValue:@"Sorry! Try again..."];
+					[oStatus setStringValue:@"No synonyms known. Nearby words:"];
 				}
 			else
 				{

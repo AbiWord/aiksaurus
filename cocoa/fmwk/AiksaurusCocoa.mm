@@ -24,9 +24,29 @@
 
 @implementation AiksaurusCocoaMeaning
 
+- (id)initWithoutTitles
+{
+	[super init];
+
+	m_titles = NO;
+
+	m_title_1 = nil;
+	m_title_2 = nil;
+
+	m_synonyms = [NSMutableArray array];
+
+	[m_synonyms retain];
+
+	m_rows = 0;
+
+	return self;
+}
+
 - (id)initWithTitle:(NSString *)title withAlternativeTitle:(NSString *)alt
 {
 	[super init];
+
+	m_titles = YES;
 
 	m_title_1 = title;
 	m_title_2 = alt;
@@ -45,9 +65,11 @@
 
 - (void)dealloc
 {
-	[m_title_1 release];
-	[m_title_2 release];
-
+	if (m_titles)
+		{
+			[m_title_1 release];
+			[m_title_2 release];
+		}
 	[m_synonyms release];
 
 	[super dealloc];
@@ -57,7 +79,10 @@
 {
 	[m_synonyms addObject:synonym];
 
-	m_rows = 1 + ((int) [m_synonyms count] + 3) / 4;
+	if (m_titles)
+		m_rows = 1 + ((int) [m_synonyms count] + 3) / 4;
+	else
+		m_rows =     ((int) [m_synonyms count] + 3) / 4;
 }
 
 - (NSString *)synonymAtPosition:(unsigned)position
@@ -72,6 +97,23 @@
 - (unsigned)synonyms
 {
 	return [m_synonyms count];
+}
+
+- (NSString *)clickColumn:(int)colIndex atRow:(int)rowIndex
+{
+	NSString * value = nil;
+
+	if (rowIndex || !m_titles)
+		{
+			int index = colIndex;
+			if (m_titles)
+				index += (rowIndex - 1) * 4;
+			else
+				index += (rowIndex    ) * 4;
+			if (index < (int) [m_synonyms count])
+				value = (NSString *) [m_synonyms objectAtIndex:index];
+		}
+	return value;
 }
 
 - (int)numberOfRowsInTableView
@@ -95,11 +137,15 @@
 
 	NSTextFieldCell * cell = (NSTextFieldCell *) [aTableColumn dataCell];
 
-	if (rowIndex)
+	if (rowIndex || !m_titles)
 		{
 			[cell setTextColor:[NSColor darkGrayColor]];
 
-			int index = (rowIndex - 1) * 4 + colIndex;
+			int index = colIndex;
+			if (m_titles)
+				index += (rowIndex - 1) * 4;
+			else
+				index += (rowIndex    ) * 4;
 			if (index < (int) [m_synonyms count])
 				value = (NSString *) [m_synonyms objectAtIndex:index];
 		}
@@ -285,6 +331,9 @@
 
 - (BOOL)lookupWord:(NSString *)newword reorderHistory:(BOOL)reorder
 {
+	m_highlight_row = -1;
+	m_highlight_col = -1;
+
 	if (!m_aiksaurus || !newword)
 		return NO;
 	if ([newword length] == 0)
@@ -295,13 +344,28 @@
 		if ([current isEqualToString:newword])
 			return YES;
 
+	[m_meanings removeAllObjects];
+
 	Aiksaurus * aik = reinterpret_cast<Aiksaurus *>(m_aiksaurus);
 
-	if (!aik->find ([newword UTF8String])) return NO; // TODO: close matches
+	if (!aik->find ([newword UTF8String]))
+		{
+			AiksaurusCocoaMeaning * acm = nil;
+			acm = [[AiksaurusCocoaMeaning alloc] initWithoutTitles];
+
+			[m_meanings addObject:acm];
+			[acm release]; // ??
+
+			for (const char * s = aik->similar (); *s; s = aik->similar ())
+				{
+					[acm synonymAdd:[NSString stringWithUTF8String:s]];
+				}
+			m_rows = [acm numberOfRowsInTableView];
+
+			return NO;
+		}
 
 	[self setWord:newword reorderHistory:reorder];
-
-	[m_meanings removeAllObjects];
 
 	int prev_meaning = -1;
 	int this_meaning = -1;
@@ -340,7 +404,6 @@
 			AiksaurusCocoaMeaning * acm = (AiksaurusCocoaMeaning *) [m_meanings objectAtIndex:i];
 			m_rows += [acm numberOfRowsInTableView];
 		}
-
 	return YES;
 }
 
@@ -358,10 +421,31 @@
 	return [m_meanings count];
 }
 
-- (void)clickColumn:(int)column atRow:(int)row
+- (NSString *)clickColumn:(int)colIndex atRow:(int)rowIndex
 {
-	m_highlight_row = row;
-	m_highlight_col = column;
+	NSString * value = nil;
+
+	int rows = 0;
+
+	unsigned count = [m_meanings count];
+
+	for (unsigned i = 0; i < count; i++)
+		{
+			AiksaurusCocoaMeaning * acm = (AiksaurusCocoaMeaning *) [m_meanings objectAtIndex:i];
+			int sub_rows = [acm numberOfRowsInTableView];
+			if ((rowIndex >= rows) && (rowIndex < rows + sub_rows))
+				{
+					value = [acm clickColumn:colIndex atRow:(rowIndex - rows)];
+					break;
+				}
+			rows += sub_rows;
+		}
+	if (value)
+		{
+			m_highlight_row = rowIndex;
+			m_highlight_col = colIndex;
+		}
+	return value;
 }
 
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
