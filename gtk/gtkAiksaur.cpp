@@ -42,7 +42,8 @@ class AiksaurusGTK
 		GtkWidget* d_window_ptr;	
 		  GtkWidget* d_layout_ptr;	
 		  GtkWidget* d_wordlist_ptr;	
-		
+		  GtkWidget* d_wordlist_scroller_ptr;
+		  
 		// The main toolbar and its associated widgets
 		GtkWidget* d_toolbar_ptr;
 		
@@ -88,6 +89,7 @@ class AiksaurusGTK
 	// GUI Initialization Routines
 	
 		void createWindow();
+		  void createWordlist();
 		
 		void createToolbar();
 		  void createBackbutton();
@@ -156,25 +158,42 @@ AiksaurusGTK::AiksaurusGTK()
 	d_aiksaurus_ptr = new AikSaurus;
 	
 	createWindow();
-
 	createToolbar();
-	
-	d_wordlist_ptr = gtk_clist_new(1);
-	
-	gtk_box_pack_start(
-		GTK_BOX(d_layout_ptr),
-		d_wordlist_ptr,
-		true,
-		true,
-		5
-	);
-
-	
+	createWordlist();
 	createReplacebar();
 	
 	gtk_widget_show_all(d_window_ptr);
 }
 
+
+void AiksaurusGTK::createWordlist()
+{
+	d_wordlist_scroller_ptr = gtk_scrolled_window_new(
+		NULL,
+		NULL
+	);
+
+	gtk_scrolled_window_set_policy(
+		GTK_SCROLLED_WINDOW(d_wordlist_scroller_ptr),
+		GTK_POLICY_NEVER,
+		GTK_POLICY_AUTOMATIC
+	);
+	
+	d_wordlist_ptr = gtk_clist_new(1);
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_wordlist_scroller_ptr),
+		d_wordlist_ptr
+	);
+	
+	gtk_box_pack_start(
+		GTK_BOX(d_layout_ptr),
+		d_wordlist_scroller_ptr,
+		true,
+		true,
+		5
+	);
+}
 
 const char* AiksaurusGTK::getSearchText()
 {
