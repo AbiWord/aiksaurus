@@ -133,7 +133,7 @@ class AiksaurusGTK
 	// Manipulation Functions
 		
 		void performSearch();
-
+		void hide();	
 };
 
 
@@ -150,15 +150,13 @@ AiksaurusGTK* AiksaurusGTK::s_instance = NULL;
 //   
 const char* ActivateThesaurus(const char* search)
 {
-	if (AiksaurusGTK::s_instance == NULL)
-	{
-		AiksaurusGTK::s_instance = new AiksaurusGTK;
-	}
+	AiksaurusGTK::s_instance = new AiksaurusGTK;
 
-	// To do: run a search for 'search'.
-	
 	gtk_main();
 
+	delete AiksaurusGTK::s_instance;
+	AiksaurusGTK::s_instance = NULL;
+	
 	return "Foo";
 }
 
@@ -315,11 +313,16 @@ void AiksaurusGTK::createWindow()
 {
 	d_tooltips_ptr = gtk_tooltips_new();
 	
-	d_window_ptr = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	d_window_ptr = gtk_window_new(GTK_WINDOW_DIALOG);
 
 	gtk_window_set_title(
 		GTK_WINDOW(d_window_ptr), 
 		"AbiWord Thesaurus"
+	);
+
+	gtk_window_set_modal(
+		GTK_WINDOW(d_window_ptr),
+		true
 	);
 	
 	// this makes the program exit when the window is closed.
@@ -663,7 +666,10 @@ void AiksaurusGTK::disconnectSearchbar()
 
 
 
-
+void AiksaurusGTK::hide()
+{
+	gtk_widget_destroy(d_window_ptr);
+}
 
 
 //
@@ -697,7 +703,8 @@ AiksaurusGTK::cbSearch(GtkWidget* w, gpointer data)
 void
 AiksaurusGTK::cbCancel(GtkWidget* w, gpointer data)
 {
-	cout << "Cancel button pressed." << endl;
+	s_instance->hide();
+	gtk_main_quit();
 }
 
 
@@ -711,8 +718,9 @@ AiksaurusGTK::cbReplace(GtkWidget* w, gpointer data)
 gint
 AiksaurusGTK::cbExit(GtkWidget* w, GdkEventAny* e, gpointer data)
 {
-	cout << "Exit button pressed." << endl;
-	exit(0);
+	s_instance->hide();
+	gtk_main_quit();
+	return 0;
 }
 
 
