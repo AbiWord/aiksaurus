@@ -3,12 +3,16 @@
 #include <gdk/gdkkeysyms.h>
 #include <iostream>
 #include <cstdlib>
+#include "AiksaurusGTK_strlist.h"
 using namespace std;
 
 
-// 
-// GtkAiksaur Class 
-// ----------------
+
+
+
+//
+// AiksaurusGTK Class 
+// ------------------
 //   A GTK-based interface to the AikSaurus library.
 //   Eventually this should be very embeddable and nice. 
 //   
@@ -19,7 +23,7 @@ class AiksaurusGTK
 	// The actual thesaurus.
 	
 		AikSaurus *d_aiksaurus_ptr;
-	
+		
 		
 	// Pointer to a static instance.	
 	
@@ -37,7 +41,8 @@ class AiksaurusGTK
 		static void cbBack(GtkWidget* w, gpointer data);
 
 		static void cbSearchKeyPressed(GtkWidget* w, GdkEventKey* k, gpointer data); 
-	
+
+		
 	// GUI Widgets.
 		
 		// The main window and its associated widgets
@@ -66,7 +71,9 @@ class AiksaurusGTK
 		
 		  GtkWidget* d_searchbar_ptr;
 		  GtkWidget* d_searchbar_label_ptr;
-		
+		  AiksaurusGTK_strlist d_searchbar_words;
+		  
+		  
 
 		// The lower replacement/ok/cancel bar and associated widgets.
 		GtkWidget *d_replacebar_ptr;
@@ -109,7 +116,7 @@ class AiksaurusGTK
 	// Inspection Functions
 
 		const char* getSearchText();
-
+		void appendSearchText(const char* str);
 
 		
 	// Manipulation Functions
@@ -238,6 +245,22 @@ void AiksaurusGTK::performSearch(const char* str)
 	{
 		cout << "No synonyms found." << endl;
 	}
+
+	appendSearchText(str);
+}
+
+void AiksaurusGTK::appendSearchText(const char* str)
+{	
+	cout << "Appending search text." << str << endl;
+
+	d_searchbar_words.push_front(str);
+	
+	gtk_combo_set_popdown_strings(
+		GTK_COMBO(d_searchbar_ptr),
+		d_searchbar_words.getList()
+	);
+
+	d_searchbar_words.debug();
 }
 
 
@@ -495,14 +518,14 @@ void AiksaurusGTK::createSearchbar()
 {
 	d_searchbar_label_ptr = gtk_label_new("  Look up:");
 	d_searchbar_ptr = gtk_combo_new();
-
+	
 	gtk_combo_disable_activate(
 		GTK_COMBO(d_searchbar_ptr)
 	);
 
 	gtk_signal_connect(
 		GTK_OBJECT(
-			GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry)
+			GTK_COMBO(d_searchbar_ptr)->entry
 		),
 		"key-press-event",
 		GTK_SIGNAL_FUNC(cbSearchKeyPressed),
