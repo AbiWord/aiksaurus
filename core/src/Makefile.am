@@ -22,8 +22,6 @@ libAiksaurus_la_SOURCES = \
 
 libAiksaurus_la_LDFLAGS = -version-info 0:13
 
-libAiksaurus_la_CXXFLAGS = -s
-
 include_HEADERS = \
 	Aiksaurus.h
 

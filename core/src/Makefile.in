@@ -62,7 +62,6 @@ AMTAR = @AMTAR@
 AS = @AS@
 AWK = @AWK@
 CC = @CC@
-CPP = @CPP@
 CXX = @CXX@
 CXXCPP = @CXXCPP@
 DEPDIR = @DEPDIR@
@@ -79,7 +78,6 @@ OBJEXT = @OBJEXT@
 PACKAGE = @PACKAGE@
 RANLIB = @RANLIB@
 STRIP = @STRIP@
-U = @U@
 VERSION = @VERSION@
 am__include = @am__include@
 am__quote = @am__quote@
@@ -110,8 +108,6 @@ libAiksaurus_la_SOURCES = \
 
 libAiksaurus_la_LDFLAGS = -version-info 0:13
 
-libAiksaurus_la_CXXFLAGS = -s
-
 include_HEADERS = \
 	Aiksaurus.h
 
@@ -127,10 +123,8 @@ CONFIG_CLEAN_FILES =
 LTLIBRARIES = $(lib_LTLIBRARIES)
 
 libAiksaurus_la_LIBADD =
-am_libAiksaurus_la_OBJECTS = libAiksaurus_la-Aiksaurus.lo \
-	libAiksaurus_la-AiksaurusException.lo \
-	libAiksaurus_la-AsciiCompare.lo libAiksaurus_la-FileArray.lo \
-	libAiksaurus_la-MeaningsFile.lo libAiksaurus_la-WordsFile.lo
+am_libAiksaurus_la_OBJECTS = Aiksaurus.lo AiksaurusException.lo \
+	AsciiCompare.lo FileArray.lo MeaningsFile.lo WordsFile.lo
 libAiksaurus_la_OBJECTS = $(am_libAiksaurus_la_OBJECTS)
 bin_PROGRAMS = aiksaurus$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
@@ -146,13 +140,11 @@ CPPFLAGS = @CPPFLAGS@
 LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/aiksaurus.Po \
-@AMDEP_TRUE@	$(DEPDIR)/libAiksaurus_la-Aiksaurus.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/libAiksaurus_la-AiksaurusException.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/libAiksaurus_la-AsciiCompare.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/libAiksaurus_la-FileArray.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/libAiksaurus_la-MeaningsFile.Plo \
-@AMDEP_TRUE@	$(DEPDIR)/libAiksaurus_la-WordsFile.Plo
+@AMDEP_TRUE@DEP_FILES = $(DEPDIR)/Aiksaurus.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/AiksaurusException.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/AsciiCompare.Plo $(DEPDIR)/FileArray.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/MeaningsFile.Plo $(DEPDIR)/WordsFile.Plo \
+@AMDEP_TRUE@	$(DEPDIR)/aiksaurus.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -241,12 +233,6 @@ uninstall-libLTLIBRARIES:
 
 clean-libLTLIBRARIES:
 	-test -z "$(lib_LTLIBRARIES)" || rm -f $(lib_LTLIBRARIES)
-libAiksaurus_la-Aiksaurus.lo: Aiksaurus.cpp
-libAiksaurus_la-AiksaurusException.lo: AiksaurusException.cpp
-libAiksaurus_la-AsciiCompare.lo: AsciiCompare.cpp
-libAiksaurus_la-FileArray.lo: FileArray.cpp
-libAiksaurus_la-MeaningsFile.lo: MeaningsFile.cpp
-libAiksaurus_la-WordsFile.lo: WordsFile.cpp
 libAiksaurus.la: $(libAiksaurus_la_OBJECTS) $(libAiksaurus_la_DEPENDENCIES) 
 	$(CXXLINK) -rpath $(libdir) $(libAiksaurus_la_LDFLAGS) $(libAiksaurus_la_OBJECTS) $(libAiksaurus_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
@@ -283,13 +269,13 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/Aiksaurus.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/AiksaurusException.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/AsciiCompare.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/FileArray.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/MeaningsFile.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/WordsFile.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/aiksaurus.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/libAiksaurus_la-Aiksaurus.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/libAiksaurus_la-AiksaurusException.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/libAiksaurus_la-AsciiCompare.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/libAiksaurus_la-FileArray.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/libAiksaurus_la-MeaningsFile.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/libAiksaurus_la-WordsFile.Plo@am__quote@
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
@@ -311,114 +297,6 @@ distclean-depend:
 @AMDEP_TRUE@	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' @AMDEPBACKSLASH@
 @AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
 	$(LTCXXCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
-
-libAiksaurus_la-Aiksaurus.o: Aiksaurus.cpp
-@AMDEP_TRUE@	source='Aiksaurus.cpp' object='libAiksaurus_la-Aiksaurus.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-Aiksaurus.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-Aiksaurus.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-Aiksaurus.o `test -f Aiksaurus.cpp || echo '$(srcdir)/'`Aiksaurus.cpp
-
-libAiksaurus_la-Aiksaurus.obj: Aiksaurus.cpp
-@AMDEP_TRUE@	source='Aiksaurus.cpp' object='libAiksaurus_la-Aiksaurus.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-Aiksaurus.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-Aiksaurus.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-Aiksaurus.obj `cygpath -w Aiksaurus.cpp`
-
-libAiksaurus_la-Aiksaurus.lo: Aiksaurus.cpp
-@AMDEP_TRUE@	source='Aiksaurus.cpp' object='libAiksaurus_la-Aiksaurus.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-Aiksaurus.Plo' tmpdepfile='$(DEPDIR)/libAiksaurus_la-Aiksaurus.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-Aiksaurus.lo `test -f Aiksaurus.cpp || echo '$(srcdir)/'`Aiksaurus.cpp
-
-libAiksaurus_la-AiksaurusException.o: AiksaurusException.cpp
-@AMDEP_TRUE@	source='AiksaurusException.cpp' object='libAiksaurus_la-AiksaurusException.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-AiksaurusException.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-AiksaurusException.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-AiksaurusException.o `test -f AiksaurusException.cpp || echo '$(srcdir)/'`AiksaurusException.cpp
-
-libAiksaurus_la-AiksaurusException.obj: AiksaurusException.cpp
-@AMDEP_TRUE@	source='AiksaurusException.cpp' object='libAiksaurus_la-AiksaurusException.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-AiksaurusException.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-AiksaurusException.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-AiksaurusException.obj `cygpath -w AiksaurusException.cpp`
-
-libAiksaurus_la-AiksaurusException.lo: AiksaurusException.cpp
-@AMDEP_TRUE@	source='AiksaurusException.cpp' object='libAiksaurus_la-AiksaurusException.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-AiksaurusException.Plo' tmpdepfile='$(DEPDIR)/libAiksaurus_la-AiksaurusException.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-AiksaurusException.lo `test -f AiksaurusException.cpp || echo '$(srcdir)/'`AiksaurusException.cpp
-
-libAiksaurus_la-AsciiCompare.o: AsciiCompare.cpp
-@AMDEP_TRUE@	source='AsciiCompare.cpp' object='libAiksaurus_la-AsciiCompare.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-AsciiCompare.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-AsciiCompare.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-AsciiCompare.o `test -f AsciiCompare.cpp || echo '$(srcdir)/'`AsciiCompare.cpp
-
-libAiksaurus_la-AsciiCompare.obj: AsciiCompare.cpp
-@AMDEP_TRUE@	source='AsciiCompare.cpp' object='libAiksaurus_la-AsciiCompare.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-AsciiCompare.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-AsciiCompare.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-AsciiCompare.obj `cygpath -w AsciiCompare.cpp`
-
-libAiksaurus_la-AsciiCompare.lo: AsciiCompare.cpp
-@AMDEP_TRUE@	source='AsciiCompare.cpp' object='libAiksaurus_la-AsciiCompare.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-AsciiCompare.Plo' tmpdepfile='$(DEPDIR)/libAiksaurus_la-AsciiCompare.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-AsciiCompare.lo `test -f AsciiCompare.cpp || echo '$(srcdir)/'`AsciiCompare.cpp
-
-libAiksaurus_la-FileArray.o: FileArray.cpp
-@AMDEP_TRUE@	source='FileArray.cpp' object='libAiksaurus_la-FileArray.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-FileArray.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-FileArray.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-FileArray.o `test -f FileArray.cpp || echo '$(srcdir)/'`FileArray.cpp
-
-libAiksaurus_la-FileArray.obj: FileArray.cpp
-@AMDEP_TRUE@	source='FileArray.cpp' object='libAiksaurus_la-FileArray.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-FileArray.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-FileArray.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-FileArray.obj `cygpath -w FileArray.cpp`
-
-libAiksaurus_la-FileArray.lo: FileArray.cpp
-@AMDEP_TRUE@	source='FileArray.cpp' object='libAiksaurus_la-FileArray.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-FileArray.Plo' tmpdepfile='$(DEPDIR)/libAiksaurus_la-FileArray.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-FileArray.lo `test -f FileArray.cpp || echo '$(srcdir)/'`FileArray.cpp
-
-libAiksaurus_la-MeaningsFile.o: MeaningsFile.cpp
-@AMDEP_TRUE@	source='MeaningsFile.cpp' object='libAiksaurus_la-MeaningsFile.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-MeaningsFile.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-MeaningsFile.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-MeaningsFile.o `test -f MeaningsFile.cpp || echo '$(srcdir)/'`MeaningsFile.cpp
-
-libAiksaurus_la-MeaningsFile.obj: MeaningsFile.cpp
-@AMDEP_TRUE@	source='MeaningsFile.cpp' object='libAiksaurus_la-MeaningsFile.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-MeaningsFile.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-MeaningsFile.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-MeaningsFile.obj `cygpath -w MeaningsFile.cpp`
-
-libAiksaurus_la-MeaningsFile.lo: MeaningsFile.cpp
-@AMDEP_TRUE@	source='MeaningsFile.cpp' object='libAiksaurus_la-MeaningsFile.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-MeaningsFile.Plo' tmpdepfile='$(DEPDIR)/libAiksaurus_la-MeaningsFile.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-MeaningsFile.lo `test -f MeaningsFile.cpp || echo '$(srcdir)/'`MeaningsFile.cpp
-
-libAiksaurus_la-WordsFile.o: WordsFile.cpp
-@AMDEP_TRUE@	source='WordsFile.cpp' object='libAiksaurus_la-WordsFile.o' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-WordsFile.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-WordsFile.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-WordsFile.o `test -f WordsFile.cpp || echo '$(srcdir)/'`WordsFile.cpp
-
-libAiksaurus_la-WordsFile.obj: WordsFile.cpp
-@AMDEP_TRUE@	source='WordsFile.cpp' object='libAiksaurus_la-WordsFile.obj' libtool=no @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-WordsFile.Po' tmpdepfile='$(DEPDIR)/libAiksaurus_la-WordsFile.TPo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-WordsFile.obj `cygpath -w WordsFile.cpp`
-
-libAiksaurus_la-WordsFile.lo: WordsFile.cpp
-@AMDEP_TRUE@	source='WordsFile.cpp' object='libAiksaurus_la-WordsFile.lo' libtool=yes @AMDEPBACKSLASH@
-@AMDEP_TRUE@	depfile='$(DEPDIR)/libAiksaurus_la-WordsFile.Plo' tmpdepfile='$(DEPDIR)/libAiksaurus_la-WordsFile.TPlo' @AMDEPBACKSLASH@
-@AMDEP_TRUE@	$(CXXDEPMODE) $(depcomp) @AMDEPBACKSLASH@
-	$(LIBTOOL) --mode=compile $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(libAiksaurus_la_CXXFLAGS) $(CXXFLAGS) -c -o libAiksaurus_la-WordsFile.lo `test -f WordsFile.cpp || echo '$(srcdir)/'`WordsFile.cpp
 CXXDEPMODE = @CXXDEPMODE@
 uninstall-info-am:
 install-includeHEADERS: $(include_HEADERS)

@@ -18,7 +18,7 @@ SHELL = /bin/sh
 srcdir = .
 top_srcdir = .
 
-prefix = /usr/local
+prefix = /usr
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -57,12 +57,11 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = 
 host_triplet = i686-pc-linux-gnu
-AIK_CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -DNDEBUG
+AIK_CXXFLAGS = -DAIK_DATA_DIR=\"/usr/share/Aiksaurus/\" -DNDEBUG
 AMTAR = ${SHELL} /opt/abiword/aiksaurus/core/missing --run tar
 AS = @AS@
 AWK = mawk
 CC = gcc
-CPP = gcc -E
 CXX = g++
 CXXCPP = g++ -E
 DEPDIR = .deps
@@ -79,7 +78,6 @@ OBJEXT = o
 PACKAGE = Aiksaurus
 RANLIB = ranlib
 STRIP = strip
-U = 
 VERSION = 0.13
 am__include = include
 am__quote = 

@@ -3,6 +3,7 @@
 #include <cassert>                  
 #include <string>
 #include <cstring>
+#include <new>
 
 namespace AiksaurusImpl
 {

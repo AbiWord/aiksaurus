@@ -2,7 +2,7 @@ AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libAiksaurusGTK.la
 
-CXXFLAGS = @CXXFLAGS@
+CXXFLAGS = @AIK_CXXFLAGS@ @CXXFLAGS@
 
 libAiksaurusGTK_la_SOURCES = \
 	AiksaurusGTK.cpp \
@@ -31,7 +31,7 @@ libAiksaurusGTK_la_SOURCES = \
 	Toolbar.cpp \
 	Toolbar.h 
 
-libAiksaurusGTK_la_LDFLAGS = -version-info: 0:12
+libAiksaurusGTK_la_LDFLAGS = -version-info 0:13
 
 include_HEADERS = \
 	AiksaurusGTK.h
@@ -40,3 +40,4 @@ bin_PROGRAMS = AiksaurusGTK
 
 AiksaurusGTK_SOURCES = gtkAiksaur.t.cpp
 AiksaurusGTK_LDADD = libAiksaurusGTK.la
+
