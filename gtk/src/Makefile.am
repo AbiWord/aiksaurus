@@ -22,8 +22,8 @@ libAiksaurusGTK_la_SOURCES = \
 	Display.h \
 	Exception.cpp \
 	Exception.h \
-	Icons.cpp \
-	Icons.h \
+	AiksaurusGTK_icons.cpp \
+	AiksaurusGTK_icons.h \
 	Meaning.cpp \
 	Meaning.h \
 	Replacebar.cpp \
