@@ -34,7 +34,9 @@ class AiksaurusGTK_history
 		const AiksaurusGTK_history& operator=(const AiksaurusGTK_history& rhs);
 
 		char* d_current_ptr;
-	
+
+        int d_maxentries;
+        
 		mutable char* d_forward_tip_ptr;
 		mutable char* d_back_tip_ptr;
 		

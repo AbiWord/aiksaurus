@@ -268,7 +268,9 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 			d_originalword_ptr
 		);
 
+        toolbarSearchBarDisconnect();
 		dialogPerformSearch();
+        toolbarSearchBarConnect();
 	}
 }
 
@@ -664,6 +666,8 @@ AiksaurusGTK::toolbarBackButtonCreate()
         this        
     );
 
+    d_backbutton_ptr->limitVisibleOptions(10);
+
 	dialogSetTooltip(
 		d_backbutton_ptr->getMenuButton(),
 		"Back"
@@ -722,6 +726,8 @@ AiksaurusGTK::toolbarForwardButtonCreate()
         this
     );
 
+    d_forwardbutton_ptr->limitVisibleOptions(10);
+    
 	dialogSetTooltip(
 		d_forwardbutton_ptr->getMenuButton(),
 		"Forward"
@@ -905,6 +911,8 @@ AiksaurusGTK::toolbarSearchBarGetText()
 void
 AiksaurusGTK::toolbarBackButtonClick()
 {
+    toolbarSearchBarDisconnect();
+    
     assert(d_history.size_back());
     d_history.debug();
     d_history.move_back();
@@ -918,12 +926,17 @@ AiksaurusGTK::toolbarBackButtonClick()
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
+
+    toolbarSearchBarConnect();
 }
 
 void
 AiksaurusGTK::toolbarForwardButtonClick()
 {
     cout << "toolbarForwardButtonClick() function: " << endl;
+ 
+    toolbarSearchBarDisconnect();
+    
     assert(d_history.size_forward());
 
     d_history.move_forward();
@@ -937,6 +950,8 @@ AiksaurusGTK::toolbarForwardButtonClick()
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
+
+    toolbarSearchBarConnect();
 }
 
 void 
@@ -944,6 +959,8 @@ AiksaurusGTK::toolbarBackButtonMenuClick(GList* element)
 {
     cout << "  <- Move Back to " << static_cast<char*>(element->data) << endl;
 
+    toolbarSearchBarDisconnect();
+    
     d_history.debug();
     d_history.move_back_to(element);
     d_history.debug();
@@ -956,6 +973,8 @@ AiksaurusGTK::toolbarBackButtonMenuClick(GList* element)
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
+
+    toolbarSearchBarConnect();
 }
 
 void 
@@ -963,6 +982,8 @@ AiksaurusGTK::toolbarForwardButtonMenuClick(GList* element)
 {
     cout << "  -> Move Forward to " << static_cast<char*>(element->data) << endl;
 
+    toolbarSearchBarDisconnect();
+    
     d_history.debug();
     d_history.move_forward_to(element);
     d_history.debug();
@@ -975,6 +996,8 @@ AiksaurusGTK::toolbarForwardButtonMenuClick(GList* element)
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
+
+    toolbarSearchBarConnect();
 }
 
 void

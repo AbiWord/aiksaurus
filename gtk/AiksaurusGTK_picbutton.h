@@ -57,6 +57,8 @@ class AiksaurusGTK_picbutton
 		GdkPixmap* d_hoverpixmap_ptr;
 		GdkBitmap* d_hovermask_ptr;
 	
+        int d_numVisible;
+        
 		GtkWidget* d_menu_ptr;
 		GtkWidget* d_menu_button_ptr;
 		GdkPixmap* d_menu_pixmap_ptr;
@@ -115,6 +117,7 @@ class AiksaurusGTK_picbutton
 		void setHoverPicture(const char** hover);
 		void addMenu(const AiksaurusGTK_strlist& options, GtkSignalFunc onClick, gpointer onClickData);
         void updateMenuOptions();
+        void limitVisibleOptions(int numVisible);
         
 		void disable();
 		void enable();

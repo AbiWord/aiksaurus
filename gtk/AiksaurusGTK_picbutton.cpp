@@ -66,7 +66,7 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
     d_menu_data_ptr = NULL;
     d_menu_options_ptr = NULL;
     d_menu_ptr = NULL;
-
+    d_numVisible = 0;
 
 	d_enabled = true;
 	d_hashover = false;
@@ -465,6 +465,12 @@ AiksaurusGTK_picbutton::menuCreate()
 
 
 void
+AiksaurusGTK_picbutton::limitVisibleOptions(int numVisible)
+{
+    d_numVisible = numVisible;
+}
+
+void
 AiksaurusGTK_picbutton::updateMenuOptions()
 {
     menuCreate();
@@ -476,6 +482,12 @@ AiksaurusGTK_picbutton::updateMenuOptions()
 
     while(itor != NULL)
     {
+        if (d_numVisible > 0)
+        {
+            if (i >= d_numVisible)
+                break;
+        }
+        
         d_menu_data_ptr[i].d_picbutton_ptr = this;
         d_menu_data_ptr[i].d_glist_ptr = itor;
 
