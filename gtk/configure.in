@@ -1,10 +1,9 @@
 AC_INIT(src/AiksaurusGTK.cpp)
-AM_INIT_AUTOMAKE(AiksaurusGTK, 0.14)
+AM_INIT_AUTOMAKE(AiksaurusGTK, 0.24)
 AM_CONFIG_HEADER(src/config.h)
 
 AC_PROG_CC
 AC_PROG_CXX
-AM_PATH_GTK
 AC_HEADER_STDC
 
 Xuname=X`uname`

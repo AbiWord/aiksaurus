@@ -38,5 +38,6 @@ make install-strip DESTDIR=$RPM_BUILD_ROOT
 %{prefix}/include/AiksaurusGTK.h
 %{prefix}/include/AiksaurusGTK-C.h
 %{prefix}/lib/lib@PACKAGE@.a
-%{prefix}/lib/lib@PACKAGE@.so.0.@VERSION@
+#%{prefix}/lib/lib@PACKAGE@.so.0.@VERSION@
+%{prefix}/lib/lib@PACKAGE@.so.0.0.14
 
