@@ -286,6 +286,16 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 	createReplacebar();
 	
 	gtk_widget_show_all(d_window_ptr);
+
+	if (d_originalword_ptr[0] != '\0')
+	{
+		gtk_entry_set_text(
+			GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry),
+			d_originalword_ptr
+		);
+
+		performSearch();
+	}
 }
 
 
