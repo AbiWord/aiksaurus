@@ -139,7 +139,7 @@
 
 	if (rowIndex || !m_titles)
 		{
-			[cell setTextColor:[NSColor darkGrayColor]];
+			[cell setDrawsBackground:NO];
 
 			int index = colIndex;
 			if (m_titles)
@@ -151,7 +151,8 @@
 		}
 	else
 		{
-			[cell setTextColor:[NSColor blackColor]];
+			[cell setDrawsBackground:YES];
+			[cell setBackgroundColor:[NSColor controlHighlightColor]];
 
 			if (colIndex == 0)
 				value = m_title_1;
@@ -491,7 +492,10 @@
 				colIndex = 2;
 
 			if (colIndex == m_highlight_col)
-				[[aTableColumn dataCell] setTextColor:[NSColor redColor]];
+				{
+					[[aTableColumn dataCell] setDrawsBackground:YES];
+					[[aTableColumn dataCell] setBackgroundColor:[NSColor selectedControlColor]];
+				}
 		}
 }
 
