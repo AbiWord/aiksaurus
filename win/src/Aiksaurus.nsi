@@ -37,6 +37,7 @@ Section "Aiksaurus.exe (required)"
 	; Set output path to the installation directory.
 	SetOutPath $INSTDIR
 	File "Aiksaurus.exe"
+	File "AiksaurusCL.exe"
 	File "..\..\core\data\words.dat"
 	File "..\..\core\data\meanings.dat"
 	File /oname=copying.txt "Copying"

@@ -1,0 +1,14 @@
+# Makefile for Aiksaurus.exe
+
+all:
+	@cd core/src
+	@-$(MAKE) /NOLOGO -f MakefileLIB.msc $@
+	@cd ../../win/src
+	@-$(MAKE) /NOLOGO -f Makefile.msc $@
+
+clean:
+	@cd core/src
+	@-$(MAKE) /NOLOGO -f MakefileLIB.msc $@
+	@cd ../../win/src
+	@-$(MAKE) /NOLOGO -f Makefile.msc $@
+

@@ -19,10 +19,13 @@ OBJS= AiksaurusApp.obj \
 
 RES= Aiksaurus.res
 
-all: Aiksaurus.exe
+all: Aiksaurus.exe AiksaurusCL.exe
 
 Aiksaurus.exe: $(RES) $(OBJS) 
 	$(LD) $(LDFLAGS) -out:$@ $(OBJS) $(RES) $(OS_LIBS) ..\..\core\src\Aiksaurus.lib
+
+AiksaurusCL.exe: AiksaurusCL.obj
+	$(LD) -nologo -subsystem:console -machine:I386 -out:$@ AiksaurusCL.obj $(OS_LIBS) ..\..\core\src\Aiksaurus.lib
 
 clean:
 	del *.res

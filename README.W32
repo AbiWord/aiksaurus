@@ -1,0 +1,8 @@
+You may build the Win32 version of Aiksaurus with MSVC.  Other compilers should work but makefiles and project files have not been provided.
+
+For command line junkies - simply 
+	nmake -f Makefile.msc
+
+For DevStudio - go to win/src directory and open up the Aiksaurus.dsw
+
+Then build.  
