@@ -40,9 +40,6 @@ class AiksaurusGTK_picbutton
 		GdkPixmap* d_hoverpixmap_ptr;
 		GdkBitmap* d_hovermask_ptr;
 		
-		GdkPixmap* d_disabledpixmap_ptr;
-		GdkBitmap* d_disabledmask_ptr;
-		
 		bool d_enabled;
 
 		static void cbEntered(GtkWidget* w, gpointer data);
@@ -56,7 +53,6 @@ class AiksaurusGTK_picbutton
 		AiksaurusGTK_picbutton(GtkWidget *window, const char** normal);
 		
 		void setHoverPicture(const char** hover);
-		void setDisabledPicture(const char** disabled);
 		
 		void disable();
 		void enable();

@@ -10,22 +10,15 @@
   Discussion:
 
      Typically to make one of these buttons you want to take some icon, and 
-     make a color-version, a grayscale version, and (optionally) a "grayed 
-     out" version.
+     make a color-version, and optionally a grayscale version.
      
-     This button has three states.  
-       - Normal
-       - Hover
-       - Disabled
-
      Generally you would use the grayscale version of your picture for the 
      'normal' image, and the color version for the 'hover' image.  This will
      give the appearance of the button "lighting up" when they user moves
      the mouse over it.
 
-     The button can also be "disabled", which prevents button click events
-     from happening.  You can also use the "grayed out" image so that if the
-     button is disabled, it is clear to the user.
+     The button can also be disabled, which prevents button click events
+     from happening.  No third pixmap is required for this.
   
 
   
@@ -76,18 +69,6 @@
 	  has.
 
     
-        void setDisabledPicture(const char** disabled)
-     
-          Initializes a disabled picture.  This does NOT cause the button
-	  to become disabled, just sets up the data.
-
-	  'disabled' is just a regular xpm file's data like the constructor
-	  takes.
-
-	  If you want to actually disable the button, see enable() and 
-	  disable() below.
-
-
 
      Enabling and Disabling the Button
      ---------------------------------
@@ -97,10 +78,6 @@
 	  Causes the button to stop responding to events, and changes to 
 	  the disabled picture.
 
-	  You MUST have a disabled picture before using this function. If
-	  you don't, your program will most likely suffer a horrible 
-	  death by segfault or do other undefined things.
-	  
 	  Safe to call if the button is already disabled.
 	  
 
@@ -110,8 +87,6 @@
 	  to the normal picture.
 
 	  Safe to call if the button is already enabled.
-
-
 
 
 

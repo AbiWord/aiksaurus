@@ -561,10 +561,6 @@ void AiksaurusGTK::createBackbutton()
 		AiksaurusGTK_icons::s_backHover
 	);
 
-	d_backbutton_ptr->setDisabledPicture(
-		AiksaurusGTK_icons::s_backDisabled
-	);
-	
 	
 	setTooltip(
 		d_backbutton_ptr->getButton(),
@@ -600,10 +596,6 @@ void AiksaurusGTK::createForwardbutton()
 		AiksaurusGTK_icons::s_forwardHover
 	);
 
-	d_forwardbutton_ptr->setDisabledPicture(
-		AiksaurusGTK_icons::s_forwardDisabled
-	);
-	
 	setTooltip(
 		d_forwardbutton_ptr->getButton(), 
 		"Forward"
@@ -640,10 +632,6 @@ void AiksaurusGTK::createSearchbutton()
 		AiksaurusGTK_icons::s_searchHover
 	);
 
-	d_searchbutton_ptr->setDisabledPicture(
-		AiksaurusGTK_icons::s_searchDisabled
-	);
-	
 	setTooltip(
 		d_searchbutton_ptr->getButton(),
 		"Find Synonyms"

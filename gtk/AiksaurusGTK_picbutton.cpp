@@ -66,10 +66,9 @@ AiksaurusGTK_picbutton::disable()
 {
 	d_enabled = false;
 
-	gtk_pixmap_set(
-		GTK_PIXMAP(d_pixmap_ptr),
-		d_disabledpixmap_ptr,
-		d_disabledmask_ptr
+	gtk_widget_set_sensitive(
+		d_button_ptr,
+		false
 	);
 }
 
@@ -79,10 +78,9 @@ AiksaurusGTK_picbutton::enable()
 {
 	d_enabled = true;
 
-	gtk_pixmap_set(
-		GTK_PIXMAP(d_pixmap_ptr),
-		d_normalpixmap_ptr,
-		d_normalmask_ptr
+	gtk_widget_set_sensitive(
+		d_button_ptr,
+		true
 	);
 }
 
@@ -114,18 +112,6 @@ AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
 		"leave",
 		GTK_SIGNAL_FUNC(cbLeft),
 		this
-	);
-}
-
-
-void 
-AiksaurusGTK_picbutton::setDisabledPicture(const char** disabled)
-{
-	d_disabledpixmap_ptr = gdk_pixmap_create_from_xpm_d(
-		d_window_ptr->window,
-		&d_disabledmask_ptr,
-		&d_style_ptr->bg[GTK_STATE_NORMAL],
-		(gchar**)disabled
 	);
 }
 
