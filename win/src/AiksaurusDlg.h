@@ -31,7 +31,7 @@
 #include <string>
 #include <list>
 #include <vector>
-#include "../../core/src/Aiksaurus.h"
+#include "../../base/Aiksaurus.h"
 using namespace std;
 
 #define MAX_WORD_LENGTH 50

@@ -1,4 +1,4 @@
-INCLUDES = -I../.. -I$(top_srcdir)/core/src
+INCLUDES = -I../.. -I$(top_srcdir)/base
 
 AM_CXXFLAGS = @GTK_CFLAGS@ @GTK_DEFS@
 
@@ -6,7 +6,7 @@ lib_LTLIBRARIES = libAiksaurusGTK.la
 
 libAiksaurusGTK_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_AIKGTK_VERSION_INFO) -export-dynamic
 
-libAiksaurusGTK_la_LIBADD = $(GTK_LIBS) ../../core/src/libAiksaurus.la
+libAiksaurusGTK_la_LIBADD = $(GTK_LIBS) ../../base/libAiksaurus.la
 
 libAiksaurusGTK_la_SOURCES = \
 	AiksaurusGTK.cpp \

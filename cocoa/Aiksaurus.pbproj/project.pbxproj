@@ -163,9 +163,9 @@
 		0867D69DFE84028FC02AAC07 = {
 			buildActionMask = 2147483647;
 			files = (
-				30C82972045D852600A738B5,
-				30C82974045D852600A738B5,
 				30C82984045D968B00A738B5,
+				30CB8CAE049C785300A73A45,
+				30CB8CB1049C785300A73A45,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -186,14 +186,14 @@
 		0867D69FFE84028FC02AAC07 = {
 			buildActionMask = 2147483647;
 			files = (
-				30C82971045D852600A738B5,
-				30C82973045D852600A738B5,
-				30C82975045D852600A738B5,
-				30C82977045D852600A738B5,
-				30C82979045D852600A738B5,
-				30C8297C045D852600A738B5,
 				30C82985045D968B00A738B5,
 				3045B63F046AD86700A738B5,
+				30CB8CAD049C785300A73A45,
+				30CB8CB0049C785300A73A45,
+				30CB8CB3049C785300A73A45,
+				30CB8CB8049C785300A73A45,
+				30CB8CC1049C785300A73A45,
+				30CB8CC5049C785300A73A45,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -465,13 +465,13 @@
 		30C8295D045D80E100A738B5 = {
 			isa = PBXFileReference;
 			name = meanings.dat;
-			path = ../core/data/meanings.dat;
+			path = ../data/meanings.dat;
 			refType = 2;
 		};
 		30C8295E045D80E100A738B5 = {
 			isa = PBXFileReference;
 			name = words.dat;
-			path = ../core/data/words.dat;
+			path = ../data/words.dat;
 			refType = 2;
 		};
 		30C8295F045D80E100A738B5 = {
@@ -482,187 +482,6 @@
 		};
 		30C82960045D80E100A738B5 = {
 			fileRef = 30C8295E045D80E100A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30C82961045D813500A738B5 = {
-			children = (
-				30C82962045D852600A738B5,
-				30C82963045D852600A738B5,
-				30C82964045D852600A738B5,
-				30C82965045D852600A738B5,
-				30C82966045D852600A738B5,
-				30C82967045D852600A738B5,
-				30C82968045D852600A738B5,
-				30C82969045D852600A738B5,
-				30C8296A045D852600A738B5,
-				30C8296B045D852600A738B5,
-				30C8296C045D852600A738B5,
-				30C8296D045D852600A738B5,
-				30C8296E045D852600A738B5,
-				30C8296F045D852600A738B5,
-				30C82970045D852600A738B5,
-			);
-			isa = PBXGroup;
-			name = core;
-			refType = 4;
-		};
-		30C82962045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Aiksaurus.cpp;
-			path = ../core/src/Aiksaurus.cpp;
-			refType = 2;
-		};
-		30C82963045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = Aiksaurus.h;
-			path = ../core/src/Aiksaurus.h;
-			refType = 2;
-		};
-		30C82964045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AiksaurusC.cpp;
-			path = ../core/src/AiksaurusC.cpp;
-			refType = 2;
-		};
-		30C82965045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AiksaurusC.h;
-			path = ../core/src/AiksaurusC.h;
-			refType = 2;
-		};
-		30C82966045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AiksaurusException.cpp;
-			path = ../core/src/AiksaurusException.cpp;
-			refType = 2;
-		};
-		30C82967045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AiksaurusException.h;
-			path = ../core/src/AiksaurusException.h;
-			refType = 2;
-		};
-		30C82968045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AsciiCompare.cpp;
-			path = ../core/src/AsciiCompare.cpp;
-			refType = 2;
-		};
-		30C82969045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AsciiCompare.h;
-			path = ../core/src/AsciiCompare.h;
-			refType = 2;
-		};
-		30C8296A045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = MeaningsFile.cpp;
-			path = ../core/src/MeaningsFile.cpp;
-			refType = 2;
-		};
-		30C8296B045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = MeaningsFile.h;
-			path = ../core/src/MeaningsFile.h;
-			refType = 2;
-		};
-		30C8296C045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = MeaningsHash.h;
-			path = ../core/src/MeaningsHash.h;
-			refType = 2;
-		};
-		30C8296D045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = WordsFile.cpp;
-			path = ../core/src/WordsFile.cpp;
-			refType = 2;
-		};
-		30C8296E045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = WordsFile.h;
-			path = ../core/src/WordsFile.h;
-			refType = 2;
-		};
-		30C8296F045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = WordsHash.h;
-			path = ../core/src/WordsHash.h;
-			refType = 2;
-		};
-		30C82970045D852600A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = WordStream.h;
-			path = ../core/src/WordStream.h;
-			refType = 2;
-		};
-		30C82971045D852600A738B5 = {
-			fileRef = 30C82962045D852600A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30C82972045D852600A738B5 = {
-			fileRef = 30C82963045D852600A738B5;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		30C82973045D852600A738B5 = {
-			fileRef = 30C82964045D852600A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30C82974045D852600A738B5 = {
-			fileRef = 30C82965045D852600A738B5;
-			isa = PBXBuildFile;
-			settings = {
-				ATTRIBUTES = (
-					Public,
-				);
-			};
-		};
-		30C82975045D852600A738B5 = {
-			fileRef = 30C82966045D852600A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30C82977045D852600A738B5 = {
-			fileRef = 30C82968045D852600A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30C82979045D852600A738B5 = {
-			fileRef = 30C8296A045D852600A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30C8297C045D852600A738B5 = {
-			fileRef = 30C8296D045D852600A738B5;
 			isa = PBXBuildFile;
 			settings = {
 			};
@@ -876,6 +695,167 @@
 			settings = {
 			};
 		};
+		30CB8C8D049C785300A73A45 = {
+			children = (
+				30CB8C8F049C785300A73A45,
+				30CB8C90049C785300A73A45,
+				30CB8C92049C785300A73A45,
+				30CB8C93049C785300A73A45,
+				30CB8C95049C785300A73A45,
+				30CB8C96049C785300A73A45,
+				30CB8C9A049C785300A73A45,
+				30CB8C9B049C785300A73A45,
+				30CB8CA3049C785300A73A45,
+				30CB8CA4049C785300A73A45,
+				30CB8CA6049C785300A73A45,
+				30CB8CA7049C785300A73A45,
+				30CB8CA8049C785300A73A45,
+				30CB8CAA049C785300A73A45,
+				30CB8CAB049C785300A73A45,
+			);
+			isa = PBXGroup;
+			name = base;
+			path = ../base;
+			refType = 2;
+		};
+		30CB8C8F049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Aiksaurus.cpp;
+			refType = 4;
+		};
+		30CB8C90049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = Aiksaurus.h;
+			refType = 4;
+		};
+		30CB8C92049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AiksaurusC.cpp;
+			refType = 4;
+		};
+		30CB8C93049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AiksaurusC.h;
+			refType = 4;
+		};
+		30CB8C95049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AiksaurusException.cpp;
+			refType = 4;
+		};
+		30CB8C96049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AiksaurusException.h;
+			refType = 4;
+		};
+		30CB8C9A049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AsciiCompare.cpp;
+			refType = 4;
+		};
+		30CB8C9B049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = AsciiCompare.h;
+			refType = 4;
+		};
+		30CB8CA3049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MeaningsFile.cpp;
+			refType = 4;
+		};
+		30CB8CA4049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MeaningsFile.h;
+			refType = 4;
+		};
+		30CB8CA6049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = MeaningsHash.h;
+			refType = 4;
+		};
+		30CB8CA7049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = WordsFile.cpp;
+			refType = 4;
+		};
+		30CB8CA8049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = WordsFile.h;
+			refType = 4;
+		};
+		30CB8CAA049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = WordsHash.h;
+			refType = 4;
+		};
+		30CB8CAB049C785300A73A45 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			path = WordStream.h;
+			refType = 4;
+		};
+		30CB8CAD049C785300A73A45 = {
+			fileRef = 30CB8C8F049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30CB8CAE049C785300A73A45 = {
+			fileRef = 30CB8C90049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30CB8CB0049C785300A73A45 = {
+			fileRef = 30CB8C92049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30CB8CB1049C785300A73A45 = {
+			fileRef = 30CB8C93049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30CB8CB3049C785300A73A45 = {
+			fileRef = 30CB8C95049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30CB8CB8049C785300A73A45 = {
+			fileRef = 30CB8C9A049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30CB8CC1049C785300A73A45 = {
+			fileRef = 30CB8CA3049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30CB8CC5049C785300A73A45 = {
+			fileRef = 30CB8CA7049C785300A73A45;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 //300
 //301
 //302
@@ -888,7 +868,7 @@
 //324
 		32C88DFF0371C24200C91783 = {
 			children = (
-				30C82961045D813500A738B5,
+				30CB8C8D049C785300A73A45,
 				08FB77B4FE84181DC02AAC07,
 			);
 			isa = PBXGroup;

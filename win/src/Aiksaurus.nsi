@@ -38,8 +38,8 @@ Section "Aiksaurus.exe (required)"
 	SetOutPath $INSTDIR
 	File "Aiksaurus.exe"
 	File "AiksaurusCL.exe"
-	File "..\..\core\data\words.dat"
-	File "..\..\core\data\meanings.dat"
+	File "..\..\data\words.dat"
+	File "..\..\data\meanings.dat"
 	File /oname=copying.txt "Copying"
 
 	WriteRegStr HKLM "Software\Aiksaurus" "Install_Dir" "$INSTDIR"

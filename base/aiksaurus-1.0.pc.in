@@ -1,0 +1,10 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: Aiksaurus
+Description: English Thesaurus Library
+Version: @AIKSAURUS_VERSION@
+Libs: -L${libdir} -lAiksaurus
+Cflags: -I${includedir}/Aiksaurus

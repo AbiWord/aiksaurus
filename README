@@ -7,7 +7,7 @@ CVS Generously hosted by AbiWord (http://www.abisource.com/)
 
 Relevant Directories:
 
-   core/
+   base/
      Contains Aiksaurus Core Library. 
 
    cocoa/

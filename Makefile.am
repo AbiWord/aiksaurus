@@ -1,4 +1,4 @@
-DIST_SUBDIRS = core gtk
+DIST_SUBDIRS = base gtk data
 
 if AIK_FE_GTK
 GTKSRCDIR = gtk
@@ -6,7 +6,7 @@ else
 GTKSRCDIR = 
 endif
 
-SUBDIRS = core $(GTKSRCDIR)
+SUBDIRS = base $(GTKSRCDIR) data
 
 PHPSOURCES = php/*.png php/*.php php/*.phps
 

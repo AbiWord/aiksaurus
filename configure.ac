@@ -1,5 +1,5 @@
 AC_INIT([aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
-AC_CONFIG_SRCDIR([core/src/Aiksaurus.h])
+AC_CONFIG_SRCDIR([base/Aiksaurus.h])
 
 # Aiksaurus, version 1.0
 
@@ -155,13 +155,13 @@ AH_BOTTOM([
 AC_CONFIG_FILES([
 	aiksaurus.spec
 	Makefile
-	core/aiksaurus-1.0.pc
-	core/Makefile
-	core/src/Makefile
-	core/data/Makefile
+	base/aiksaurus-1.0.pc
+	base/Makefile
+	base/Makefile
 	gtk/gaiksaurus-1.0.pc
 	gtk/Makefile
 	gtk/src/Makefile
+	data/Makefile
 ])
 AC_OUTPUT
 
