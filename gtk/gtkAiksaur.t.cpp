@@ -18,8 +18,8 @@
  * 02111-1307, USA.
  */
 
-#include "gtk/gtk.h"
-#include "gtkAiksaur.h"
+#include "AiksaurusGTK.h"
+#include <gtk/gtk.h>
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -42,8 +42,10 @@ void searchButton(GtkWidget* w, gpointer data)
 	);
 	
 	cout << "Searched for " << text << endl;
-		
-	cout << "User chose: " << ActivateThesaurus(text) << endl;
+	const char* choice = AiksaurusGTK_doSearch(text);
+	cout << "User chose " << choice << endl;
+
+	cout << "Done with search." << endl;
 }
 
 int main(int argc, char** argv)

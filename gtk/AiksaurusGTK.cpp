@@ -18,6 +18,7 @@
  * 02111-1307, USA.
  */
 
+#include "AiksaurusGTK.h"
 #include "AiksaurusGTK_utils.h"
 #include "AiksaurusGTK_histlist.h"
 #include "AiksaurusGTK_picbutton.h"
@@ -130,7 +131,7 @@ class AiksaurusGTK
 		AiksaurusGTK(const char* search = NULL);
 		~AiksaurusGTK();
 		
-		friend const char* ActivateThesaurus(const char* search);
+		friend const char* AiksaurusGTK_doSearch(const char* search);
 
 	
 		void setTooltip(GtkWidget* w, const char* str);
@@ -234,7 +235,7 @@ char* AiksaurusGTK::s_replacement = NULL;
 //   These functions form the programmatic interface to gtkAiksaur.
 //   They are the only functions that external programs should call.
 //   
-const char* ActivateThesaurus(const char* search)
+const char* AiksaurusGTK_doSearch(const char* search)
 {
 	if (AiksaurusGTK::s_replacement != NULL)
 	{
