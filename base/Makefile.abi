@@ -36,6 +36,7 @@ CPPSRCS= 			\
 				WordsFile.cpp 
 
 ifeq ($(OS_NAME), MINGW32)
+CFLAGS += -D_DLL
 else
 CFLAGS += -D_STATIC_BUILD
 endif
