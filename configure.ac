@@ -1,10 +1,10 @@
-AC_INIT([aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
+AC_INIT([aiksaurus],[1.2],[http://aiksaurus.sourceforge.net/])
 AC_CONFIG_SRCDIR([base/Aiksaurus.h])
 
-# Aiksaurus, version 1.0
+# Aiksaurus, version 1.2.0
 
 AIK_MAJOR_VERSION=1
-AIK_MINOR_VERSION=0
+AIK_MINOR_VERSION=2
 
 # ========================================================================
 # IMPORTANT: Making Releases

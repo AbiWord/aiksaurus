@@ -1,3 +1,8 @@
+2004-06-11  Dom Lachowicz <cinamod@hotmail.com>
+
+	* Make GTK+ FE use stock icons
+	* Bump version number
+	
 2003-05-28  Francis James Franklin  <fjf@alinameridon.com>
 
 	* new build system; Cocoa port (fjf)
