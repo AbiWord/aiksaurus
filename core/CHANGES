@@ -1,4 +1,4 @@
-Version 0.12b
+Version 0.13
 -------------------------------------------------------------------------------
 
    Jared Davis
@@ -8,7 +8,7 @@ Version 0.12b
      Moved strReplace code to WordsFile.cpp, fixed bug with similar() 
      returning colons instead of spaces.
 
-     Upgrade to automake 1.5, library now intalls stripped.  
+     Upgrade to automake 1.5, library can now intall stripped.  
      
 
 Version 0.12

@@ -20,7 +20,7 @@
     Quick Instructions:        
        	1.  run './configure'   (without the 'quotes')
     	2.  run 'make'
-    	3.  run 'make install'
+    	3.  run 'make install-strip'
 
         
     Common Build Problems and Solutions

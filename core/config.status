@@ -287,7 +287,7 @@ s,@INSTALL_PROGRAM@,${INSTALL},;t t
 s,@INSTALL_SCRIPT@,${INSTALL},;t t
 s,@INSTALL_DATA@,${INSTALL} -m 644,;t t
 s,@PACKAGE@,Aiksaurus,;t t
-s,@VERSION@,0.12,;t t
+s,@VERSION@,0.13,;t t
 s,@EXEEXT@,,;t t
 s,@OBJEXT@,o,;t t
 s,@ACLOCAL@,${SHELL} /opt/abiword/aiksaurus/core/missing --run aclocal,;t t
@@ -335,7 +335,7 @@ s,@CXXCPP@,g++ -E,;t t
 s,@LIBTOOL@,$(SHELL) $(top_builddir)/libtool,;t t
 s,@U@,,;t t
 s,@ANSI2KNR@,,;t t
-s,@AIK_CXXFLAGS@,-DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\",;t t
+s,@AIK_CXXFLAGS@,-DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -DNDEBUG,;t t
 CEOF
 
   # Split the substitutions into bite-sized pieces for seds with
@@ -580,7 +580,7 @@ echo "$as_me: error: cannot find input file: $f" >&2;}
 t clr
 : clr
 ${ac_dA}PACKAGE${ac_dB}PACKAGE${ac_dC}"Aiksaurus"${ac_dD}
-${ac_dA}VERSION${ac_dB}VERSION${ac_dC}"0.12"${ac_dD}
+${ac_dA}VERSION${ac_dB}VERSION${ac_dC}"0.13"${ac_dD}
 ${ac_dA}HAVE_DLFCN_H${ac_dB}HAVE_DLFCN_H${ac_dC}1${ac_dD}
 ${ac_dA}STDC_HEADERS${ac_dB}STDC_HEADERS${ac_dC}1${ac_dD}
 ${ac_dA}PROTOTYPES${ac_dB}PROTOTYPES${ac_dC}1${ac_dD}
@@ -599,7 +599,7 @@ CEOF
 t clr
 : clr
 ${ac_uA}PACKAGE${ac_uB}PACKAGE${ac_uC}"Aiksaurus"${ac_uD}
-${ac_uA}VERSION${ac_uB}VERSION${ac_uC}"0.12"${ac_uD}
+${ac_uA}VERSION${ac_uB}VERSION${ac_uC}"0.13"${ac_uD}
 ${ac_uA}HAVE_DLFCN_H${ac_uB}HAVE_DLFCN_H${ac_uC}1${ac_uD}
 ${ac_uA}STDC_HEADERS${ac_uB}STDC_HEADERS${ac_uC}1${ac_uD}
 ${ac_uA}PROTOTYPES${ac_uB}PROTOTYPES${ac_uC}1${ac_uD}

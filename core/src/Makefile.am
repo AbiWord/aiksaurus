@@ -20,7 +20,7 @@ libAiksaurus_la_SOURCES = \
 	WordsFile.cpp \
 	WordsFile.h 
 
-libAiksaurus_la_LDFLAGS = -version-info 0:12
+libAiksaurus_la_LDFLAGS = -version-info 0:13
 
 libAiksaurus_la_CXXFLAGS = -s
 

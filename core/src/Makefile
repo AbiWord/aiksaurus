@@ -57,7 +57,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = 
 host_triplet = i686-pc-linux-gnu
-AIK_CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\"
+AIK_CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -DNDEBUG
 AMTAR = ${SHELL} /opt/abiword/aiksaurus/core/missing --run tar
 AS = @AS@
 AWK = mawk
@@ -80,7 +80,7 @@ PACKAGE = Aiksaurus
 RANLIB = ranlib
 STRIP = strip
 U = 
-VERSION = 0.12
+VERSION = 0.13
 am__include = include
 am__quote = 
 install_sh = /opt/abiword/aiksaurus/core/install-sh
@@ -89,7 +89,7 @@ AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libAiksaurus.la
 
-CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -Wall -s -g -O2
+CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -DNDEBUG -Wall -s -g -O2
 
 libAiksaurus_la_SOURCES = \
 	Aiksaurus.cpp \
@@ -108,7 +108,7 @@ libAiksaurus_la_SOURCES = \
 	WordsFile.h 
 
 
-libAiksaurus_la_LDFLAGS = -version-info 0:12
+libAiksaurus_la_LDFLAGS = -version-info 0:13
 
 libAiksaurus_la_CXXFLAGS = -s
 

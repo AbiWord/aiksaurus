@@ -1392,7 +1392,7 @@ fi
 
 # Define the identity of the package.
 PACKAGE=Aiksaurus
-VERSION=0.12
+VERSION=0.13
 
 cat >>confdefs.h <<EOF
 #define PACKAGE "$PACKAGE"
@@ -13311,7 +13311,7 @@ then
 fi
 aikdatadir=`eval echo $datadir/$PACKAGE/`
 
-AIK_CXXFLAGS="-DAIK_DATA_DIR=\\\"$aikdatadir\\\""
+AIK_CXXFLAGS="-DAIK_DATA_DIR=\\\"$aikdatadir\\\" -DNDEBUG"
 
 ac_config_files="$ac_config_files Makefile src/Makefile data/Makefile"
 cat >confcache <<\_ACEOF
