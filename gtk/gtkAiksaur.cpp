@@ -4,52 +4,95 @@
 #include <cstdlib>
 using namespace std;
 
-static gint gaik_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data);
 
-// toolbar event callback functions
-static void gaik_backButtonCallback(GtkWidget* w, gpointer data);
-static void gaik_forwardButtonCallback(GtkWidget* w, gpointer data);
-static void gaik_searchButtonCallback(GtkWidget* w, gpointer data);
 
+
+
+//
+// Callback Function Prototypes -----------------------------------------------
+//   These are the callback functions used by the gtkAiksaur class to 
+//   handle the different actions that the user can take.
+//
+
+static gint 
+gaik_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data);
+	
+static void 
+gaik_backButtonCallback(GtkWidget* w, gpointer data);
+	
+static void 
+gaik_forwardButtonCallback(GtkWidget* w, gpointer data);
+	
+static void 
+gaik_searchButtonCallback(GtkWidget* w, gpointer data);
+
+
+
+
+// 
+// gtkAiksaur Class -----------------------------------------------------------
+//   This is the main class that implements the thesaurus dialog.  
+//
+	
 class gtkAiksaur
 {
+	friend void gaik_searchButtonCallback(GtkWidget*w, gpointer data);
+	
 	private:
+		
+		// The main dialog window.
 		GtkWidget* d_window_ptr;
+
+		// The main tool bar.
 		GtkWidget* d_toolbar_ptr;
 	
+		// Back, forward, and search buttons.
 		GtkWidget* d_backbutton_ptr;
 		GtkWidget* d_backbutton_label_ptr;
-	
 		GtkWidget* d_forwardbutton_ptr;
 		GtkWidget* d_forwardbutton_label_ptr;
-	
 		GtkWidget* d_searchbutton_ptr;
 		GtkWidget* d_searchbutton_label_ptr;
 	
+		// User-editable "search bar" and "Look up:" label.
 		GtkWidget* d_searchbar_ptr;
 		GtkWidget* d_searchbar_label_ptr;
-		
+
+		// Component creation functions, actually build the UI.
+		void createWindow();
 		void createToolbar();
 		void createBackbutton();
 		void createForwardbutton();	
 		void createSearchbutton();
 		void createSearchbar();
 		
+		const char* getSearchText();
+		
 	public:
-		gtkAiksaur();		
+		gtkAiksaur();	
+
 
 };
 
-
-
 gtkAiksaur::gtkAiksaur()
 {
-    // Create the main window widget.
+	createWindow();
+	createToolbar();
 	
-	// this creates the main thesaurus window.
+	gtk_widget_show_all(d_window_ptr);
+	gtk_main();
+}
+
+const char* gtkAiksaur::getSearchText()
+{
+	cout << "GetSearchText called." << endl;
+	return "";
+}
+
+void gtkAiksaur::createWindow()
+{
 	d_window_ptr = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
-	// this changes the window's title to "AbiWord Thesaurus"
 	gtk_window_set_title(
 		GTK_WINDOW(d_window_ptr), 
 		"AbiWord Thesaurus"
@@ -62,14 +105,25 @@ gtkAiksaur::gtkAiksaur()
 		GTK_SIGNAL_FUNC(gaik_exitCallback), 
 		NULL
 	);
-	
-	createToolbar();
-	
-	gtk_widget_show_all(d_window_ptr);
-
 }
 
+void gtkAiksaur::createToolbar()
+{
+	d_toolbar_ptr = gtk_toolbar_new(
+		GTK_ORIENTATION_HORIZONTAL, 
+		GTK_TOOLBAR_ICONS
+	);
 
+	createBackbutton();
+	createForwardbutton();
+	createSearchbar();
+	createSearchbutton();
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_window_ptr), 		
+		d_toolbar_ptr
+	);
+}
 
 void gtkAiksaur::createBackbutton()
 {
@@ -96,8 +150,6 @@ void gtkAiksaur::createBackbutton()
 	);	
 }
 
-
-
 void gtkAiksaur::createForwardbutton()
 {
 	d_forwardbutton_ptr = gtk_button_new();
@@ -122,8 +174,6 @@ void gtkAiksaur::createForwardbutton()
 		"Next Search"
 	);	
 }
-
-
 
 void gtkAiksaur::createSearchbutton()
 {
@@ -170,58 +220,74 @@ void gtkAiksaur::createSearchbar()
 	);
 }
 
-void gtkAiksaur::createToolbar()
-{
-	d_toolbar_ptr = gtk_toolbar_new(
-		GTK_ORIENTATION_HORIZONTAL, 
-		GTK_TOOLBAR_ICONS
-	);
-
-	createBackbutton();
-	createForwardbutton();
-	createSearchbar();
-	createSearchbutton();
-	
-	gtk_container_add(
-		GTK_CONTAINER(d_window_ptr), 		
-		d_toolbar_ptr
-	);
-}
 
 
-int main(int argc, char** argv)
-{
-	gtk_init(&argc, &argv);
-	
-	gtkAiksaur thesaurus;
-	
-	gtk_main();
 
-	return 0;
-}
+
+
+
+//
+// Callback Function Implementation -------------------------------------------
+//
+// 
 
 static void 
 gaik_backButtonCallback(GtkWidget* w, gpointer data)
 {
-	cout << "gaik_backButtonCallback executed." << endl;
+	cout << "Back button pressed." << endl;
 }
 
 static void 
 gaik_forwardButtonCallback(GtkWidget* w, gpointer data)
 {
-	cout << "gaik_forwardButtonCallback executed." << endl;
+	cout << "Forward button pressed." << endl;
 }
 
 static void 
 gaik_searchButtonCallback(GtkWidget* w, gpointer data)
 {
-	cout << "gaik_searchButtonCallback executed." << endl;
+	cout << "Search button pressed." << endl;
 }
-
 
 static gint
 gaik_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data)
 {
-	cout << "gaik_exitCallback executed" << endl;
+	cout << "Exit button pressed." << endl;
 	exit(0);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gtkAiksaur* ThesaurusDialogPointer = NULL;
+
+//
+// Interface Functions
+// -------------------
+//   These functions form the programmatic interface to gtkAiksaur.
+//   They are the only functions that external programs should call.
+//   
+const char* ActivateThesaurus(const char* search)
+{
+	if (ThesaurusDialogPointer == NULL)
+	{
+		ThesaurusDialogPointer = new gtkAiksaur();
+	}
+
+	// to do: update thesaurus to search for word 'search'.
+}
+
+
