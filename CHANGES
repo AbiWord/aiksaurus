@@ -1,6 +1,21 @@
-AikSaurus Change Log
---------------------
+Version 0.11
+-------------------------------------------------------------------------------
+   Jared Davis:
 
+    Changed demo programs to operate out of AikSaurus default data directory
+    so that they will be easy to move around your system.
+
+
+Version 0.10
+-------------------------------------------------------------------------------
+   Jared Davis:
+
+    Added count(), word() functions.
+    
+    Added overloaded next() function that doesn't return part-of-speech
+    information.
+   
+    
 Version 0.09
 -------------------------------------------------------------------------------
    John Levon:
@@ -19,7 +34,7 @@ Version 0.08c
 -------------------------------------------------------------------------------
    Jared Davis:
 
-        Modified internal architecture not to rely on a fixed size buffer.  
+    Modified internal architecture not to rely on a fixed size buffer.  
 	It now dynamically allocates the string to return when you call 
 	next() or similar().  
 	
