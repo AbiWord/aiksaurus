@@ -6,7 +6,6 @@ License: GPL
 Group: System Environment/Libraries
 Source: @PACKAGE@-@VERSION@.tar.gz
 BuildRoot: /var/tmp/%{name}-buildroot
-Prefix: /usr
 
 %description
 Aiksaurus is an English-language thesaurus library that can be 
@@ -20,7 +19,7 @@ your computer.
 %prep
 %setup
 %build
-./configure --prefix=%{prefix}
+./configure --prefix=%{_prefix}
 make
 
 %install
@@ -35,13 +34,9 @@ make install-strip DESTDIR=$RPM_BUILD_ROOT
 /sbin/ldconfig
 
 %files
+%attr(0755, root, root) %{_bindir}/*
+%defattr(0644, root, root, 0755)
 %doc CHANGES ChangeLog README COPYING AUTHORS
-%defattr(-, root, root)
-%{prefix}/bin/aiksaurus
-%{prefix}/bin/caiksaurus
-%{prefix}/lib/lib@PACKAGE@.a
-%{prefix}/lib/lib@PACKAGE@.so.0.@VERSION@
-%{prefix}/share/Aiksaurus/words.dat
-%{prefix}/share/Aiksaurus/meanings.dat
-%{prefix}/include/Aiksaurus.h
-%{prefix}/include/AiksaurusC.h
+%{_libdir}/*
+%{_datadir}/Aiksaurus/*
+%{_includedir}/*
