@@ -21,8 +21,6 @@
 #ifndef INCLUDED_JARED_GPL_AIKSAURUSGTK_H
 #define INCLUDED_JARED_GPL_AIKSAURUSGTK_H
 
-#include <new>
-
 namespace AiksaurusGTK_impl
 {
     class DialogImpl;
@@ -35,16 +33,16 @@ namespace AiksaurusGTK_impl
             DialogImpl* d_impl_ptr;
             
         public:
-            AiksaurusGTK() throw(std::bad_alloc);
-            ~AiksaurusGTK() throw();
+            AiksaurusGTK();
+            ~AiksaurusGTK();
             
-            void setTitle(const char* title) throw();
+            void setTitle(const char* title);
            
-            void setInitialMessage(const char* message) throw(std::bad_alloc); 
-            void showReplacebar() throw();
-            void hideReplacebar() throw();
+            void setInitialMessage(const char* message); 
+            void showReplacebar();
+            void hideReplacebar();
             
-            const char* runThesaurus(const char* word) throw();
+            const char* runThesaurus(const char* word);
     };
 }
 

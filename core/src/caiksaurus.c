@@ -9,9 +9,9 @@ static void noMemory();
 static void checkError();
 static void noSynonyms();
 static void printSynonyms();
-static void handleArguments(int argc, const char** argv);
+static void handleArguments(int argc, char** argv);
 
-int main(int argc, const char** argv)
+int main(int argc, char** argv)
 {
     int found;
     
@@ -189,7 +189,7 @@ static void printSynonyms()
 //  checks for --version or --help flags, and ensures 
 //  that the user searched for a word.
 //
-static void handleArguments(int argc, const char** argv)
+static void handleArguments(int argc, char** argv)
 {
     // the message to print if we get --version or -v.
     const char* version = 

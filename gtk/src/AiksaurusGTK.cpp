@@ -26,6 +26,7 @@
 #include "Exception.h"
 #include <iostream>
 #include <string>
+#include <new>
 
 namespace AiksaurusGTK_impl
 {
@@ -238,44 +239,44 @@ namespace AiksaurusGTK_impl
     }
 
     
-    AiksaurusGTK::AiksaurusGTK() throw(std::bad_alloc)
+    AiksaurusGTK::AiksaurusGTK() 
         : d_impl_ptr(new DialogImpl())
     {
         
     }
 
 
-    AiksaurusGTK::~AiksaurusGTK() throw()
+    AiksaurusGTK::~AiksaurusGTK() 
     {
         delete d_impl_ptr;
     }
 
     
-    void AiksaurusGTK::setTitle(const char* title) throw()
+    void AiksaurusGTK::setTitle(const char* title) 
     {
         d_impl_ptr->setTitle(title);
     }
     
 
-    void AiksaurusGTK::hideReplacebar() throw()
+    void AiksaurusGTK::hideReplacebar() 
     {
         d_impl_ptr->setReplacebar(false);
     }
     
 
-    void AiksaurusGTK::showReplacebar() throw()
+    void AiksaurusGTK::showReplacebar()
     {
         d_impl_ptr->setReplacebar(true);
     }
 
     
-    void AiksaurusGTK::setInitialMessage(const char* message) throw(std::bad_alloc)
+    void AiksaurusGTK::setInitialMessage(const char* message)
     {
         d_impl_ptr->setInitialMessage(message);
     }
     
         
-    const char* AiksaurusGTK::runThesaurus(const char* word) throw()
+    const char* AiksaurusGTK::runThesaurus(const char* word)
     {
         return d_impl_ptr->runThesaurus(word);
     }

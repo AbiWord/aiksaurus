@@ -1,0 +1,17 @@
+AiksaurusKDE INSTALL File
+--------------------------------------------------------------------------
+
+Right now this is extremely sloppy.  
+Prerequisites are KDE and QT development libraries, Aiksaurus Core.
+
+Next you need to set QTDIR and KDEDIR in src/Makefile to match
+your system.
+
+Finally run make.  This should build ./AiksaurusKDE in src directory.
+
+Many changes forthcoming, there should be a ./configure script for 
+this soon.  My apologies.
+
+--------------------------------------------------------------------------
+Jared Davis
+jared@aiksaurus.com 
