@@ -129,6 +129,41 @@ AikString::AikString(const char* rhs)
 	}
 }
 
+AikString::AikString(const char* rhs, unsigned int size)
+{
+	if (rhs == 0)
+	{
+		d_size = 0;
+		d_buf_ptr = s_nullString;
+		d_valid = (size == 0);
+	}
+
+	else
+	{
+		d_size = size;
+		d_buf_ptr = new(nothrow) char[d_size+1];
+		
+		if (!d_buf_ptr)
+		{
+			d_size = 0;
+			d_valid = false;
+			d_buf_ptr = s_nullString;
+		}
+		
+		else
+		{
+			register unsigned int i = 0;
+			while(i < d_size)
+			{
+				d_buf_ptr[i] = rhs[i];
+				++i;
+			}
+			
+			d_buf_ptr[i] = '\0';
+		}
+	}
+}
+
 
 AikString::AikString(const AikString& rhs)
 {

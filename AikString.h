@@ -41,6 +41,7 @@ class AikString
 	// Creation ---
 		
 		explicit AikString(const char* rhs = 0);
+		explicit AikString(const char* rhs, unsigned int size);
 		AikString(const AikString& rhs);
 		~AikString();
 

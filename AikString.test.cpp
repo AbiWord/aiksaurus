@@ -68,6 +68,18 @@ int main()
 
 	cout << "You should see: 20" << endl;
 	cout << num1.size() << endl << endl;
+
+	AikString happy("I am very happy.  Aren't you?");
+	
+	cout << "You should see: I am very happy.  Aren't you?" << endl;
+	cout << happy.c_str() << endl << endl;
+
+	AikString happy2(happy.c_str(), 16);
+	cout << "You should see: I am very happy." << endl;
+	cout << happy2.c_str() << endl << endl;
+
+	cout << "You should see: 16" << endl;
+	cout << happy2.size() << endl << endl;
 	
 	return 0;
 }

@@ -49,14 +49,38 @@
 
     Creation and Destruction ---
 
-      [explicit] AikString(const char* str)
-        Check to make sure it's valid afterwards.
+      [explicit] AikString(const char* str)                         { slowest }
+        Creates AikString whose contents are str.  If str is null,
+	creates an empty string ("").  
 
-      AikString(const AikString& str)
-        A little more efficient than the const char* version.
+      [explicit] AikString(const char* str, unsigned int size)       { faster }
+        Creates string whose contents are the first [size] characters
+	of str.  This function trusts you to pass it a size that is 
+	less than or equal str's length, so if you pass a higher size
+	its behavior is undefined and likely catastrophic.
+
+      AikString(const AikString& str)                               { fastest }
+        Creates a string whose contents are a copy of the aikstring str.
 
       ~AikString()
         Remember to call this, or you will leak memory.
+
+
+      Notes:
+      
+        1.  After using any constructor, you should ensure validity 
+	    via the valid() function, and handle !valid() situations
+	    with whatever techniques are appropriate.
+
+	2.  Efficiency.  With 30-character strings, you can expect that
+	
+	       a) AikString(const char*) is the slowest.
+	
+	       b) AikString(const char*, unsigned int) is about 12% faster than a.
+	       
+	       c) AikString(const AikString&) is about 19% faster than a.
+	    
+	    Of course, this all happens so fast it probably isn't noticeable.
 
 
     Inspection ---
