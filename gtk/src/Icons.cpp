@@ -18,7 +18,7 @@
  * 02111-1307, USA.
  */
 
-#include "AiksaurusGTK_icons.h"
+#include "Icons.h"
 
 namespace AiksaurusGTK_impl
 {
