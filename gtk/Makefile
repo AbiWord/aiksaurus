@@ -4,7 +4,7 @@ CPPFLAGS=-Wall -ansi
 
 all: gtkAiksaur
 
-gtkAiksaur: gtkAiksaur.t.cpp AiksaurusGTK_strlist.o \
+gtkAiksaur: gtkAiksaur.t.cpp AiksaurusGTK_strlist.o gtkAiksaur.o \
             AiksaurusGTK_histlist.o AiksaurusGTK_utils.o
 	$(CC) $(CPPFLAGS) $(GTKLINK) -o gtkAiksaur \
             gtkAiksaur.t.cpp gtkAiksaur.o AiksaurusGTK_strlist.o \
