@@ -103,12 +103,16 @@ AiksaurusABI_addToMenus()
             pMenu->getMenuLabelSet()
         );
 
-         
-           
+        
+        // Figure out where the tools menu is.
+        UT_uint32 toolsId = pLayout->getLayoutIndex(
+                EV_searchMenuLabel(*pLabelSet, "&Word Count")
+        );
+                   
         // Get a new ID so that we can add ourself to this menu.
         XAP_Menu_Id id = pLayout->addLayoutItem(
-            1,              // position to add menu item to
-            EV_MLF_Normal   // i don't remember what this is for.
+            ++toolsId,          // position to add menu item to
+            EV_MLF_Normal       // i don't remember what this is for.
         );
       
         
@@ -155,10 +159,10 @@ ABI_FAR extern "C"
 int abi_plugin_register (XAP_ModuleInfo * mi)
 {
     mi->name = "Aiksaurus";
-    mi->desc = "English-language thesaurus based on the Aiksaurus library: "
-               "http://zeddiclan.com/aiksaurus/";
+    mi->desc = "English-language thesaurus based on the AikSaurus library: "
+               "http://www.aiksaurus.com/";
     mi->version = ABI_VERSION_STRING;
-    mi->author = "Jared Davis (jared@zeddiclan.com)";
+    mi->author = "Jared Davis (jared@aiksaurus.com)";
     mi->usage = "No Usage";
     
     // Set title of thesaurus to look like it is AbiWord's own.
