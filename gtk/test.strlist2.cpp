@@ -49,12 +49,14 @@ int main()
 		foo.push_front("foo4");
 		foo.push_front("foo5");
 		foo.push_front("foo6");
-		foo.remove_last_element();
-		foo.remove_last_element();
-		foo.remove_last_element();
-		foo.remove_last_element();
-		foo.remove_last_element();
-		foo.remove_last_element();
+		
+		foo.pop_back();
+		foo.pop_back();
+		foo.pop_back();
+		foo.pop_back();
+		foo.pop_back();
+		foo.pop_back();
+		
 	}
 	
 	return 0;

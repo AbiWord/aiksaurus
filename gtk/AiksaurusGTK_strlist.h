@@ -41,7 +41,8 @@ class AiksaurusGTK_strlist
 	private:
 	
 		// d_list_ptr: pointer to the actual list itself.
-		GList* d_list_ptr;
+		GList* d_front_ptr;
+		GList* d_back_ptr;
 
 		// d_size: stores number of elements in list.
 		int d_size;
@@ -51,30 +52,57 @@ class AiksaurusGTK_strlist
 		// do not allow copying.
 		AiksaurusGTK_strlist(const AiksaurusGTK_strlist& rhs);
 		const AiksaurusGTK_strlist& operator=(const AiksaurusGTK_strlist& rhs);
+	
+		GList* create_node(const char* str) const;
+		void free_data(GList* node) const;
+		
+		void remove_node(GList* node);
 		
 	public:
 
 		AiksaurusGTK_strlist();
 		~AiksaurusGTK_strlist();
 		
-		// push_back: adds str to end of list.
-		void push_back(const char* str);
 		
-		// push_front: adds str to front of list.
-		void push_front(const char* str);
-
-		// remove_first: removes first instance of str in list if found.
-		void remove_first(const char* str);
-	
-		// remove_last_element: removes last element of list if possible.
-		void remove_last_element();
 		
 		// size: returns number of elements in list.
 		unsigned int size() const;
 		
 		// getList: returns ptr to actual glist.
 		const GList* list() const;
+		
+		// look_back: returns pointer to last element in list
+		// or NULL if list is empty.
+		const char* look_back() const;
+		
+		// look_front: returns pointer to first element in list
+		// or NULL if list is empty.
+		const char* look_front() const;
+		
 
+		
+		// clear: destroy all data in glist.
+		void clear();
+		
+		// push_back: adds str to end of list.
+		void push_back(const char* str);
+		
+		// pop_back: removes last element of list, or does
+		// nothing if list is empty.
+		void pop_back();
+		
+		// push_front: adds str to front of list.
+		void push_front(const char* str);
+
+		// pop_front: removes first element from list, or does
+		// nothing if list is empty.
+		void pop_front();
+		
+
+		
+		// remove_first: removes first instance of str in list if found.
+		void remove_first(const char* str);
+	
 		#ifndef NDEBUG
 		// debug: prints debug information.
 		void debug();

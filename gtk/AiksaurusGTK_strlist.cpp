@@ -32,43 +32,224 @@
 AiksaurusGTK_strlist::AiksaurusGTK_strlist()
 {
 	d_size = 0;
-	d_list_ptr = NULL;
+	d_front_ptr = d_back_ptr = NULL;
 }
 
 
-static void destroyString(void* str, gpointer data)
-{
-	char* x = static_cast<char*>(str);
-	delete[] x;
-}
 
 AiksaurusGTK_strlist::~AiksaurusGTK_strlist()
 {
-	g_list_foreach(d_list_ptr, destroyString, NULL);
-	g_list_free(d_list_ptr);
+	clear();	
 }
 
 
 
 //////////////////////////////////////////////////////////////////////////
 //                                                                      //
-//   Insertion Routines                                                 //
+//   Inspection Routines                                                //
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
-void AiksaurusGTK_strlist::push_back(const char* str)
+const GList* 
+AiksaurusGTK_strlist::list() const
+{
+	return d_front_ptr;
+}
+
+
+unsigned int 
+AiksaurusGTK_strlist::size() const
+{
+	return d_size;
+}
+
+
+const char*
+AiksaurusGTK_strlist::look_back() const
+{
+	return (d_back_ptr)
+		? (static_cast<char*>(d_back_ptr->data))
+		: (NULL);
+}
+
+
+const char*
+AiksaurusGTK_strlist::look_front() const
+{
+	return (d_front_ptr) 
+		? (static_cast<char*>(d_front_ptr->data))
+		: (NULL);
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Node Destruction and Allocation                                    //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+GList* 
+AiksaurusGTK_strlist::create_node(const char* str) const
 {
 	char* x = AiksaurusGTK_strCopy(str);
-	d_list_ptr = g_list_append(d_list_ptr, x);
+	GList* ret = g_list_alloc();
+	ret->data = x;
+	ret->prev = ret->next = NULL;
+	return ret;
+}
+
+
+void 
+AiksaurusGTK_strlist::free_data(GList* node) const
+{
+	delete[] static_cast<char*>(node->data);
+}
+
+
+void 
+AiksaurusGTK_strlist::remove_node(GList* node)
+{
+	// get pointers to the nodes we need to join.
+	GList* node_next = node->next;
+	GList* node_prev = node->prev;
+	
+	// if this is in the middle, we need to reassign both pointers.
+	if ((node != d_front_ptr) && (node != d_back_ptr))
+	{
+		node_next->prev = node_prev;
+		node_prev->next = node_next;
+	}
+
+	
+	// else if front of list, we want to reassign front to be
+	// the new front.
+	if (node == d_front_ptr)
+	{
+		d_front_ptr = node_next;
+	
+		if (node_next)
+			node_next->prev = NULL;
+	}
+
+	
+	// similarly, if back of list, we want to reassign
+	// back to be the new back.
+	if (node == d_back_ptr)
+	{
+		d_back_ptr = node_prev;
+		
+		if (node_prev)
+			node_prev->next = NULL;
+	}
+	
+	
+	// delete the node itself.
+	free_data(node);
+	node->prev = node->next = NULL;
+	g_list_free(node);
+	
+	
+	// mark that we have deleted the node by reducing our size by one.
+	d_size--;
+}
+
+
+void 
+AiksaurusGTK_strlist::clear()
+{
+	for(GList* iterator = d_front_ptr; iterator != NULL; iterator = iterator->next)
+		free_data(iterator);
+
+	g_list_free(d_front_ptr);
+
+	d_front_ptr = d_back_ptr = NULL;
+}
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Stack-Like Routines                                                //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+void 
+AiksaurusGTK_strlist::push_front(const char* str)
+{
+	// create new node from string.
+	GList* node = create_node(str);
+	
+	// if nodes exist, prepend node to begin of list.
+	if (d_front_ptr)
+	{
+		node->next = d_front_ptr;
+		d_front_ptr->prev = node;
+		d_front_ptr = node;
+	}
+
+	// else if no nodes, init list to single node.
+	else
+	{
+		d_front_ptr = d_back_ptr = node;
+	}	
+
+	// we have now added a node, so increase size by 1.
 	d_size++;
 }
 
-void AiksaurusGTK_strlist::push_front(const char* str)
+void 
+AiksaurusGTK_strlist::push_back(const char* str)
 {
-	char* x = AiksaurusGTK_strCopy(str);
-	d_list_ptr = g_list_prepend(d_list_ptr, x);
+	// create new node from string.
+	GList* node = create_node(str);
+
+	// if nodes exist, append node to end of list.
+	if (d_back_ptr)
+	{
+		node->prev = d_back_ptr;
+		d_back_ptr->next = node;
+		d_back_ptr = node;
+	}
+
+	// else if no nodes, init list to single node.
+	else
+	{
+		d_front_ptr = d_back_ptr = node;
+	}
+
+	// we have now added a node, so increase size by 1.
 	d_size++;
 }
+
+
+
+
+void
+AiksaurusGTK_strlist::pop_front()
+{
+	// first ensure that we have elements.  if not, nothing to do.
+	if (!d_front_ptr) 
+		return;
+	
+	remove_node(d_front_ptr);
+}
+
+
+void 
+AiksaurusGTK_strlist::pop_back()
+{
+	// first ensure that we have elements.  if not, nothing to do.
+	if (!d_back_ptr) 
+		return;
+
+	remove_node(d_back_ptr);
+}
+
+
+
+
+
 
 
 
@@ -81,8 +262,7 @@ void AiksaurusGTK_strlist::push_front(const char* str)
 
 GList* AiksaurusGTK_strlist::find_first(const char* str)
 {
-	for(GList* iterator = g_list_first(d_list_ptr);
-	    iterator != NULL;iterator = g_list_next(iterator))
+	for(GList* iterator = d_front_ptr; iterator != NULL; iterator = iterator->next)
 	{
 		const char* x = static_cast<const char*>(iterator->data);
 
@@ -97,49 +277,12 @@ GList* AiksaurusGTK_strlist::find_first(const char* str)
 
 void AiksaurusGTK_strlist::remove_first(const char* str)
 {
-	GList* iterator = find_first(str);
-	
-	if (iterator == NULL)
-		return;
-	
-	g_list_remove_link(d_list_ptr, iterator);
-	delete[] static_cast<char*>(iterator->data);
-	g_list_free(iterator);
+	GList* node = find_first(str);
 
-	d_size--;
+	if (node)
+		remove_node(node);
 }
 
-void AiksaurusGTK_strlist::remove_last_element()
-{
-	GList* iterator = g_list_last(d_list_ptr);
-	
-	if (iterator == NULL)
-		return;
-
-	g_list_remove_link(d_list_ptr, iterator);
-	delete[] static_cast<char*>(iterator->data);
-	g_list_free(iterator);
-
-	d_size--;
-}
-
-
-
-//////////////////////////////////////////////////////////////////////////
-//                                                                      //
-//   Inspection Routines                                                //
-//                                                                      //
-//////////////////////////////////////////////////////////////////////////
-
-const GList* AiksaurusGTK_strlist::list() const
-{
-	return d_list_ptr;
-}
-
-unsigned int AiksaurusGTK_strlist::size() const
-{
-	return d_size;
-}
 
 
 
@@ -165,10 +308,13 @@ void debugHelper(void* str, void* data)
 void AiksaurusGTK_strlist::debug()
 {
 	cout << "AiksaurusGTK_strlist::debug() { " << endl;
-	cout << " Size of d_list_ptr is: " << size() << endl;
-	cout << " Address of d_list_ptr is: " << d_list_ptr << endl;
-	cout << " Contents of d_list_ptr are: " << endl;
-	g_list_foreach(d_list_ptr, debugHelper, NULL);
+	cout << " d_size = " << size() << endl;
+	cout << " d_front_ptr = " << d_front_ptr << endl;
+	cout << " d_back_ptr = " << d_back_ptr << endl;
+	cout << " front = " << look_front() << endl;
+	cout << " back = " << look_back() << endl;
+	cout << " Contents are: " << endl;
+	g_list_foreach(d_front_ptr, debugHelper, NULL);
 	cout << "}" << endl;
 }
 

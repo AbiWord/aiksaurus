@@ -3,7 +3,7 @@ GTKLINK=`gtk-config --libs` `gtk-config --cflags`
 CPPFLAGS=-Wall -ansi
 
 TESTS = test.histlist test.strlist test.strlist2 \
-        test.picbutton test.utils
+        test.picbutton test.utils test.history
 
 
 all: gtkAiksaur tests

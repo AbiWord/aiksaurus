@@ -21,6 +21,11 @@
 #include "AiksaurusGTK_histlist.h"
 #include "AiksaurusGTK_strlist.h"
 
+#ifndef NDEBUG
+	#include <iostream>
+	using namespace std;
+#endif
+
 
 AiksaurusGTK_histlist::AiksaurusGTK_histlist(unsigned int maxElements)
 {
@@ -37,13 +42,20 @@ AiksaurusGTK_histlist::~AiksaurusGTK_histlist()
 
 void AiksaurusGTK_histlist::addItem(const char* str)
 {
+	cout << "AiksaurusGTK_histlist::addItem() {" << endl;
+	
+	cout << "remove_first(" << str << ")" << endl;
 	d_list_ptr->remove_first(str);
+	
+	cout << "push_front(" << str << ")" << endl;	
 	d_list_ptr->push_front(str);
 
 	if (d_list_ptr->size() > d_maxElements)
 	{
-		d_list_ptr->remove_last_element();
+		d_list_ptr->pop_back();
 	}
+
+	cout << "} " << endl;
 }
 
 
@@ -56,17 +68,14 @@ const GList* AiksaurusGTK_histlist::list() const
 
 #ifndef NDEBUG
 
-#include <iostream>
-using namespace std;
-
-void AiksaurusGTK_histlist::debug()
-{
-	cout << "AiksaurusGTK_histlist::debug() {" << endl;
-	cout << "  MaxElements is " << d_maxElements << endl;
-	cout << "  List information follows: " << endl;
-	d_list_ptr->debug();
-	cout << "}" << endl;
-}
+	void AiksaurusGTK_histlist::debug()
+	{
+		cout << "AiksaurusGTK_histlist::debug() {" << endl;
+		cout << "  MaxElements is " << d_maxElements << endl;
+		cout << "  List information follows: " << endl;
+		d_list_ptr->debug();
+		cout << "}" << endl;
+	}
 
 #endif // NDEBUG
 

@@ -6,6 +6,8 @@
   Purpose:
   
      Assists in creating GLists of c-style strings.
+     
+     Incidentally useful for creating string stacks / queues.
 
 
 
@@ -58,28 +60,45 @@
      Inserting Elements
      
         void push_back(const char* str) 
-	  adds str to the end of the list.
+	  adds str to the end of the list. O(1).
 	  
 	void push_front(const char* str) 
-	  adds str to the front of the list.
+	  adds str to the front of the list. O(1).
 
 
      Removing Elements
 
-        void remove_first(const char* str) 
-	   removes the first instance of str from the list.
+	void pop_back();
+	  removes the last element in the list. O(1).
+	  
+	void pop_front();
+	  removes the first element in the list. O(1).
 
-	void remove_last_element()
-	   removes the very last node from the list.
+	void remove_first(const char* str)
+	   removes the first copy of 'str' in the list. O(n).
+
+	void clear();
+	  removes all elements in the list. O(n).
+
+
+     Viewing Elements
+     
+        const char* look_front();
+	  returns first string in the list. O(1).
+	  becomes invalid if that element is destroyed!
+
+	const char* look_back()
+	  returns last string in the list. O(1).
+	  becomes invalid if that element is destroyed!
 
 
      Other
 
         unsigned int size() const;
-	   returns the number of strings in the list.
+	   returns the number of strings in the list. O(1).
 
 	const GList* list() const;
-	   returns a pointer to the list itself.
+	   returns a pointer to the list itself. O(1).
 
         void debug()
 	   prints debug info, define NDEBUG to disable.
