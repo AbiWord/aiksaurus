@@ -1,5 +1,7 @@
 #include "AiksaurusGTK_utils.h"
 #include "AiksaurusGTK_histlist.h"
+#include "AiksaurusGTK_picbutton.h"
+#include "AiksaurusGTK_icons.h"
 #include <AikSaurus.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
@@ -29,6 +31,7 @@ class AiksaurusGTK
 	// Copy of original word thesaurus was launched with.
 	
 		char* d_originalword_ptr;
+		bool d_window_destroyed;
 		
 		
 	// Pointer to a static instance.	
@@ -61,28 +64,20 @@ class AiksaurusGTK
 		
 		// The main window and its associated widgets
 		GtkWidget* d_window_ptr;	
-		bool d_window_destroyed;
-		  GtkWidget* d_layout_ptr;	
-		  GtkWidget* d_wordlist_ptr;	
+		GtkWidget* d_layout_ptr;	
+		  
+		// Word list widgets
+		GtkWidget* d_wordlist_ptr;	
 		  GtkWidget* d_wordlist_scroller_ptr;
+		  GtkWidget* d_wordlist_label_box_ptr;
+		  GtkWidget* d_wordlist_label_ptr;
 		  
 		// The main toolbar and its associated widgets
 		GtkWidget* d_toolbar_ptr;
 		
-		  static const char* s_backIcon[];
-		  GtkWidget* d_backbutton_ptr;
-		  GtkWidget* d_backbutton_label_ptr;
-		  GdkPixmap* d_backicon_pic_ptr;
-		  GtkWidget* d_backicon_ptr;
-		  
-		  static const char* s_forwardIcon[];
-		  GtkWidget* d_forwardbutton_ptr;
-		  GtkWidget* d_forwardbutton_label_ptr;
-		  GdkPixmap* d_forwardicon_pic_ptr;
-		  GtkWidget* d_forwardicon_ptr;
-		  
-		  GtkWidget* d_searchbutton_ptr;
-		  GtkWidget* d_searchbutton_label_ptr;
+		  AiksaurusGTK_picbutton* d_backbutton_ptr;
+		  AiksaurusGTK_picbutton* d_forwardbutton_ptr;
+		  AiksaurusGTK_picbutton* d_searchbutton_ptr;
 		
 		  GtkWidget* d_searchbar_ptr;
 		  GtkWidget* d_searchbar_label_ptr;
@@ -223,6 +218,30 @@ AiksaurusGTK::~AiksaurusGTK()
 
 void AiksaurusGTK::createWordlist()
 {
+	d_wordlist_label_box_ptr = gtk_hbox_new(false, 0);
+	gtk_box_pack_start(
+		GTK_BOX(d_layout_ptr),
+		d_wordlist_label_box_ptr,
+		false,
+		false,
+		0
+	);
+	
+	d_wordlist_label_ptr = gtk_label_new("  X Results Found for Word");
+
+	gtk_label_set_justify(
+		GTK_LABEL(d_wordlist_label_ptr),
+		GTK_JUSTIFY_LEFT
+	);
+	
+	gtk_box_pack_start(
+		GTK_BOX(d_wordlist_label_box_ptr),
+		d_wordlist_label_ptr,
+		false,
+		false,
+		0
+	);
+	
 	d_wordlist_scroller_ptr = gtk_scrolled_window_new(
 		NULL,
 		NULL
@@ -251,7 +270,7 @@ void AiksaurusGTK::createWordlist()
 		d_wordlist_scroller_ptr,
 		true,
 		true,
-		5
+		0	
 	);
 }
 
@@ -265,37 +284,26 @@ const char* AiksaurusGTK::getSearchText()
 
 void AiksaurusGTK::performSearch()
 {
-	cout << "AiksaurusGTK::performSearch() {" << endl;
-	
 	const char* str = getSearchText();
-	
-	cout << "  Word is: " << d_aiksaurus_ptr->word() << endl;
-	cout << "  Str is: " << str << endl;
+
+	// don't re-do the search if it is the current search.
 	if (AiksaurusGTK_strEquals(d_aiksaurus_ptr->word(), str))
 	{
-		cout << "  Words are equal, quitting early.\n}" << endl;
 		return;
 	}
+		
+	gtk_clist_freeze(
+		GTK_CLIST(d_wordlist_ptr)
+	);
+		
+	gtk_clist_clear(
+		GTK_CLIST(d_wordlist_ptr)
+	);
 
-	else
-	{
-		cout << "  Words unequal, continuing." << endl;
-	}
-	
-	
 	if (d_aiksaurus_ptr->find(str))
 	{
-		cout << "  Aiksaurus::find() has returned." << endl;
 		char pos;
 
-		gtk_clist_freeze(
-			GTK_CLIST(d_wordlist_ptr)
-		);
-		
-		gtk_clist_clear(
-			GTK_CLIST(d_wordlist_ptr)
-		);
-		
 		for(const char* r = d_aiksaurus_ptr->next(pos);r[0] != '\0';r = d_aiksaurus_ptr->next(pos))
 		{
 			gtk_clist_append(
@@ -303,22 +311,26 @@ void AiksaurusGTK::performSearch()
 				const_cast<gchar**>(&r)
 			);
 			
-	//		cout << r << endl;
 		}
-		
-		gtk_clist_thaw(
-			GTK_CLIST(d_wordlist_ptr)
-		);
-
-		cout << "  List built and thawed." << endl;
 	}
 	
 	else
 	{
-		cout << "  No synonyms found." << endl;
+		for(const char* r = d_aiksaurus_ptr->similar(); r[0] != '\0';r = d_aiksaurus_ptr->similar())
+		{
+			gtk_clist_append(
+				GTK_CLIST(d_wordlist_ptr),
+				const_cast<gchar**>(&r)
+			);
+		}
 	}
 
-
+	cout << d_aiksaurus_ptr->count() << " results." << endl;
+		
+	gtk_clist_thaw(
+		GTK_CLIST(d_wordlist_ptr)
+	);
+	
 	cout << "  Appending text to list." << endl;
 	appendSearchText(str);
 
@@ -381,7 +393,7 @@ void AiksaurusGTK::createToolbar()
 {
 	d_toolbar_ptr = gtk_hbox_new(
 		false, 
-		4	
+		0	
 	);
 
 	createBackbutton();
@@ -520,87 +532,78 @@ void AiksaurusGTK::setTooltip(GtkWidget* widget, const char* str)
 
 void AiksaurusGTK::createBackbutton()
 {
-	d_backbutton_ptr = gtk_button_new();
-
-	setTooltip(d_backbutton_ptr, "Returns to Previous Search");
-
-#if 1
-	GdkBitmap *mask = 0;
-	GdkColormap *cmap = gtk_widget_get_colormap (d_window_ptr);
-	GtkStyle *style = gtk_widget_get_style(d_window_ptr);	
-
-	d_backicon_pic_ptr = gdk_pixmap_colormap_create_from_xpm_d(
-	        d_window_ptr->window,
-		cmap,
-		&mask,
-		&style->bg[GTK_STATE_NORMAL],
-		(gchar**)AiksaurusGTK::s_backIcon
+	d_backbutton_ptr = new AiksaurusGTK_picbutton(
+		d_window_ptr,
+		AiksaurusGTK_icons::s_backNormal
 	);
 
-	d_backicon_ptr = gtk_pixmap_new(
-		d_backicon_pic_ptr,
-		mask
+	d_backbutton_ptr->setHoverPicture(
+		AiksaurusGTK_icons::s_backHover
 	);
 
-	gdk_pixmap_unref (d_backicon_pic_ptr);
-	gdk_bitmap_unref (mask);
-
-	gtk_container_add(
-		GTK_CONTAINER(d_backbutton_ptr),
-		d_backicon_ptr
+	d_backbutton_ptr->setDisabledPicture(
+		AiksaurusGTK_icons::s_backDisabled
 	);
-#else
-	d_backbutton_label_ptr = gtk_label_new("Back");
 	
-	gtk_container_add(
-		GTK_CONTAINER(d_backbutton_ptr),
-		d_backbutton_label_ptr
+	
+	setTooltip(
+		d_backbutton_ptr->getButton(),
+		"Back"
 	);
-#endif
+	
 	
 	gtk_signal_connect(
-		GTK_OBJECT(d_backbutton_ptr),
+		GTK_OBJECT(d_backbutton_ptr->getButton()),
 		"clicked",
 		GTK_SIGNAL_FUNC(cbBack),
-		static_cast<gpointer>(this)	
+		this	
 	);
 
 	gtk_box_pack_start(
 		GTK_BOX(d_toolbar_ptr),
-		d_backbutton_ptr,
+		d_backbutton_ptr->getButton(),
 		false,
 		false,
-		5
+		4
 	);	
 }
 
 
 void AiksaurusGTK::createForwardbutton()
 {
-	d_forwardbutton_ptr = gtk_button_new();
+	d_forwardbutton_ptr = new AiksaurusGTK_picbutton(
+		d_window_ptr,
+		AiksaurusGTK_icons::s_forwardNormal
+	);
 
-	setTooltip(d_forwardbutton_ptr, "Advances to Next Search");
-	
-	d_forwardbutton_label_ptr = gtk_label_new("Forward");
-	
-	gtk_container_add(
-		GTK_CONTAINER(d_forwardbutton_ptr),
-		d_forwardbutton_label_ptr
+	d_forwardbutton_ptr->setHoverPicture(
+		AiksaurusGTK_icons::s_forwardHover
+	);
+
+	d_forwardbutton_ptr->setDisabledPicture(
+		AiksaurusGTK_icons::s_forwardDisabled
 	);
 	
+	setTooltip(
+		d_forwardbutton_ptr->getButton(), 
+		"Forward"
+	);
+
+	d_forwardbutton_ptr->disable();
+	
 	gtk_signal_connect(
-		GTK_OBJECT(d_forwardbutton_ptr),
+		GTK_OBJECT(d_forwardbutton_ptr->getButton()),
 		"clicked",
 		GTK_SIGNAL_FUNC(cbForward),
-		d_forwardbutton_label_ptr	
+		NULL	
 	);
 	
 	gtk_box_pack_start(
 		GTK_BOX(d_toolbar_ptr),
-		d_forwardbutton_ptr,
+		d_forwardbutton_ptr->getButton(),
 		false,
 		false,
-		5
+		4
 	);	
 
 }
@@ -608,27 +611,37 @@ void AiksaurusGTK::createForwardbutton()
 
 void AiksaurusGTK::createSearchbutton()
 {
-	d_searchbutton_ptr = gtk_button_new();
-	d_searchbutton_label_ptr = gtk_label_new("Search");
+	d_searchbutton_ptr = new AiksaurusGTK_picbutton(
+		d_window_ptr,
+		AiksaurusGTK_icons::s_searchNormal
+	);
+
+	d_searchbutton_ptr->setHoverPicture(
+		AiksaurusGTK_icons::s_searchHover
+	);
+
+	d_searchbutton_ptr->setDisabledPicture(
+		AiksaurusGTK_icons::s_searchDisabled
+	);
 	
-	gtk_container_add(
-		GTK_CONTAINER(d_searchbutton_ptr),
-		d_searchbutton_label_ptr
+	setTooltip(
+		d_searchbutton_ptr->getButton(),
+		"Find Synonyms"
 	);
 	
 	gtk_signal_connect(
-		GTK_OBJECT(d_searchbutton_ptr),
+		GTK_OBJECT(d_searchbutton_ptr->getButton()),
 		"clicked",
 		GTK_SIGNAL_FUNC(cbSearch),
-		d_searchbutton_label_ptr	
+		NULL
 	);
 	
 	gtk_box_pack_start(
 		GTK_BOX(d_toolbar_ptr),
-		d_searchbutton_ptr,
+		d_searchbutton_ptr->getButton(),
 		false,
 		false,
-		5
+		4
 	);	
 }
 
@@ -773,144 +786,3 @@ AiksaurusGTK::cbSelectChanged(GtkWidget* w, gpointer data)
 	cout << "AiksaurusGTK::cbSelectChanged() invoking search." << endl;
 	cbSearch(w, data);
 }
-
-
-//////////////////////////////////////////////////////////////////////////
-//
-//   gtkAiksaur Icons
-//
-//////////////////////////////////////////////////////////////////////////
-
-const char *AiksaurusGTK::s_forwardIcon[] = {
-"16 16 47 1",
-" 	g None",
-".	g #000000",
-"+	g #0E0E0E",
-"@	g #424242",
-"#	g #141414",
-"$	g #7D7D7D",
-"%	g #444444",
-"&	g #202020",
-"*	g #1F1F1F",
-"=	g #494949",
-"-	g #A9A9A9",
-";	g #6E6E6E",
-">	g #484848",
-",	g #646464",
-"'	g #6D6D6D",
-")	g #797979",
-"!	g #747474",
-"~	g #757575",
-"{	g #787878",
-"]	g #B2B2B2",
-"^	g #464646",
-"/	g #191919",
-"(	g #171717",
-"_	g #8E8E8E",
-":	g #9A9A9A",
-"<	g #AAAAAA",
-"[	g #727272",
-"}	g #111111",
-"|	g #959595",
-"1	g #878787",
-"2	g #A5A5A5",
-"3	g #EAEAEA",
-"4	g #989898",
-"5	g #3F3F3F",
-"6	g #161616",
-"7	g #B0B0B0",
-"8	g #E3E3E3",
-"9	g #FBFBFB",
-"0	g #CCCCCC",
-"a	g #B5B5B5",
-"b	g #FCFCFC",
-"c	g #393939",
-"d	g #3E3E3E",
-"e	g #ECECEC",
-"f	g #404040",
-"g	g #020202",
-"h	g #323232",
-"                ",
-"       .        ",
-"       .+       ",
-"       .@#      ",
-"       .$%#     ",
-"  ..&&*=-;>#    ",
-"  .,')!~{];^/   ",
-"  (_:<<_[{-;>}  ",
-"  (|[[[[[12345  ",
-"  6789801ab4%   ",
-"  @@@@@c2b4d    ",
-"       .e4f     ",
-"       g4@      ",
-"       hd       ",
-"       @        ",
-"                "
-};
-
-
-const char* AiksaurusGTK::s_backIcon[] = {
-"16 16 47 1",
-" 	g None",
-".	g #424242",
-"+	g #3E3E3E",
-"@	g #323232",
-"#	g #989898",
-"$	g #020202",
-"%	g #404040",
-"&	g #ECECEC",
-"*	g #000000",
-"=	g #FCFCFC",
-"-	g #A5A5A5",
-";	g #393939",
-">	g #444444",
-",	g #B5B5B5",
-"'	g #878787",
-")	g #CCCCCC",
-"!	g #E3E3E3",
-"~	g #FBFBFB",
-"{	g #B0B0B0",
-"]	g #161616",
-"^	g #3F3F3F",
-"/	g #EAEAEA",
-"(	g #727272",
-"_	g #959595",
-":	g #171717",
-"<	g #111111",
-"[	g #484848",
-"}	g #6E6E6E",
-"|	g #A9A9A9",
-"1	g #787878",
-"2	g #8E8E8E",
-"3	g #AAAAAA",
-"4	g #9A9A9A",
-"5	g #191919",
-"6	g #464646",
-"7	g #B2B2B2",
-"8	g #757575",
-"9	g #747474",
-"0	g #797979",
-"a	g #6D6D6D",
-"b	g #646464",
-"c	g #141414",
-"d	g #494949",
-"e	g #1F1F1F",
-"f	g #202020",
-"g	g #7D7D7D",
-"h	g #0E0E0E",
-"                ",
-"        .       ",
-"       +@       ",
-"      .#$       ",
-"     %#&*       ",
-"    +#=-;.....  ",
-"   >#=,')!~!{]  ",
-"  ^#/-'(((((_:  ",
-"  <[}|1(23342:  ",
-"   56}71890ab*  ",
-"    c[}|deff**  ",
-"     c>g*       ",
-"      c.*       ",
-"       h*       ",
-"        *       ",
-"                "};
