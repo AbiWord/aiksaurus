@@ -1,0 +1,32 @@
+Kaiksaur Change Log
+--------------------
+
+Version 0.02
+-------------------------------------------------------------------------------
+   Jared Davis:
+
+	Removed unnecessary search.gif.  
+	
+	Changed to aiksaurus-0.08c codebase, which fixed a problemw with words 
+	not always returning the right results and weird characters being 
+	displayed.
+
+	Many many implementation changes.
+
+	Changed tab bar to keep current tab as you jump through words.  For ex,
+	if you search for "foo" and then hit "verbs", then click on "bar", which
+	is one of foo's synonyms, then you will see the results for "bar" but 
+	you will still be on the verbs tab instead of jumping to the noun's tab
+	like it used to.
+	
+	Changed makefile to fix bug with not being able to read data directory.
+	
+
+
+Version 0.01
+-------------------------------------------------------------------------------
+   Jared Davis:	
+	
+	Implemented basic KDE interface.  This is a very buggy program and 
+	the installer sucks.  Come back later.  Based on aiksaurus-0.08b
+	
