@@ -17,7 +17,6 @@ libAiksaurusGTK_la_SOURCES = \
 	AiksaurusGTK_utils.cpp \
 	Display.cpp \
 	Exception.cpp \
-	Icons.cpp \
 	Meaning.cpp \
 	Replacebar.cpp \
 	Toolbar.cpp \
@@ -38,7 +37,6 @@ OTHERHEADERS = \
 	DialogMediator.h \
 	Display.h \
 	Exception.h \
-	Icons.h \
 	Meaning.h \
 	Replacebar.h \
 	Toolbar.h

@@ -50,11 +50,11 @@ class AiksaurusGTK_menudata
 
 //////////////////////////////////////////////////////////////////////////
 //                                                                      //
-//   Creation, Menu Addition, Hover Icon Setting                        //
+//   Creation and Menu Addition                                         //
 //                                                                      //
 //////////////////////////////////////////////////////////////////////////
 
-AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** normal)
+AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char* stock)
 {
 	d_window_ptr = window;
 	d_style_ptr = gtk_widget_get_style(window);
@@ -79,17 +79,7 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 		GTK_CAN_FOCUS
 	);
 	
-	d_normalpixmap_ptr = gdk_pixmap_create_from_xpm_d(
-		d_window_ptr->window,
-		&d_normalmask_ptr,
-		&d_style_ptr->bg[GTK_STATE_NORMAL],
-		(gchar**)normal
-	);
-
-	d_pixmap_ptr = gtk_image_new_from_pixmap(
-		d_normalpixmap_ptr,
-		d_normalmask_ptr
-	);
+	d_pixmap_ptr = gtk_image_new_from_stock(stock,GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 	gtk_widget_show(d_pixmap_ptr);
 	
@@ -97,30 +87,8 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 		GTK_CONTAINER(d_button_ptr),
 		d_pixmap_ptr
 	);
-}
 
-
-AiksaurusGTK_picbutton::~AiksaurusGTK_picbutton()
-{
-    // TO DO: what if this is null?
-    gtk_widget_destroy(d_menu_ptr);
-    
-    if (d_menu_data_ptr != NULL)
-        delete[] d_menu_data_ptr;
-}
-
-
-void
-AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
-{
 	d_hashover = true;
-	
-	d_hoverpixmap_ptr = gdk_pixmap_create_from_xpm_d(
-		d_window_ptr->window,
-		&d_hovermask_ptr,
-		&d_style_ptr->bg[GTK_STATE_NORMAL],
-		(gchar**)hover
-	);
 
 	g_signal_connect(
 		G_OBJECT(d_button_ptr),
@@ -137,8 +105,18 @@ AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
 	);
 
 	handleRelief();
+
 }
 
+
+AiksaurusGTK_picbutton::~AiksaurusGTK_picbutton()
+{
+    // TO DO: what if this is null?
+    gtk_widget_destroy(d_menu_ptr);
+    
+    if (d_menu_data_ptr != NULL)
+        delete[] d_menu_data_ptr;
+}
 
 GtkWidget* 
 AiksaurusGTK_picbutton::getButton()
@@ -235,21 +213,6 @@ AiksaurusGTK_picbutton::handleRelief()
 		if (d_menushowing || d_mouseover)
 		{
 			d_border_state = on;
-
-			gtk_image_set_from_pixmap(
-				GTK_IMAGE(d_pixmap_ptr),
-				d_hoverpixmap_ptr,
-				d_hovermask_ptr
-			);
-		}
-
-		else
-		{
-			gtk_image_set_from_pixmap(
-				GTK_IMAGE(d_pixmap_ptr),
-				d_normalpixmap_ptr,
-				d_normalmask_ptr
-			);
 		}
 	}
 
@@ -396,17 +359,7 @@ AiksaurusGTK_picbutton::addMenu
 		GTK_CAN_FOCUS
 	);
 
-	d_menu_pixmap_ptr = gdk_pixmap_create_from_xpm_d(
-		d_window_ptr->window,
-		&d_menu_mask_ptr,
-		&d_style_ptr->bg[GTK_STATE_NORMAL],
-		(gchar**)s_downArrow
-	);
-
-	d_menu_pixmap_widget_ptr = gtk_image_new_from_pixmap(
-		d_menu_pixmap_ptr,
-		d_menu_mask_ptr
-	);
+	d_menu_pixmap_widget_ptr = gtk_arrow_new(GTK_ARROW_DOWN,GTK_SHADOW_NONE);
 
 	gtk_widget_show(d_menu_pixmap_widget_ptr);
 
@@ -546,33 +499,4 @@ void AiksaurusGTK_picbutton::cbSelectionDone(GtkMenuShell* menushell, gpointer d
 {
 	static_cast<AiksaurusGTK_picbutton*>(data)->selectionDone();
 }
-
-
-
-//////////////////////////////////////////////////////////////////////////
-//                                                                      //
-//   XPM Pictures                                                       //
-//                                                                      //
-//////////////////////////////////////////////////////////////////////////
-
-const char *AiksaurusGTK_picbutton::s_downArrow[]={
-"11 16 2 1",
-"# c #000000",
-". c None",
-"...........",
-"...........",
-"...........",
-"...........",
-"...........",
-"...........",
-"..#######..",
-"...#####...",
-"....###....",
-".....#.....",
-"...........",
-"...........",
-"...........",
-"...........",
-"...........",
-"..........."};
 

@@ -31,11 +31,6 @@ class AiksaurusGTK_picbutton
 {
 	private:
 		
-	// Graphical down arrow for menu buttons
-	
-		static const char* s_downArrow[];
-
-		
 	// Possible button states
 	 
 		bool d_hashover;
@@ -52,16 +47,10 @@ class AiksaurusGTK_picbutton
 		GtkWidget* d_pixmap_ptr;
 		GtkStyle* d_style_ptr;
 
-		GdkPixmap* d_normalpixmap_ptr;
-		GdkBitmap* d_normalmask_ptr;
-		GdkPixmap* d_hoverpixmap_ptr;
-		GdkBitmap* d_hovermask_ptr;
-	
         int d_numVisible;
         
 		GtkWidget* d_menu_ptr;
 		GtkWidget* d_menu_button_ptr;
-		GdkPixmap* d_menu_pixmap_ptr;
 		GdkBitmap* d_menu_mask_ptr;
 		GtkWidget* d_menu_pixmap_widget_ptr;
 	
@@ -109,6 +98,7 @@ class AiksaurusGTK_picbutton
 	// Construction and Destruction
 		
 		AiksaurusGTK_picbutton(GtkWidget *window, const char** normal);
+		AiksaurusGTK_picbutton(GtkWidget *window, const char* stock);
 		~AiksaurusGTK_picbutton();
 		
 		

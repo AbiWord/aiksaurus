@@ -19,7 +19,6 @@
  */
 
 #include "Toolbar.h"
-#include "Icons.h"
 #include "AiksaurusGTK_picbutton.h"
 #include "DialogMediator.h"
 #include <gdk/gdkkeysyms.h>
@@ -39,15 +38,13 @@ namespace AiksaurusGTK_impl
 
         // Create back button and menu
         d_backbutton_box_ptr = gtk_hbox_new(false, 0);
-        d_backbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, Icons::backNormal);
-        d_backbutton_ptr->setHoverPicture(Icons::backHover);
+        d_backbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, GTK_STOCK_GO_BACK);
         d_backbutton_ptr->addMenu(d_history.list_back(), G_CALLBACK(_backMenuClicked), this);
         d_backbutton_ptr->limitVisibleOptions(10);
         _setTooltip(d_backbutton_ptr->getButton(), "Back");
 
         // Create forward button and menu
-        d_forwardbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, Icons::forwardNormal);
-        d_forwardbutton_ptr->setHoverPicture(Icons::forwardHover);
+        d_forwardbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, GTK_STOCK_GO_FORWARD);
         d_forwardbutton_ptr->addMenu(d_history.list_forward(), 
                                      G_CALLBACK(_forwardMenuClicked), this);
         d_forwardbutton_ptr->limitVisibleOptions(10);
@@ -62,8 +59,7 @@ namespace AiksaurusGTK_impl
         _setTooltip(GTK_WIDGET(GTK_COMBO(d_searchbar_ptr)->entry), "Enter word to look up");
 
         // Create search button
-        d_searchbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, Icons::searchNormal);
-        d_searchbutton_ptr->setHoverPicture(Icons::searchHover);
+        d_searchbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, GTK_STOCK_JUMP_TO);
         _setTooltip(d_searchbutton_ptr->getButton(), "Find Synonyms");
 
 
