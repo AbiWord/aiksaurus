@@ -1,3 +1,26 @@
+Version 0.15
+-------------------------------------------------------------------------------
+
+   Jared Davis
+
+     + Reworked Words file architecture to use hash map instead of 
+       binary search, which compresses the data file from 671kb to
+       385kb.  This involved a fair bit of code reworking...
+   
+        - Eliminates FileArray class completely.
+        
+        - Fixed a tiny memory leak in WordsFile::~WordsFile.
+        
+        - Better exception safety in WordsFile constructor.
+        
+        - Better checking of words file to make sure it isn't corrupt.
+     
+     + Standardized copyright notices in headers.
+
+     + Changed caiksaurus.c to be a .cpp file to fix some linking errors
+       when using certain compilers.
+
+        
 Version 0.14
 -------------------------------------------------------------------------------
 

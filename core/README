@@ -21,9 +21,10 @@
     Quick Instructions:        
        	1.  run './configure'   (without the 'quotes')
     	2.  run 'make'
-    	3.  run 'make install-strip'
+    	3.  run 'make install-strip'  (as root)
+        4.  run 'aiksaurus hello' to test the program.
+       
 
-        
     Common Build Problems and Solutions
    
       1.  Thesaurus programs fail on startup with 'cannot open shared 

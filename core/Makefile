@@ -1,3 +1,4 @@
+# Generated automatically from Makefile.in by configure.
 # Makefile.in generated automatically by automake 1.5 from Makefile.am.
 
 # Copyright 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001
@@ -17,7 +18,6 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = .
-
 prefix = /usr
 exec_prefix = ${prefix}
 
@@ -46,7 +46,7 @@ AUTOHEADER = ${SHELL} /opt/abiword/aiksaurus/core/missing --run autoheader
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}
 INSTALL_DATA = ${INSTALL} -m 644
-INSTALL_SCRIPT = ${INSTALL}
+INSTALL_SCRIPT = ${INSTALL_PROGRAM}
 INSTALL_HEADER = $(INSTALL_DATA)
 transform = s,x,x,
 NORMAL_INSTALL = :
@@ -55,21 +55,18 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-host_alias = 
+host_alias = i686-pc-linux-gnu
 host_triplet = i686-pc-linux-gnu
 AIK_CXXFLAGS = -DAIK_DATA_DIR=\"/usr/share/Aiksaurus/\" -DNDEBUG
 AMTAR = ${SHELL} /opt/abiword/aiksaurus/core/missing --run tar
 AS = @AS@
 AWK = mawk
 CC = gcc
-CXX = g++
-CXXCPP = g++ -E
+CXX = c++
 DEPDIR = .deps
 DLLTOOL = @DLLTOOL@
 ECHO = echo
 EXEEXT = 
-GCJ = @GCJ@
-GCJFLAGS = @GCJFLAGS@
 INSTALL_STRIP_PROGRAM = ${SHELL} $(install_sh) -c -s
 LIBTOOL = $(SHELL) $(top_builddir)/libtool
 LN_S = ln -s
@@ -78,7 +75,7 @@ OBJEXT = o
 PACKAGE = Aiksaurus
 RANLIB = ranlib
 STRIP = strip
-VERSION = 0.14
+VERSION = 0.15
 am__include = include
 am__quote = 
 install_sh = /opt/abiword/aiksaurus/core/install-sh
