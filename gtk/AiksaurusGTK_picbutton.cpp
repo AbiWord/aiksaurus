@@ -119,6 +119,11 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 	d_button_ptr = gtk_button_new();
 
 	gtk_widget_show(d_button_ptr);
+
+	GTK_WIDGET_UNSET_FLAGS(
+		d_button_ptr, 
+		GTK_CAN_FOCUS
+	);
 	
 	d_normalpixmap_ptr = gdk_pixmap_create_from_xpm_d(
 		d_window_ptr->window,
