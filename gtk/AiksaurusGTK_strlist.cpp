@@ -164,6 +164,8 @@ AiksaurusGTK_strlist::clear()
 	g_list_free(d_front_ptr);
 
 	d_front_ptr = d_back_ptr = NULL;
+
+    d_size = 0;
 }
 
 
