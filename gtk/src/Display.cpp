@@ -38,7 +38,7 @@ namespace AiksaurusGTK_impl
         // an initial size (the usize call) so that it won't start
         // out all squnched together.  
         d_scroller = gtk_scrolled_window_new(0, 0);
-        gtk_widget_set_usize(d_scroller, 360, 240);
+        gtk_widget_set_size_request(d_scroller, 360, 240);
         gtk_scrolled_window_set_policy(
             GTK_SCROLLED_WINDOW(d_scroller), 
             GTK_POLICY_NEVER,       // no horizontal scrollbar.

@@ -23,8 +23,8 @@ namespace AiksaurusGTK_impl
             GtkWidget* d_subLayout;
             GtkWidget* d_label;
         
-            static gint _wordclick(GtkCList* l, gint row, gint col, 
-                    GdkEventButton *e, gpointer data) throw(std::bad_alloc);
+            static gint _wordclick(GtkWidget* l, gint row, gint col, 
+				   GdkEventButton *e, gpointer data) throw(std::bad_alloc);
 
         public:
        

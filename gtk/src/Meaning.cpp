@@ -1,3 +1,6 @@
+// only for clist. todo: use treeview
+#undef GTK_DISABLE_DEPRECATED
+
 #include "Meaning.h"
 #include "Display.h"
 #include <cctype>  
@@ -138,14 +141,14 @@ namespace AiksaurusGTK_impl
 
 
     gint Meaning::_wordclick
-    (GtkCList* list, gint row, gint col, GdkEventButton *e, gpointer data)
+    (GtkWidget* list, gint row, gint col, GdkEventButton *e, gpointer data)
     throw(std::bad_alloc)
     {
         Meaning *m = static_cast<Meaning*>(data);
         m->d_display._handleSelection(GTK_WIDGET(list));
 
         char* text;    
-        gtk_clist_get_text(list, row, 0, &text);
+        gtk_clist_get_text(GTK_CLIST(list), row, 0, &text);
         m->d_display._handleClick((e->type == GDK_2BUTTON_PRESS), text);
 
         return 0;

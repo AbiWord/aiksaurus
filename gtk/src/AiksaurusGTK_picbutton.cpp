@@ -86,7 +86,7 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 		(gchar**)normal
 	);
 
-	d_pixmap_ptr = gtk_pixmap_new(
+	d_pixmap_ptr = gtk_image_new_from_pixmap(
 		d_normalpixmap_ptr,
 		d_normalmask_ptr
 	);
@@ -236,8 +236,8 @@ AiksaurusGTK_picbutton::handleRelief()
 		{
 			d_border_state = on;
 
-			gtk_pixmap_set(
-				GTK_PIXMAP(d_pixmap_ptr),
+			gtk_image_set_from_pixmap(
+				GTK_IMAGE(d_pixmap_ptr),
 				d_hoverpixmap_ptr,
 				d_hovermask_ptr
 			);
@@ -245,8 +245,8 @@ AiksaurusGTK_picbutton::handleRelief()
 
 		else
 		{
-			gtk_pixmap_set(
-				GTK_PIXMAP(d_pixmap_ptr),
+			gtk_image_set_from_pixmap(
+				GTK_IMAGE(d_pixmap_ptr),
 				d_normalpixmap_ptr,
 				d_normalmask_ptr
 			);
@@ -403,7 +403,7 @@ AiksaurusGTK_picbutton::addMenu
 		(gchar**)s_downArrow
 	);
 
-	d_menu_pixmap_widget_ptr = gtk_pixmap_new(
+	d_menu_pixmap_widget_ptr = gtk_image_new_from_pixmap(
 		d_menu_pixmap_ptr,
 		d_menu_mask_ptr
 	);
@@ -501,7 +501,7 @@ AiksaurusGTK_picbutton::updateMenuOptions()
 
         gtk_widget_show(option);
 
-        gtk_menu_append(GTK_MENU(d_menu_ptr), option);
+        gtk_menu_shell_append (GTK_MENU_SHELL(d_menu_ptr), option);
 
         g_signal_connect(
             G_OBJECT(option),
