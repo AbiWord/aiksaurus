@@ -77,10 +77,9 @@ class AiksaurusGTK
 		  GtkWidget* d_searchbar_label_ptr;
 		  AiksaurusGTK_histlist d_searchbar_words;
 		  
-		  
-
 		// The lower replacement/ok/cancel bar and associated widgets.
 		GtkWidget *d_replacebar_ptr;
+		  GtkWidget *d_replacebutton_holder_ptr;
 		  GtkWidget *d_replacebutton_ptr;
 		  GtkWidget *d_replacebutton_label_ptr;
 		  GtkWidget *d_cancelbutton_ptr;
@@ -88,6 +87,7 @@ class AiksaurusGTK
 		  GtkWidget *d_replacewith_label_ptr;
 		  GtkWidget *d_replacewith_ptr;
 
+		GtkTooltips *d_tooltips_ptr;
 	
 		  
 	// Creation and Destruction.
@@ -97,6 +97,8 @@ class AiksaurusGTK
 		
 		friend const char* ActivateThesaurus(const char* search);
 
+	
+		void setTooltip(GtkWidget* w, const char* str);
 		
 		
 	// GUI Initialization Routines
@@ -306,6 +308,8 @@ void AiksaurusGTK::appendSearchText(const char* str)
 
 void AiksaurusGTK::createWindow()
 {
+	d_tooltips_ptr = gtk_tooltips_new();
+	
 	d_window_ptr = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
 	gtk_window_set_title(
@@ -364,8 +368,18 @@ void AiksaurusGTK::createReplacebar()
 	);
 
 	createReplaceentry();
-	createCancelbutton();
+	
+	d_replacebutton_holder_ptr = gtk_hbox_new(true, 4);
+	gtk_box_pack_end(
+		GTK_BOX(d_replacebar_ptr),
+		d_replacebutton_holder_ptr,
+		false,
+		false,
+		5
+	);
+	
 	createReplacebutton();
+	createCancelbutton();
 }
 
 
@@ -395,19 +409,19 @@ void AiksaurusGTK::createReplaceentry()
 void AiksaurusGTK::createReplacebutton()
 {
 	d_replacebutton_ptr = gtk_button_new();
-	d_replacebutton_label_ptr = gtk_label_new("Replace");
+	d_replacebutton_label_ptr = gtk_label_new("  Replace  ");
 
 	gtk_container_add(
 		GTK_CONTAINER(d_replacebutton_ptr),
 		d_replacebutton_label_ptr
 	);
 
-	gtk_box_pack_end(
-		GTK_BOX(d_replacebar_ptr),
+	gtk_box_pack_start(
+		GTK_BOX(d_replacebutton_holder_ptr),
 		d_replacebutton_ptr,
-		false,
-		false,
-		2
+		true,
+		true,
+		0
 	);
 
 	gtk_signal_connect(
@@ -422,31 +436,43 @@ void AiksaurusGTK::createCancelbutton()
 {
 	d_cancelbutton_ptr = gtk_button_new();
 	d_cancelbutton_label_ptr = gtk_label_new("Cancel");
-
-	gtk_container_add(
-		GTK_CONTAINER(d_cancelbutton_ptr),
-		d_cancelbutton_label_ptr
-	);
 	
-	gtk_box_pack_end(
-		GTK_BOX(d_replacebar_ptr),
-		d_cancelbutton_ptr,
-		false,
-		false,
-		5	
-	);
-
 	gtk_signal_connect(
 		GTK_OBJECT(d_cancelbutton_ptr),
 		"clicked",
 		GTK_SIGNAL_FUNC(cbCancel),
 		d_cancelbutton_label_ptr	
 	);
+
+	gtk_container_add(
+		GTK_CONTAINER(d_cancelbutton_ptr),
+		d_cancelbutton_label_ptr
+	);
+	
+	gtk_box_pack_start(
+		GTK_BOX(d_replacebutton_holder_ptr),
+		d_cancelbutton_ptr,
+		true,
+		true,
+		0	
+	);
+}
+
+void AiksaurusGTK::setTooltip(GtkWidget* widget, const char* str)
+{
+	gtk_tooltips_set_tip(
+		d_tooltips_ptr,
+		widget,
+		str,
+		NULL
+	);
 }
 
 void AiksaurusGTK::createBackbutton()
 {
 	d_backbutton_ptr = gtk_button_new();
+
+	setTooltip(d_backbutton_ptr, "Returns to Previous Search");
 
 #if 1
 	GdkBitmap *mask = 0;
@@ -502,6 +528,9 @@ void AiksaurusGTK::createBackbutton()
 void AiksaurusGTK::createForwardbutton()
 {
 	d_forwardbutton_ptr = gtk_button_new();
+
+	setTooltip(d_forwardbutton_ptr, "Advances to Next Search");
+	
 	d_forwardbutton_label_ptr = gtk_label_new("Forward");
 	
 	gtk_container_add(
