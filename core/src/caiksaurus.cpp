@@ -29,6 +29,7 @@
 #include "AiksaurusC.h"
 #include "config.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <malloc.h>
 #include <string.h>
 
