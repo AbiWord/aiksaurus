@@ -157,7 +157,6 @@ AC_CONFIG_FILES([
 	Makefile
 	base/aiksaurus-1.0.pc
 	base/Makefile
-	base/Makefile
 	gtk/gaiksaurus-1.0.pc
 	gtk/Makefile
 	gtk/src/Makefile
