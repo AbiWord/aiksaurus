@@ -23,10 +23,12 @@
 #ifndef INCLUDED_AIKSAURUS_ASCIICOMPARE_H
 #define INCLUDED_AIKSAURUS_ASCIICOMPARE_H
 
+#include "Aiksaurus.h"
+
 namespace AiksaurusImpl
 {
     // why oh why can't strcasecmp be standard...
-	int AsciiCompare(const char* lhs, const char* rhs);
+	AIKEXPORT int AsciiCompare(const char* lhs, const char* rhs);
 }
 
 #endif // INCLUDED_AIKSAURUS_ASCIICOMPARE_H
