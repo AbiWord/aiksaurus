@@ -1,0 +1,47 @@
+Name: @PACKAGE@
+Version: @VERSION@
+Release: 1
+Summary: An English-language thesaurus library.
+License: GPL
+Group: System Environment/Libraries
+Source: @PACKAGE@-@VERSION@.tar.gz
+BuildRoot: /var/tmp/%{name}-buildroot
+Prefix: /usr
+
+%description
+Aiksaurus is an English-language thesaurus library that can be 
+embedded in word processors, email composers, and other authoring
+software to provide thesaurus capabilities.  A basic command line 
+thesaurus program is also included.
+
+Install Aiksaurus if you want to have a thesaurus available on 
+your computer.
+
+%prep
+%setup
+%build
+./configure --prefix=%{prefix}
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT
+make install-strip DESTDIR=$RPM_BUILD_ROOT
+
+%post
+/sbin/ldconfig
+
+%postun
+/sbin/ldconfig
+
+%files
+%doc CHANGES ChangeLog README COPYING AUTHORS
+%defattr(-, root, root)
+%{prefix}/bin/aiksaurus
+%{prefix}/bin/caiksaurus
+%{prefix}/lib/lib@PACKAGE@.a
+%{prefix}/lib/lib@PACKAGE@.so.0.@VERSION@
+%{prefix}/share/Aiksaurus/words.dat
+%{prefix}/share/Aiksaurus/meanings.dat
+%{prefix}/include/Aiksaurus.h
+%{prefix}/include/AiksaurusC.h
