@@ -53,6 +53,8 @@ namespace AiksaurusImpl
         public:
        		
             Aiksaurus() throw();
+            Aiksaurus(const char * path_meanings, const char * path_words) throw();
+
             ~Aiksaurus() throw();
             
             // word(): returns current word that is being

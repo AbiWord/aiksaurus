@@ -274,6 +274,23 @@ Aiksaurus::Aiksaurus() throw()
     }
 }
 
+Aiksaurus::Aiksaurus(const char * path_meanings, const char * path_words) throw()
+: d_impl_ptr(0), d_error(EMPTY_STRING)
+{
+    try
+    {
+        d_impl_ptr = new ThesaurusImpl(path_meanings,path_words);
+    }
+    catch(std::bad_alloc)
+    {
+        d_error = AiksaurusException::MemoryError;
+    }
+    catch(AiksaurusException& e)
+    {
+        d_error = e.getDescription();
+    }
+}
+
 
 Aiksaurus::~Aiksaurus() throw()
 {
