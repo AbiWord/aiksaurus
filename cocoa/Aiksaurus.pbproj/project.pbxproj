@@ -250,6 +250,7 @@
 		};
 		08FB77AEFE84172EC02AAC07 = {
 			children = (
+				30B841FD045E8BA400A738B5,
 				30C82981045D967400A738B5,
 			);
 			isa = PBXGroup;
@@ -311,6 +312,41 @@
 //302
 //303
 //304
+		30B841F9045E8B8100A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusCocoaMain.h;
+			path = app/AiksaurusCocoaMain.h;
+			refType = 4;
+		};
+		30B841FA045E8B8100A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusCocoaMain.m;
+			path = app/AiksaurusCocoaMain.m;
+			refType = 4;
+		};
+		30B841FB045E8B8300A738B5 = {
+			fileRef = 30B841F9045E8B8100A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30B841FC045E8B8300A738B5 = {
+			fileRef = 30B841FA045E8B8100A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30B841FD045E8BA400A738B5 = {
+			children = (
+				30B841F9045E8B8100A738B5,
+				30B841FA045E8B8100A738B5,
+			);
+			isa = PBXGroup;
+			name = app;
+			refType = 4;
+		};
 		30C8295B045D809500A738B5 = {
 			isa = PBXFileReference;
 			path = AikSaurus.icns;
@@ -562,6 +598,7 @@
 		30C82986045D9E3400A738B5 = {
 			buildActionMask = 2147483647;
 			files = (
+				30B841FB045E8B8300A738B5,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -580,6 +617,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				30C8298E045D9E7800A738B5,
+				30B841FC045E8B8300A738B5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -607,7 +645,6 @@
 				30C8298A045D9E3400A738B5,
 			);
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
