@@ -29,4 +29,32 @@
        The string terminator '\0' is included in the copy.
        
 
-       
+    char* 
+    AiksaurusGTK_intToString(int x)
+
+       Creates a string from an integer.  The string is a 
+       base-10 representation of the integer.  On a memory
+       alloc error, it will return NULL.
+
+       Note that the string it returns should be deleted 
+       with delete[].  This is the responsibility of the 
+       caller.
+
+       The string terminator '\0' is included in the string
+       representation.
+
+
+    char* 
+    AiksaurusGTK_strConcat(const char* a, const char* b)
+
+       Creates a string which merges two strings, or NULL
+       on a memory allocation error.
+
+       Note taht the string should be deleted with delete[].  
+       This is the responsibility of the caller.
+
+       The string terminator '\0' is included in the 
+       concatenation.
+
+
+
