@@ -362,12 +362,16 @@ AiksaurusGTK_picbutton::cbMenuActivate(GtkMenuItem* item, gpointer data)
 //     void callback(GList* entry, gpointer data) 
 //  where 'data' is user-data send to addMenu function.
 //
+typedef void (*AikCallbackFn)(gpointer, gpointer);
+
 void
 AiksaurusGTK_picbutton::menuActivate(gpointer item)
 {
     AiksaurusGTK_menudata* data = static_cast<AiksaurusGTK_menudata*>(item);
     selectionDone();
-    d_onclick_function(data->d_glist_ptr, d_onclick_data);
+
+    AikCallbackFn f = (AikCallbackFn)d_onclick_function;
+    f(data->d_glist_ptr, d_onclick_data);
 }
 
 
