@@ -6,7 +6,8 @@ License: GPL
 Group: System Environment/Libraries
 Source: @PACKAGE@-@VERSION@.tar.gz
 BuildRoot: /var/tmp/%{name}-buildroot
-Prefix: /usr
+Requires: Aiksaurus
+BuildRequires: Aiksaurus
 
 %description
 AiksaurusGTK is a GTK+ interface to the Aiksaurus library.  
@@ -17,7 +18,7 @@ is also provided.
 %prep
 %setup
 %build
-./configure --prefix=%{prefix}
+./configure --prefix=%{_prefix}
 make
 
 %install
@@ -32,12 +33,9 @@ make install-strip DESTDIR=$RPM_BUILD_ROOT
 /sbin/ldconfig
 
 %files
+%attr(0755, root, root) %{_bindir}/*
+%defattr(0644, root, root, 0755)
 %doc CHANGES ChangeLog README COPYING AUTHORS
-%defattr(-, root, root)
-%{prefix}/bin/AiksaurusGTK
-%{prefix}/include/AiksaurusGTK.h
-%{prefix}/include/AiksaurusGTK-C.h
-%{prefix}/lib/lib@PACKAGE@.a
-#%{prefix}/lib/lib@PACKAGE@.so.0.@VERSION@
-%{prefix}/lib/lib@PACKAGE@.so.0.0.14
+%{_includedir}/*
+%{_libdir}/*
 
