@@ -202,6 +202,11 @@ void AiksaurusGTK::createWordlist()
 	);
 	
 	d_wordlist_ptr = gtk_clist_new(1);
+	gtk_widget_set_usize(
+		d_wordlist_ptr, 
+		350,
+		300
+	);
 	
 	gtk_container_add(
 		GTK_CONTAINER(d_wordlist_scroller_ptr),
