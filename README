@@ -1,0 +1,32 @@
+Welcome to Aiksaurus CVS
+Generously hosted by AbiWord (www.abiword.com)
+
+Relevant Directories:
+
+   core/
+     Contains Aiksaurus Core Library. 
+
+   gtk/
+     Contains AiksaurusGTK interface library.
+
+   php/
+     Contains phpAiksaur web scripts.
+
+   kde/
+     Contains AiksaurusKDE interface library.
+
+
+If you want to do work on the thesaurus data, i.e. add synonyms or 
+so forth, please visit 
+
+   http://www.aiksaurus.com/developer/datatools/
+
+The data tools are very large so I've kept them out of CVS.
+
+
+Feel free to contact me with any questions!  I'd love to hear about 
+what you're working on.
+
+    Jared Davis
+    jared@aiksaurus.com
+   
