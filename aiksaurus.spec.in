@@ -61,7 +61,7 @@ is also provided.
 %defattr(0755, root, root)
 %{_bindir}/gaiksaurus
 %defattr(0644, root, root, 0755)
-%doc CHANGES ChangeLog README COPYING AUTHORS
+%doc ChangeLog README COPYING AUTHORS
 %{_includedir}/Aiksaurus/AiksaurusGTK*.h
 %{_libdir}/*GTK*
 
