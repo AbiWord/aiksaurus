@@ -1,30 +1,9 @@
 
-  AiksaurusGTK Programmer's Readme
-------------------------------------------------------------------
+  AiksaurusGTK.h and AiksaurusGTK.cpp
+  -----------------------------------
 
-  
-  Relevant Files
-  ==============================================================
+    These files actually implement the thesaurus dialog.  
 
-   Each source file here contains a .Readme file, which 
-   describes what it's supposed to do.  You're advised to spend
-   the five minutes and go through these files before you try
-   to start hacking on this.  
+    The dialog class is entirely hidden behind a couple of simple functions,
+    so it should be very easy to embed.
 
-
-     AiksaurusGTK_utils
-       Just contains a couple of utility string functions.
-
-
-     AiksaurusGTK_strlist
-       Provides a simpler interface to a GList of strings. 
-       Used primarily by AiksaurusGTK_histlist.
-
-
-     AiksaurusGTK_histlist
-       Manages the items in the "search" drop-down box so 
-       that the main class doesn't need to.
-
-  
-     AiksaurusGTK_icons
-       XPM icons for the program.
