@@ -25,7 +25,9 @@
 #include "fv_View.h"
 #include "ev_Menu_Actions.h"
 #include "ap_Menu_Id.h"
-
+#include "ev_Menu.h"
+#include "ev_Menu_Layouts.h"
+#include "ev_Menu_Labels.h"
 
 #include <iostream>
 using namespace std;
@@ -39,6 +41,11 @@ void AiksaurusABI_invoke();
 // -----------------------------------------------------------------------
 
 static EV_Menu_Action* ThesaurusAction = NULL;
+static EV_Menu_LayoutItem* ThesaurusLayoutItem = NULL;
+static EV_Menu_Label* ThesaurusLabel = NULL;
+
+// to do: figure out a real id to use here.
+static XAP_Menu_Id ThesaurusID = AP_MENU_ID__BOGUS2__ + 3;
 
 ABI_FAR extern "C"
 int abi_plugin_register (XAP_ModuleInfo * mi)
@@ -52,15 +59,27 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
     
     AiksaurusGTK_setTitle("AbiWord Thesaurus");
 
-    // add elements to menu.
-    XAP_App* pApp = XAP_App::getApp();
-    EV_Menu_ActionSet* pActions = pApp->getMenuActionSet();
-
+    if (ThesaurusLabel == NULL)
+    {
+        ThesaurusLabel = new EV_Menu_Label(
+            ThesaurusID,
+            "/&Plugins/Thesaurus",
+            "Activate Thesaurus Dialog"       
+        );
+    }
+    
+    if (ThesaurusLayoutItem == NULL)
+    {
+        ThesaurusLayoutItem = new EV_Menu_LayoutItem(
+            ThesaurusID,
+            EV_MLF_Normal
+        );
+    }
     
     if (ThesaurusAction == NULL)
     {
-        EV_Menu_Action* ThesaurusAction = new EV_Menu_Action(
-            AP_MENU_ID__BOGUS2__ + 3, // to do: figure out a real id to use.
+        ThesaurusAction = new EV_Menu_Action(
+            ThesaurusID,
             0, // no sub menu
             1, // yes raises dialog
             0, // no not checkable
@@ -68,10 +87,6 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
             NULL,
             NULL    
         );
-        
-        pActions->addAction(ThesaurusAction);
-    
-    
     }
     
     return 1;
