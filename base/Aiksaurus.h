@@ -36,6 +36,8 @@
 	#define AIKEXPORT
 #endif
 
+#include <string>
+
 namespace AiksaurusImpl
 {
     class ThesaurusImpl;
@@ -48,7 +50,7 @@ namespace AiksaurusImpl
             Aiksaurus& operator=(const Aiksaurus& rhs);
             
             ThesaurusImpl *d_impl_ptr;
-            const char* d_error; 
+	    std::string d_error; 
             
         public:
        		

@@ -310,7 +310,7 @@ Aiksaurus::word() const throw()
 const char* 
 Aiksaurus::error() const throw()
 {
-    return d_error;
+    return d_error.c_str();
 }
 
 
