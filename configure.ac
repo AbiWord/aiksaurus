@@ -129,6 +129,22 @@ AC_SUBST(GTK_DEFS)
 
 AM_CONDITIONAL(AIK_FE_GTK,[test $aik_fe_gtk = yes])
 
+dnl ===========================================================================
+
+#AC_CANONICAL_HOST
+
+AC_MSG_CHECKING([for some Win32 platform])
+case "$host" in
+  *-*-mingw*|*-*-cygwin*)
+    platform_win32=yes
+    ;;
+  *)
+    platform_win32=no
+    ;;
+esac
+AC_MSG_RESULT([$platform_win32])
+AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
+
 # ========================================================================
 
 AH_BOTTOM([

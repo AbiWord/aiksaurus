@@ -5,6 +5,7 @@ AM_CPPFLAGS = -DAIK_DATA_DIR=\"$(pkgdatadir)/\"
 lib_LTLIBRARIES = libAiksaurus.la
 
 libAiksaurus_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_AIK_VERSION_INFO) -export-dynamic
+libAiksaurus_la_LIBADD = 
 
 libAiksaurus_la_SOURCES = \
 	Aiksaurus.cpp \
