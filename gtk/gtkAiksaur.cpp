@@ -32,6 +32,13 @@
 using namespace std;
 
 
+void AiksaurusGTK_memoryExhausted()
+{
+	cout << "Out of memory." << endl;
+	// TO DO: handle this somehow.
+}
+
+
 
 //
 // AiksaurusGTK Class 
@@ -58,7 +65,6 @@ class AiksaurusGTK
 	
 		static AiksaurusGTK* s_instance;
 		static char* s_replacement;
-
 		
 		
 	// Callback functions.   
@@ -91,6 +97,7 @@ class AiksaurusGTK
 		  GtkWidget* d_wordlist_scroller_ptr;
 		  GtkWidget* d_wordlist_label_box_ptr;
 		  GtkWidget* d_wordlist_label_ptr;
+		  char* d_wordlist_label_text_ptr;
 		  
 		// The main toolbar and its associated widgets
 		GtkWidget* d_toolbar_ptr;
@@ -148,7 +155,7 @@ class AiksaurusGTK
 
 		const char* getSearchText();
 		void appendSearchText(const char* str);
-
+		
 		
 	// Manipulation Functions
 		
@@ -159,7 +166,63 @@ class AiksaurusGTK
 		{
 			return d_originalword_ptr;
 		}
+
+		void updateWordlistLabel(int count);
 };
+
+
+void AiksaurusGTK::updateWordlistLabel(int count)
+{
+	static const char* space = "  ";
+	static const char* nosyns_1 = "  No synonyms found for ";
+	static const char* nosyns_2 = ".  Nearby words are:";
+	static const char* xfound = " synonyms found for ";
+	static const char* colon = ":";
+
+	if (d_wordlist_label_text_ptr)
+	{
+		delete[] d_wordlist_label_text_ptr;
+		d_wordlist_label_text_ptr = NULL;
+	}
+	
+	if (count == 0)
+	{
+		char* s1 = AiksaurusGTK_strConcat(nosyns_1, d_aiksaurus_ptr->word());
+		if (!s1) AiksaurusGTK_memoryExhausted();
+
+		d_wordlist_label_text_ptr = AiksaurusGTK_strConcat(s1, nosyns_2);
+		delete[] s1;
+	}
+	
+	else
+	{	
+		char* s0 = AiksaurusGTK_intToString(count);
+		if (!s0) AiksaurusGTK_memoryExhausted();
+
+		char* s1 = AiksaurusGTK_strConcat(space, s0);
+		if (!s1) AiksaurusGTK_memoryExhausted();
+		delete[] s0;
+		
+		char* s2 = AiksaurusGTK_strConcat(s1, xfound);
+		if (!s2) AiksaurusGTK_memoryExhausted();
+		delete[] s1;
+		
+		char* s3 = AiksaurusGTK_strConcat(s2, d_aiksaurus_ptr->word());
+		if (!s3) AiksaurusGTK_memoryExhausted();
+		delete[] s2;
+		
+		d_wordlist_label_text_ptr = AiksaurusGTK_strConcat(s3, colon);
+		delete[] s3;
+	}
+	
+	if (!d_wordlist_label_ptr) 
+		AiksaurusGTK_memoryExhausted();
+
+	gtk_label_set_text(
+		GTK_LABEL(d_wordlist_label_ptr),
+		d_wordlist_label_text_ptr
+	);
+}
 
 
 AiksaurusGTK* AiksaurusGTK::s_instance = NULL;
@@ -208,6 +271,8 @@ const char* ActivateThesaurus(const char* search)
 AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 : d_searchbar_words(12)
 {
+	d_wordlist_label_text_ptr = NULL;
+	
 	d_window_destroyed = false;
 	
 	if (search == 0)
@@ -233,6 +298,9 @@ AiksaurusGTK::~AiksaurusGTK()
 
 	if (!d_window_destroyed)
 		gtk_widget_destroy(d_window_ptr);
+
+	if (d_wordlist_label_text_ptr)
+		delete[] d_wordlist_label_text_ptr;
 }
 
 
@@ -248,7 +316,7 @@ void AiksaurusGTK::createWordlist()
 		0
 	);
 	
-	d_wordlist_label_ptr = gtk_label_new("  X Results Found for Word");
+	d_wordlist_label_ptr = gtk_label_new("  Abiword Thesaurus");
 
 	gtk_label_set_justify(
 		GTK_LABEL(d_wordlist_label_ptr),
@@ -346,7 +414,7 @@ void AiksaurusGTK::performSearch()
 		}
 	}
 
-	cout << d_aiksaurus_ptr->count() << " results." << endl;
+	updateWordlistLabel(d_aiksaurus_ptr->count());
 		
 	gtk_clist_thaw(
 		GTK_CLIST(d_wordlist_ptr)

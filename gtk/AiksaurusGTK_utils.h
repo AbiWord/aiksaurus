@@ -18,6 +18,7 @@
  * 02111-1307, USA.
  */
 
+
 #ifndef INCLUDED_JARED_GPL_AIKSAURUSGTK_UTILS_H
 #define INCLUDED_JARED_GPL_AIKSAURUSGTK_UTILS_H
 
@@ -34,17 +35,30 @@ bool AiksaurusGTK_strEquals(const char* lhs, const char* rhs);
 // --------------------
 //   Creates a copy of the string str.  This copy must be 
 //   delete[]'d by the caller, so use this function carefully.
+//   Returns NULL on memory alloc error.
 //   
 char* AiksaurusGTK_strCopy(const char* str);
 
 
 //
-// AiksaurusGTK_intToString(int x)
-// -------------------------------
+// AiksaurusGTK_intToString
+// ------------------------
 //   Creates a string from an integer.  This copy must be 
 //   delete[]'d by the caller, so use this function carefully.
+//   Returns NULL on memory alloc error.
 //   
 char* AiksaurusGTK_intToString(int x);
+
+
+//
+// AiksaurusGTK_strConcat
+// ----------------------
+//   Creates a string by merging two strings.  The new string
+//   must be delete[]'d by the caller, so use this function
+//   carefully.
+//   Returns NULL on memory alloc error.
+//   
+char* AiksaurusGTK_strConcat(const char* a, const char* b);
 
 
 #endif // INCLUDED_JARED_GPL_AIKSAURUSGTK_UTILS_H

@@ -142,3 +142,32 @@ char* AiksaurusGTK_intToString(int x)
 	return ret;
 }
 
+
+char* AiksaurusGTK_strConcat(const char* a, const char* b)
+{
+	int len_a = strlen(a);
+	int len_b = strlen(b);
+
+	char* ret = new(nothrow) char[len_a + len_b + 1];
+
+	if (!ret)
+		return ret;
+
+	register int i = 0;
+	
+	while(i < len_a)
+	{
+		ret[i] = a[i];
+		++i;
+	}
+	
+	while(i < len_b + len_a)
+	{
+		ret[i] = b[i - len_a];
+		++i;
+	}
+	
+	ret[len_a + len_b] = '\0';
+
+	return ret;
+}

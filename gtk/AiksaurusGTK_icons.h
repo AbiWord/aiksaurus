@@ -31,8 +31,6 @@ class AiksaurusGTK_icons
 	static const char* s_forwardNormal[];
 	static const char* s_forwardHover[];
 
-	static const char* s_down[];
-
 	static const char* s_searchNormal[];
 	static const char* s_searchHover[];
 };

@@ -13,5 +13,14 @@ int main()
 	
 	cout << "String is: \n|" << y << "|" << endl;
 	
+	cout << "Enter string: " << flush;
+	string a; cin >> a;
+
+	char* foo = AiksaurusGTK_strConcat(a.c_str(), y);
+	cout << "foo is " << foo << endl;
+
+	delete[] y;
+	delete[] foo;
+	
 	return 0;
 }
