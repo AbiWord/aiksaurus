@@ -47,6 +47,12 @@ int main()
     cout << "Creating output file...\n" << flush;
     ofstream out(ofile.c_str());
 
+    cout << "[";
+    for(unsigned int i = 0;i <= meanings.size() / 100;++i)
+       cout << '-';
+    cout << "]" << endl; 
+
+    cout << '[';
     for(unsigned int x = 0;x < meanings.size();++x)
     {
         if ((x % 100) == 0)
@@ -68,7 +74,8 @@ int main()
 
         out << NEWLINE;
     }    
-   
+    cout << ']';
+    
     cout << endl; 
     return 0;
 }

@@ -47,7 +47,7 @@ int main(int argc, const char** argv)
 
 				if ((i % 16) == 15)
 				{
-					cout << endl;
+					cout << "  (" << dec << i << ")" <<  endl;
 				}
 			}
 		}

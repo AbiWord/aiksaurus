@@ -32,10 +32,11 @@ int main()
         if (word.size() > static_cast<unsigned int>(maxchars))
             continue;
 
-        while(word.size() < maxchars)
-            word += ' ';
-        
         out << word;
+        for(int i = 0;i < ( maxchars - word.size() );++i)
+        {
+            out << static_cast<unsigned char>(0);
+        }
 
         int i = 0, x;
         for(;(i < maxlinks) && (ss >> x);++i)
