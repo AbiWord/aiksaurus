@@ -25,6 +25,8 @@
 
 - (void)awakeFromNib
 {
+	NSSize size;
+
 	m_aiksaurus = [[AiksaurusCocoa alloc] init];
 
 	if (m_aiksaurus)
@@ -35,6 +37,7 @@
 					[oStatus setStringValue:@"Yay! Give me a word, please..."];
 
 					[oResultsTable setDataSource:m_aiksaurus];
+					[oResultsTable setDelegate:m_aiksaurus];
 				}
 			else
 				{
@@ -49,6 +52,11 @@
 		}
 	if ([oHistory numberOfItems])
 		[oHistory removeAllItems];
+
+	size.width  = 0;
+	size.height = 1;
+
+	[oResultsTable setIntercellSpacing:size];
 
 	[self sync];
 }
@@ -126,6 +134,9 @@
 
 - (IBAction)aResultsTable:(id)sender
 {
+	[m_aiksaurus clickColumn:[oResultsTable clickedColumn] atRow:[oResultsTable clickedRow]];
+
+	[oResultsTable reloadData];
 }
 
 - (IBAction)aSearch:(id)sender

@@ -11,14 +11,14 @@
 			30C8298D045D9E3400A738B5,
 		);
 		perUserDictionary = {
-			PBXPerProjectTemplateStateSaveDate = 73558400;
+			PBXPerProjectTemplateStateSaveDate = 73574422;
 			PBXWorkspaceContents = (
 				{
 					LeftSlideOut = {
 						Split0 = {
 							Split0 = {
 								NavContent0 = {
-									bookmark = 30B0813E0462986800A738B5;
+									bookmark = 30000DD7046301F600A738B5;
 									history = (
 										30C8299C045DA80000A738B5,
 										30C8299D045DA80000A738B5,
@@ -47,7 +47,7 @@
 										30C4BDE3045F113700A738B5,
 										309F845A0462693600A738B5,
 										30B0813C0462986800A738B5,
-										309F84590462693600A738B5,
+										30B0813E0462986800A738B5,
 									);
 									prevStack = (
 										30C829AD045DA80000A738B5,
@@ -283,16 +283,16 @@
 					WindowLocation = "{0, 4}";
 				},
 			);
-			PBXWorkspaceStateSaveDate = 73558400;
+			PBXWorkspaceStateSaveDate = 73574422;
 		};
 		perUserProjectItems = {
+			30000DD7046301F600A738B5 = 30000DD7046301F600A738B5;
 			307ABAA6045E8FB200A738B5 = 307ABAA6045E8FB200A738B5;
 			307ABAA7045E8FB200A738B5 = 307ABAA7045E8FB200A738B5;
 			307ABAA8045E8FB200A738B5 = 307ABAA8045E8FB200A738B5;
 			307ABAA9045E8FB200A738B5 = 307ABAA9045E8FB200A738B5;
 			307ABAAA045E8FB200A738B5 = 307ABAAA045E8FB200A738B5;
 			307ABAAB045E8FB200A738B5 = 307ABAAB045E8FB200A738B5;
-			309F84590462693600A738B5 = 309F84590462693600A738B5;
 			309F845A0462693600A738B5 = 309F845A0462693600A738B5;
 			309F845B0462693600A738B5 = 309F845B0462693600A738B5;
 			309F845C0462693600A738B5 = 309F845C0462693600A738B5;
@@ -388,6 +388,10 @@
 	0867D69CFE84028FC02AAC07 = {
 		activeExec = 0;
 	};
+	30000DD7046301F600A738B5 = {
+		fRef = 30C8295B045D809500A738B5;
+		isa = PBXBookmark;
+	};
 	307ABAA6045E8FB200A738B5 = {
 		fRef = 08FB77B4FE84181DC02AAC07;
 		isa = PBXTextBookmark;
@@ -448,10 +452,6 @@
 		vrLen = 340;
 		vrLoc = 940;
 	};
-	309F84590462693600A738B5 = {
-		fRef = 30C8295B045D809500A738B5;
-		isa = PBXBookmark;
-	};
 	309F845A0462693600A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 0867D69CFE84028FC02AAC07;
@@ -467,38 +467,10 @@
 	30B0813C0462986800A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 30C8298B045D9E3400A738B5;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 0}, {344, 168}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.settings",
-				"com.apple.target-editor-pane.settings.simple",
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {133, 168}}";
-			TOCViewSelectedItems = (
-				PBXTargetSummarySettingsModule,
-			);
-		};
 	};
 	30B0813D0462986800A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 30C8298B045D9E3400A738B5;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 0}, {344, 168}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.settings",
-				"com.apple.target-editor-pane.settings.simple",
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {133, 168}}";
-			TOCViewSelectedItems = (
-				PBXTargetSummarySettingsModule,
-			);
-		};
 	};
 	30B0813E0462986800A738B5 = {
 		fRef = 30C8295B045D809500A738B5;

@@ -57,7 +57,7 @@
 {
 	[m_synonyms addObject:synonym];
 
-	m_rows = 1 + ((int) [m_synonyms count] + 3) >> 2;
+	m_rows = 1 + ((int) [m_synonyms count] + 3) / 4;
 }
 
 - (NSString *)synonymAtPosition:(unsigned)position
@@ -93,19 +93,24 @@
 	else if ([col isEqualToString:@"3"])
 		colIndex = 2;
 
+	NSTextFieldCell * cell = (NSTextFieldCell *) [aTableColumn dataCell];
+
 	if (rowIndex)
 		{
+			[cell setTextColor:[NSColor darkGrayColor]];
+
 			int index = (rowIndex - 1) * 4 + colIndex;
 			if (index < (int) [m_synonyms count])
 				value = (NSString *) [m_synonyms objectAtIndex:index];
 		}
-	else if (colIndex == 0)
+	else
 		{
-			value = m_title_1;
-		}
-	else if (colIndex == 2)
-		{
-			value = m_title_2;
+			[cell setTextColor:[NSColor blackColor]];
+
+			if (colIndex == 0)
+				value = m_title_1;
+			else if (colIndex == 2)
+				value = m_title_2;
 		}
 	return value;
 }
@@ -130,6 +135,9 @@
 	[m_meanings retain];
 
 	m_rows = 0;
+
+	m_highlight_row = -1;
+	m_highlight_col = -1;
 
 	NSBundle * bundle = [NSBundle bundleForClass:[self class]];
 
@@ -350,6 +358,12 @@
 	return [m_meanings count];
 }
 
+- (void)clickColumn:(int)column atRow:(int)row
+{
+	m_highlight_row = row;
+	m_highlight_col = column;
+}
+
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return m_rows;
@@ -375,6 +389,31 @@
 			rows += sub_rows;
 		}
 	return value;
+}
+
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+	if (rowIndex == m_highlight_row)
+		{
+			NSString * col = (NSString *) [aTableColumn identifier];
+
+			int colIndex = 3;
+
+			if ([col isEqualToString:@"1"])
+				colIndex = 0;
+			else if ([col isEqualToString:@"2"])
+				colIndex = 1;
+			else if ([col isEqualToString:@"3"])
+				colIndex = 2;
+
+			if (colIndex == m_highlight_col)
+				[[aTableColumn dataCell] setTextColor:[NSColor redColor]];
+		}
+}
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex
+{
+	return NO;
 }
 
 @end

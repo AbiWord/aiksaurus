@@ -52,6 +52,8 @@
 	NSMutableArray *	m_meanings;
 
 	int			m_rows;
+	int			m_highlight_row;
+	int			m_highlight_col;
 }
 - (id)init;
 - (void)dealloc;
@@ -72,8 +74,15 @@
 - (AiksaurusCocoaMeaning *)meaningAtPosition:(unsigned)position;
 - (unsigned)meanings;
 
-/* NSTableViewDataSource informal protocol
+- (void)clickColumn:(int)column atRow:(int)row;
+
+/* NSTableDataSource informal protocol
  */
 - (int)numberOfRowsInTableView:(NSTableView *)aTableView;
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+
+/* NSTableView delegate
+ */
+- (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex;
 @end
