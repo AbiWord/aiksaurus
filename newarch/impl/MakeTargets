@@ -1,0 +1,7 @@
+TARGETS = FileArray.t WordsFile.t MakeImplDat MeaningsFile.t 
+
+FileArray.t :           FileArray.t.o FileArray.o
+WordsFile.t :           WordsFile.t.o WordsFile.o FileArray.o
+MakeImplDat :           MakeImplDat.o Arguments.o
+MeaningsFile.t :        MeaningsFile.t.o MeaningsFile.o WordsFile.o \
+                        FileArray.o Arguments.o
