@@ -29,7 +29,7 @@ include_HEADERS = \
 
 bin_PROGRAMS = aiksaurus caiksaurus 
 
-aiksaurus_SOURCES = aiksaurus.t.cpp
+aiksaurus_SOURCES = aiksaurus.cpp
 aiksaurus_LDADD = libAiksaurus.la
 	
 caiksaurus_SOURCES = caiksaurus.cpp

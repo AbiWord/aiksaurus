@@ -113,7 +113,7 @@ include_HEADERS = \
 
 bin_PROGRAMS = aiksaurus caiksaurus 
 
-aiksaurus_SOURCES = aiksaurus.t.cpp
+aiksaurus_SOURCES = aiksaurus.cpp
 aiksaurus_LDADD = libAiksaurus.la
 
 caiksaurus_SOURCES = caiksaurus.cpp
@@ -131,7 +131,7 @@ libAiksaurus_la_OBJECTS = $(am_libAiksaurus_la_OBJECTS)
 bin_PROGRAMS = aiksaurus$(EXEEXT) caiksaurus$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_aiksaurus_OBJECTS = aiksaurus.t.$(OBJEXT)
+am_aiksaurus_OBJECTS = aiksaurus.$(OBJEXT)
 aiksaurus_OBJECTS = $(am_aiksaurus_OBJECTS)
 aiksaurus_DEPENDENCIES = libAiksaurus.la
 aiksaurus_LDFLAGS =
@@ -150,7 +150,7 @@ DEP_FILES = $(DEPDIR)/Aiksaurus.Plo $(DEPDIR)/AiksaurusC.Plo \
 	$(DEPDIR)/AiksaurusException.Plo \
 	$(DEPDIR)/AsciiCompare.Plo \
 	$(DEPDIR)/MeaningsFile.Plo $(DEPDIR)/WordsFile.Plo \
-	$(DEPDIR)/aiksaurus.t.Po $(DEPDIR)/caiksaurus.Po
+	$(DEPDIR)/aiksaurus.Po $(DEPDIR)/caiksaurus.Po
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -285,7 +285,7 @@ include $(DEPDIR)/AiksaurusException.Plo
 include $(DEPDIR)/AsciiCompare.Plo
 include $(DEPDIR)/MeaningsFile.Plo
 include $(DEPDIR)/WordsFile.Plo
-include $(DEPDIR)/aiksaurus.t.Po
+include $(DEPDIR)/aiksaurus.Po
 include $(DEPDIR)/caiksaurus.Po
 
 distclean-depend:
