@@ -1,0 +1,108 @@
+
+  AikString Class Description
+  ---------------------------
+
+  Purpose
+  -------
+  
+    The AikString class is a very basic string class implementation.
+
+    I decided to write Yet-Another-String-Class because nobody seems 
+    to agree on a standard.  In particular, I would like AikSaurus to 
+    be used in both KWord and AbiWord.  
+
+    But, QString will not likely integrate well with AbiWord, and 
+    UT_String will not likely integrate well with KWord.  And, of 
+    course, nobody likes std::string.
+    
+    So I've rolled my own, which nobody can complain about, because 
+    it is so small that it's not even really there. :)
+     
+    This particular string class is very simple, and doesn't do any
+    sort of fancy stuff like reference counting or so forth.  It does 
+    what we need it to, and keeps it simple.
+
+    You are NOT encouraged to use AikString for anything.  You can 
+    if you want, but realize that it's not really got anything going 
+    for it in terms of efficiency or utility over other string 
+    classes.  The only thing it's actually any good for is being 
+    portable.
+   
+
+  Programming Interface
+  ---------------------
+
+    Error Handling ---
+
+      The only error that can ever really occur is if a memory 
+      allocation fails.  AikString calls new(nothrow) instead 
+      of regular 'new', so it should never throw an exception. 
+      (Of course, if you do something like "new AikString("foo")", 
+      then you might cause an exception yourself.)
+
+      If a memory allocation fails, the instance is set to a blank 
+      string, "" and is invalid.  A string's validity can be checked
+      with a call to AikString::valid(), which should return true if
+      there were no problems, false if the string is invalid.  All 
+      invalid strings will be set to the blank string, "".
+
+
+    Creation and Destruction ---
+
+      [explicit] AikString(const char* str)
+        Check to make sure it's valid afterwards.
+
+      AikString(const AikString& str)
+        A little more efficient than the const char* version.
+
+      ~AikString()
+        Remember to call this, or you will leak memory.
+
+
+    Inspection ---
+	
+      const char* c_str() const
+        Returns a c-style string.  This is inline and should be just
+        as efficient as using a c-style string.
+
+      unsigned int size() const
+        Returns the length of the string, not including the null 
+	terminator.  In other words, AikString("foo").size() is 3.
+	Size is stored, so this is a fast operation
+
+      bool valid() const
+        Returns 'true' if the string is valid, 'false' if not as 
+	discussed in "Error Handling" above.
+
+
+    Manipulation ---
+
+      operator=(const char* rhs)
+        Reassigns this AikString based on rhs.  Check validity of 
+	string after assignment.
+
+      operator=(const AikString& rhs)
+        Reassigns this AikString based on an existing AikString.
+        More efficient than the const char* version.  Check 
+	validity of string after assignment.
+
+      operator+=(const char* rhs)
+        Appends rhs onto the end of this AikString.
+      
+      operator+=(const AikString& rhs)
+        Appends rhs onto the end of this AikString.  Slightly more
+	efficient than the const char* version.  
+
+      void replaceAll(char a, char b)
+        Replaces all instance of character a with character b.
+
+
+    Comparisons ---
+  
+      Available:
+       operator==()     
+       operator!=() 
+  
+      Not Implemented:
+       operator<()         operator<=()
+       operator>()         operator>=()
