@@ -140,6 +140,8 @@ class AiksaurusGTK
 
 		void toolbarUpdateNavigation();
 
+        bool d_toolbar_search_hack;
+        
 		static void toolbarBackButtonClickCallback(GtkWidget* w, gpointer data);
 		static void toolbarForwardButtonClickCallback(GtkWidget* w, gpointer data);
         static void toolbarBackButtonMenuClickCallback(GList* element, gpointer data);
@@ -147,7 +149,12 @@ class AiksaurusGTK
 		
         static void toolbarSearchButtonClickCallback(GtkWidget* w, gpointer data);
         static void toolbarSearchBarKeyPressedCallback(GtkWidget* w, GdkEventKey* k, gpointer data);
+      
+        static void toolbarSearchBarUnselectChildCallback(GtkWidget* w, gpointer data);
+        static void toolbarSearchBarChangedCallback(GtkWidget* w, gpointer data);
        
+        static void toolbarSearchBarListShow(GtkWidget* w, gpointer data); 
+        static void toolbarSearchBarListHide(GtkWidget* w, gpointer data); 
         
 	// Replace-Bar GUI Functions and Data Members
 
@@ -237,6 +244,8 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 : d_searchbar_words(12)
 {
     d_cursor_ptr = NULL;
+
+    d_toolbar_search_hack = false;
     
     d_ishistorymove = false;
     
@@ -270,6 +279,13 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 
 		dialogPerformSearch();
 	}
+    
+    gtk_signal_connect(
+            GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), 
+            "changed",
+            GTK_SIGNAL_FUNC(toolbarSearchBarChangedCallback),
+            this
+    );
 }
 
 
@@ -813,6 +829,13 @@ void AiksaurusGTK::toolbarSearchBarCreate()
 	    this	
 	);
 
+    gtk_signal_connect(
+            GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->popwin),
+            "hide",
+            GTK_SIGNAL_FUNC(toolbarSearchBarListHide),
+            this
+    );
+    
 	gtk_box_pack_start(
 		GTK_BOX(d_toolbar_ptr),
 		d_searchbar_label_ptr,
@@ -999,6 +1022,24 @@ AiksaurusGTK::toolbarSearchBarKeyPressedCallback(GtkWidget* w, GdkEventKey* e, g
 	{
 		toolbarSearchButtonClickCallback(w, data);
 	}
+}
+
+void
+AiksaurusGTK::toolbarSearchBarChangedCallback(GtkWidget* w, gpointer data)
+{
+    if (GTK_WIDGET_VISIBLE(GTK_COMBO(s_instance->d_searchbar_ptr)->popwin))
+    {
+        s_instance->d_toolbar_search_hack = true;
+    }
+}   
+
+void
+AiksaurusGTK::toolbarSearchBarListHide(GtkWidget* w, gpointer data)
+{
+    if (s_instance->d_toolbar_search_hack)
+     s_instance->dialogPerformSearch();
+
+    s_instance->d_toolbar_search_hack = false;   
 }
 
 
