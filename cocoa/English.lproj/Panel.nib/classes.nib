@@ -1,0 +1,30 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                aBack = id; 
+                aForward = id; 
+                aHistory = id; 
+                aInsert = id; 
+                aResultsTable = id; 
+                aSearch = id; 
+                aSearchField = id; 
+            }; 
+            CLASS = AiksaurusCocoaPanel; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                oBack = id; 
+                oForward = id; 
+                oHistory = id; 
+                oInsert = id; 
+                oPanel = id; 
+                oResultsTable = id; 
+                oSearchField = id; 
+                oStatus = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

@@ -91,3 +91,51 @@
 - (void)tableView:(NSTableView *)aTableView willDisplayCell:(id)aCell forTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex;
 @end
+
+@interface AiksaurusCocoaPanel : NSObject
+{
+	AiksaurusCocoa *	m_aiksaurus;
+
+	IBOutlet NSButton *			oBack;
+	IBOutlet NSButton *			oForward;
+	IBOutlet NSPopUpButton *	oHistory;
+	IBOutlet NSButton *			oInsert;
+	IBOutlet NSPanel *			oPanel;
+	IBOutlet NSTableView *		oResultsTable;
+	IBOutlet NSTextField *		oSearchField;
+	IBOutlet NSTextField *		oStatus;
+
+	id		m_target;
+	SEL		m_action;
+
+	BOOL	m_active;
+}
+- (id)init;
+- (void)dealloc;
+
+- (void)openPanelWithWord:(NSString *)word;
+- (void)openPanel;
+- (void)closePanel;
+
+/* NSWindow delegate method
+ */
+- (void)windowWillClose:(NSNotification *)aNotification;
+
+- (void)sync;
+
+- (IBAction)aBack:(id)sender;
+- (IBAction)aForward:(id)sender;
+- (IBAction)aHistory:(id)sender;
+- (IBAction)aDoubleClick:(id)sender;
+- (IBAction)aResultsTable:(id)sender;
+- (IBAction)aSearch:(id)sender;
+- (IBAction)aSearchField:(id)sender;
+
+- (IBAction)aInsert:(id)sender;
+
+/* and, where target's action method has the form @selector(insertWord:), i.e.
+   - (void)insertWord:(NSString *)word;
+ */
+- (void)setTargetForInsert:(id)target withAction:(SEL)action;
+
+@end
