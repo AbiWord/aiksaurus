@@ -53,7 +53,7 @@ using namespace std;
 			}
 		}
 	}
-	#if defined _DLL
+	#if defined _DLL_BUILD
 		//Add a DllMain Entry point
 		BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved ) { return TRUE; }
 	#endif
