@@ -26,12 +26,8 @@
     AiksaurusGTK_setTitle(const char* str);
     
     
-    void 
-    AiksaurusGTK_setShowReplaceBar(bool showreplace);
-
-    
     const char* 
-    AiksaurusGTK_doSearch(const char* str);
+    AiksaurusGTK_doSearch(const char* str = 0);
     
 	
 #endif // INCLUDED_JARED_GPL_AIKSAURUSGTK_H

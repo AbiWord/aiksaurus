@@ -58,7 +58,7 @@ class AiksaurusGTK
 	private:
 
 		friend void AiksaurusGTK_setTitle(const char* str);
-		friend const char* AiksaurusGTK_doSearch(const char* search);
+        friend const char* AiksaurusGTK_doSearch(const char* search);
 
 		AiksaurusGTK(const char* search = NULL);
 		~AiksaurusGTK();
@@ -183,8 +183,6 @@ char* AiksaurusGTK::s_title = NULL;
 char* AiksaurusGTK::s_replacement = NULL;
 AiksaurusGTK* AiksaurusGTK::s_instance = NULL;
 
-
-
 //////////////////////////////////////////////////////////////////////////
 //
 //   AiksaurusGTK Interface Functions
@@ -275,6 +273,8 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 
 		dialogPerformSearch();
 	}
+    
+    gtk_window_set_focus(GTK_WINDOW(d_window_ptr), GTK_COMBO(d_searchbar_ptr)->entry);
     
     gtk_signal_connect(
             GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), 
@@ -843,6 +843,7 @@ void AiksaurusGTK::toolbarSearchBarCreate()
 		true,
 		5
 	);
+
 }
 
 
@@ -1026,13 +1027,13 @@ AiksaurusGTK::replacebarCreate()
 {
 	d_replacebar_ptr = gtk_hbox_new(false, 4);
 
-	gtk_box_pack_start(
-		GTK_BOX(d_layout_ptr),
-		d_replacebar_ptr,
-		false,
-		false,
-		5
-	);
+    gtk_box_pack_start(
+    	GTK_BOX(d_layout_ptr),
+    	d_replacebar_ptr,
+    	false,
+    	false,
+    	5
+    );
 
 	replacebarReplaceEntryCreate();
 
@@ -1055,12 +1056,12 @@ AiksaurusGTK::replacebarReplaceEntryCreate()
 {
 	d_replacewith_label_ptr = gtk_label_new("  Replace With:");
 
-	gtk_box_pack_start(
-		GTK_BOX(d_replacebar_ptr),
-		d_replacewith_label_ptr,
-		false,
-		false,
-		0
+    gtk_box_pack_start(
+	   	GTK_BOX(d_replacebar_ptr),
+	    d_replacewith_label_ptr,
+    	false,
+	   	false,
+	    0
 	);
 
 	d_replacewith_ptr = gtk_entry_new();
@@ -1072,13 +1073,13 @@ AiksaurusGTK::replacebarReplaceEntryCreate()
 	    this	
 	);
 
-	gtk_box_pack_start(
-		GTK_BOX(d_replacebar_ptr),
-		d_replacewith_ptr,
-		false,
-		false,
-		2
-	);
+    gtk_box_pack_start(
+	   	GTK_BOX(d_replacebar_ptr),
+	    d_replacewith_ptr,
+    	false,
+    	false,
+    	2
+    );
 }
 
 
