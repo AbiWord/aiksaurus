@@ -1,0 +1,118 @@
+
+  AiksaurusGTK_picbutton Class
+  ----------------------------
+
+  Purpose:
+
+     A GUI widget for IE-like pixmap buttons that light up when hovered over.
+
+  
+  Discussion:
+
+     Typically to make one of these buttons you want to take some icon, and 
+     make a color-version, a grayscale version, and (optionally) a "grayed 
+     out" version.
+     
+     This button has three states.  
+       - Normal
+       - Hover
+       - Disabled
+
+     Generally you would use the grayscale version of your picture for the 
+     'normal' image, and the color version for the 'hover' image.  This will
+     give the appearance of the button "lighting up" when they user moves
+     the mouse over it.
+
+     The button can also be "disabled", which prevents button click events
+     from happening.  You can also use the "grayed out" image so that if the
+     button is disabled, it is clear to the user.
+  
+
+  
+  Programming Interface:
+
+     Creating picButtons
+     -------------------
+
+        AiksaurusGTK_picbutton(GtkWidget* window, const char** normal);
+        
+	  'window' is a pointer to an existing window that you're going 
+	  to add the button to. (my guess is this is needed in order to 
+	  extract the color map from the window.)
+	  
+	  'normal' is data from an xpm file.  (if you do 'more' on an xpm
+	  file, you'll see that it's just text.  you can go ahead and 
+	  copy this directly into your program, etc.)
+
+	  Usually 'normal' would be the grayscale version of your image 
+	  that you want to be displayed unless the button is hovered 
+	  over or disabled.
+       
+
+     Getting a Pointer to the Button
+     -------------------------------
+
+        GtkWidget* getButton(); 
+
+	  This will let you get a pointer to the actual button widget, which 
+	  you will need if you want to add it to a container or associate a 
+	  callback function with it.
+
+          It will return a pointer to GtkWidget, but you can use the 
+	  GTK_BUTTON() cast in order to make it an actual button if you need
+	  to do that.
+
+
+
+     Adding Hover and Disable Pictures
+     ---------------------------------
+	
+	void setHoverPicture(const char** hover);
+
+          Initialize a hover picture.  This will automatically set up 
+	  the callbacks in order to provide the hovering effect.
+
+	  'hover' is just a regular xpm file's data like the constructor
+	  has.
+
+    
+        void setDisabledPicture(const char** disabled)
+     
+          Initializes a disabled picture.  This does NOT cause the button
+	  to become disabled, just sets up the data.
+
+	  'disabled' is just a regular xpm file's data like the constructor
+	  takes.
+
+	  If you want to actually disable the button, see enable() and 
+	  disable() below.
+
+
+
+     Enabling and Disabling the Button
+     ---------------------------------
+
+	void disable();
+
+	  Causes the button to stop responding to events, and changes to 
+	  the disabled picture.
+
+	  You MUST have a disabled picture before using this function. If
+	  you don't, your program will most likely suffer a horrible 
+	  death by segfault or do other undefined things.
+	  
+	  Safe to call if the button is already disabled.
+	  
+
+	void enable();
+
+	  Causes the button to once again respond to events, and changes
+	  to the normal picture.
+
+	  Safe to call if the button is already enabled.
+
+
+
+
+
+     
