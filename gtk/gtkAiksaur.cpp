@@ -381,7 +381,8 @@ void AiksaurusGTK::createWindow()
 	d_tooltips_ptr = gtk_tooltips_new();
 	
 	d_window_ptr = gtk_window_new(GTK_WINDOW_DIALOG);
-
+	gtk_widget_show(d_window_ptr);
+	
 	gtk_window_set_title(
 		GTK_WINDOW(d_window_ptr), 
 		"AbiWord Thesaurus"
@@ -561,12 +562,18 @@ void AiksaurusGTK::createBackbutton()
 		AiksaurusGTK_icons::s_backHover
 	);
 
+	d_backbutton_ptr->addMenu();
+
 	
 	setTooltip(
 		d_backbutton_ptr->getButton(),
 		"Back"
 	);
-	
+
+	setTooltip(
+		d_backbutton_ptr->getMenuButton(),
+		"Back"
+	);
 	
 	gtk_signal_connect(
 		GTK_OBJECT(d_backbutton_ptr->getButton()),
@@ -580,8 +587,16 @@ void AiksaurusGTK::createBackbutton()
 		d_backbutton_ptr->getButton(),
 		false,
 		false,
-		4
+	 	0	
 	);	
+
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
+		d_backbutton_ptr->getMenuButton(),
+		false,
+		false,
+		0
+	);
 }
 
 
@@ -596,8 +611,15 @@ void AiksaurusGTK::createForwardbutton()
 		AiksaurusGTK_icons::s_forwardHover
 	);
 
+	d_forwardbutton_ptr->addMenu();
+	
 	setTooltip(
 		d_forwardbutton_ptr->getButton(), 
+		"Forward"
+	);
+
+	setTooltip(
+		d_forwardbutton_ptr->getMenuButton(),
 		"Forward"
 	);
 
@@ -615,8 +637,16 @@ void AiksaurusGTK::createForwardbutton()
 		d_forwardbutton_ptr->getButton(),
 		false,
 		false,
-		4
+		0	
 	);	
+
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
+		d_forwardbutton_ptr->getMenuButton(),
+		false,
+		false,
+		0
+	);
 
 }
 

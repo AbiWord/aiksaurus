@@ -41,7 +41,7 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 	d_hashover = false;
 	d_hasmenu = false;
 	d_mouseover = false;
-		
+	
 	d_button_ptr = gtk_button_new();
 	gtk_widget_show(d_button_ptr);
 	GTK_WIDGET_UNSET_FLAGS(
@@ -119,7 +119,7 @@ AiksaurusGTK_picbutton::addMenu()
 		d_menu_button_ptr,
 		GTK_CAN_FOCUS
 	);
-	
+
 	d_menu_pixmap_ptr = gdk_pixmap_create_from_xpm_d(
 		d_window_ptr->window,
 		&d_menu_mask_ptr,
@@ -189,6 +189,12 @@ AiksaurusGTK_picbutton::getMenuButton()
 	return d_menu_button_ptr;
 }
 
+
+GtkWidget* 
+AiksaurusGTK_picbutton::getMenu()
+{
+	return d_menu_ptr;
+}
 
 
 

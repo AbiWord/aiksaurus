@@ -107,7 +107,7 @@ class AiksaurusGTK_picbutton
 		
 		void setHoverPicture(const char** hover);
 		GtkWidget* addMenu();
-		
+
 		void disable();
 		void enable();
 	
@@ -116,6 +116,7 @@ class AiksaurusGTK_picbutton
 		
 		GtkWidget* getButton();
 		GtkWidget* getMenuButton();
+		GtkWidget* getMenu();
 };
 
 #endif // INCLUDED_GPL_JARED_AIKSAURUSGTK_PICBUTTON_H
