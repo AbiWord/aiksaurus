@@ -33,6 +33,9 @@
 using namespace std;
 
 #if defined WIN32
+#ifdef AIK_DATA_DIR
+#undef AIK_DATA_DIR
+#endif
 	extern std::string AIK_DATA_DIR;
 #endif
 

@@ -36,6 +36,9 @@
 using namespace std;
 
 #if defined WIN32
+#ifdef AIK_DATA_DIR
+#undef AIK_DATA_DIR
+#endif
 	#include <windows.h>
 	#define WIN32_LEAN_AND_MEAN
 	// Default aik_data_dir is local directory
