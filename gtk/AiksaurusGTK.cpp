@@ -129,8 +129,8 @@ class AiksaurusGTK
 
 		void toolbarBackButtonClick();
 		void toolbarForwardButtonClick();
-        void toolbarBackButtonMenuClick(const char* s);
-        void toolbarForwardButtonMenuClick(const char* s);
+        void toolbarBackButtonMenuClick(GList* element);
+        void toolbarForwardButtonMenuClick(GList* element);
 
         
 		void toolbarSearchBarConnect();
@@ -145,8 +145,8 @@ class AiksaurusGTK
 		static void toolbarSearchButtonClickCallback(GtkWidget* w, gpointer data);
 		static void toolbarSearchBarKeyPressedCallback(GtkWidget* w, GdkEventKey* k, gpointer data);
 		static void toolbarSearchBarDropdownChangedCallback(GtkList* l, GtkWidget* w, gpointer data);
-        static void toolbarBackButtonMenuClickCallback(const char* s, gpointer data);
-        static void toolbarForwardButtonMenuClickCallback(const char* s, gpointer data);
+        static void toolbarBackButtonMenuClickCallback(GList* element, gpointer data);
+        static void toolbarForwardButtonMenuClickCallback(GList* element, gpointer data);
 
         
 	// Replace-Bar GUI Functions and Data Members
@@ -940,15 +940,41 @@ AiksaurusGTK::toolbarForwardButtonClick()
 }
 
 void 
-AiksaurusGTK::toolbarBackButtonMenuClick(const char* s)
+AiksaurusGTK::toolbarBackButtonMenuClick(GList* element)
 {
-    cout << "  <- Move Back to " << s << endl;
+    cout << "  <- Move Back to " << static_cast<char*>(element->data) << endl;
+
+    d_history.debug();
+    d_history.move_back_to(element);
+    d_history.debug();
+
+    gtk_entry_set_text(
+        GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry),
+        d_history.current()
+    );
+
+    d_ishistorymove = true;
+    dialogPerformSearch();
+    d_ishistorymove = false;
 }
 
 void 
-AiksaurusGTK::toolbarForwardButtonMenuClick(const char* s)
+AiksaurusGTK::toolbarForwardButtonMenuClick(GList* element)
 {
-    cout << "  -> Move Forward to " << s << endl;
+    cout << "  -> Move Forward to " << static_cast<char*>(element->data) << endl;
+
+    d_history.debug();
+    d_history.move_forward_to(element);
+    d_history.debug();
+
+    gtk_entry_set_text(
+        GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry),
+        d_history.current()
+    );
+
+    d_ishistorymove = true;
+    dialogPerformSearch();
+    d_ishistorymove = false;
 }
 
 void
@@ -972,13 +998,13 @@ AiksaurusGTK::toolbarForwardButtonClickCallback(GtkWidget* w, gpointer data)
 }
         
 void 
-AiksaurusGTK::toolbarBackButtonMenuClickCallback(const char* s, gpointer data)
+AiksaurusGTK::toolbarBackButtonMenuClickCallback(GList* s, gpointer data)
 {
     static_cast<AiksaurusGTK*>(data)->toolbarBackButtonMenuClick(s);
 }
 
 void 
-AiksaurusGTK::toolbarForwardButtonMenuClickCallback(const char* s, gpointer data)
+AiksaurusGTK::toolbarForwardButtonMenuClickCallback(GList* s, gpointer data)
 {
     static_cast<AiksaurusGTK*>(data)->toolbarForwardButtonMenuClick(s);
 }

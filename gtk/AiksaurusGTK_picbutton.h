@@ -26,6 +26,7 @@
 
 #include "AiksaurusGTK_strlist.h"
 
+class AiksaurusGTK_menudata;
 class AiksaurusGTK_picbutton
 {
 	private:
@@ -65,6 +66,7 @@ class AiksaurusGTK_picbutton
         GtkSignalFunc d_onclick_function;
         gpointer d_onclick_data;
         
+        AiksaurusGTK_menudata* d_menu_data_ptr;
         AiksaurusGTK_strlist* d_menu_options_ptr;
         
 	// Callback Functions
@@ -88,7 +90,7 @@ class AiksaurusGTK_picbutton
 		void popMenu();
 		void popupFunction(int* x, int* y);
 		void selectionDone();
-        void menuActivate(GtkMenuItem* item);
+        void menuActivate(gpointer item);
 	
         void menuCreate();
         
