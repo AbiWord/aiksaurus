@@ -23,12 +23,15 @@
 
 
 	void 
-	AiksaurusGTK_setTitle(const char* str);
+    AiksaurusGTK_setTitle(const char* str);
+    
+    
+    void 
+    AiksaurusGTK_setShowReplaceBar(bool showreplace);
 
-
-	const char*
-	AiksaurusGTK_doSearch(const char* str);
-
-
+    
+    const char* 
+    AiksaurusGTK_doSearch(const char* str);
+    
 	
 #endif // INCLUDED_JARED_GPL_AIKSAURUSGTK_H

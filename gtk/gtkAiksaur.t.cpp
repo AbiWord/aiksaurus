@@ -27,25 +27,24 @@ using namespace std;
 static
 void closeTestprogram(GtkWidget* w, GdkEventAny *e, gpointer data)
 {
-	cout << "Exit pressed." << endl;
 	exit(0);
 }
 
 static 
 void searchButton(GtkWidget* w, gpointer data)
 {
-	cout << "Search pressed." << endl;
 	GtkWidget* entry = static_cast<GtkWidget*>(data);
 
 	const char* text = gtk_entry_get_text(
 		GTK_ENTRY(entry)
 	);
 	
-	cout << "Searched for " << text << endl;
 	const char* choice = AiksaurusGTK_doSearch(text);
-	cout << "User chose " << choice << endl;
 
-	cout << "Done with search." << endl;
+    gtk_entry_set_text(
+        GTK_ENTRY(entry), 
+        choice
+    );
 }
 
 int main(int argc, char** argv)
