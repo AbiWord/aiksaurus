@@ -1,31 +1,33 @@
-AUTOMAKE_OPTIONS = foreign
+INCLUDES = -I../..
+
+AM_CPPFLAGS = -DAIK_DATA_DIR=\"$(pkgdatadir)/\"
 
 lib_LTLIBRARIES = libAiksaurus.la
 
-CXXFLAGS=@AIK_CXXFLAGS@ @CXXFLAGS@
+libAiksaurus_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_AIK_VERSION_INFO) -export-dynamic
 
 libAiksaurus_la_SOURCES = \
 	Aiksaurus.cpp \
-	Aiksaurus.h \
 	AiksaurusException.cpp \
-	AiksaurusException.h \
 	AsciiCompare.cpp \
-	AsciiCompare.h \
 	MeaningsFile.cpp \
+	WordsFile.cpp \
+        AiksaurusC.cpp
+
+aikhdrdir = $(includedir)/Aiksaurus
+
+aikhdr_HEADERS = \
+	Aiksaurus.h \
+	AiksaurusC.h
+
+OTHERHEADERS = \
+	AiksaurusException.h \
+	AsciiCompare.h \
 	MeaningsFile.h \
 	MeaningsHash.h \
 	WordStream.h \
-	WordsFile.cpp \
 	WordsFile.h \
-	WordsHash.h \
-        AiksaurusC.cpp \
-	AiksaurusC.h	
-
-libAiksaurus_la_LDFLAGS = -version-info 0:15
-
-include_HEADERS = \
-	Aiksaurus.h \
-	AiksaurusC.h
+	WordsHash.h
 
 bin_PROGRAMS = aiksaurus caiksaurus 
 
@@ -34,3 +36,5 @@ aiksaurus_LDADD = libAiksaurus.la
 
 caiksaurus_SOURCES = caiksaurus.cpp
 caiksaurus_LDADD = libAiksaurus.la
+
+EXTRA_DIST = $(OTHERHEADERS)

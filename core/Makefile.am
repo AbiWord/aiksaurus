@@ -1,5 +1,3 @@
-AUTOMAKE_OPTIONS = foreign
+SUBDIRS = src data
 
-SUBDIRS = data src
-
-EXTRA_DIST = autogen.sh AUTHORS README COPYING CHANGES ChangeLog Aiksaurus.spec 
+EXTRA_DIST = AUTHORS README COPYING CHANGES ChangeLog Aiksaurus.spec.in
