@@ -24,6 +24,13 @@
 #include "xap_Frame.h"
 #include "fv_View.h"
 
+void AiksaurusABI_invoke();
+
+// -----------------------------------------------------------------------
+//
+//      Abiword Plugin Code
+//
+// -----------------------------------------------------------------------
 
 ABI_FAR extern "C"
 int abi_plugin_register (XAP_ModuleInfo * mi)
@@ -37,49 +44,12 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
     
     AiksaurusGTK_setTitle("AbiWord Thesaurus");
 
-    XAP_Frame *pFrame = XAP_App::getApp()->getLastFocussedFrame();
-    FV_View* pView = static_cast<FV_View*>(pFrame->getCurrentView());
-    pView->moveInsPtTo(FV_DOCPOS_BOW);
-    pView->extSelTo(FV_DOCPOS_EOW_SELECT);    
-  
-    char* search = NULL;
-    if ( !pView->isSelectionEmpty() )
-    {
-        // selection is not empty.
-        UT_UCSChar *text= pView->getSelectionText();
-        
-        // convert string to ascii from ucs-2.
-        int length = UT_UCS_strlen(text);
-        search = new char[length+1];
-        for(int i = 0;i < length;++i)
-        {
-            search[i] = (char)text[i];
-        }
-        search[length] = '\0';
-    }
-    
-    // run thesaurus dialog.
-    const char* change = AiksaurusGTK_doSearch(search);
-    if (search) 
-        delete[] search;
-    
-    // convert replacement from ascii to ucs-2.
-    int length = strlen(change);
-    UT_UCSChar* replacement = new UT_UCSChar[length+1];
-    for(int i = 0;i < length;++i)
-    {
-        replacement[i] = (UT_UCSChar)change[i];
-    }
-    replacement[length] = 0;
-               
-    if (length)
-    { 
-        pView->cmdCharInsert(replacement, length);
-    }    
-    delete[] replacement;
+    // to do: remove this invocation (it shouldn't be here).
+    AiksaurusABI_invoke();
         
     return 1;
 }
+
 
 ABI_FAR extern "C"
 int abi_plugin_unregister (XAP_ModuleInfo * mi)
@@ -92,8 +62,150 @@ int abi_plugin_unregister (XAP_ModuleInfo * mi)
     return 1;
 }
 
+
 ABI_FAR extern "C"
 int abi_plugin_supports_version (UT_uint32 major, UT_uint32 minor, UT_uint32 release)
 {
     return 1; 
+}
+
+
+
+
+
+
+
+// -----------------------------------------------------------------------
+//
+//     Aiksaurus Invocation Code
+//
+// -----------------------------------------------------------------------
+
+
+//
+// AiksaurusABI_ucsToAscii
+// -----------------------
+//   Helper function to convert UCS-2 strings into Ascii.
+//   NOTE: you must call delete[] on the returned test!!!
+//
+//   The thesaurus operates in pure ascii, and abiword documents operate
+//   in UCS-2, so we need to be able to convert UCS-2 to Ascii in order
+//   to tell what word the user has selected when they invoke the thesaurus.
+//
+inline static char*
+AiksaurusABI_ucsToAscii(const UT_UCSChar* text)
+{
+    // calculate length of text so that we can create a character
+    // buffer of equal size.
+        const unsigned int length = UT_UCS_strlen(text);
+        
+    // allocate ascii characters plus room for a null terminator.    
+        char* ret = new char[length+1];
+        
+    // do the string conversion.  this is simple we just cast to 
+    // char since UCS-2 is the same as Ascii for english.    
+        for(unsigned int i = 0;i < length;++i)
+        {
+            ret[i] = (char)text[i];
+        }
+        
+    // finally null terminate the string.    
+        ret[length] = '\0';
+
+    // and now return it.
+        return ret;    
+}
+
+
+
+//
+// AiksaurusABI_asciiToUcs
+// -----------------------
+//   Helper function to convert Ascii strings into UCS-2.
+//   NOTE: you must call delete[] on the returned text!!!
+//
+//   The thesaurus returns the replacement word in pure Ascii, but Abiword
+//   documents operate in UCS-2. So, we have to convert to ascii to UCS-2
+//   in order to be able to replace the user's word with their replacement
+//   word.
+//
+inline static UT_UCSChar* 
+AiksaurusABI_asciiToUcs(const char* text, int& length)
+{
+    // calculate the length of our text so we can create a UCS-2
+    // buffer of equal size.
+        length = strlen(text);
+    
+    // allocate UCS-2 character buffer of same size, plus room for 
+    // a null terminator.    
+        UT_UCSChar* ret = new UT_UCSChar[length+1];
+    
+    // convert ascii to UCS-2.  This is simply a cast-loop really.
+        for(int i = 0;i < length;++i)
+        {
+            ret[i] = (UT_UCSChar)text[i];
+        }
+    
+    // remember to null terminate the string.
+        ret[length] = 0;
+
+    // now return the string.
+        return ret;
+}
+
+
+
+//
+// AiksaurusABI_invoke
+// -------------------
+//   This is the function that we actually call to invoke the thesaurus.
+//   It should be called when the user hits the thesaurus key (shift+f7?)
+//   or chooses "thesaurus" from a menu.
+//
+void AiksaurusABI_invoke()
+{
+    // Get the current view that the user is in.
+        XAP_Frame *pFrame = XAP_App::getApp()->getLastFocussedFrame();
+        FV_View* pView = static_cast<FV_View*>(pFrame->getCurrentView());
+
+    // If the user is on a word, but does not have it selected, we need
+    // to go ahead and select that word so that the search/replace goes
+    // correctly.
+        pView->moveInsPtTo(FV_DOCPOS_BOW);
+        pView->extSelTo(FV_DOCPOS_EOW_SELECT);    
+ 
+    // Now we will figure out what word to look up when we open our dialog.
+        char* search = NULL;
+        if (!pView->isSelectionEmpty())
+        {
+            // We need to get the Ascii version of the current word.
+            search = AiksaurusABI_ucsToAscii(
+                    pView->getSelectionText()
+            );
+        }
+    
+    // Now we will run the thesaurus dialog and get a response.
+    // We will automatically do a search for the selected/current word. 
+        const char* response = AiksaurusGTK_doSearch(search);
+    
+        
+    // Now that we have our replacement, we need to convert it to UCS-2. 
+        int length;
+        UT_UCSChar* replacement = AiksaurusABI_asciiToUcs(response, length);
+    
+        
+    // Now, if our replacement has length, we can go ahead and run the 
+    // replacement.  If the replacement has no length, we will do nothing.
+        if (length)
+        { 
+            pView->cmdCharInsert(replacement, length);
+        }    
+    
+    // Finally, we need to remember to delete search and replacement strings.
+    // Note that "search" might be null so we only want to delete[] it if it
+    // was actually initialized above. 
+        if (search) 
+            delete[] search;
+    
+        delete[] replacement;
 }
