@@ -264,7 +264,7 @@ GList* AiksaurusGTK_strlist::find_first(const char* str)
 {
 	for(GList* iterator = d_front_ptr; iterator != NULL; iterator = iterator->next)
 	{
-		const char* x = static_cast<const char*>(iterator->data);
+		char* x = static_cast<char*>(iterator->data);
 
 		if (AiksaurusGTK_strEquals(x, str))
 		{

@@ -11,10 +11,12 @@ all: gtkAiksaur tests
 tests: $(TESTS)
 
 gtkAiksaur: gtkAiksaur.t.cpp AiksaurusGTK_strlist.o AiksaurusGTK.o \
-            AiksaurusGTK_histlist.o AiksaurusGTK_utils.o AiksaurusGTK_picbutton.o AiksaurusGTK_icons.o 
+            AiksaurusGTK_histlist.o AiksaurusGTK_history.o AiksaurusGTK_utils.o \
+	    AiksaurusGTK_picbutton.o AiksaurusGTK_icons.o 
 	$(CC) $(CPPFLAGS) $(GTKLINK) -o gtkAiksaur \
             gtkAiksaur.t.cpp AiksaurusGTK.o AiksaurusGTK_strlist.o \
-	    AiksaurusGTK_histlist.o AiksaurusGTK_utils.o AiksaurusGTK_picbutton.o AiksaurusGTK_icons.o -lAikSaurus
+	    AiksaurusGTK_histlist.o AiksaurusGTK_utils.o AiksaurusGTK_picbutton.o \
+	    AiksaurusGTK_history.o AiksaurusGTK_icons.o -lAikSaurus
 
 AiksaurusGTK.o : AiksaurusGTK.cpp AiksaurusGTK.h AiksaurusGTK_strlist.o
 	$(CC) $(CPPFLAGS) $(GTKLINK) -c AiksaurusGTK.cpp
