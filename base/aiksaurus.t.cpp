@@ -148,7 +148,7 @@ int main(int argc, const char** argv)
     
     if (argc != 2)
     {
-        cout << "Usage: " << argv[0] << "[word]\n"
+        cout << "Usage: " << argv[0] << " [word]\n"
              << help;
         exit(1);
     }
