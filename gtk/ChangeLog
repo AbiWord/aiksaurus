@@ -1,0 +1,6 @@
+2002-09-12 Rui Miguel Seabra <rms@1407.org>
+
+        * Convert Aiksaurus to GTK+2, first steps
+          - change configure.in so it checks for gtk+2
+          - move gtk_window_new to gtk_dialog_new
+          - work on the popup menu
