@@ -52,6 +52,8 @@ int main(int argc, char** argv)
 {
 	gtk_init(&argc, &argv);
 
+	AiksaurusGTK_setTitle("AiksaurusGTK Demo Program");
+	
 	// this creates our main window.
 	GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 

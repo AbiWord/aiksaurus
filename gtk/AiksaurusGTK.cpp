@@ -33,6 +33,15 @@
 using namespace std;
 
 
+
+
+static 
+const char* AiksaurusGTK_title = "AikSaurus";
+
+
+
+
+
 void AiksaurusGTK_memoryExhausted()
 {
 	cout << "Out of memory." << endl;
@@ -51,6 +60,12 @@ class AiksaurusGTK
 {
 	private:
 	
+	// Title setting and storing.
+	
+		static char* s_title;
+		friend void AiksaurusGTK_setTitle(const char* str);
+		
+		
 	// The actual thesaurus.
 	
 		AikSaurus *d_aiksaurus_ptr;
@@ -176,6 +191,48 @@ class AiksaurusGTK
 };
 
 
+
+char* AiksaurusGTK::s_title = NULL;
+
+
+
+void
+AiksaurusGTK_setTitle(const char* str)
+{
+	if (str == NULL)
+		return;
+		
+	if (AiksaurusGTK::s_title != NULL)
+		delete[] AiksaurusGTK::s_title;
+
+	AiksaurusGTK::s_title = AiksaurusGTK_strCopy(str);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 void AiksaurusGTK::updateWordlistLabel(int count)
 {
 	static const char* nosyns_1 = "No synonyms found for ";
@@ -270,6 +327,9 @@ const char* AiksaurusGTK_doSearch(const char* search)
 AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 : d_searchbar_words(12)
 {
+	if (s_title == NULL)
+		AiksaurusGTK_setTitle(AiksaurusGTK_title);
+	
 	d_wordlist_label_text_ptr = NULL;
 	
 	d_window_destroyed = false;
@@ -325,7 +385,7 @@ void AiksaurusGTK::createWordlist()
 		0
 	);
 	
-	d_wordlist_label_ptr = gtk_label_new("Abiword Thesaurus");
+	d_wordlist_label_ptr = gtk_label_new(s_title);
 
 	gtk_label_set_justify(
 		GTK_LABEL(d_wordlist_label_ptr),
@@ -483,7 +543,7 @@ void AiksaurusGTK::createWindow()
 	
 	gtk_window_set_title(
 		GTK_WINDOW(d_window_ptr), 
-		"AbiWord Thesaurus"
+		s_title
 	);
 
 	gtk_window_set_modal(
