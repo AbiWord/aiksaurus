@@ -114,7 +114,7 @@
 				FRAMEWORK_SEARCH_PATHS = "";
 				FRAMEWORK_VERSION = A;
 				HEADER_SEARCH_PATHS = "";
-				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				INSTALL_PATH = "@executable_path/../Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "-DAIK_DATA_DIR=\\\\\\\"\\\\\\\" -DHAVE_GETENV";
 				OTHER_LDFLAGS = "-seg1addr 3ff00000";
@@ -127,7 +127,7 @@
 			);
 			isa = PBXFrameworkTarget;
 			name = Aiksaurus;
-			productInstallPath = "$(HOME)/Library/Frameworks";
+			productInstallPath = "@executable_path/../Frameworks";
 			productName = Aiksaurus;
 			productReference = 034768E0FF38A50411DB9C8B;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -153,7 +153,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.15.1d1</string>
+	<string>1.0.0d1</string>
 	<key>NSPrincipalClass</key>
 	<string></string>
 </dict>
@@ -805,7 +805,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>0.15.1d1</string>
+	<string>1.0.0d1</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
