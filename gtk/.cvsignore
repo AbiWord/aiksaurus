@@ -10,3 +10,4 @@ config.status
 configure
 libtool
 ltmain.sh
+gaiksaurus-1.0.pc

@@ -16,3 +16,13 @@ stamp-h
 .libs
 *.lo
 *.la
+stamp-h1
+mkinstalldirs
+missing
+ltmain.sh
+install-sh
+depcomp
+config.sub
+config.guess
+confdefs.h
+autom4te.cache
