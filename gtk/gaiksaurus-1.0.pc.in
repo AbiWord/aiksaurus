@@ -5,7 +5,7 @@ includedir=${prefix}/include
 
 Name: AiksaurusGTK
 Description: GTK+ front end for Aiksaurus, an English thesaurus
-Requires: aiksaurus-1.0
+Requires: aiksaurus-1.0 gtk+-2.0
 Version: @AIKSAURUS_VERSION@
 Libs: -L${libdir} -lAiksaurusGTK
 Cflags: -I${includedir}/Aiksaurus

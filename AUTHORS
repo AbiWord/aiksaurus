@@ -1,1 +1,28 @@
-Jared Davis
+==========================================================================
+Aiksaurus Core Library - Authors File
+==========================================================================
+
+This list is not complete. Neglected souls, please let me know your names.
+
+    Jared Davis <jared@aiksaurus.com>
+        Original developer; core thesaurus.
+    
+    Francis James Franklin <fjf@alinameridon.com>
+        Build system & Cocoa port.
+    
+    John Levon <moz@compsoc.man.ac.uk>
+        Original build system.
+
+    Michael Pritchett <mike.pritchett@sti-i.com>
+        Win32 Port
+
+    Rui Miguel Seabra <rms@1407.org>
+        GTK+-2.0 Port; RPM spec(s)
+
+    Dom Lachowicz <domlachowicz@yahoo.com>
+        GTK+-2.0 Port
+        
+    Mark Gilbert
+        RPM spec
+
+==========================================================================        

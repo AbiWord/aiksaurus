@@ -1,19 +1,33 @@
-Welcome to Aiksaurus CVS
-Generously hosted by AbiWord (www.abiword.com)
+Aiksaurus
+=========
+
+Now hosted by SourceForge: http://aiksaurus.sourceforge.net/
+
+CVS Generously hosted by AbiWord (http://www.abisource.com/)
 
 Relevant Directories:
 
    core/
      Contains Aiksaurus Core Library. 
 
+   cocoa/
+     Contains Aiksaurus Cocoa port. 
+
    gtk/
-     Contains AiksaurusGTK interface library.
+     Contains gaiksaurus & GTK+ interface library.
 
    php/
      Contains phpAiksaur web scripts.
 
    kde/
      Contains AiksaurusKDE interface library.
+
+28th May, 2003
+Francis James Franklin <fjf@alinameridon.com>
+
+
+Thesaurus Development
+=====================
 
 There is some good documentation available at the developer section
 of the web site:

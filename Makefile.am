@@ -16,9 +16,13 @@ COCOASOURCES = cocoa/*.lproj cocoa/*.png cocoa/*.icns cocoa/*.ai \
 	cocoa/Aiksaurus.pbproj/project.pbxproj \
 	cocoa/main.m
 
+WINSOURCES = win/src/*.*
+
 EXTRA_DIST =	\
 	$(PHPSOURCES)			\
 	$(COCOASOURCES)			\
+	$(WINSOURCES)			\
+	README.W32			\
 	autogen.sh			\
 	ac-helpers/pkg-config/pkg.m4	\
 	aiksaurus.spec.in		\
