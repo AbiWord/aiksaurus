@@ -38,4 +38,4 @@ AC_CHECK_LIB(bz2, BZ2_bzReadOpen,,
 AIK_CXXFLAGS="-DAIK_DATA_DIR=\\\"$aikdatadir\\\""
 AC_SUBST(AIK_CXXFLAGS)
 
-AC_OUTPUT(Makefile aiksaurus.spec)
+AC_OUTPUT(Makefile data/Makefile aiksaurus.spec)
