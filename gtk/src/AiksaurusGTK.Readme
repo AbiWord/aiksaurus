@@ -1,0 +1,9 @@
+
+  AiksaurusGTK.h and AiksaurusGTK.cpp
+  -----------------------------------
+
+    These files actually implement the thesaurus dialog.  
+
+    The dialog class is entirely hidden behind a couple of simple functions,
+    so it should be very easy to embed.
+

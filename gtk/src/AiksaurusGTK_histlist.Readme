@@ -1,0 +1,54 @@
+
+  AiksaurusGTK_histlist Class
+  ---------------------------
+
+    Purpose:
+
+      Provide a simple way of managing the items present in the 
+      search drop-down box.
+
+
+    Motivation:
+
+      Even with the AiksaurusGTK_strlist class, managing the 
+      items in the history list becomes a bit of a pain.
+
+      We want peculiar behavior out of the combo box.  For 
+      one, we don't want it to continually add more and more 
+      strings, instead we want to limit it at some reasonable
+      number (probably no more than 20, certainly.)  
+
+      We also want all new searches to be added to the front
+      of the list, so that the most recently searched for items
+      appear at the top.  This is easy to implement with the
+      strlist's push_front routine.
+
+      We also don't want to allow duplicates.  If a user searches
+      for "test", then "fool", then "test" again, we should only 
+      have "test" and "fool" in the search box.  But, we actually
+      want to eliminate the existing one, and then push the new 
+      one to the front of the list.
+
+      All of this can be made much easier with the help of a 
+      new class which we have implemented here.
+
+
+    Programming Interface:
+
+      AiksaurusGTK_histlist(int maxElements)
+         Creates an empty history list, which will hold at most
+	 maxElements.
+
+      void addItem(const char* str)
+         Adds a string following the behavior laid out in 
+	 "motivation".
+
+      const GList* list() const;
+         Returns a glist pointer that contains the strings
+	 that should be displayed in the drop-down.
+        
+      void debug();
+         Prints debugging information, disable by defining NDEBUG.
+	 
+
+

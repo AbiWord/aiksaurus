@@ -1,0 +1,112 @@
+
+  AiksaurusGTK_picbutton Class
+  ----------------------------
+
+  Purpose:
+
+     Provide a widget for IE-like pixmap buttons that light up when hovered over, 
+     and (optionally) with a dropdown menu of choices.
+  
+  
+  Discussion:
+  
+     Typically, for one of these buttons you will want a color and grayscale 
+     version of the same image.
+    
+     You would then create the picbutton with the grayscale image, and set the
+     color image as the "hover" image.  This way, the button would normally be
+     gray, but when moved over with the mouse the button would become "lit up"
+     and would have color.
+
+     Other useful features include the ability to enable/disable the button 
+     so that the user can't click it for awhile, and also the ability to 
+     add a drop down menu of options which can be rearranged, added, and 
+     removed while the button is active.
+     
+  
+  Programming Interface:
+
+     Creating picButtons
+     -------------------
+
+      AiksaurusGTK_picbutton(GtkWidget* window, const char** normal);
+        
+      Arguments:
+	    
+        'window' is a pointer to an existing window that you're going 
+	    to add the button to. (my guess is this is needed in order to 
+	    extract the color map from the window.)
+	  
+	    'normal' is data from an xpm file.  (if you do 'more' on an xpm
+	    file, you'll see that it's just text.  you can go ahead and 
+	    copy this directly into your program, etc.)
+
+	  Usually 'normal' would be the grayscale version of your image 
+	  that you want to be displayed unless the button is hovered 
+	  over or disabled.
+       
+
+     Getting a Pointer to the Button
+     -------------------------------
+
+        GtkWidget* getButton(); 
+
+	  This will let you get a pointer to the actual button widget, which 
+	  you will need if you want to add it to a container or associate a 
+	  callback function with it.
+
+          It will return a pointer to GtkWidget, but you can use the 
+	  GTK_BUTTON() cast in order to make it an actual button if you need
+	  to do that.
+
+
+     Adding Hover and Disable Pictures
+     ---------------------------------
+	
+	void setHoverPicture(const char** hover);
+
+          Initialize a hover picture.  This will automatically set up 
+	  the callbacks in order to provide the hovering effect.
+
+	  'hover' is just a regular xpm file's data like the constructor
+	  has.
+
+    
+     Enabling and Disabling the Button
+     ---------------------------------
+
+	void disable();
+
+	  Causes the button to stop responding to events, and changes to 
+	  the disabled picture.
+
+	  Safe to call if the button is already disabled.
+	  
+
+	void enable();
+
+	  Causes the button to once again respond to events, and changes
+	  to the normal picture.
+
+	  Safe to call if the button is already enabled.
+
+
+     Adding Dropdown Menus
+     ---------------------
+
+        GtkWidget* addMenu();
+
+	  Causes the button to have a drop-down menu, and returns a 
+	  pointer to a GtkMenu widget that you can add entries to.
+
+	
+	GtkWidget* getMenuButton();
+
+	  Returns a pointer to the drop-down menu's button.  This is
+	  needed so that you can gtk_container_add() or the equivalent
+	  to your container next to the main button.
+
+	  NOT SAFE to call without first calling addMenu().
+     
+
+     
