@@ -5,8 +5,13 @@ AM_CONFIG_HEADER(src/config.h)
 AC_PROG_CC
 AC_PROG_CXX
 AC_HEADER_STDC
+AC_CHECK_HEADERS(malloc.h)
+AC_CHECK_FUNCS(getenv)
 
-CXXFLAGS="-Wall -s $CXXFLAGS"
+Xuname=X`uname`
+if test "$Xuname" != "XDarwin"; then
+	CXXFLAGS="-Wall -s $CXXFLAGS"
+fi
 
 SAVE_CXXFLAGS=$CXXFLAGS
 AC_MSG_CHECKING("whether $CXX accepts $SAVE_CXXFLAGS") 

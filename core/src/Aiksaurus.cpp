@@ -25,6 +25,7 @@
 #include "MeaningsFile.h"
 #include "WordsFile.h"
 #include "WordStream.h"
+#include <stdlib.h>
 #include <string>
 #include <iostream>
 using namespace std;
@@ -249,8 +250,12 @@ Aiksaurus::Aiksaurus() throw()
 #if defined WIN32
 		ReadRegistry();
 #endif
-        std::string base(AIK_DATA_DIR);
-        std::string mfile(base + "meanings.dat");
+	std::string base(AIK_DATA_DIR);
+#ifdef HAVE_GETENV
+	char * aikdatadir_envvar = getenv ("AIK_DATA_DIR");
+	if (aikdatadir_envvar) base = std::string(aikdatadir_envvar);
+#endif
+	std::string mfile(base + "meanings.dat");
         std::string wfile(base + "words.dat");
         d_impl_ptr = new ThesaurusImpl(mfile.c_str(), wfile.c_str());
     }

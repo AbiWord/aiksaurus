@@ -31,6 +31,6 @@ bin_PROGRAMS = aiksaurus caiksaurus
 
 aiksaurus_SOURCES = aiksaurus.t.cpp
 aiksaurus_LDADD = libAiksaurus.la
-	
+
 caiksaurus_SOURCES = caiksaurus.cpp
 caiksaurus_LDADD = libAiksaurus.la

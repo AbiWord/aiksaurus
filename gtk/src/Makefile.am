@@ -32,7 +32,7 @@ libAiksaurusGTK_la_SOURCES = \
 	Toolbar.h \
         AiksaurusGTK-C.h \
 	AiksaurusGTK-C.cpp
-	
+
 libAiksaurusGTK_la_LDFLAGS = -version-info 0:14
 
 include_HEADERS = \
