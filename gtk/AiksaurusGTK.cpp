@@ -142,12 +142,12 @@ class AiksaurusGTK
 
 		static void toolbarBackButtonClickCallback(GtkWidget* w, gpointer data);
 		static void toolbarForwardButtonClickCallback(GtkWidget* w, gpointer data);
-		static void toolbarSearchButtonClickCallback(GtkWidget* w, gpointer data);
-		static void toolbarSearchBarKeyPressedCallback(GtkWidget* w, GdkEventKey* k, gpointer data);
-		static void toolbarSearchBarDropdownChangedCallback(GtkList* l, GtkWidget* w, gpointer data);
         static void toolbarBackButtonMenuClickCallback(GList* element, gpointer data);
         static void toolbarForwardButtonMenuClickCallback(GList* element, gpointer data);
-
+		
+        static void toolbarSearchButtonClickCallback(GtkWidget* w, gpointer data);
+        static void toolbarSearchBarKeyPressedCallback(GtkWidget* w, GdkEventKey* k, gpointer data);
+       
         
 	// Replace-Bar GUI Functions and Data Members
 
@@ -207,14 +207,14 @@ AiksaurusGTK_doSearch(const char* search)
 
 	AiksaurusGTK::s_instance = new AiksaurusGTK(search);
 
-	cout << "Activating Thesaurus." << endl;
+	cout << "AiksaurusGTK_doSearch: Activating Thesaurus." << endl;
 	gtk_main();
-	cout << "ActivateThesaurus has control once again." << endl;
+	cout << "AiksaurusGTK_doSearch: has control once again." << endl;
 
 	delete AiksaurusGTK::s_instance;
 	AiksaurusGTK::s_instance = NULL;
 
-	cout << "Thesaurus destroyed." << endl;
+	cout << "AiksaurusGTK_doSearch: Thesaurus destroyed." << endl;
 
 	return AiksaurusGTK::s_replacement;
 }
@@ -268,9 +268,7 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 			d_originalword_ptr
 		);
 
-        toolbarSearchBarDisconnect();
 		dialogPerformSearch();
-        toolbarSearchBarConnect();
 	}
 }
 
@@ -364,11 +362,13 @@ AiksaurusGTK::dialogExitCallback(GtkWidget* w, GdkEventAny* e, gpointer data)
 
 void AiksaurusGTK::dialogPerformSearch()
 {
+    cout << "AiksaurusGTK::dialogPerformSearch() Called." << endl;
 	const char* str = toolbarSearchBarGetText();
 
 	// don't re-do the search if it is the current search.
 	if (AiksaurusGTK_strEquals(d_aiksaurus_ptr->word(), str))
 	{
+        cout << "AiksaurusGTK::dialogPerformSearch() Exiting (noop)." << endl;
 		return;
 	}
 
@@ -386,15 +386,14 @@ void AiksaurusGTK::dialogPerformSearch()
 	if (d_aiksaurus_ptr->find(str))
 	{
 		count = d_aiksaurus_ptr->count();
-		char pos;
-
+        
+        char pos;
 		for(const char* r = d_aiksaurus_ptr->next(pos);r[0] != '\0';r = d_aiksaurus_ptr->next(pos))
 		{
 			gtk_clist_append(
 				GTK_CLIST(d_wordlist_ptr),
 				const_cast<gchar**>(&r)
 			);
-
 		}
 	}
 
@@ -410,10 +409,11 @@ void AiksaurusGTK::dialogPerformSearch()
 		}
 	}
 
+    // if this isn't a history move, then we need to update the history so 
+    // that it will include this move.
     if (!d_ishistorymove)
     {
         d_history.search(str);
-        d_history.debug();
     }
     
     toolbarUpdateNavigation();
@@ -427,6 +427,8 @@ void AiksaurusGTK::dialogPerformSearch()
 	toolbarSearchBarAppendItem(str);
 
     dialogSetBusy(false);
+    
+    cout << "AiksaurusGTK::dialogPerformSearch() Exiting." << endl;
 }
 
 void 
@@ -581,8 +583,6 @@ AiksaurusGTK::wordlistLabelUpdate(int count)
 void
 AiksaurusGTK::wordlistClick(GtkCList* w, int row, int col, GdkEventButton* e)
 {
-    toolbarSearchBarDisconnect();
-
 	char* text;
 	gtk_clist_get_text(w, row, col, &text);
 
@@ -603,8 +603,6 @@ AiksaurusGTK::wordlistClick(GtkCList* w, int row, int col, GdkEventButton* e)
 			text
 		);
 	}
-
-    toolbarSearchBarConnect();
 }
 
 
@@ -815,8 +813,6 @@ void AiksaurusGTK::toolbarSearchBarCreate()
 	    this	
 	);
 
-	toolbarSearchBarConnect();
-
 	gtk_box_pack_start(
 		GTK_BOX(d_toolbar_ptr),
 		d_searchbar_label_ptr,
@@ -837,12 +833,16 @@ void AiksaurusGTK::toolbarSearchBarCreate()
 
 void AiksaurusGTK::toolbarSearchBarAppendItem(const char* str)
 {
+    cout << "AiksaurusGTK::toolbarSearchBarAppendItem called." << endl;
+    
 	d_searchbar_words.addItem(str);
 
 	gtk_combo_set_popdown_strings(
 		GTK_COMBO(d_searchbar_ptr),
 		const_cast<GList*>(d_searchbar_words.list())
 	);
+
+    cout << "AiksaurusGTK::toolbarSearchBarAppendItem exiting." << endl;
 }
 
 
@@ -874,30 +874,6 @@ AiksaurusGTK::toolbarUpdateNavigation()
 }
 
 
-void
-AiksaurusGTK::toolbarSearchBarConnect()
-{
-    cout << "Searchbar Connected" << endl;
-    gtk_signal_connect(
-        GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->list),
-        "select-child",
-        GTK_SIGNAL_FUNC(toolbarSearchBarDropdownChangedCallback),
-        this
-    );
-}
-
-
-void
-AiksaurusGTK::toolbarSearchBarDisconnect()
-{
-    cout << "Disconnected" << endl;
-    gtk_signal_disconnect_by_func(
-            GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->list),
-            GTK_SIGNAL_FUNC(toolbarSearchBarDropdownChangedCallback),
-            this
-    );
-}
-
 
 const char*
 AiksaurusGTK::toolbarSearchBarGetText()
@@ -911,8 +887,6 @@ AiksaurusGTK::toolbarSearchBarGetText()
 void
 AiksaurusGTK::toolbarBackButtonClick()
 {
-    toolbarSearchBarDisconnect();
-    
     assert(d_history.size_back());
     d_history.debug();
     d_history.move_back();
@@ -926,8 +900,6 @@ AiksaurusGTK::toolbarBackButtonClick()
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
-
-    toolbarSearchBarConnect();
 }
 
 void
@@ -935,8 +907,6 @@ AiksaurusGTK::toolbarForwardButtonClick()
 {
     cout << "toolbarForwardButtonClick() function: " << endl;
  
-    toolbarSearchBarDisconnect();
-    
     assert(d_history.size_forward());
 
     d_history.move_forward();
@@ -950,8 +920,6 @@ AiksaurusGTK::toolbarForwardButtonClick()
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
-
-    toolbarSearchBarConnect();
 }
 
 void 
@@ -959,8 +927,6 @@ AiksaurusGTK::toolbarBackButtonMenuClick(GList* element)
 {
     cout << "  <- Move Back to " << static_cast<char*>(element->data) << endl;
 
-    toolbarSearchBarDisconnect();
-    
     d_history.debug();
     d_history.move_back_to(element);
     d_history.debug();
@@ -973,8 +939,6 @@ AiksaurusGTK::toolbarBackButtonMenuClick(GList* element)
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
-
-    toolbarSearchBarConnect();
 }
 
 void 
@@ -982,8 +946,6 @@ AiksaurusGTK::toolbarForwardButtonMenuClick(GList* element)
 {
     cout << "  -> Move Forward to " << static_cast<char*>(element->data) << endl;
 
-    toolbarSearchBarDisconnect();
-    
     d_history.debug();
     d_history.move_forward_to(element);
     d_history.debug();
@@ -996,16 +958,12 @@ AiksaurusGTK::toolbarForwardButtonMenuClick(GList* element)
     d_ishistorymove = true;
     dialogPerformSearch();
     d_ishistorymove = false;
-
-    toolbarSearchBarConnect();
 }
 
 void
 AiksaurusGTK::toolbarSearchButtonClickCallback(GtkWidget* w, gpointer data)
 {
-	s_instance->toolbarSearchBarDisconnect();
 	s_instance->dialogPerformSearch();
-	s_instance->toolbarSearchBarConnect();
 }
 
 void
@@ -1041,16 +999,7 @@ AiksaurusGTK::toolbarSearchBarKeyPressedCallback(GtkWidget* w, GdkEventKey* e, g
 	{
 		toolbarSearchButtonClickCallback(w, data);
 	}
-
 }
-
-void
-AiksaurusGTK::toolbarSearchBarDropdownChangedCallback(GtkList* l, GtkWidget* w, gpointer data)
-{
-	cout << "SELECT CHILD CALLBACK!!" << endl;
-//	toolbarSearchButtonClickCallback(w, data);
-}
-
 
 
 //////////////////////////////////////////////////////////////////////////

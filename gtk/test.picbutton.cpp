@@ -51,14 +51,15 @@ static const char *back_gray[]={
 "....................",
 "...................."};
 
+
+AiksaurusGTK_strlist MenuOptions;
+
 void
 disablepb(GtkWidget* w, gpointer data)
 {
 	AiksaurusGTK_picbutton* pb = static_cast<AiksaurusGTK_picbutton*>(data);
 	pb->disable();
-
-    AiksaurusGTK_strlist& options = pb->getMenuOptions();
-    options.pop_front();
+    MenuOptions.pop_front();
     pb->updateMenuOptions();
 }
 
@@ -70,9 +71,10 @@ enablepb(GtkWidget* w, gpointer data)
 }
 
 void
-menuselection(const char* selection, gpointer data)
+menuselection(GList* selection, gpointer data)
 {
-    cout << "menuselection(" << selection << ") called." << endl;
+    char* x = static_cast<char*>(selection->data);
+    cout << "menuselection(" << x << ") called." << endl;
 }
 
 
@@ -98,14 +100,13 @@ int main(int argc, char** argv)
     
 	AiksaurusGTK_picbutton pb(window, back_gray);
 	pb.setHoverPicture(back_green);
-	pb.addMenu(GTK_SIGNAL_FUNC(menuselection), &pb);
+	pb.addMenu(MenuOptions, GTK_SIGNAL_FUNC(menuselection), &pb);
 
     cout << "Menu added." << endl;
-    AiksaurusGTK_strlist& options = pb.getMenuOptions();
-    options.push_back("Menu option 1");
-    options.push_back("Menu option 2");
-    options.push_back("Menu option 3");
-    options.push_back("Menu option 4");
+    MenuOptions.push_back("Menu option 1");
+    MenuOptions.push_back("Menu option 2");
+    MenuOptions.push_back("Menu option 3");
+    MenuOptions.push_back("Menu option 4");
     pb.updateMenuOptions();
     
 	GtkWidget *btnbox = gtk_hbox_new(false, 0);

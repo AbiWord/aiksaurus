@@ -42,20 +42,14 @@ AiksaurusGTK_histlist::~AiksaurusGTK_histlist()
 
 void AiksaurusGTK_histlist::addItem(const char* str)
 {
-	cout << "AiksaurusGTK_histlist::addItem() {" << endl;
-	
-	cout << "remove_first(" << str << ")" << endl;
 	d_list_ptr->remove_first(str);
 	
-	cout << "push_front(" << str << ")" << endl;	
 	d_list_ptr->push_front(str);
 
 	if (d_list_ptr->size() > d_maxElements)
 	{
 		d_list_ptr->pop_back();
 	}
-
-	cout << "} " << endl;
 }
 
 

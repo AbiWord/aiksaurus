@@ -1,14 +1,22 @@
 CC=g++
 GTKLINK=`gtk-config --libs` `gtk-config --cflags`
-CPPFLAGS=-Wall -ansi
+CPPFLAGS=-Wall -ansi -ggdb2
 
 TESTS = test.histlist test.strlist test.strlist2 \
-        test.picbutton test.utils test.history
+        test.picbutton test.utils test.history test.searchbar
 
 
 all: gtkAiksaur tests
 
 tests: $(TESTS)
+
+gtkAiksaur2: gtkAiksaur.t2.cpp AiksaurusGTK_strlist.o AiksaurusGTK.o \
+            AiksaurusGTK_histlist.o AiksaurusGTK_history.o AiksaurusGTK_utils.o \
+	    AiksaurusGTK_picbutton.o AiksaurusGTK_icons.o 
+	$(CC) $(CPPFLAGS) $(GTKLINK) -o gtkAiksaur2 \
+            gtkAiksaur.t2.cpp AiksaurusGTK.o AiksaurusGTK_strlist.o \
+	    AiksaurusGTK_histlist.o AiksaurusGTK_utils.o AiksaurusGTK_picbutton.o \
+	    AiksaurusGTK_history.o AiksaurusGTK_icons.o -lAikSaurus
 
 gtkAiksaur: gtkAiksaur.t.cpp AiksaurusGTK_strlist.o AiksaurusGTK.o \
             AiksaurusGTK_histlist.o AiksaurusGTK_history.o AiksaurusGTK_utils.o \
@@ -49,6 +57,18 @@ test.utils : test.utils.cpp AiksaurusGTK_utils.o
 	$(CC) $(CPPFLAGS) -o test.utils \
 	test.utils.cpp AiksaurusGTK_utils.o 
 
+test.searchbar : test.searchbar.cpp AiksaurusGTK_searchbar.o \
+		 AiksaurusGTK_histlist.o AiksaurusGTK_strlist.o \
+		 AiksaurusGTK_utils.o
+	$(CC) $(CPPFLAGS) $(GTKLINK) -o test.searchbar \
+		test.searchbar.cpp AiksaurusGTK_searchbar.o \
+		AiksaurusGTK_histlist.o AiksaurusGTK_strlist.o \
+		AiksaurusGTK_utils.o
+	
+
+AiksaurusGTK_searchbar.o : AiksaurusGTK_searchbar.cpp AiksaurusGTK_searchbar.h \
+                           AiksaurusGTK_histlist.o AiksaurusGTK_utils.o
+	$(CC) $(CPPFLAGS) $(GTKLINK) -c AiksaurusGTK_searchbar.cpp
 
 AiksaurusGTK_histlist.o : AiksaurusGTK_histlist.cpp AiksaurusGTK_histlist.h AiksaurusGTK_strlist.h
 	$(CC) $(CPPFLAGS) $(GTKLINK) -c AiksaurusGTK_histlist.cpp

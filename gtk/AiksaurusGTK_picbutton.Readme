@@ -4,41 +4,42 @@
 
   Purpose:
 
-     A GUI widget for IE-like pixmap buttons that light up when hovered over.
-     Also provides for drop-down menu next to button with a down arrow icon.
+     Provide a widget for IE-like pixmap buttons that light up when hovered over, 
+     and (optionally) with a dropdown menu of choices.
   
   
   Discussion:
-
-     Typically to make one of these buttons you want to take some icon, and 
-     make a color-version, and optionally a grayscale version.
-     
-     Generally you would use the grayscale version of your picture for the 
-     'normal' image, and the color version for the 'hover' image.  This will
-     give the appearance of the button "lighting up" when they user moves
-     the mouse over it.
-
-     The button can also be disabled, which prevents button click events
-     from happening.  No third pixmap is required for this.
   
-     The dropdown menu is an added bonus, and can produce some really nice
-     looking icons.
+     Typically, for one of these buttons you will want a color and grayscale 
+     version of the same image.
+    
+     You would then create the picbutton with the grayscale image, and set the
+     color image as the "hover" image.  This way, the button would normally be
+     gray, but when moved over with the mouse the button would become "lit up"
+     and would have color.
 
+     Other useful features include the ability to enable/disable the button 
+     so that the user can't click it for awhile, and also the ability to 
+     add a drop down menu of options which can be rearranged, added, and 
+     removed while the button is active.
+     
   
   Programming Interface:
 
      Creating picButtons
      -------------------
 
-        AiksaurusGTK_picbutton(GtkWidget* window, const char** normal);
+      AiksaurusGTK_picbutton(GtkWidget* window, const char** normal);
         
-	  'window' is a pointer to an existing window that you're going 
-	  to add the button to. (my guess is this is needed in order to 
-	  extract the color map from the window.)
+      Arguments:
+	    
+        'window' is a pointer to an existing window that you're going 
+	    to add the button to. (my guess is this is needed in order to 
+	    extract the color map from the window.)
 	  
-	  'normal' is data from an xpm file.  (if you do 'more' on an xpm
-	  file, you'll see that it's just text.  you can go ahead and 
-	  copy this directly into your program, etc.)
+	    'normal' is data from an xpm file.  (if you do 'more' on an xpm
+	    file, you'll see that it's just text.  you can go ahead and 
+	    copy this directly into your program, etc.)
 
 	  Usually 'normal' would be the grayscale version of your image 
 	  that you want to be displayed unless the button is hovered 
