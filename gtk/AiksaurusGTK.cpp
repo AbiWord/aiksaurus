@@ -118,6 +118,8 @@ class AiksaurusGTK
 		GtkWidget* d_searchbar_ptr;
 		GtkWidget* d_searchbar_label_ptr;
 
+        bool d_ishistorymove;
+        
 		void toolbarCreate();
 		void toolbarBackButtonCreate();
 		void toolbarForwardButtonCreate();
@@ -229,6 +231,8 @@ AiksaurusGTK_doSearch(const char* search)
 AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 : d_searchbar_words(12)
 {
+    d_ishistorymove = false;
+    
 	if (s_title == NULL)
 		AiksaurusGTK_setTitle(AiksaurusGTK_title);
 
@@ -393,20 +397,21 @@ void AiksaurusGTK::dialogPerformSearch()
 		}
 	}
 
-    d_history.search(str);
+    if (!d_ishistorymove)
+    {
+        d_history.search(str);
+        d_history.debug();
+    }
+    
     toolbarUpdateNavigation();
-	wordlistLabelUpdate(count);
-    d_history.debug();
+	
+    wordlistLabelUpdate(count);
 
 	gtk_clist_thaw(
 		GTK_CLIST(d_wordlist_ptr)
 	);
 
-	cout << "  Appending text to list." << endl;
 	toolbarSearchBarAppendItem(str);
-
-	cout << "}" << endl;
-
 }
 
 
@@ -862,7 +867,6 @@ AiksaurusGTK::toolbarSearchBarGetText()
 void
 AiksaurusGTK::toolbarBackButtonClick()
 {
-    cout << "toolbarBackButtonClick() function: " << endl;
     assert(d_history.size_back());
     d_history.debug();
     d_history.move_back();
@@ -873,8 +877,9 @@ AiksaurusGTK::toolbarBackButtonClick()
             d_history.current()
     );
 
+    d_ishistorymove = true;
     dialogPerformSearch();
-    toolbarUpdateNavigation();
+    d_ishistorymove = false;
 }
 
 void
@@ -891,8 +896,9 @@ AiksaurusGTK::toolbarForwardButtonClick()
 			d_history.current()
 	);
 
+    d_ishistorymove = true;
     dialogPerformSearch();
-    toolbarUpdateNavigation();
+    d_ishistorymove = false;
 }
 
 void
