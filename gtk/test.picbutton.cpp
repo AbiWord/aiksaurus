@@ -51,30 +51,6 @@ static const char *back_gray[]={
 "....................",
 "...................."};
 
-static const char *back_black[]={
-"20 16 4 1",
-"a c #737573",
-"# c #7b797b",
-"b c #a4a1a4",
-". c None",
-"....................",
-"....................",
-"....................",
-"........#a..........",
-".......a#a..........",
-"......#a##a##a#a....",
-".....#a##a##a##a....",
-"....a#a#a##a#a##....",
-"....b#a##a#a##a#....",
-".....ba#a##a#a#a....",
-"......b##abbbbbb....",
-".......ba#..........",
-"........ba..........",
-"....................",
-"....................",
-"...................."};
-
-
 void
 disablepb(GtkWidget* w, gpointer data)
 {
@@ -110,7 +86,6 @@ int main(int argc, char** argv)
 	
 	AiksaurusGTK_picbutton pb(window, back_gray);
 	pb.setHoverPicture(back_green);
-	pb.setDisabledPicture(back_black);
 	
 	gtk_box_pack_start(
 		GTK_BOX(layout), 
