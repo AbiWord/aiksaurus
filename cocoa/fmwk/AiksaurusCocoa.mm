@@ -38,6 +38,8 @@
 
 	[m_synonyms retain];
 
+	m_rows = 1;
+
 	return self;
 }
 
@@ -54,6 +56,8 @@
 - (void)synonymAdd:(NSString *)synonym
 {
 	[m_synonyms addObject:synonym];
+
+	m_rows = 1 + ((int) [m_synonyms count] + 3) >> 2;
 }
 
 - (NSString *)synonymAtPosition:(unsigned)position
@@ -70,9 +74,39 @@
 	return [m_synonyms count];
 }
 
-- (int)numberOfRowsInTableView /* used by AiksaurusCocoaDataSource */
+- (int)numberOfRowsInTableView
 {
-	return 1 + ((int) [m_synonyms count] + 3) >> 2;
+	return m_rows;
+}
+
+- (NSString *)objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+	NSString * value = @"";
+	NSString * col = (NSString *) [aTableColumn identifier];
+
+	int colIndex = 3;
+
+	if ([col isEqualToString:@"1"])
+		colIndex = 0;
+	else if ([col isEqualToString:@"2"])
+		colIndex = 1;
+	else if ([col isEqualToString:@"3"])
+		colIndex = 2;
+
+	if (rowIndex)
+		{
+			int index = (rowIndex - 1) << 2 + colIndex;
+			value = (NSString *) [m_synonyms objectAtIndex:index];
+		}
+	else if (colIndex == 0)
+		{
+			value = m_title_1;
+		}
+	else if (colIndex == 2)
+		{
+			value = m_title_2;
+		}
+	return value;
 }
 
 @end
@@ -311,9 +345,31 @@
 	return [m_meanings count];
 }
 
-- (int)numberOfRowsInTableView /* used by AiksaurusCocoaDataSource */
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView
 {
 	return m_rows;
+}
+
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex
+{
+	NSString * value = @"";
+
+	int rows = 0;
+
+	unsigned count = [m_meanings count];
+
+	for (unsigned i = 0; i < count; i++)
+		{
+			AiksaurusCocoaMeaning * acm = (AiksaurusCocoaMeaning *) [m_meanings objectAtIndex:i];
+			int sub_rows = [acm numberOfRowsInTableView];
+			if ((rowIndex >= rows) && (rowIndex < rows + sub_rows))
+				{
+					value = [acm objectValueForTableColumn:aTableColumn row:(rowIndex - rows)];
+					break;
+				}
+			rows += sub_rows;
+		}
+	return value;
 }
 
 @end

@@ -116,7 +116,7 @@
 				HEADER_SEARCH_PATHS = "";
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
-				OTHER_CFLAGS = "-DAIK_DATA_DIR=\\\\\\\"\\\\\\\" -DHAVE_GETENV -DAIKSAURUS_COCOA_SOURCE";
+				OTHER_CFLAGS = "-DAIK_DATA_DIR=\\\\\\\"\\\\\\\" -DHAVE_GETENV";
 				OTHER_LDFLAGS = "-seg1addr 3ff00000";
 				PRODUCT_NAME = Aiksaurus;
 				SECTORDER_FLAGS = "";
@@ -166,7 +166,6 @@
 				30C82972045D852600A738B5,
 				30C82974045D852600A738B5,
 				30C82984045D968B00A738B5,
-				30EE33430461A3AD00A738B5,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,7 +190,6 @@
 				30C82979045D852600A738B5,
 				30C8297C045D852600A738B5,
 				30C82985045D968B00A738B5,
-				30EE33440461A3AD00A738B5,
 			);
 			isa = PBXSourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,8 +573,6 @@
 			children = (
 				30C82982045D968B00A738B5,
 				30C82983045D968B00A738B5,
-				30EE33410461A3AD00A738B5,
-				30EE33420461A3AD00A738B5,
 			);
 			isa = PBXGroup;
 			name = fmwk;
@@ -752,32 +748,6 @@
 		};
 		30C82997045DA3D900A738B5 = {
 			fileRef = 30C82995045DA3D900A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30EE33410461A3AD00A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AiksaurusCocoaDataSource.h;
-			path = fmwk/AiksaurusCocoaDataSource.h;
-			refType = 4;
-		};
-		30EE33420461A3AD00A738B5 = {
-			fileEncoding = 30;
-			isa = PBXFileReference;
-			name = AiksaurusCocoaDataSource.m;
-			path = fmwk/AiksaurusCocoaDataSource.m;
-			refType = 4;
-		};
-		30EE33430461A3AD00A738B5 = {
-			fileRef = 30EE33410461A3AD00A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
-		30EE33440461A3AD00A738B5 = {
-			fileRef = 30EE33420461A3AD00A738B5;
 			isa = PBXBuildFile;
 			settings = {
 			};

@@ -20,12 +20,10 @@
  */
 
 #import "AiksaurusCocoa.h"
-#import "AiksaurusCocoaDataSource.h"
 
 @interface AiksaurusCocoaMain : NSObject
 {
-	AiksaurusCocoa *			m_aiksaurus;
-	AiksaurusCocoaDataSource *	m_datasrc;
+	AiksaurusCocoa *	m_aiksaurus;
 
 	IBOutlet NSButton *			oBack;
 	IBOutlet NSButton *			oForward;

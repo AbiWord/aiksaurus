@@ -27,6 +27,8 @@
 	NSString *	m_title_2;
 
 	NSMutableArray *	m_synonyms;
+
+	int			m_rows;
 }
 - (id)initWithTitle:(NSString *)title withAlternativeTitle:(NSString *)alt;
 - (void)dealloc;
@@ -35,7 +37,8 @@
 - (NSString *)synonymAtPosition:(unsigned)position;
 - (unsigned)synonyms;
 
-- (int)numberOfRowsInTableView; /* used by AiksaurusCocoaDataSource */
+- (int)numberOfRowsInTableView;
+- (NSString *)objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 @end
 
 @interface AiksaurusCocoa : NSObject
@@ -69,5 +72,8 @@
 - (AiksaurusCocoaMeaning *)meaningAtPosition:(unsigned)position;
 - (unsigned)meanings;
 
-- (int)numberOfRowsInTableView; /* used by AiksaurusCocoaDataSource */
+/* NSTableViewDataSource informal protocol
+ */
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 @end
