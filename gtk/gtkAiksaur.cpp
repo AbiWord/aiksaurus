@@ -9,6 +9,7 @@ static gint gaik_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data);
 // toolbar event callback functions
 static void gaik_backButtonCallback(GtkWidget* w, gpointer data);
 static void gaik_forwardButtonCallback(GtkWidget* w, gpointer data);
+static void gaik_searchButtonCallback(GtkWidget* w, gpointer data);
 
 class gtkAiksaur
 {
@@ -21,10 +22,18 @@ class gtkAiksaur
 	
 		GtkWidget* d_forwardbutton_ptr;
 		GtkWidget* d_forwardbutton_label_ptr;
+	
+		GtkWidget* d_searchbutton_ptr;
+		GtkWidget* d_searchbutton_label_ptr;
+	
+		GtkWidget* d_searchbar_ptr;
+		GtkWidget* d_searchbar_label_ptr;
 		
 		void createToolbar();
 		void createBackbutton();
 		void createForwardbutton();	
+		void createSearchbutton();
+		void createSearchbar();
 		
 	public:
 		gtkAiksaur();		
@@ -66,6 +75,7 @@ void gtkAiksaur::createBackbutton()
 {
 	d_backbutton_ptr = gtk_button_new();
 	d_backbutton_label_ptr = gtk_label_new("<-");
+
 	gtk_container_add(
 		GTK_CONTAINER(d_backbutton_ptr),
 		d_backbutton_label_ptr
@@ -87,10 +97,12 @@ void gtkAiksaur::createBackbutton()
 }
 
 
+
 void gtkAiksaur::createForwardbutton()
 {
 	d_forwardbutton_ptr = gtk_button_new();
 	d_forwardbutton_label_ptr = gtk_label_new("->");
+	
 	gtk_container_add(
 		GTK_CONTAINER(d_forwardbutton_ptr),
 		d_forwardbutton_label_ptr
@@ -112,6 +124,52 @@ void gtkAiksaur::createForwardbutton()
 }
 
 
+
+void gtkAiksaur::createSearchbutton()
+{
+	d_searchbutton_ptr = gtk_button_new();
+	d_searchbutton_label_ptr = gtk_label_new("Search");
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_searchbutton_ptr),
+		d_searchbutton_label_ptr
+	);
+	
+	gtk_signal_connect(
+		GTK_OBJECT(d_searchbutton_ptr),
+		"clicked",
+		GTK_SIGNAL_FUNC(gaik_searchButtonCallback),
+		d_searchbutton_label_ptr	
+	);
+
+	gtk_toolbar_append_widget(
+		GTK_TOOLBAR(d_toolbar_ptr),
+		d_searchbutton_ptr,
+		"Perform Search",
+		"Perform Search"
+	);	
+}
+
+void gtkAiksaur::createSearchbar()
+{
+	d_searchbar_label_ptr = gtk_label_new("  Look up:");
+	d_searchbar_ptr = gtk_entry_new();
+
+	gtk_toolbar_append_widget(
+		GTK_TOOLBAR(d_toolbar_ptr),
+		d_searchbar_label_ptr,
+		NULL,
+		NULL
+	);
+
+	gtk_toolbar_append_widget(
+		GTK_TOOLBAR(d_toolbar_ptr),
+		d_searchbar_ptr,
+		NULL,
+		NULL
+	);
+}
+
 void gtkAiksaur::createToolbar()
 {
 	d_toolbar_ptr = gtk_toolbar_new(
@@ -121,6 +179,8 @@ void gtkAiksaur::createToolbar()
 
 	createBackbutton();
 	createForwardbutton();
+	createSearchbar();
+	createSearchbutton();
 	
 	gtk_container_add(
 		GTK_CONTAINER(d_window_ptr), 		
@@ -151,6 +211,13 @@ gaik_forwardButtonCallback(GtkWidget* w, gpointer data)
 {
 	cout << "gaik_forwardButtonCallback executed." << endl;
 }
+
+static void 
+gaik_searchButtonCallback(GtkWidget* w, gpointer data)
+{
+	cout << "gaik_searchButtonCallback executed." << endl;
+}
+
 
 static gint
 gaik_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data)
