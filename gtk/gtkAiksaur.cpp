@@ -934,8 +934,15 @@ void AiksaurusGTK::listClick(GtkCList* w, int row, int col, GdkEventButton* e)
 	gtk_clist_get_text(w, row, col, &text);
 	
 	if (e->type == GDK_2BUTTON_PRESS)
-		cout << "Double click: " << text << endl;
-
+	{
+		gtk_entry_set_text(
+			GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry),
+			text
+		);
+	
+		performSearch();
+	}
+	
 	else
 	{
 		cout << "Single click: " << text << endl;
