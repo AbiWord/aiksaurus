@@ -1,5 +1,11 @@
 2001-08-27  John Levon  <moz@compsoc.man.ac.uk>
 
+	* CommandLineDemo.cpp:
+	* InteractiveDemo.cpp: change start dir to correct
+	  directory
+ 
+2001-08-27  John Levon  <moz@compsoc.man.ac.uk>
+
 	* Makefile.am:
 	* configure.in: 
 	* data/: moved data into a sub-dir

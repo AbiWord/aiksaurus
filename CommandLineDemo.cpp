@@ -40,7 +40,7 @@ void checkError(const AikSaurus& T)
 
 int main(int argc, const char** argv)
 {
-	AikSaurus T("./");
+	AikSaurus T("./data/");
 	checkError(T);
 		
 	if (argc != 2)
