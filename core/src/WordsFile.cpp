@@ -122,7 +122,7 @@ WordsFile::WordsFile(const char* fname) throw(AiksaurusException)
         
         d_word = new char[maxWordLength() + 1];
         d_links = new int[s_maxLinks + 1];
-        d_file_ptr = fopen(fname, "r");
+        d_file_ptr = fopen(fname, "rb");
 
         if (!d_file_ptr)
         {
@@ -176,7 +176,7 @@ bool WordsFile::findWord(const char* str, int& index) throw(AiksaurusException)
     // Create copy of str, so that we can turn spaces into colons.
     // We only need to copy the first s_wordlen + 1 bytes to ensure
     // that we will get a correct match.
-    char s[maxWordLength() + 2];          
+    char* s = new char[maxWordLength() + 2];          
     s[maxWordLength() + 1] = 0;               
     for(int i = 0; i < (maxWordLength() + 2); ++i)
     {
@@ -214,6 +214,7 @@ bool WordsFile::findWord(const char* str, int& index) throw(AiksaurusException)
         }
     }
 
+	delete[] s;
     bool ret = true;
     
     if (index == -1)
@@ -233,8 +234,9 @@ bool WordsFile::findWord(const char* str, int& index) throw(AiksaurusException)
 //
 void WordsFile::_readWord()
 {
+	int i = 0;
     // First we will read in a word.
-    for(int i = 0; i <= maxWordLength(); ++i)
+    for(i = 0; i <= maxWordLength(); ++i)
     {
         int c = fgetc(d_file_ptr);
 
@@ -252,10 +254,13 @@ void WordsFile::_readWord()
 
     
     // Now we want to read links.
-    for(int i = 0; ;++i)
+    for(i = 0; ;++i)
     {
         int x1 = fgetc(d_file_ptr), 
             x2 = fgetc(d_file_ptr);
+
+		int myfeof = feof(d_file_ptr);
+		int myferror = ferror(d_file_ptr);
 
         if (ferror(d_file_ptr) || feof(d_file_ptr)) 
             throw AiksaurusException(AiksaurusException::CORRUPT_WORDS_FILE);

@@ -18,24 +18,37 @@
  * 02111-1307, USA.
  *
  */
-
 #ifndef INCLUDED_AIKSAURUSC_H
 #define INCLUDED_AIKSAURUSC_H
+
+	#if defined WIN32 
+		#if defined _STATIC_BUILD
+			#define AIKEXPORT
+		#else
+			#if defined _DLL
+				#define AIKEXPORT __declspec(dllexport)
+			#else
+				#define AIKEXPORT __declspec(dllimport)
+			#endif
+		#endif
+	#else
+		#define AIKEXPORT
+	#endif
 
     #if defined (__cplusplus)
     extern "C" {
     #endif
 
-        int  Aiksaurus_init();
-        void Aiksaurus_destroy();
+        AIKEXPORT int  Aiksaurus_init();
+        AIKEXPORT void Aiksaurus_destroy();
 
-        const char* Aiksaurus_error();
-        const char* Aiksaurus_word();
+        AIKEXPORT const char* Aiksaurus_error();
+        AIKEXPORT const char* Aiksaurus_word();
 
-        int Aiksaurus_find(const char* word);
+        AIKEXPORT int Aiksaurus_find(const char* word);
     
-        const char* Aiksaurus_next(int* meaning);
-        const char* Aiksaurus_similar();
+        AIKEXPORT const char* Aiksaurus_next(int* meaning);
+        AIKEXPORT const char* Aiksaurus_similar();
 
     #if defined (__cplusplus)
     }

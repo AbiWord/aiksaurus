@@ -168,7 +168,7 @@ MeaningStream::read(int& x) throw(AiksaurusException)
 //
 MeaningsFile::MeaningsFile(const char* fname) throw(AiksaurusException)
 {
-    d_file_ptr = fopen(fname, "r");
+    d_file_ptr = fopen(fname, "rb");
     if (!d_file_ptr)
     {
         throw AiksaurusException(

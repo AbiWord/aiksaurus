@@ -22,10 +22,24 @@
 #ifndef INCLUDED_AIKSAURUS_H
 #define INCLUDED_AIKSAURUS_H
 
+#if defined WIN32 
+	#if defined _STATIC_BUILD
+		#define AIKEXPORT
+	#else
+		#if defined _DLL
+			#define AIKEXPORT __declspec(dllexport)
+		#else
+			#define AIKEXPORT __declspec(dllimport)
+		#endif
+	#endif
+#else
+	#define AIKEXPORT
+#endif
+
 namespace AiksaurusImpl
 {
     class ThesaurusImpl;
-    class Aiksaurus
+    class AIKEXPORT Aiksaurus
     {
 	    private:
            

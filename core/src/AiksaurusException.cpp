@@ -27,6 +27,10 @@
 #include <new>                      // for std::bad_alloc
 using namespace std;
 
+#if defined WIN32
+	extern std::string aik_data_dir;
+#endif
+
 namespace AiksaurusImpl
 {
     const char* AiksaurusException::MemoryError = 
@@ -129,8 +133,12 @@ namespace AiksaurusImpl
     
     AiksaurusException::~AiksaurusException() throw()
     {
-        if (d_description != MemoryError)
-            delete[] d_description;
+        if( d_description != MemoryError )
+		{
+#if !defined WIN32
+			delete[] d_description;
+#endif
+		}
     }
 
 

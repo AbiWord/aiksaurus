@@ -29,6 +29,36 @@
 #include <iostream>
 using namespace std;
 
+#if defined WIN32
+	#include <windows.h>
+	#define WIN32_LEAN_AND_MEAN
+	// Default aik_data_dir is local directory
+	std::string aik_data_dir(".\\");
+	// Regestry Reading for AIK_DATA_DIR
+	void ReadRegistry()
+	{
+		HKEY hKey;
+		unsigned long lType;	
+		DWORD dwSize;
+		unsigned char* szValue = NULL;
+		if( ::RegOpenKeyEx( HKEY_LOCAL_MACHINE, "Software\\Aiksaurus", 0, KEY_READ, &hKey) == ERROR_SUCCESS )
+		{
+			// Determine size of string
+			if( ::RegQueryValueEx( hKey, "Data_Dir", NULL, &lType, NULL, &dwSize) == ERROR_SUCCESS )
+			{
+				szValue = new unsigned char[dwSize + 1];
+				::RegQueryValueEx( hKey, "Data_Dir", NULL, &lType, szValue, &dwSize);
+				aik_data_dir = (char*) szValue;
+				delete[] szValue;
+			}
+		}
+	}
+	#if defined _DLL
+		//Add a DllMain Entry point
+		BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved ) { return TRUE; }
+	#endif
+#endif
+
 namespace AiksaurusImpl
 {
     class ThesaurusImpl
@@ -216,6 +246,9 @@ Aiksaurus::Aiksaurus() throw()
 {
     try
     {
+#if defined WIN32
+		ReadRegistry();
+#endif
         std::string base(AIK_DATA_DIR);
         std::string mfile(base + "meanings.dat");
         std::string wfile(base + "words.dat");
