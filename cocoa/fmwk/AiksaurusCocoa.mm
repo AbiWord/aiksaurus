@@ -70,6 +70,11 @@
 	return [m_synonyms count];
 }
 
+- (int)numberOfRowsInTableView /* used by AiksaurusCocoaDataSource */
+{
+	return 1 + ((int) [m_synonyms count] + 3) >> 2;
+}
+
 @end
 
 @implementation AiksaurusCocoa
@@ -88,6 +93,8 @@
 
 	[m_history  retain];
 	[m_meanings retain];
+
+	m_rows = 0;
 
 	NSBundle * bundle = [NSBundle bundleForClass:[self class]];
 
@@ -274,6 +281,19 @@
 					if (acm) [acm synonymAdd:[NSString stringWithUTF8String:r]];
 				}
 		}
+
+	/* calculate number of rows in standard table layout; cache for efficient use later
+	 */
+	m_rows = 0;
+
+	int count = (int) [m_meanings count];
+
+	for (int i = 0; i < count; i++)
+		{
+			AiksaurusCocoaMeaning * acm = (AiksaurusCocoaMeaning *) [m_meanings objectAtIndex:i];
+			m_rows += [acm numberOfRowsInTableView];
+		}
+
 	return YES;
 }
 
@@ -289,6 +309,11 @@
 - (unsigned)meanings
 {
 	return [m_meanings count];
+}
+
+- (int)numberOfRowsInTableView /* used by AiksaurusCocoaDataSource */
+{
+	return m_rows;
 }
 
 @end

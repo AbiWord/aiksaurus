@@ -19,30 +19,19 @@
  * 02111-1307, USA.
  */
 
+#ifndef AIKSAURUS_COCOA_SOURCE
+#import <Aiksaurus/AiksaurusCocoa.h>
+#else
 #import "AiksaurusCocoa.h"
-#import "AiksaurusCocoaDataSource.h"
+#endif
 
-@interface AiksaurusCocoaMain : NSObject
+@interface AiksaurusCocoaDataSource : NSObject
 {
-	AiksaurusCocoa *			m_aiksaurus;
-	AiksaurusCocoaDataSource *	m_datasrc;
-
-	IBOutlet NSButton *			oBack;
-	IBOutlet NSButton *			oForward;
-	IBOutlet NSPopUpButton *	oHistory;
-	IBOutlet NSTableView *		oResultsTable;
-	IBOutlet NSTextField *		oSearchField;
-	IBOutlet NSTextField *		oStatus;
+	AiksaurusCocoa *	m_aiksaurus;
 }
-- (void)awakeFromNib;
+- (id)initWithAiksaurus:(AiksaurusCocoa *)aiksaurus;
 - (void)dealloc;
 
-- (void)sync;
-
-- (IBAction)aBack:(id)sender;
-- (IBAction)aForward:(id)sender;
-- (IBAction)aHistory:(id)sender;
-- (IBAction)aResultsTable:(id)sender;
-- (IBAction)aSearch:(id)sender;
-- (IBAction)aSearchField:(id)sender;
+- (int)numberOfRowsInTableView:(NSTableView *)aTableView;
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)rowIndex;
 @end

@@ -28,11 +28,18 @@
 	m_aiksaurus = [[AiksaurusCocoa alloc] init];
 
 	if (m_aiksaurus)
+		m_datasrc = [[AiksaurusCocoaDataSource alloc] initWithAiksaurus:m_aiksaurus];
+	else
+		m_datasrc = nil;
+
+	if (m_aiksaurus && m_datasrc)
 		{
 			if ([m_aiksaurus okay])
 				{
 					[oStatus setTextColor:[NSColor blackColor]];
 					[oStatus setStringValue:@"Yay! Give me a word, please..."];
+
+					[oResultsTable setDataSource:m_datasrc];
 				}
 			else
 				{
@@ -53,6 +60,11 @@
 
 - (void)dealloc
 {
+	if (m_datasrc)
+		{
+			[m_datasrc dealloc];
+			m_datasrc = nil;
+		}
 	if (m_aiksaurus)
 		{
 			[m_aiksaurus dealloc];
@@ -77,6 +89,8 @@
 		[oHistory setEnabled:YES];
 	else
 		[oHistory setEnabled:NO];
+
+	[oResultsTable reloadData];
 }
 
 - (IBAction)aBack:(id)sender

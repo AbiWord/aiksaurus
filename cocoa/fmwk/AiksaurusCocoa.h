@@ -34,6 +34,8 @@
 - (void)synonymAdd:(NSString *)synonym;
 - (NSString *)synonymAtPosition:(unsigned)position;
 - (unsigned)synonyms;
+
+- (int)numberOfRowsInTableView; /* used by AiksaurusCocoaDataSource */
 @end
 
 @interface AiksaurusCocoa : NSObject
@@ -45,6 +47,8 @@
 
 	NSMutableArray *	m_history;
 	NSMutableArray *	m_meanings;
+
+	int			m_rows;
 }
 - (id)init;
 - (void)dealloc;
@@ -64,4 +68,6 @@
 
 - (AiksaurusCocoaMeaning *)meaningAtPosition:(unsigned)position;
 - (unsigned)meanings;
+
+- (int)numberOfRowsInTableView; /* used by AiksaurusCocoaDataSource */
 @end
