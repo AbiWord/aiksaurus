@@ -7,3 +7,5 @@ GTKSRCDIR =
 endif
 
 SUBDIRS = core $(GTKSRCDIR)
+
+EXTRA_DIST = aiksaurus.spec.in

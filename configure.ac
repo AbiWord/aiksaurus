@@ -1,4 +1,4 @@
-AC_INIT([Aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
+AC_INIT([aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
 AC_CONFIG_SRCDIR([core/src/Aiksaurus.h])
 
 # Aiksaurus, version 1.0
@@ -65,7 +65,7 @@ AC_SUBST(LT_AIKGTK_VERSION_INFO)
 
 # initialize automake
 # 
-AM_INIT_AUTOMAKE(Aiksaurus,$AIKSAURUS_VERSION)
+AM_INIT_AUTOMAKE(aiksaurus,$AIKSAURUS_VERSION)
 
 # Specify a configuration file
 # 
@@ -138,11 +138,10 @@ AH_BOTTOM([
 
 AC_CONFIG_FILES([
 	Makefile
-	core/Aiksaurus.spec
+	aiksaurus.spec
 	core/Makefile
 	core/src/Makefile
 	core/data/Makefile
-	gtk/AiksaurusGTK.spec
 	gtk/Makefile
 	gtk/src/Makefile
 ])
