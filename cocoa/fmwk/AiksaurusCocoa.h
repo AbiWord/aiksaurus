@@ -92,7 +92,7 @@
 - (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex;
 @end
 
-@interface AiksaurusCocoaPanel : NSObject
+@interface AiksaurusCocoaPanel : NSWindowController
 {
 	AiksaurusCocoa *	m_aiksaurus;
 
@@ -107,19 +107,11 @@
 
 	id		m_target;
 	SEL		m_action;
-
-	BOOL	m_active;
 }
 - (id)init;
 - (void)dealloc;
 
-- (void)openPanelWithWord:(NSString *)word;
-- (void)openPanel;
-- (void)closePanel;
-
-/* NSWindow delegate method
- */
-- (void)windowWillClose:(NSNotification *)aNotification;
+- (void)lookupWord:(NSString *)word;
 
 - (void)sync;
 

@@ -183,7 +183,7 @@
 - (IBAction)aSearchField:(id)sender
 {
 	NSString * word = [oSearchField stringValue];
-
+/* [[[AiksaurusCocoaPanel alloc] init] showWindow:self]; */
 	if (word)
 		{
 			if ([m_aiksaurus lookupWord:word reorderHistory:YES])

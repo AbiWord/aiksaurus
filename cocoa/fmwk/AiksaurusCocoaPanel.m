@@ -21,26 +21,66 @@
 
 #import <AppKit/NSNibLoading.h>
 #import "AiksaurusCocoa.h"
-
+#include <stdio.h>
 @implementation AiksaurusCocoaPanel
 
 - (id)init
 {
-	[super init];
+	NSBundle * bundle = nil;
+
+	NSSize size;
+
+	NSDictionary * dictionary = nil;
+
+	[super initWithWindow:nil];
 
 	m_aiksaurus = [[AiksaurusCocoa alloc] init];
 
 	m_target = nil;
 
-	m_active = NO;
+	bundle = [NSBundle bundleForClass:[self class]];
 
+	dictionary = [NSDictionary dictionaryWithObject:self forKey:@"NSOwner"];
+
+	if ([bundle loadNibFile:@"Panel" externalNameTable:dictionary withZone:[bundle zone]])
+		{
+			if (m_aiksaurus)
+				{
+					if ([m_aiksaurus okay])
+						{
+							[oStatus setTextColor:[NSColor blackColor]];
+							[oStatus setStringValue:@"Yay! Give me a word, please..."];
+
+							[oResultsTable setDataSource:m_aiksaurus];
+							[oResultsTable setDelegate:m_aiksaurus];
+						}
+					else
+						{
+							[oStatus setTextColor:[NSColor redColor]];
+							[oStatus setStringValue:[m_aiksaurus lastError]];
+						}
+					[self sync];
+				}
+			else
+				{
+					[oStatus setTextColor:[NSColor redColor]];
+					[oStatus setStringValue:@"Error: Insufficient memory!"];
+				}
+
+			if ([oHistory numberOfItems])
+				[oHistory removeAllItems];
+
+			size.width  = 0;
+			size.height = 1;
+
+			[oResultsTable setIntercellSpacing:size];
+			[oResultsTable setDoubleAction:@selector(aDoubleClick:)];
+		}
 	return self;
 }
 
 - (void)dealloc
 {
-	[self closePanel];
-
 	if (m_aiksaurus)
 		{
 			[m_aiksaurus dealloc];
@@ -49,82 +89,18 @@
 	[super dealloc];
 }
 
-- (void)openPanelWithWord:(NSString *)word
+- (void)lookupWord:(NSString *)word
 {
-	[self openPanel];
+	[oSearchField setStringValue:word];
 
-	if (m_active)
-		{
-			[oSearchField setStringValue:word];
-			[self aSearchField:self];
-		}
-}
-
-- (void)openPanel
-{
-	NSBundle * bundle = nil;
-
-	NSSize size;
-
-	if (m_active)
-		return;
-
-	bundle = [NSBundle bundleForClass:[self class]];
-
-	NSDictionary * dictionary = [NSDictionary dictionaryWithObject:self forKey:@"NSOwner"];
-
-	if (![bundle loadNibFile:@"Panel" externalNameTable:dictionary withZone:[bundle zone]])
-		return;
-
-	m_active = YES;
-
-	if (m_aiksaurus)
-		{
-			if ([m_aiksaurus okay])
-				{
-					[oStatus setTextColor:[NSColor blackColor]];
-					[oStatus setStringValue:@"Yay! Give me a word, please..."];
-
-					[oResultsTable setDataSource:m_aiksaurus];
-					[oResultsTable setDelegate:m_aiksaurus];
-				}
-			else
-				{
-					[oStatus setTextColor:[NSColor redColor]];
-					[oStatus setStringValue:[m_aiksaurus lastError]];
-				}
-		}
-	else
-		{
-			[oStatus setTextColor:[NSColor redColor]];
-			[oStatus setStringValue:@"Error: Insufficient memory!"];
-		}
-
-	size.width  = 0;
-	size.height = 1;
-
-	[oResultsTable setIntercellSpacing:size];
-	[oResultsTable setDoubleAction:@selector(aDoubleClick:)];
-
-	[self sync];
-}
-
-- (void)closePanel
-{
-	if (!m_active) return;
-
-	[oPanel performClose:self];
-}
-
-/* NSWindow delegate method
- */
-- (void)windowWillClose:(NSNotification *)aNotification
-{
-	m_active = NO;
+	[self aSearchField:self];
 }
 
 - (void)sync
 {
+	if (m_aiksaurus == nil)
+		return;
+
 	if ([m_aiksaurus historyCanGoBack])
 		[oBack    setEnabled:YES];
 	else
