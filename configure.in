@@ -1,6 +1,7 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_INIT(AikSaurus.cpp)
 AM_INIT_AUTOMAKE(AikSaurus, 0.10)
+# FIXME: LIB_VERSION_INFO or whatever ? 
 AM_CONFIG_HEADER(config.h)
 
 dnl Checks for programs.
@@ -37,4 +38,4 @@ AC_CHECK_LIB(bz2, BZ2_bzReadOpen,,
 AIK_CXXFLAGS="-DAIK_DATA_DIR=\\\"$aikdatadir\\\""
 AC_SUBST(AIK_CXXFLAGS)
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT(Makefile aiksaurus.spec)

@@ -66,4 +66,4 @@ pkgdata_DATA = \
 	32.bz2 \
 	33.bz2
 
-EXTRA_DIST = $(pkgdata_DATA) autogen.sh ChangeLog README LICENSE CHANGES
+EXTRA_DIST = $(pkgdata_DATA) autogen.sh ChangeLog README LICENSE CHANGES aiksaurus.spec.in

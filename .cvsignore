@@ -3,6 +3,7 @@ InteractiveDemo
 Makefile
 Makefile.in
 aclocal.m4 
+aiksaurus.spec
 configure
 config.cache
 config.h.in

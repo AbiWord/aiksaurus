@@ -1,3 +1,10 @@
+2001-08-16  John Levon  <moz@compsoc.man.ac.uk>
+
+	* Makefile.am:
+	* configure.in:
+	* .cvsignore:
+	* aiksaurus.spec.in: add an RPM spec file
+ 
 2001-08-10  John Levon  <moz@compsoc.man.ac.uk>
 
 	* Makefile.am:
