@@ -87,7 +87,8 @@ class AiksaurusGTK
 
 		void dialogPerformSearch();
 
-
+        GdkCursor* d_cursor_ptr;
+        void dialogSetBusy(bool busy);
 
 	// Wordlist GUI Functions and Data Members
 
@@ -235,6 +236,8 @@ AiksaurusGTK_doSearch(const char* search)
 AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 : d_searchbar_words(12)
 {
+    d_cursor_ptr = NULL;
+    
     d_ishistorymove = false;
     
 	if (s_title == NULL)
@@ -274,6 +277,9 @@ AiksaurusGTK::~AiksaurusGTK()
 {
 	delete[] d_originalword_ptr;
 	delete d_aiksaurus_ptr;
+    
+    if (d_cursor_ptr)
+        gdk_cursor_destroy(d_cursor_ptr);
 
 	if (!d_window_destroyed)
 		gtk_widget_destroy(d_window_ptr);
@@ -364,6 +370,7 @@ void AiksaurusGTK::dialogPerformSearch()
 		return;
 	}
 
+    dialogSetBusy(true);
 
 	gtk_clist_freeze(
 		GTK_CLIST(d_wordlist_ptr)
@@ -416,6 +423,22 @@ void AiksaurusGTK::dialogPerformSearch()
 	);
 
 	toolbarSearchBarAppendItem(str);
+
+    dialogSetBusy(false);
+}
+
+void 
+AiksaurusGTK::dialogSetBusy(bool busy)
+{
+    if (d_cursor_ptr)
+        gdk_cursor_destroy(d_cursor_ptr);
+
+    if (busy)
+        d_cursor_ptr = gdk_cursor_new(GDK_WATCH);
+    else
+        d_cursor_ptr = NULL;
+    
+    gdk_window_set_cursor(d_window_ptr->window, d_cursor_ptr); 
 }
 
 
