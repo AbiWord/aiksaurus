@@ -1,12 +1,13 @@
+#include "AiksaurusGTK_utils.h"
+#include "AiksaurusGTK_histlist.h"
 #include <AikSaurus.h>
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 #include <iostream>
 #include <cstdlib>
-#include "AiksaurusGTK_strlist.h"
+#include <cassert>
+
 using namespace std;
-
-
 
 
 
@@ -29,6 +30,8 @@ class AiksaurusGTK
 	
 		static AiksaurusGTK* s_instance;
 
+
+		bool d_connected;
 		
 	// Callback functions.   
 	
@@ -41,7 +44,8 @@ class AiksaurusGTK
 		static void cbBack(GtkWidget* w, gpointer data);
 
 		static void cbSearchKeyPressed(GtkWidget* w, GdkEventKey* k, gpointer data); 
-
+		static void cbSelectChanged(GtkWidget* w, gpointer data);
+		
 		
 	// GUI Widgets.
 		
@@ -71,7 +75,7 @@ class AiksaurusGTK
 		
 		  GtkWidget* d_searchbar_ptr;
 		  GtkWidget* d_searchbar_label_ptr;
-		  AiksaurusGTK_strlist d_searchbar_words;
+		  AiksaurusGTK_histlist d_searchbar_words;
 		  
 		  
 
@@ -88,7 +92,7 @@ class AiksaurusGTK
 		  
 	// Creation and Destruction.
 		
-		AiksaurusGTK();
+		AiksaurusGTK(const char* search = NULL);
 		// TO DO: ~AiksaurusGTK();
 		
 		friend const char* ActivateThesaurus(const char* search);
@@ -111,7 +115,12 @@ class AiksaurusGTK
 		  void createCancelbutton();
 		  void createReplaceentry();
 
-		
+	
+	// Dropdown box management
+	
+		void connectSearchbar();
+		void disconnectSearchbar();
+		  
 		  
 	// Inspection Functions
 
@@ -121,7 +130,7 @@ class AiksaurusGTK
 		
 	// Manipulation Functions
 		
-		void performSearch(const char* str);
+		void performSearch();
 
 };
 
@@ -162,8 +171,10 @@ const char* ActivateThesaurus(const char* search)
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-AiksaurusGTK::AiksaurusGTK()
-{	
+AiksaurusGTK::AiksaurusGTK(const char* search = 0)
+: d_searchbar_words(12)
+{
+	d_connected = false;
 	d_aiksaurus_ptr = new AikSaurus;
 	
 	createWindow();
@@ -212,10 +223,29 @@ const char* AiksaurusGTK::getSearchText()
 }
 
 
-void AiksaurusGTK::performSearch(const char* str)
+void AiksaurusGTK::performSearch()
 {
+	cout << "AiksaurusGTK::performSearch() {" << endl;
+	
+	const char* str = getSearchText();
+	
+	cout << "  Word is: " << d_aiksaurus_ptr->word() << endl;
+	cout << "  Str is: " << str << endl;
+	if (AiksaurusGTK_strEquals(d_aiksaurus_ptr->word(), str))
+	{
+		cout << "  Words are equal, quitting early.\n}" << endl;
+		return;
+	}
+
+	else
+	{
+		cout << "  Words unequal, continuing." << endl;
+	}
+	
+	
 	if (d_aiksaurus_ptr->find(str))
 	{
+		cout << "  Aiksaurus::find() has returned." << endl;
 		char pos;
 
 		gtk_clist_freeze(
@@ -233,34 +263,44 @@ void AiksaurusGTK::performSearch(const char* str)
 				const_cast<gchar**>(&r)
 			);
 			
-			cout << r << endl;
+	//		cout << r << endl;
 		}
 		
 		gtk_clist_thaw(
 			GTK_CLIST(d_wordlist_ptr)
 		);
+
+		cout << "  List built and thawed." << endl;
 	}
 	
 	else
 	{
-		cout << "No synonyms found." << endl;
+		cout << "  No synonyms found." << endl;
 	}
 
+
+	cout << "  Appending text to list." << endl;
 	appendSearchText(str);
+
+	cout << "}" << endl;
 }
 
 void AiksaurusGTK::appendSearchText(const char* str)
 {	
-	cout << "Appending search text." << str << endl;
+	cout << "  AiksaurusGTK::appendSearchText(" << str << ") {" << endl;
 
-	d_searchbar_words.push_front(str);
+	d_searchbar_words.addItem(str);
+	
+	cout << "    word pushed to front of strlist. " << endl;
 	
 	gtk_combo_set_popdown_strings(
 		GTK_COMBO(d_searchbar_ptr),
-		d_searchbar_words.getList()
+		const_cast<GList*>(d_searchbar_words.list())
 	);
 
-	d_searchbar_words.debug();
+	cout << "    combo box popdown strings reset." << endl;
+	
+	cout << "  }" << endl;
 }
 
 
@@ -518,11 +558,18 @@ void AiksaurusGTK::createSearchbar()
 {
 	d_searchbar_label_ptr = gtk_label_new("  Look up:");
 	d_searchbar_ptr = gtk_combo_new();
+
+	gtk_combo_set_use_arrows(
+		GTK_COMBO(d_searchbar_ptr),
+		false	
+	);
 	
 	gtk_combo_disable_activate(
 		GTK_COMBO(d_searchbar_ptr)
 	);
 
+//	connectSearchbar();
+	
 	gtk_signal_connect(
 		GTK_OBJECT(
 			GTK_COMBO(d_searchbar_ptr)->entry
@@ -531,8 +578,6 @@ void AiksaurusGTK::createSearchbar()
 		GTK_SIGNAL_FUNC(cbSearchKeyPressed),
 		d_searchbar_label_ptr
 	);
-	
-	cout << "Searchbar created: address is " << d_searchbar_ptr << endl;
 	
 	gtk_box_pack_start(
 		GTK_BOX(d_toolbar_ptr),
@@ -551,6 +596,36 @@ void AiksaurusGTK::createSearchbar()
 	);
 }
 
+
+void AiksaurusGTK::connectSearchbar()
+{
+	assert(!d_connected);
+	cout << "AiksaurusGTK::connectSearchbar()" << endl;
+	gtk_signal_connect(
+		GTK_OBJECT(
+			GTK_COMBO(d_searchbar_ptr)->list
+		),
+		"select-child",
+		GTK_SIGNAL_FUNC(cbSelectChanged),
+		d_searchbar_label_ptr
+	);
+	d_connected = true;
+}
+
+
+void AiksaurusGTK::disconnectSearchbar()
+{
+	assert(d_connected);
+	cout << "AiksaurusGTK::disconnectSearchbar()" << endl;
+	gtk_signal_disconnect_by_func(
+		GTK_OBJECT(
+			GTK_COMBO(d_searchbar_ptr)->list
+		),
+		GTK_SIGNAL_FUNC(cbSelectChanged),
+		d_searchbar_label_ptr
+	);
+	d_connected = false;
+}
 
 
 
@@ -579,11 +654,9 @@ AiksaurusGTK::cbForward(GtkWidget* w, gpointer data)
 void 
 AiksaurusGTK::cbSearch(GtkWidget* w, gpointer data)
 {
-	AiksaurusGTK *instance = AiksaurusGTK::s_instance;
-
-	instance->performSearch(
-		instance->getSearchText()
-	);
+//	s_instance->disconnectSearchbar();
+	s_instance->performSearch();
+//	s_instance->connectSearchbar();
 }
 
 
@@ -612,16 +685,25 @@ AiksaurusGTK::cbExit(GtkWidget* w, GdkEventAny* e, gpointer data)
 void
 AiksaurusGTK::cbSearchKeyPressed(GtkWidget* w, GdkEventKey* e, gpointer data)
 {
-	// We 
 	if (GDK_Return == e->keyval)
 	{
 		// Enter was pressed.
-		cout << "Detected enter key pressed in search bar. Searching." << endl;
+		cout << "AiksaurusGTK::cbSearchKeyPressed() invoking search." << endl;
 		cbSearch(w, data);
 	}
 	
 }
 
+
+void 
+AiksaurusGTK::cbSelectChanged(GtkWidget* w, gpointer data)
+{
+	if (!s_instance->d_connected)
+		return;
+
+	cout << "AiksaurusGTK::cbSelectChanged() invoking search." << endl;
+	cbSearch(w, data);
+}
 
 
 //////////////////////////////////////////////////////////////////////////
