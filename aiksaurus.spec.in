@@ -34,8 +34,9 @@ make install-strip DESTDIR=$RPM_BUILD_ROOT
 /sbin/ldconfig
 
 %files
-%attr(0755, root, root) %{_bindir}/aiksaurus
-%attr(0755, root, root) %{_bindir}/caiksaurus
+%defattr(0755, root, root)
+%{_bindir}/aiksaurus
+%{_bindir}/caiksaurus
 %defattr(0644, root, root, 0755)
 %doc CHANGES ChangeLog README COPYING AUTHORS
 %{_libdir}/*Aiksaurus.*
@@ -44,26 +45,21 @@ make install-strip DESTDIR=$RPM_BUILD_ROOT
 %{_includedir}/Aiksaurus/Aiksaurus.h
 %{_includedir}/Aiksaurus/AiksaurusC.h
 
-Name: @PACKAGE@-gtk
-Version: @VERSION@
-Release: 1
+%package gtk
 Summary: A GTK+ frontend to aiksaurus.
-License: GPL
-# This is the wrong group
 Group: System Environment/Libraries
-Source: @PACKAGE@-@VERSION@.tar.gz
-BuildRoot: /var/tmp/%{name}-buildroot
 Requires: Aiksaurus
 BuildRequires: Aiksaurus
 
-%description @PACKAGE@-gtk
+%description gtk
 AiksaurusGTK is a GTK+ interface to the Aiksaurus library.  
 It provides an attractive thesaurus interface, and can be embedded
 in GTK+ projects, notably AbiWord.  A standalone thesaurus program
 is also provided.
 
-%files @PACKAGE@-gtk
-%attr(0755, root, root) %{_bindir}/AiksaurusGTK
+%files gtk
+%defattr(0755, root, root)
+%{_bindir}/gaiksaurus
 %defattr(0644, root, root, 0755)
 %doc CHANGES ChangeLog README COPYING AUTHORS
 %{_includedir}/Aiksaurus/AiksaurusGTK*.h
