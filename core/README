@@ -1,0 +1,49 @@
+=============================================================================
+
+                           Aiksaurus Core Library
+                                README File
+
+=============================================================================
+
+    Aiksaurus Homepage:
+        http://www.aiksaurus.com/
+    
+        
+    Detailed Build Instructions:
+        http://www.aiksaurus.com/install.php
+    
+        
+    Questions/Comments:
+        jared@aiksaurus.com
+    
+        
+    Quick Instructions:        
+       	1.  run './configure'   (without the 'quotes')
+    	2.  run 'make'
+    	3.  run 'make install'
+
+        
+    Common Build Problems and Solutions
+   
+      1.  Thesaurus programs fail on startup with 'cannot open shared 
+          library libAiksaurus.so.0'
+
+          By default, libAiksaurus.so.0 is installed in /usr/local/lib.
+          Some systems do not look here.  You can find out if yours is 
+          looking here by running the command:
+              more /etc/ld.so.conf
+      
+          And checking to see if the line:
+              /usr/local/lib
+          
+          Is listed.  If it is not, you can add it here, or you can choose
+          to build Aiksaurus's files in a different directory.  For example,
+          you could run:
+             ./configure --prefix=/usr
+	   
+          Then do the make, make install again, and try recompiling your
+          program.
+
+          The easiest way is just to add the line to /etc/ld.so.conf.
+
+=============================================================================

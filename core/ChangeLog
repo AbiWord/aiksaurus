@@ -1,0 +1,41 @@
+2001-12-08  Francis James Franklin  <fjf@alinameridon.com>
+
+	* Extend autoconf/automake build system to AikSaurusGTK
+	* Let libtoolize & automake provide required files
+
+2001-08-27  John Levon  <moz@compsoc.man.ac.uk>
+
+	* CommandLineDemo.cpp:
+	* InteractiveDemo.cpp: change start dir to correct
+	  directory
+ 
+2001-08-27  John Levon  <moz@compsoc.man.ac.uk>
+
+	* Makefile.am:
+	* configure.in: 
+	* data/: moved data into a sub-dir
+ 
+2001-08-16  John Levon  <moz@compsoc.man.ac.uk>
+
+	* Makefile.am:
+	* configure.in:
+	* .cvsignore:
+	* aiksaurus.spec.in: add an RPM spec file
+ 
+2001-08-10  John Levon  <moz@compsoc.man.ac.uk>
+
+	* Makefile.am:
+	* configure.in: bump version
+
+	* .cvsignore: add
+
+	* aclocal.m4:
+	* configure:
+	* config.h.in:
+	* Makefile.in: remove generated file from CVS
+
+2001-08-10  John Levon  <moz@compsoc.man.ac.uk>
+
+	* configure.in:
+	* Makefile.am: fix make distcheck problem, remove
+	extra EXTRA_DIST files
