@@ -183,7 +183,18 @@
 - (IBAction)aSearchField:(id)sender
 {
 	NSString * word = [oSearchField stringValue];
-/* [[[AiksaurusCocoaPanel alloc] init] showWindow:self]; */
+#if 1
+	static AiksaurusCocoaPanel * panel = nil;
+	if (panel == nil)
+		{
+			panel = (AiksaurusCocoaPanel *) [[AiksaurusCocoaPanel alloc] init];
+		}
+	if (panel)
+		{
+			[panel setTargetForInsert:self withAction:@selector(insertWord:)];
+			[panel showWindow:self];
+		}
+#endif
 	if (word)
 		{
 			if ([m_aiksaurus lookupWord:word reorderHistory:YES])
@@ -205,6 +216,15 @@
 					[oStatus setTextColor:[NSColor redColor]];
 					[oStatus setStringValue:[m_aiksaurus lastError]];
 				}
+		}
+}
+
+- (void)insertWord:(NSString *)word
+{
+	if (word)
+		{
+			[oSearchField setStringValue:word];
+			[self aSearchField:self];
 		}
 }
 

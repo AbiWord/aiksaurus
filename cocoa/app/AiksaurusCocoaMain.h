@@ -46,4 +46,6 @@
 - (IBAction)aResultsTable:(id)sender;
 - (IBAction)aSearch:(id)sender;
 - (IBAction)aSearchField:(id)sender;
+
+- (void)insertWord:(NSString *)word;
 @end

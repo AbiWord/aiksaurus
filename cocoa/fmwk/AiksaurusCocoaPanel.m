@@ -19,9 +19,11 @@
  * 02111-1307, USA.
  */
 
+#import <objc/objc-runtime.h>
 #import <AppKit/NSNibLoading.h>
+
 #import "AiksaurusCocoa.h"
-#include <stdio.h>
+
 @implementation AiksaurusCocoaPanel
 
 - (id)init
@@ -218,17 +220,17 @@
 
 - (IBAction)aInsert:(id)sender
 {
-	/* TODO */
+	if (m_target)
+		objc_msgSend (m_target, m_action, [oSearchField stringValue]);
 }
 
+/* and, where target's action method has the form @selector(insertWord:), i.e.
+   - (void)insertWord:(NSString *)word;
+ */
 - (void)setTargetForInsert:(id)target withAction:(SEL)action
 {
-	m_target = nil;
-
-	if (target)
-		{
-			/* TODO */
-		}
+	m_target = target;
+	m_action = action;
 
 	if (m_target)
 		[oInsert setEnabled:YES];
