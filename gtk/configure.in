@@ -11,13 +11,7 @@ if test "$Xuname" != "XDarwin"; then
 	CXXFLAGS="-Wall -s $CXXFLAGS"
 fi
 
-PKG_CHECK_MODULES(AIK,
-[
-        glib-2.0
-        gtk+-2.0
-        pango
-        pangoft2
-])
+PKG_CHECK_MODULES(AIK,[gtk+-2.0 >= 2.0.0])
 
 CPPFLAGS="$CPPFLAGS $AIK_CFLAGS"
 LDFLAGS="$LDFLAGS -lAiksaurus $AIK_LIBS"

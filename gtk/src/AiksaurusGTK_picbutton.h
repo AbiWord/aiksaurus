@@ -76,7 +76,7 @@ class AiksaurusGTK_picbutton
 		static void cbHover(GtkWidget* w, gpointer data);
 		static void cbUnhover(GtkWidget* w, gpointer data);
 		static void cbPopMenu(GtkWidget* w, gpointer data);
-		static void cbPopupFunction(GtkMenu* menu, int* x, int* y, gpointer data); 
+		static void cbPopupFunction(GtkMenu* menu, int* x, int* y, gboolean* notUsedBool, gpointer data); 
 		static void cbSelectionDone(GtkMenuShell* menushell, gpointer data);
         static void cbMenuActivate(GtkMenuItem* item, gpointer data);    
 		
