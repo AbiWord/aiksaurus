@@ -36,13 +36,10 @@
 using namespace std;
 
 #if defined WIN32
-#ifdef AIK_DATA_DIR
-#undef AIK_DATA_DIR
-#endif
 	#include <windows.h>
 	#define WIN32_LEAN_AND_MEAN
 	// Default aik_data_dir is local directory
-	std::string AIK_DATA_DIR(".\\");
+	std::string aik_data_dir(".\\");
 	// Regestry Reading for AIK_DATA_DIR
 	void ReadRegistry()
 	{
@@ -57,12 +54,12 @@ using namespace std;
 			{
 				szValue = new unsigned char[dwSize + 1];
 				::RegQueryValueEx( hKey, "Data_Dir", NULL, &lType, szValue, &dwSize);
-				AIK_DATA_DIR = (char*) szValue;
+				aik_data_dir = (char*) szValue;
 				delete[] szValue;
 			}
 		}
 	}
-	#if defined _DLL_BUILD
+	#if defined _DLL
 		//Add a DllMain Entry point
 		BOOL APIENTRY DllMain( HANDLE hModule, DWORD ul_reason_for_call, LPVOID lpReserved ) { return TRUE; }
 	#endif
@@ -258,12 +255,8 @@ Aiksaurus::Aiksaurus() throw()
 #if defined WIN32
 		ReadRegistry();
 #endif
-	std::string base(AIK_DATA_DIR);
-#ifdef HAVE_GETENV
-	char * aikdatadir_envvar = getenv ("AIK_DATA_DIR");
-	if (aikdatadir_envvar) base = std::string(aikdatadir_envvar);
-#endif
-	std::string mfile(base + "meanings.dat");
+        std::string base(AIK_DATA_DIR);
+        std::string mfile(base + "meanings.dat");
         std::string wfile(base + "words.dat");
         d_impl_ptr = new ThesaurusImpl(mfile.c_str(), wfile.c_str());
     }

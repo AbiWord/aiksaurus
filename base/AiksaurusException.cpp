@@ -33,10 +33,7 @@
 using namespace std;
 
 #if defined WIN32
-#ifdef AIK_DATA_DIR
-#undef AIK_DATA_DIR
-#endif
-	extern std::string AIK_DATA_DIR;
+	extern std::string aik_data_dir;
 #endif
 
 namespace AiksaurusImpl
@@ -147,6 +144,12 @@ namespace AiksaurusImpl
     
     AiksaurusException::~AiksaurusException() throw()
     {
+        if( d_description != MemoryError )
+		{
+#if !defined WIN32
+			delete[] d_description;
+#endif
+		}
     }
 
 
