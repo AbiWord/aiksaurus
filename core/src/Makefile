@@ -18,7 +18,7 @@ SHELL = /bin/sh
 srcdir = .
 top_srcdir = ..
 
-prefix = /usr
+prefix = /usr/local
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -57,7 +57,7 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 host_alias = 
 host_triplet = i686-pc-linux-gnu
-AIK_CXXFLAGS = -DAIK_DATA_DIR=\"/usr/share/Aiksaurus/\" -DNDEBUG
+AIK_CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -DNDEBUG
 AMTAR = ${SHELL} /opt/abiword/aiksaurus/core/missing --run tar
 AS = @AS@
 AWK = mawk
@@ -78,7 +78,7 @@ OBJEXT = o
 PACKAGE = Aiksaurus
 RANLIB = ranlib
 STRIP = strip
-VERSION = 0.13
+VERSION = 0.14
 am__include = include
 am__quote = 
 install_sh = /opt/abiword/aiksaurus/core/install-sh
@@ -87,7 +87,7 @@ AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libAiksaurus.la
 
-CXXFLAGS = -DAIK_DATA_DIR=\"/usr/share/Aiksaurus/\" -DNDEBUG -Wall -s -g -O2
+CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -DNDEBUG -Wall -s -g -O2
 
 libAiksaurus_la_SOURCES = \
 	Aiksaurus.cpp \
@@ -103,19 +103,25 @@ libAiksaurus_la_SOURCES = \
 	MeaningsHash.h \
 	WordStream.h \
 	WordsFile.cpp \
-	WordsFile.h 
+	WordsFile.h \
+        AiksaurusC.cpp \
+	AiksaurusC.h	
 
 
-libAiksaurus_la_LDFLAGS = -version-info 0:13
+libAiksaurus_la_LDFLAGS = -version-info 0:14
 
 include_HEADERS = \
-	Aiksaurus.h
+	Aiksaurus.h \
+	AiksaurusC.h
 
 
-bin_PROGRAMS = aiksaurus 
+bin_PROGRAMS = aiksaurus caiksaurus 
 
-aiksaurus_SOURCES = aiksaurus.cpp
+aiksaurus_SOURCES = aiksaurus.t.cpp
 aiksaurus_LDADD = libAiksaurus.la
+
+caiksaurus_SOURCES = caiksaurus.c
+caiksaurus_LDADD = libAiksaurus.la
 subdir = src
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = config.h
@@ -124,15 +130,20 @@ LTLIBRARIES = $(lib_LTLIBRARIES)
 
 libAiksaurus_la_LIBADD =
 am_libAiksaurus_la_OBJECTS = Aiksaurus.lo AiksaurusException.lo \
-	AsciiCompare.lo FileArray.lo MeaningsFile.lo WordsFile.lo
+	AsciiCompare.lo FileArray.lo MeaningsFile.lo WordsFile.lo \
+	AiksaurusC.lo
 libAiksaurus_la_OBJECTS = $(am_libAiksaurus_la_OBJECTS)
-bin_PROGRAMS = aiksaurus$(EXEEXT)
+bin_PROGRAMS = aiksaurus$(EXEEXT) caiksaurus$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_aiksaurus_OBJECTS = aiksaurus.$(OBJEXT)
+am_aiksaurus_OBJECTS = aiksaurus.t.$(OBJEXT)
 aiksaurus_OBJECTS = $(am_aiksaurus_OBJECTS)
 aiksaurus_DEPENDENCIES = libAiksaurus.la
 aiksaurus_LDFLAGS =
+am_caiksaurus_OBJECTS = caiksaurus.$(OBJEXT)
+caiksaurus_OBJECTS = $(am_caiksaurus_OBJECTS)
+caiksaurus_DEPENDENCIES = libAiksaurus.la
+caiksaurus_LDFLAGS =
 
 DEFS = -DHAVE_CONFIG_H
 DEFAULT_INCLUDES =  -I. -I$(srcdir) -I.
@@ -140,11 +151,19 @@ CPPFLAGS =
 LDFLAGS = 
 LIBS = 
 depcomp = $(SHELL) $(top_srcdir)/depcomp
-DEP_FILES = $(DEPDIR)/Aiksaurus.Plo \
+DEP_FILES = $(DEPDIR)/Aiksaurus.Plo $(DEPDIR)/AiksaurusC.Plo \
 	$(DEPDIR)/AiksaurusException.Plo \
 	$(DEPDIR)/AsciiCompare.Plo $(DEPDIR)/FileArray.Plo \
 	$(DEPDIR)/MeaningsFile.Plo $(DEPDIR)/WordsFile.Plo \
-	$(DEPDIR)/aiksaurus.Po
+	$(DEPDIR)/aiksaurus.t.Po $(DEPDIR)/caiksaurus.Po
+COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
+	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
+	$(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
+CCLD = $(CC)
+LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
+	$(AM_LDFLAGS) $(LDFLAGS) -o $@
+CFLAGS = -g -O2
 CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 	$(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
@@ -153,26 +172,19 @@ LTCXXCOMPILE = $(LIBTOOL) --mode=compile $(CXX) $(DEFS) \
 CXXLD = $(CXX)
 CXXLINK = $(LIBTOOL) --mode=link $(CXXLD) $(AM_CXXFLAGS) $(CXXFLAGS) \
 	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-CFLAGS = -g -O2
-COMPILE = $(CC) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) $(AM_CPPFLAGS) \
-	$(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-LTCOMPILE = $(LIBTOOL) --mode=compile $(CC) $(DEFS) $(DEFAULT_INCLUDES) \
-	$(INCLUDES) $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CFLAGS) $(CFLAGS)
-CCLD = $(CC)
-LINK = $(LIBTOOL) --mode=link $(CCLD) $(AM_CFLAGS) $(CFLAGS) \
-	$(AM_LDFLAGS) $(LDFLAGS) -o $@
-DIST_SOURCES = $(libAiksaurus_la_SOURCES) $(aiksaurus_SOURCES)
+DIST_SOURCES = $(libAiksaurus_la_SOURCES) $(aiksaurus_SOURCES) \
+	$(caiksaurus_SOURCES)
 HEADERS = $(include_HEADERS)
 
 DIST_COMMON = $(include_HEADERS) ./stamp-h.in Makefile.am Makefile.in \
 	config.h.in
-SOURCES = $(libAiksaurus_la_SOURCES) $(aiksaurus_SOURCES)
+SOURCES = $(libAiksaurus_la_SOURCES) $(aiksaurus_SOURCES) $(caiksaurus_SOURCES)
 
 all: config.h
 	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
-.SUFFIXES: .cpp .lo .o .obj
+.SUFFIXES: .c .cpp .lo .o .obj
 
 mostlyclean-libtool:
 	-rm -f *.lo
@@ -262,6 +274,9 @@ clean-binPROGRAMS:
 aiksaurus$(EXEEXT): $(aiksaurus_OBJECTS) $(aiksaurus_DEPENDENCIES) 
 	@rm -f aiksaurus$(EXEEXT)
 	$(CXXLINK) $(aiksaurus_LDFLAGS) $(aiksaurus_OBJECTS) $(aiksaurus_LDADD) $(LIBS)
+caiksaurus$(EXEEXT): $(caiksaurus_OBJECTS) $(caiksaurus_DEPENDENCIES) 
+	@rm -f caiksaurus$(EXEEXT)
+	$(LINK) $(caiksaurus_LDFLAGS) $(caiksaurus_OBJECTS) $(caiksaurus_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT) core *.core
@@ -270,15 +285,36 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include $(DEPDIR)/Aiksaurus.Plo
+include $(DEPDIR)/AiksaurusC.Plo
 include $(DEPDIR)/AiksaurusException.Plo
 include $(DEPDIR)/AsciiCompare.Plo
 include $(DEPDIR)/FileArray.Plo
 include $(DEPDIR)/MeaningsFile.Plo
 include $(DEPDIR)/WordsFile.Plo
-include $(DEPDIR)/aiksaurus.Po
+include $(DEPDIR)/aiksaurus.t.Po
+include $(DEPDIR)/caiksaurus.Po
 
 distclean-depend:
 	-rm -rf $(DEPDIR)
+
+.c.o:
+	source='$<' object='$@' libtool=no \
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' \
+	$(CCDEPMODE) $(depcomp) \
+	$(COMPILE) -c `test -f $< || echo '$(srcdir)/'`$<
+
+.c.obj:
+	source='$<' object='$@' libtool=no \
+	depfile='$(DEPDIR)/$*.Po' tmpdepfile='$(DEPDIR)/$*.TPo' \
+	$(CCDEPMODE) $(depcomp) \
+	$(COMPILE) -c `cygpath -w $<`
+
+.c.lo:
+	source='$<' object='$@' libtool=yes \
+	depfile='$(DEPDIR)/$*.Plo' tmpdepfile='$(DEPDIR)/$*.TPlo' \
+	$(CCDEPMODE) $(depcomp) \
+	$(LTCOMPILE) -c -o $@ `test -f $< || echo '$(srcdir)/'`$<
+CCDEPMODE = depmode=gcc
 
 .cpp.o:
 	source='$<' object='$@' libtool=no \

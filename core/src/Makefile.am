@@ -18,15 +18,20 @@ libAiksaurus_la_SOURCES = \
 	MeaningsHash.h \
 	WordStream.h \
 	WordsFile.cpp \
-	WordsFile.h 
+	WordsFile.h \
+        AiksaurusC.cpp \
+	AiksaurusC.h	
 
-libAiksaurus_la_LDFLAGS = -version-info 0:13
+libAiksaurus_la_LDFLAGS = -version-info 0:14
 
 include_HEADERS = \
-	Aiksaurus.h
+	Aiksaurus.h \
+	AiksaurusC.h
 
-bin_PROGRAMS = aiksaurus 
+bin_PROGRAMS = aiksaurus caiksaurus 
 
-aiksaurus_SOURCES = aiksaurus.cpp
+aiksaurus_SOURCES = aiksaurus.t.cpp
 aiksaurus_LDADD = libAiksaurus.la
 	
+caiksaurus_SOURCES = caiksaurus.c
+caiksaurus_LDADD = libAiksaurus.la
