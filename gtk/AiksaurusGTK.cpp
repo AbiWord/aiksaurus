@@ -636,6 +636,7 @@ AiksaurusGTK::toolbarBackButtonCreate()
 	);
 
 	d_backbutton_ptr->addMenu(
+        d_history.list_back(),
         GTK_SIGNAL_FUNC(toolbarBackButtonMenuClickCallback),
         this        
     );
@@ -693,6 +694,7 @@ AiksaurusGTK::toolbarForwardButtonCreate()
 	);
 
 	d_forwardbutton_ptr->addMenu(
+        d_history.list_forward(),
         GTK_SIGNAL_FUNC(toolbarForwardButtonMenuClickCallback),
         this
     );
@@ -837,6 +839,9 @@ AiksaurusGTK::toolbarUpdateNavigation()
         d_forwardbutton_ptr->getButton(),
         d_history.tip_forward()
     );
+
+    d_backbutton_ptr->updateMenuOptions();
+    d_forwardbutton_ptr->updateMenuOptions();
 }
 
 

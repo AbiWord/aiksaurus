@@ -76,9 +76,6 @@ AiksaurusGTK_picbutton::~AiksaurusGTK_picbutton()
 {
     // TO DO: what if this is null?
     gtk_widget_destroy(d_menu_ptr);
-
-    if (d_menu_options_ptr)
-        delete d_menu_options_ptr;
 }
 
 
@@ -113,7 +110,7 @@ AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
 
 
 void
-AiksaurusGTK_picbutton::addMenu(GtkSignalFunc onClick, gpointer onClickData)
+AiksaurusGTK_picbutton::addMenu(const AiksaurusGTK_strlist& options, GtkSignalFunc onClick, gpointer onClickData)
 {
     d_onclick_function = onClick;
     d_onclick_data = onClickData;
@@ -172,7 +169,7 @@ AiksaurusGTK_picbutton::addMenu(GtkSignalFunc onClick, gpointer onClickData)
 
     menuCreate();
     
-    d_menu_options_ptr = new AiksaurusGTK_strlist;
+    d_menu_options_ptr = const_cast<AiksaurusGTK_strlist*>(&options);
 }
 
 
@@ -187,13 +184,6 @@ GtkWidget*
 AiksaurusGTK_picbutton::getMenuButton()
 {
 	return d_menu_button_ptr;
-}
-
-
-AiksaurusGTK_strlist& 
-AiksaurusGTK_picbutton::getMenuOptions()
-{
-	return *d_menu_options_ptr;
 }
 
 

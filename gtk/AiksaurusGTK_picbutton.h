@@ -111,10 +111,8 @@ class AiksaurusGTK_picbutton
 	// Manipulation
 		
 		void setHoverPicture(const char** hover);
-		void addMenu(GtkSignalFunc onClick, gpointer onClickData);
-
+		void addMenu(const AiksaurusGTK_strlist& options, GtkSignalFunc onClick, gpointer onClickData);
         void updateMenuOptions();
-        AiksaurusGTK_strlist& getMenuOptions();
         
 		void disable();
 		void enable();
