@@ -46,6 +46,8 @@
 
 	if ([bundle loadNibFile:@"Panel" externalNameTable:dictionary withZone:[bundle zone]])
 		{
+			[oPanel setBecomesKeyOnlyIfNeeded:YES];
+
 			if (m_aiksaurus)
 				{
 					if ([m_aiksaurus okay])
