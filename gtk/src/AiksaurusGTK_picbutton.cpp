@@ -122,14 +122,14 @@ AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
 		(gchar**)hover
 	);
 
-	gtk_signal_connect(
+	g_signal_connect(
 		GTK_OBJECT(d_button_ptr),
 		"enter",
 		GTK_SIGNAL_FUNC(cbHover),
 		this
 	);
 
-	gtk_signal_connect(
+	g_signal_connect(
 		GTK_OBJECT(d_button_ptr),
 		"leave",
 		GTK_SIGNAL_FUNC(cbUnhover),
@@ -415,14 +415,14 @@ AiksaurusGTK_picbutton::addMenu
 		d_menu_pixmap_widget_ptr
 	);
 
-	gtk_signal_connect(
+	g_signal_connect(
 		GTK_OBJECT(d_menu_button_ptr),
 		"enter",
 		GTK_SIGNAL_FUNC(cbHover),
 		this
 	);
 
-	gtk_signal_connect(
+	g_signal_connect(
 		GTK_OBJECT(d_menu_button_ptr),
 		"leave",
 		GTK_SIGNAL_FUNC(cbUnhover),
@@ -431,7 +431,7 @@ AiksaurusGTK_picbutton::addMenu
 
 	handleRelief();
 
-	gtk_signal_connect(
+	g_signal_connect(
 		GTK_OBJECT(d_menu_button_ptr),
 		"clicked",
 		GTK_SIGNAL_FUNC(cbPopMenu),
@@ -454,7 +454,7 @@ AiksaurusGTK_picbutton::menuCreate()
 
     gtk_widget_show(d_menu_ptr);
 
-	gtk_signal_connect(
+	g_signal_connect(
 		GTK_OBJECT(d_menu_ptr),
 		"selection-done",
 		GTK_SIGNAL_FUNC(cbSelectionDone),
@@ -503,7 +503,7 @@ AiksaurusGTK_picbutton::updateMenuOptions()
 
         gtk_menu_append(GTK_MENU(d_menu_ptr), option);
 
-        gtk_signal_connect(
+        g_signal_connect(
             GTK_OBJECT(option),
             "activate",
             GTK_SIGNAL_FUNC(cbMenuActivate),

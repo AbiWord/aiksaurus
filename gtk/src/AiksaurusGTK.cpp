@@ -141,7 +141,7 @@ namespace AiksaurusGTK_impl
 
             gtk_window_set_title(GTK_WINDOW(d_window_ptr), d_title.c_str());
 
-            gtk_signal_connect(
+            g_signal_connect(
                 GTK_OBJECT(d_window_ptr), "delete_event", 
                 GTK_SIGNAL_FUNC(_closeDialog), this
             );

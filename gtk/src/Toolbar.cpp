@@ -79,17 +79,17 @@ namespace AiksaurusGTK_impl
 
 
         // Connect all relevant signals.
-        gtk_signal_connect(GTK_OBJECT(d_backbutton_ptr->getButton()), "clicked",
+        g_signal_connect(GTK_OBJECT(d_backbutton_ptr->getButton()), "clicked",
                            GTK_SIGNAL_FUNC(_backClicked), this);
-        gtk_signal_connect(GTK_OBJECT(d_forwardbutton_ptr->getButton()), "clicked",
+        g_signal_connect(GTK_OBJECT(d_forwardbutton_ptr->getButton()), "clicked",
                            GTK_SIGNAL_FUNC(_forwardClicked), this);
-        gtk_signal_connect(GTK_OBJECT(d_searchbutton_ptr->getButton()), "clicked",
+        g_signal_connect(GTK_OBJECT(d_searchbutton_ptr->getButton()), "clicked",
                            GTK_SIGNAL_FUNC(_searchClicked), this);
-        gtk_signal_connect(GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), "key-press-event",
+        g_signal_connect(GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), "key-press-event",
                            GTK_SIGNAL_FUNC(_searchBarKeypress), this);
-        gtk_signal_connect(GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->popwin), "hide",
+        g_signal_connect(GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->popwin), "hide",
                            GTK_SIGNAL_FUNC(_searchBarHide), this);
-        gtk_signal_connect(GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), "changed",
+        g_signal_connect(GTK_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), "changed",
                            GTK_SIGNAL_FUNC(_searchBarChanged), this);
 
         _updateNavigation();

@@ -44,15 +44,15 @@ namespace AiksaurusGTK_impl
         gtk_box_pack_start(GTK_BOX(d_replacebutton_hold_ptr), d_cancelbutton_ptr, 1, 1, 0);
    
         // Connect relevant signals. 
-        gtk_signal_connect(
+        g_signal_connect(
             GTK_OBJECT(d_replacewith_ptr), "key-press-event",
 	    	GTK_SIGNAL_FUNC(_keyPressed), this	
     	);
-	    gtk_signal_connect(
+	    g_signal_connect(
     		GTK_OBJECT(d_replacebutton_ptr), "clicked",
     		GTK_SIGNAL_FUNC(_replaceClicked), this	
     	);
-	    gtk_signal_connect(
+	    g_signal_connect(
             GTK_OBJECT(d_cancelbutton_ptr), "clicked", 
             GTK_SIGNAL_FUNC(_cancelClicked), this	
     	);
