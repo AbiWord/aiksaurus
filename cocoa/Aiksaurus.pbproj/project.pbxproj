@@ -1,0 +1,721 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 38;
+	objects = {
+		014CEA440018CDF011CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				OPTIMIZATION_CFLAGS = "-O0";
+			};
+			isa = PBXBuildStyle;
+			name = Development;
+		};
+		014CEA450018CDF011CA2923 = {
+			buildRules = (
+			);
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+			};
+			isa = PBXBuildStyle;
+			name = Deployment;
+		};
+//010
+//011
+//012
+//013
+//014
+//030
+//031
+//032
+//033
+//034
+		034768DFFF38A50411DB9C8B = {
+			children = (
+				034768E0FF38A50411DB9C8B,
+				30C8298C045D9E3400A738B5,
+			);
+			isa = PBXGroup;
+			name = Products;
+			refType = 4;
+		};
+		034768E0FF38A50411DB9C8B = {
+			isa = PBXFrameworkReference;
+			path = Aiksaurus.framework;
+			refType = 3;
+		};
+//030
+//031
+//032
+//033
+//034
+//080
+//081
+//082
+//083
+//084
+		0867D690FE84028FC02AAC07 = {
+			buildStyles = (
+				014CEA440018CDF011CA2923,
+				014CEA450018CDF011CA2923,
+			);
+			hasScannedForEncodings = 1;
+			isa = PBXProject;
+			mainGroup = 0867D691FE84028FC02AAC07;
+			productRefGroup = 034768DFFF38A50411DB9C8B;
+			projectDirPath = "";
+			targets = (
+				0867D69CFE84028FC02AAC07,
+				30C8298B045D9E3400A738B5,
+			);
+		};
+		0867D691FE84028FC02AAC07 = {
+			children = (
+				08FB77AEFE84172EC02AAC07,
+				32C88DFF0371C24200C91783,
+				089C1665FE841158C02AAC07,
+				0867D69AFE84028FC02AAC07,
+				034768DFFF38A50411DB9C8B,
+			);
+			isa = PBXGroup;
+			name = Aiksaurus;
+			refType = 4;
+		};
+		0867D69AFE84028FC02AAC07 = {
+			children = (
+				1058C7B0FEA5585E11CA2CBB,
+				1058C7B2FEA5585E11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = "External Frameworks and Libraries";
+			refType = 4;
+		};
+		0867D69BFE84028FC02AAC07 = {
+			isa = PBXFrameworkReference;
+			name = Foundation.framework;
+			path = /System/Library/Frameworks/Foundation.framework;
+			refType = 0;
+		};
+		0867D69CFE84028FC02AAC07 = {
+			buildPhases = (
+				0867D69DFE84028FC02AAC07,
+				0867D69EFE84028FC02AAC07,
+				0867D69FFE84028FC02AAC07,
+				0867D6A0FE84028FC02AAC07,
+				0867D6A2FE84028FC02AAC07,
+			);
+			buildSettings = {
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_SEARCH_PATHS = "";
+				FRAMEWORK_VERSION = A;
+				HEADER_SEARCH_PATHS = "";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				LIBRARY_SEARCH_PATHS = "";
+				OTHER_CFLAGS = "-DAIK_DATA_DIR=\\\\\\\"\\\\\\\" -DHAVE_GETENV -DAIKSAURUS_COCOA_SOURCE";
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = Aiksaurus;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = framework;
+			};
+			dependencies = (
+			);
+			isa = PBXFrameworkTarget;
+			name = Aiksaurus;
+			productInstallPath = "$(HOME)/Library/Frameworks";
+			productName = Aiksaurus;
+			productReference = 034768E0FF38A50411DB9C8B;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Aiksaurus</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Aquatic front-end for Jared Aiken's thesaurus</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.aiksaurus.cocoa.framework</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Aiksaurus</string>
+	<key>CFBundlePackageType</key>
+	<string>FMWK</string>
+	<key>CFBundleShortVersionString</key>
+	<string>Thesaurus for Mac OS X</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.15.1d1</string>
+	<key>NSPrincipalClass</key>
+	<string></string>
+</dict>
+</plist>
+";
+		};
+		0867D69DFE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				30C82972045D852600A738B5,
+				30C82974045D852600A738B5,
+				30C82984045D968B00A738B5,
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D69EFE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				089C1668FE841158C02AAC07,
+				30C8295F045D80E100A738B5,
+				30C82960045D80E100A738B5,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D69FFE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				30C82971045D852600A738B5,
+				30C82973045D852600A738B5,
+				30C82975045D852600A738B5,
+				30C82977045D852600A738B5,
+				30C82979045D852600A738B5,
+				30C8297C045D852600A738B5,
+				30C82985045D968B00A738B5,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D6A0FE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+				1058C7B3FEA5585E11CA2CBB,
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D6A2FE84028FC02AAC07 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0867D6A5FE840307C02AAC07 = {
+			isa = PBXFrameworkReference;
+			name = AppKit.framework;
+			path = /System/Library/Frameworks/AppKit.framework;
+			refType = 0;
+		};
+		089C1665FE841158C02AAC07 = {
+			children = (
+				089C1666FE841158C02AAC07,
+				30C8295B045D809500A738B5,
+				30C8295D045D80E100A738B5,
+				30C8295E045D80E100A738B5,
+				30C82995045DA3D900A738B5,
+			);
+			isa = PBXGroup;
+			name = Resources;
+			refType = 4;
+		};
+		089C1666FE841158C02AAC07 = {
+			children = (
+				089C1667FE841158C02AAC07,
+			);
+			isa = PBXVariantGroup;
+			name = InfoPlist.strings;
+			refType = 4;
+		};
+		089C1667FE841158C02AAC07 = {
+			fileEncoding = 10;
+			isa = PBXFileReference;
+			name = English;
+			path = English.lproj/InfoPlist.strings;
+			refType = 4;
+		};
+		089C1668FE841158C02AAC07 = {
+			fileRef = 089C1666FE841158C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		08FB77AEFE84172EC02AAC07 = {
+			children = (
+				30C82981045D967400A738B5,
+			);
+			isa = PBXGroup;
+			name = Classes;
+			refType = 4;
+		};
+		08FB77B4FE84181DC02AAC07 = {
+			fileEncoding = 4;
+			isa = PBXFileReference;
+			path = main.m;
+			refType = 4;
+		};
+//080
+//081
+//082
+//083
+//084
+//100
+//101
+//102
+//103
+//104
+		1058C7B0FEA5585E11CA2CBB = {
+			children = (
+				1058C7B1FEA5585E11CA2CBB,
+			);
+			isa = PBXGroup;
+			name = "Linked Frameworks";
+			refType = 4;
+		};
+		1058C7B1FEA5585E11CA2CBB = {
+			isa = PBXFrameworkReference;
+			name = Cocoa.framework;
+			path = /System/Library/Frameworks/Cocoa.framework;
+			refType = 0;
+		};
+		1058C7B2FEA5585E11CA2CBB = {
+			children = (
+				0867D69BFE84028FC02AAC07,
+				0867D6A5FE840307C02AAC07,
+			);
+			isa = PBXGroup;
+			name = "Other Frameworks";
+			refType = 4;
+		};
+		1058C7B3FEA5585E11CA2CBB = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//100
+//101
+//102
+//103
+//104
+//300
+//301
+//302
+//303
+//304
+		30C8295B045D809500A738B5 = {
+			isa = PBXFileReference;
+			path = AikSaurus.icns;
+			refType = 4;
+		};
+		30C8295D045D80E100A738B5 = {
+			isa = PBXFileReference;
+			name = meanings.dat;
+			path = ../core/data/meanings.dat;
+			refType = 2;
+		};
+		30C8295E045D80E100A738B5 = {
+			isa = PBXFileReference;
+			name = words.dat;
+			path = ../core/data/words.dat;
+			refType = 2;
+		};
+		30C8295F045D80E100A738B5 = {
+			fileRef = 30C8295D045D80E100A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82960045D80E100A738B5 = {
+			fileRef = 30C8295E045D80E100A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82961045D813500A738B5 = {
+			children = (
+				30C82962045D852600A738B5,
+				30C82963045D852600A738B5,
+				30C82964045D852600A738B5,
+				30C82965045D852600A738B5,
+				30C82966045D852600A738B5,
+				30C82967045D852600A738B5,
+				30C82968045D852600A738B5,
+				30C82969045D852600A738B5,
+				30C8296A045D852600A738B5,
+				30C8296B045D852600A738B5,
+				30C8296C045D852600A738B5,
+				30C8296D045D852600A738B5,
+				30C8296E045D852600A738B5,
+				30C8296F045D852600A738B5,
+				30C82970045D852600A738B5,
+			);
+			isa = PBXGroup;
+			name = core;
+			refType = 4;
+		};
+		30C82962045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Aiksaurus.cpp;
+			path = ../core/src/Aiksaurus.cpp;
+			refType = 2;
+		};
+		30C82963045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = Aiksaurus.h;
+			path = ../core/src/Aiksaurus.h;
+			refType = 2;
+		};
+		30C82964045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusC.cpp;
+			path = ../core/src/AiksaurusC.cpp;
+			refType = 2;
+		};
+		30C82965045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusC.h;
+			path = ../core/src/AiksaurusC.h;
+			refType = 2;
+		};
+		30C82966045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusException.cpp;
+			path = ../core/src/AiksaurusException.cpp;
+			refType = 2;
+		};
+		30C82967045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusException.h;
+			path = ../core/src/AiksaurusException.h;
+			refType = 2;
+		};
+		30C82968045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AsciiCompare.cpp;
+			path = ../core/src/AsciiCompare.cpp;
+			refType = 2;
+		};
+		30C82969045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AsciiCompare.h;
+			path = ../core/src/AsciiCompare.h;
+			refType = 2;
+		};
+		30C8296A045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = MeaningsFile.cpp;
+			path = ../core/src/MeaningsFile.cpp;
+			refType = 2;
+		};
+		30C8296B045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = MeaningsFile.h;
+			path = ../core/src/MeaningsFile.h;
+			refType = 2;
+		};
+		30C8296C045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = MeaningsHash.h;
+			path = ../core/src/MeaningsHash.h;
+			refType = 2;
+		};
+		30C8296D045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = WordsFile.cpp;
+			path = ../core/src/WordsFile.cpp;
+			refType = 2;
+		};
+		30C8296E045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = WordsFile.h;
+			path = ../core/src/WordsFile.h;
+			refType = 2;
+		};
+		30C8296F045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = WordsHash.h;
+			path = ../core/src/WordsHash.h;
+			refType = 2;
+		};
+		30C82970045D852600A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = WordStream.h;
+			path = ../core/src/WordStream.h;
+			refType = 2;
+		};
+		30C82971045D852600A738B5 = {
+			fileRef = 30C82962045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82972045D852600A738B5 = {
+			fileRef = 30C82963045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		30C82973045D852600A738B5 = {
+			fileRef = 30C82964045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82974045D852600A738B5 = {
+			fileRef = 30C82965045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		30C82975045D852600A738B5 = {
+			fileRef = 30C82966045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82977045D852600A738B5 = {
+			fileRef = 30C82968045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82979045D852600A738B5 = {
+			fileRef = 30C8296A045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C8297C045D852600A738B5 = {
+			fileRef = 30C8296D045D852600A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82981045D967400A738B5 = {
+			children = (
+				30C82982045D968B00A738B5,
+				30C82983045D968B00A738B5,
+			);
+			isa = PBXGroup;
+			name = fmwk;
+			refType = 4;
+		};
+		30C82982045D968B00A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusCocoa.h;
+			path = fmwk/AiksaurusCocoa.h;
+			refType = 4;
+		};
+		30C82983045D968B00A738B5 = {
+			fileEncoding = 30;
+			isa = PBXFileReference;
+			name = AiksaurusCocoa.mm;
+			path = fmwk/AiksaurusCocoa.mm;
+			refType = 4;
+		};
+		30C82984045D968B00A738B5 = {
+			fileRef = 30C82982045D968B00A738B5;
+			isa = PBXBuildFile;
+			settings = {
+				ATTRIBUTES = (
+					Public,
+				);
+			};
+		};
+		30C82985045D968B00A738B5 = {
+			fileRef = 30C82983045D968B00A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82986045D9E3400A738B5 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXHeadersBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30C82987045D9E3400A738B5 = {
+			buildActionMask = 2147483647;
+			files = (
+				30C8298F045D9F8400A738B5,
+				30C82990045D9FA600A738B5,
+				30C82997045DA3D900A738B5,
+			);
+			isa = PBXResourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30C82988045D9E3400A738B5 = {
+			buildActionMask = 2147483647;
+			files = (
+				30C8298E045D9E7800A738B5,
+			);
+			isa = PBXSourcesBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30C82989045D9E3400A738B5 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXFrameworksBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30C8298A045D9E3400A738B5 = {
+			buildActionMask = 2147483647;
+			files = (
+			);
+			isa = PBXRezBuildPhase;
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		30C8298B045D9E3400A738B5 = {
+			buildPhases = (
+				30C82986045D9E3400A738B5,
+				30C82987045D9E3400A738B5,
+				30C82988045D9E3400A738B5,
+				30C82989045D9E3400A738B5,
+				30C8298A045D9E3400A738B5,
+			);
+			buildSettings = {
+				OPTIMIZATION_CFLAGS = "";
+				OTHER_CFLAGS = "";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = AiksaurusCocoa;
+				SECTORDER_FLAGS = "";
+				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
+				WRAPPER_EXTENSION = app;
+			};
+			dependencies = (
+			);
+			isa = PBXApplicationTarget;
+			name = AiksaurusCocoa;
+			productInstallPath = "$(USER_APPS_DIR)";
+			productName = AiksaurusCocoa;
+			productReference = 30C8298C045D9E3400A738B5;
+			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+<!DOCTYPE plist PUBLIC \"-//Apple Computer//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">
+<plist version=\"1.0\">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>Aiksaurus</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Aquatic front-end for Jared Aiken's thesaurus</string>
+	<key>CFBundleIconFile</key>
+	<string>AikSaurus.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.aiksaurus.cocoa</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>Aiksaurus</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>Thesaurus for Mac OS X</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>0.15.1d1</string>
+</dict>
+</plist>
+";
+		};
+		30C8298C045D9E3400A738B5 = {
+			isa = PBXApplicationReference;
+			path = AiksaurusCocoa.app;
+			refType = 3;
+		};
+		30C8298E045D9E7800A738B5 = {
+			fileRef = 08FB77B4FE84181DC02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C8298F045D9F8400A738B5 = {
+			fileRef = 30C8295B045D809500A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82990045D9FA600A738B5 = {
+			fileRef = 089C1666FE841158C02AAC07;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C82995045DA3D900A738B5 = {
+			children = (
+				30C82996045DA3D900A738B5,
+			);
+			isa = PBXVariantGroup;
+			name = MainMenu.nib;
+			path = "";
+			refType = 4;
+		};
+		30C82996045DA3D900A738B5 = {
+			isa = PBXFileReference;
+			name = English;
+			path = English.lproj/MainMenu.nib;
+			refType = 4;
+		};
+		30C82997045DA3D900A738B5 = {
+			fileRef = 30C82995045DA3D900A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+//300
+//301
+//302
+//303
+//304
+//320
+//321
+//322
+//323
+//324
+		32C88DFF0371C24200C91783 = {
+			children = (
+				30C82961045D813500A738B5,
+				08FB77B4FE84181DC02AAC07,
+			);
+			isa = PBXGroup;
+			name = "Other Sources";
+			refType = 4;
+		};
+	};
+	rootObject = 0867D690FE84028FC02AAC07;
+}

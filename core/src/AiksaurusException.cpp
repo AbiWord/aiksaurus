@@ -19,12 +19,17 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
 #include "AiksaurusException.h"     // Header we're implementing.
-#include "config.h"                 // For AIK_DATA_DIR define.
+
 #include <cassert>                   
 #include <string>                   // for std::string
 #include <cstring>                  // for strcpy
 #include <new>                      // for std::bad_alloc
+
 using namespace std;
 
 #if defined WIN32

@@ -12,16 +12,16 @@ else
 	exit
 fi
 
+autoheader
+
 if ( automake --version ) </dev/null > /dev/null 2>&1; then
 	echo -n "Building Makefile templates... "
-	automake -a --foreign || automake
+	automake -a -c --foreign || automake
 	echo "done."
 else
 	echo "automake not found -- aborting"
 	exit
 fi
-
-autoheader
 
 if ( autoconf --version ) </dev/null > /dev/null 2>&1; then
 	echo -n "Building configure... "

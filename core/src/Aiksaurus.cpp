@@ -20,14 +20,19 @@
  *
  */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
+
 #include "Aiksaurus.h"
 #include "MeaningsFile.h"
 #include "WordsFile.h"
 #include "WordStream.h"
-#include <stdlib.h>
+
+#include <cstdlib>
 #include <string>
 #include <iostream>
+
 using namespace std;
 
 #if defined WIN32
