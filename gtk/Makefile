@@ -8,7 +8,7 @@ gtkAiksaur: gtkAiksaur.t.cpp gtkAiksaur.o
 	$(CC) $(CPPFLAGS) $(GTKLINK) -o gtkAiksaur gtkAiksaur.t.cpp gtkAiksaur.o
 
 gtkAiksaur.o : gtkAiksaur.cpp gtkAiksaur.h
-	$(CC) $(CPPFLAGS) -c gtkAiksaur.cpp
+	$(CC) $(CPPFLAGS) $(GTKLINK) -c gtkAiksaur.cpp
 
 clean:
 	rm gtkAiksaur *.o *~
