@@ -1,40 +1,52 @@
-                  
-		  
-                             AikSaurus README File
+AikSaurus README File
 
+Core Library
+=======================================================================
 
-   AikSaurus Homepage:  
-   	
-	http://aiken.clan11.com/aiksaurus/
-
-
-   Build Instructions:
-   
-   	1.  run './configure'   (without the 'quotes')
-	2.  run 'make'
-	3.  run 'make install'
+    AikSaurus Homepage:
+        http://www.aiksaurus.com/
+    
+    Build Instructions:
+        http://www.aiksaurus.com/install.php
+       
+    Quick Instructions:        
+       	1.  run './configure'   (without the 'quotes')
+    	2.  run 'make'
+    	3.  run 'make install'
 	
 	
-   Build Problems and Solutions
+    Build Problems and Solutions
    
-     1.  thesaurus programs fail on startup with 'cannot open shared 
-         library libAikSaurus.so.0'
+      1.  thesaurus programs fail on startup with 'cannot open shared 
+          library libAikSaurus.so.0'
 
-	 By default, libAikSaurus.so.0 is installed in /usr/local/lib.
-	 Some systems do not look here.  You can find out if yours is 
-	 looking here by running strace on the program, and seeing 
-	 where it looks for the shared libraries. 
-	 If your system does not look in /usr/local/lib, or if you're
-	 unsure, you can try the following:
+ 	  By default, libAikSaurus.so.0 is installed in /usr/local/lib.
+	  Some systems do not look here.  You can find out if yours is 
+	  looking here by running strace on the program, and seeing 
+	  where it looks for the shared libraries. 
+	  If your system does not look in /usr/local/lib, or if you're
+	  unsure, you can try the following:
 	 	./configure --prefix=/usr
-	 Then do the make, make install again, and try recompiling your
-	 program.
+	  Then do the make, make install again, and try recompiling your
+	  program.
 
+    Questions/Comments:
+        jared@aiksaurus.com
+     
 
-  If you have a problem not in this list, please submit a bug report. 
- 
- 
-  Thanks,
+AbiWord Plugin
+=======================================================================
 
-	Jared
+    Quick Instructions:
+        1.  Compile core library as above.
+        2.  cd gtk
+        3.  make
+        4.  cd abiPlugin
+        5.  make
 
+    You should now have a file named AiksaurusABI.so
+
+    Use AbiWord's "plugins" dialog to install the plugin.
+
+    Questions/Comments:
+        abiword@aiksaurus.com
