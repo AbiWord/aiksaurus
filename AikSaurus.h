@@ -57,14 +57,17 @@ class AikSaurus
 		AikSaurus(const char* data_dir = 0);
 		~AikSaurus();
 
+		
 		// call 'word' to figure out what word is current.
 		const char* word() const;
+		
 		
 		// call 'find' to set up which word you want 
 		// the results from. Returns true if the word is
 		// found, false otherwise.
 		bool find(const char* word);
 
+		
 		// call 'next' repeatedly to return one synonym
 		// at a time, until it returns empty string.
 		// you do not have to delete this string, but
@@ -73,17 +76,25 @@ class AikSaurus
 		// test it using: (pos & AikSaurus::Noun), etc.
 		const char* next(char& pos);
 
+		
 		// call 'similar' repeatdly to return one 
 		// "nearby word" at a time.  these are not 
 		// synonyms: they are known words that are 
 		// alphabetically near the searched-for word.
 		const char* similar();
 		
+		
 		// call 'error' to find out if something went 
 		// wrong.  will be empty if no problems.  you
 		// do not have to delete this string, it is 
 		// managed automatically.
 		const char* error() const;
+
+		
+		// call 'count' to find out how many synonyms
+		// there are before extracting them.  it will
+		// return 0 if the word is not found.
+		unsigned int count() const;
 };
 
 #endif // INCLUDED_GPL_JARED_AIKSAURUS_H

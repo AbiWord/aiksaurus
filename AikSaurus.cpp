@@ -263,6 +263,13 @@ class AikSaurusImpl
 		// 
 		inline
 		const char* word() const;
+
+		
+		// 
+		// count returns the number of words.
+		// 
+		inline
+		unsigned int count() const;
 };
 
 
@@ -682,6 +689,20 @@ const char* AikSaurusImpl::similar()
 }
 
 
+inline
+unsigned int AikSaurusImpl::count() const
+{
+	unsigned int count = 0;
+	for(unsigned int i = 0;i < d_currentSynonyms.size();++i)
+	{
+		if (d_currentSynonyms[i] == ' ')
+			count++;
+	}
+	
+	return count;
+}
+
+
 //
 // AikSaurus Class Implementation -----------------------------------
 //
@@ -720,4 +741,9 @@ const char* AikSaurus::next(char& pos)
 const char* AikSaurus::error() const
 {
 	return d_impl_ptr->error();
+}
+
+unsigned int AikSaurus::count() const
+{
+	return d_impl_ptr->count();
 }
