@@ -5,13 +5,13 @@
 	<key>CFBundleExecutable</key>
 	<string>AbiAiksaurus</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.AbiSource.AbiSite</string>
+	<string>com.abisource.aiksaurus</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>1.2.1</string>
 	<key>NSPrincipalClass</key>
 	<string>AbiAiksaurus</string>
 </dict>

@@ -90,12 +90,12 @@
 
 - (BOOL)pluginIsActive
 {
-	return (m_aiksaurus ? YES : NO);
+	return (m_ContextMenuItem ? YES : NO);
 }
 
 - (void)pluginActivate
 {
-	if (!m_aiksaurus)
+	if (!m_ContextMenuItem)
 		{
 			if (m_ContextMenuItem = [m_AbiWord contextMenuItemWithLabel:@"Thesaurus"])
 				{
