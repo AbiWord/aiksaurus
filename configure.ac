@@ -65,7 +65,7 @@ AC_SUBST(LT_AIKGTK_VERSION_INFO)
 
 # initialize automake
 # 
-AM_INIT_AUTOMAKE(Aiksaurus,$AIKSAURUS_VERSION)
+AM_INIT_AUTOMAKE(aiksaurus,$AIKSAURUS_VERSION)
 
 # Specify a configuration file
 # 
