@@ -86,10 +86,40 @@ int main(int argc, char** argv)
 	
 	AiksaurusGTK_picbutton pb(window, back_gray);
 	pb.setHoverPicture(back_green);
+	GtkWidget* menu = pb.addMenu();
+
+	
+	GtkWidget* item = gtk_menu_item_new_with_label("Sample Menu Item");
+	gtk_widget_show(item);
+
+	gtk_menu_append(
+		GTK_MENU(menu),
+		item
+	);
+	
+	GtkWidget *btnbox = gtk_hbox_new(false, 0);
+	gtk_widget_show(btnbox);
 	
 	gtk_box_pack_start(
-		GTK_BOX(layout), 
+		GTK_BOX(btnbox), 
 		pb.getButton(),
+		false,
+		false,
+		0
+	);
+	
+	gtk_box_pack_start(
+		GTK_BOX(btnbox),
+		pb.getMenuButton(),
+		false,
+		false,
+		0
+	);
+	
+	
+	gtk_box_pack_start(
+		GTK_BOX(layout),
+		btnbox,
 		false,
 		false,
 		4

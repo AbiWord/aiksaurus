@@ -5,7 +5,8 @@
   Purpose:
 
      A GUI widget for IE-like pixmap buttons that light up when hovered over.
-
+     Also provides for drop-down menu next to button with a down arrow icon.
+  
   
   Discussion:
 
@@ -20,6 +21,8 @@
      The button can also be disabled, which prevents button click events
      from happening.  No third pixmap is required for this.
   
+     The dropdown menu is an added bonus, and can produce some really nice
+     looking icons.
 
   
   Programming Interface:
@@ -56,7 +59,6 @@
 	  to do that.
 
 
-
      Adding Hover and Disable Pictures
      ---------------------------------
 	
@@ -69,7 +71,6 @@
 	  has.
 
     
-
      Enabling and Disabling the Button
      ---------------------------------
 
@@ -89,5 +90,22 @@
 	  Safe to call if the button is already enabled.
 
 
+     Adding Dropdown Menus
+     ---------------------
+
+        GtkWidget* addMenu();
+
+	  Causes the button to have a drop-down menu, and returns a 
+	  pointer to a GtkMenu widget that you can add entries to.
+
+	
+	GtkWidget* getMenuButton();
+
+	  Returns a pointer to the drop-down menu's button.  This is
+	  needed so that you can gtk_container_add() or the equivalent
+	  to your container next to the main button.
+
+	  NOT SAFE to call without first calling addMenu().
+     
 
      

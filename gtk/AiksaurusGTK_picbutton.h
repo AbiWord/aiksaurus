@@ -27,37 +27,95 @@
 class AiksaurusGTK_picbutton
 {
 	private:
-
-		GtkWidget* d_window_ptr;
-		GtkWidget* d_button_ptr;
-
-		GtkWidget* d_pixmap_ptr;
-		GtkStyle* d_style_ptr;
+		
+	// Graphical down arrow for menu buttons
 	
-		GdkPixmap* d_normalpixmap_ptr;
-		GdkBitmap* d_normalmask_ptr;
+		static const char* s_downArrow[];
+
 		
-		GdkPixmap* d_hoverpixmap_ptr;
-		GdkBitmap* d_hovermask_ptr;
-		
+	// Possible button states
+	 
+		bool d_hashover;
+		bool d_hasmenu;
+		bool d_mouseover;
+		bool d_menushowing;
 		bool d_enabled;
 
-		static void cbEntered(GtkWidget* w, gpointer data);
-		static void cbLeft(GtkWidget* w, gpointer data);
+		
+	// Member Widgets
 	
-		void hover();
-		void unhover();
+		GtkWidget* d_window_ptr;
+		GtkWidget* d_button_ptr;
+		GtkWidget* d_pixmap_ptr;
+		GtkStyle* d_style_ptr;
+
+		GdkPixmap* d_normalpixmap_ptr;
+		GdkBitmap* d_normalmask_ptr;
+		GdkPixmap* d_hoverpixmap_ptr;
+		GdkBitmap* d_hovermask_ptr;
+	
+		GtkWidget* d_menu_ptr;
+		GtkWidget* d_menu_button_ptr;
+		GdkPixmap* d_menu_pixmap_ptr;
+		GdkBitmap* d_menu_mask_ptr;
+		GtkWidget* d_menu_pixmap_widget_ptr;
+		
+		
+	// Callback Functions
+		
+		static void cbEnteredMain(GtkWidget* w, gpointer data);
+		static void cbLeftMain(GtkWidget* w, gpointer data);
+		static void cbEnteredMenu(GtkWidget* w, gpointer data);
+		static void cbLeftMenu(GtkWidget* w, gpointer data);
+		static void cbPopMenu(GtkWidget* w, gpointer data);
+		static void cbPopupFunction(GtkMenu* menu, int* x, int* y, gpointer data); 
+		static void cbSelectionDone(GtkMenuShell* menushell, gpointer data);
+	
+		
+	// Mouse Hovering Actions
+	
+		void handleRelief();
+		void hoverMain();
+		void hoverMenu();
+		void unhoverMain();
+		void unhoverMenu();
+
+		
+	// Menu Activation and Deactivation
+	
+		void popMenu();
+		void popupFunction(int* x, int* y);
+		void selectionDone();
+	
+		
+	// Prevent Copying and Assignment
+	
+		AiksaurusGTK_picbutton(const AiksaurusGTK_picbutton&);
+		const AiksaurusGTK_picbutton& operator=(const AiksaurusGTK_picbutton&);
+	
+
 		
 	public:
 
+	// Construction and Destruction
+		
 		AiksaurusGTK_picbutton(GtkWidget *window, const char** normal);
+		~AiksaurusGTK_picbutton();
+		
+		
+	// Manipulation
 		
 		void setHoverPicture(const char** hover);
+		GtkWidget* addMenu();
 		
 		void disable();
 		void enable();
-
+	
+		
+	// Inspection
+		
 		GtkWidget* getButton();
+		GtkWidget* getMenuButton();
 };
 
 #endif // INCLUDED_GPL_JARED_AIKSAURUSGTK_PICBUTTON_H

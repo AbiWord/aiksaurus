@@ -19,113 +19,31 @@
  */
 
 #include "AiksaurusGTK_picbutton.h"
-
-void
-AiksaurusGTK_picbutton::cbEntered(GtkWidget* w, gpointer data)
-{
-	static_cast<AiksaurusGTK_picbutton*>(data)->hover();
-}
+#include <iostream>
+using namespace std;
 
 
-void 
-AiksaurusGTK_picbutton::cbLeft(GtkWidget* w, gpointer data)
-{
-	static_cast<AiksaurusGTK_picbutton*>(data)->unhover();
-}
 
-
-void
-AiksaurusGTK_picbutton::hover()
-{
-	if (d_enabled)
-	{
-		gtk_pixmap_set(
-			GTK_PIXMAP(d_pixmap_ptr),
-			d_hoverpixmap_ptr,
-			d_hovermask_ptr
-		);
-	}
-}
-
-void 
-AiksaurusGTK_picbutton::unhover()
-{
-	if (d_enabled)
-	{
-		gtk_pixmap_set(
-			GTK_PIXMAP(d_pixmap_ptr),
-			d_normalpixmap_ptr,
-			d_normalmask_ptr
-		);
-	}
-}
-
-
-void 
-AiksaurusGTK_picbutton::disable()
-{
-	d_enabled = false;
-
-	gtk_widget_set_sensitive(
-		d_button_ptr,
-		false
-	);
-}
-
-
-void
-AiksaurusGTK_picbutton::enable()
-{
-	d_enabled = true;
-
-	gtk_widget_set_sensitive(
-		d_button_ptr,
-		true
-	);
-}
-
-
-void
-AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
-{
-	gtk_button_set_relief(
-		GTK_BUTTON(d_button_ptr),
-		GTK_RELIEF_NONE
-	);
-	
-	d_hoverpixmap_ptr = gdk_pixmap_create_from_xpm_d(
-		d_window_ptr->window,
-		&d_hovermask_ptr,
-		&d_style_ptr->bg[GTK_STATE_NORMAL],
-		(gchar**)hover
-	);
-
-	gtk_signal_connect(
-		GTK_OBJECT(d_button_ptr),
-		"enter",
-		GTK_SIGNAL_FUNC(cbEntered),
-		this
-	);
-
-	gtk_signal_connect(
-		GTK_OBJECT(d_button_ptr),
-		"leave",
-		GTK_SIGNAL_FUNC(cbLeft),
-		this
-	);
-}
-
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Creation, Menu Addition, Hover Icon Setting                        //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
 
 AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** normal)
 {
 	d_window_ptr = window;
 	d_style_ptr = gtk_widget_get_style(window);
-	
+
 	d_enabled = true;
+	
+	d_menushowing = false;
+	d_hashover = false;
+	d_hasmenu = false;
+	d_mouseover = false;
+		
 	d_button_ptr = gtk_button_new();
-
 	gtk_widget_show(d_button_ptr);
-
 	GTK_WIDGET_UNSET_FLAGS(
 		d_button_ptr, 
 		GTK_CAN_FOCUS
@@ -153,10 +71,406 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char** n
 }
 
 
-GtkWidget* AiksaurusGTK_picbutton::getButton()
+AiksaurusGTK_picbutton::~AiksaurusGTK_picbutton()
+{
+	gtk_widget_destroy(d_menu_ptr);
+}
+
+
+void
+AiksaurusGTK_picbutton::setHoverPicture(const char** hover)
+{
+	d_hashover = true;
+	
+	d_hoverpixmap_ptr = gdk_pixmap_create_from_xpm_d(
+		d_window_ptr->window,
+		&d_hovermask_ptr,
+		&d_style_ptr->bg[GTK_STATE_NORMAL],
+		(gchar**)hover
+	);
+
+	gtk_signal_connect(
+		GTK_OBJECT(d_button_ptr),
+		"enter",
+		GTK_SIGNAL_FUNC(cbEnteredMain),
+		this
+	);
+
+	gtk_signal_connect(
+		GTK_OBJECT(d_button_ptr),
+		"leave",
+		GTK_SIGNAL_FUNC(cbLeftMain),
+		this
+	);
+
+	handleRelief();
+}
+
+
+GtkWidget* 
+AiksaurusGTK_picbutton::addMenu()
+{
+	d_hasmenu = true;
+
+	d_menu_button_ptr = gtk_button_new();
+	gtk_widget_show(d_menu_button_ptr);
+
+	GTK_WIDGET_UNSET_FLAGS(
+		d_menu_button_ptr,
+		GTK_CAN_FOCUS
+	);
+	
+	d_menu_pixmap_ptr = gdk_pixmap_create_from_xpm_d(
+		d_window_ptr->window,
+		&d_menu_mask_ptr,
+		&d_style_ptr->bg[GTK_STATE_NORMAL],
+		(gchar**)s_downArrow
+	);
+	
+	d_menu_pixmap_widget_ptr = gtk_pixmap_new(
+		d_menu_pixmap_ptr,
+		d_menu_mask_ptr
+	);
+	
+	gtk_widget_show(d_menu_pixmap_widget_ptr);
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_menu_button_ptr),
+		d_menu_pixmap_widget_ptr
+	);
+	
+	gtk_signal_connect(
+		GTK_OBJECT(d_menu_button_ptr),
+		"enter",
+		GTK_SIGNAL_FUNC(cbEnteredMenu),
+		this
+	);
+
+	gtk_signal_connect(
+		GTK_OBJECT(d_menu_button_ptr),
+		"leave",
+		GTK_SIGNAL_FUNC(cbLeftMenu),
+		this
+	);
+	
+	handleRelief();
+
+	gtk_signal_connect(
+		GTK_OBJECT(d_menu_button_ptr),
+		"clicked",
+		GTK_SIGNAL_FUNC(cbPopMenu),
+		this
+	);
+
+	d_menu_ptr = gtk_menu_new();
+	gtk_widget_show(d_menu_ptr);
+	
+	gtk_signal_connect(
+		GTK_OBJECT(d_menu_ptr),
+		"selection-done",
+		GTK_SIGNAL_FUNC(cbSelectionDone),
+		this
+	);
+	
+	return d_menu_ptr;
+}
+
+
+GtkWidget* 
+AiksaurusGTK_picbutton::getButton()
 {
 	return d_button_ptr;
 }
 
 
+GtkWidget*
+AiksaurusGTK_picbutton::getMenuButton()
+{
+	return d_menu_button_ptr;
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Enabling and Disabling Support                                     //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+void 
+AiksaurusGTK_picbutton::disable()
+{
+	d_enabled = false;
+
+	gtk_widget_set_sensitive(
+		d_button_ptr,
+		false
+	);
+
+	if (d_hasmenu)
+	{
+		gtk_widget_set_sensitive(
+			d_menu_button_ptr,
+			false
+		);
+	}
+}
+
+
+void
+AiksaurusGTK_picbutton::enable()
+{
+	d_enabled = true;
+
+	gtk_widget_set_sensitive(
+		d_button_ptr,
+		true
+	);
+
+	if (d_hasmenu)
+	{
+		gtk_widget_set_sensitive(
+			d_menu_button_ptr,
+			true	
+		);
+	}
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Border Drawing/Hiding for Hover Effect                             //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+void 
+AiksaurusGTK_picbutton::handleRelief()
+{
+	const GtkReliefStyle off = GTK_RELIEF_NONE;
+	const GtkReliefStyle on = GTK_RELIEF_HALF;
+	
+	GtkReliefStyle d_border_state = GTK_RELIEF_NONE;
+	
+	if (!d_hashover)
+	{
+		d_border_state = on;
+	}
+	
+	else 
+	{
+		d_border_state = off;
+
+		if (d_menushowing)
+		{
+			d_border_state = on;
+		}
+
+		if (d_mouseover)
+		{
+			d_border_state = on;
+		}
+	}
+	
+	gtk_button_set_relief(
+		GTK_BUTTON(d_button_ptr),
+		d_border_state
+	);
+
+	if (d_hasmenu)
+	{
+		gtk_button_set_relief(
+			GTK_BUTTON(d_menu_button_ptr),
+			d_border_state
+		);
+	}
+}
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Hover Effect                                                       //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+void
+AiksaurusGTK_picbutton::hoverMain()
+{
+	d_mouseover = true;
+	
+	gtk_pixmap_set(
+		GTK_PIXMAP(d_pixmap_ptr),
+		d_hoverpixmap_ptr,
+		d_hovermask_ptr
+	);
+	
+	handleRelief();
+}
+
+void 
+AiksaurusGTK_picbutton::unhoverMain()
+{
+	d_mouseover = false;
+	
+	gtk_pixmap_set(
+		GTK_PIXMAP(d_pixmap_ptr),
+		d_normalpixmap_ptr,
+		d_normalmask_ptr
+	);
+	
+	handleRelief();
+}
+
+void 
+AiksaurusGTK_picbutton::hoverMenu()
+{
+	d_mouseover = true;
+	
+	if (d_hashover)
+	{
+		hoverMain();
+		gtk_button_set_relief(
+			GTK_BUTTON(d_button_ptr),
+			GTK_RELIEF_HALF
+		);
+	}
+}
+
+void 
+AiksaurusGTK_picbutton::unhoverMenu()
+{
+	d_mouseover = false;
+	
+	if (!d_menushowing)
+	{
+		if (d_hashover)
+		{
+			unhoverMain();
+		}
+	}
+
+	handleRelief();
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Drop-Down Menu                                                     //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+void 
+AiksaurusGTK_picbutton::popMenu()
+{
+	d_menushowing = true;
+	
+	gtk_menu_popup(
+		GTK_MENU(d_menu_ptr),
+		NULL,
+		NULL,
+		cbPopupFunction,
+		this,
+		0,
+		0
+	);
+}
+
+
+void 
+AiksaurusGTK_picbutton::popupFunction(int* x, int* y)
+{
+	gdk_window_get_origin(d_button_ptr->window, x, y);
+	(*y) += d_button_ptr->allocation.height;
+}
+
+
+void 
+AiksaurusGTK_picbutton::selectionDone()
+{
+	d_menushowing = false;
+
+	handleRelief();
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   Callback Functions                                                 //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+void AiksaurusGTK_picbutton::cbEnteredMain(GtkWidget* w, gpointer data)
+{
+	static_cast<AiksaurusGTK_picbutton*>(data)->hoverMain();
+}
+
+void AiksaurusGTK_picbutton::cbLeftMain(GtkWidget* w, gpointer data)
+{
+	static_cast<AiksaurusGTK_picbutton*>(data)->unhoverMain();
+}
+
+void AiksaurusGTK_picbutton::cbEnteredMenu(GtkWidget* w, gpointer data)
+{
+	static_cast<AiksaurusGTK_picbutton*>(data)->hoverMenu();
+}
+
+void AiksaurusGTK_picbutton::cbLeftMenu(GtkWidget* w, gpointer data)
+{
+	static_cast<AiksaurusGTK_picbutton*>(data)->unhoverMenu();
+}
+
+void AiksaurusGTK_picbutton::cbPopMenu(GtkWidget* w, gpointer data)
+{
+	static_cast<AiksaurusGTK_picbutton*>(data)->popMenu();
+}
+
+void AiksaurusGTK_picbutton::cbPopupFunction(GtkMenu* menu, int* x, int* y, gpointer data)
+{
+	static_cast<AiksaurusGTK_picbutton*>(data)->popupFunction(x, y);
+}
+
+void AiksaurusGTK_picbutton::cbSelectionDone(GtkMenuShell* menushell, gpointer data)
+{
+	static_cast<AiksaurusGTK_picbutton*>(data)->selectionDone();
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////////////
+//                                                                      //
+//   XPM Pictures                                                       //
+//                                                                      //
+//////////////////////////////////////////////////////////////////////////
+
+const char *AiksaurusGTK_picbutton::s_downArrow[]={
+"11 16 2 1",
+"# c #000000",
+". c None",
+"...........",
+"...........",
+"...........",
+"...........",
+"...........",
+"...........",
+"..#######..",
+"...#####...",
+"....###....",
+".....#.....",
+"...........",
+"...........",
+"...........",
+"...........",
+"...........",
+"..........."};
 
