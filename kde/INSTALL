@@ -1,56 +1,17 @@
+AiksaurusKDE INSTALL File
+--------------------------------------------------------------------------
 
-OK-- this is really sloppy, so I'm sorry.
-Hopefully soon i'll figure out how to make those sweet ./configure scripts and so forth.
+Right now this is extremely sloppy.  
+Prerequisites are KDE and QT development libraries, Aiksaurus Core.
 
+Next you need to set QTDIR and KDEDIR in src/Makefile to match
+your system.
 
-Step 1: you need to install bzip2 development libraries.
-  
-  You can download this from my web site:
-  	http://aiken.clan11.com/aiksaurus/download.php
+Finally run make.  This should build ./AiksaurusKDE in src directory.
 
-  Build that, it has a decent setup script.
+Many changes forthcoming, there should be a ./configure script for 
+this soon.  My apologies.
 
-
-
-Step 2: you need to install the kde and qt development libraries.
-
-  This has been developed on qt 2.3.0, kde 2.1.  Other versions may or may not work.
-
-  KDE is available from www.kde.org, QT from www.trolltech.com. 
-
-
-
-Step 3: set up QTDIR and KDEDIR in makefile.
-
-  If you went through the install for kde and qt, you should have set up QTDIR
-  and KDEDIR in your env.  In this case, you might be able to just comment out
-  those lines of the makefile.  Otherwise, edit the top of the makefile and 
-  change QTDIR and KDEDIR to match your system.
-
-
-Step 4: run make
-
-  Running 'make' will create the program but it will need to be installed still.
-
-  Running 'make install' will install the program.
-    datafiles are copied to /usr/share/aiksaurus/
-    executable kaiksaur is copied to /usr/bin/
-
-  Running 'make uninstall' will uninstall the program.
-    rm -rf /usr/share/aiksaurus
-    rm -f /usr/bin/kaiksaur
-
-  You will obviously need to be root to run make install/uninstall.
-
-Step 5: run kaiksaur.
-
-  You should be able to run 'kaiksaur' from the command line as a regular user.
-
-
-Thanks,
-let me know how it turns out.
-
-I'll try to get something decent going here pretty soon.
-
-	Jared Davis
-	aiken@clan11.com
+--------------------------------------------------------------------------
+Jared Davis
+jared@aiksaurus.com 
