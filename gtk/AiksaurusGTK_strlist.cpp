@@ -300,13 +300,6 @@ void AiksaurusGTK_strlist::remove_first(const char* str)
 #include <iostream>
 using namespace std;
 
-static 
-void debugHelper(void* str, void* data)
-{
-	char* x = static_cast<char*>(str);
-	cout << "   " << x << endl;
-}
-
 void AiksaurusGTK_strlist::debug()
 {
     cout << "Strlist Contents: (" << size() << " elements)\n";
