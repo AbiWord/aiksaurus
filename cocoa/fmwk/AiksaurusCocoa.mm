@@ -96,7 +96,8 @@
 	if (rowIndex)
 		{
 			int index = (rowIndex - 1) << 2 + colIndex;
-			value = (NSString *) [m_synonyms objectAtIndex:index];
+			if (index < [m_synonyms count])
+				value = (NSString *) [m_synonyms objectAtIndex:index];
 		}
 	else if (colIndex == 0)
 		{
@@ -308,6 +309,8 @@
 
 					[m_meanings addObject:acm];
 					[acm release]; // ??
+
+					prev_meaning = this_meaning;
 				}
 			else
 				{

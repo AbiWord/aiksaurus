@@ -27,7 +27,7 @@
 {
 	m_aiksaurus = [[AiksaurusCocoa alloc] init];
 
-	if (m_aiksaurus && m_datasrc)
+	if (m_aiksaurus)
 		{
 			if ([m_aiksaurus okay])
 				{
