@@ -38,8 +38,8 @@ using namespace std;
 #if defined WIN32
 	#include <windows.h>
 	#define WIN32_LEAN_AND_MEAN
-	// Default aik_data_dir is local directory
-	std::string aik_data_dir(".\\");
+	// Default AIK_DATA_DIR is local directory
+	std::string AIK_DATA_DIR(".\\");
 	// Regestry Reading for AIK_DATA_DIR
 	void ReadRegistry()
 	{
@@ -54,7 +54,7 @@ using namespace std;
 			{
 				szValue = new unsigned char[dwSize + 1];
 				::RegQueryValueEx( hKey, "Data_Dir", NULL, &lType, szValue, &dwSize);
-				aik_data_dir = (char*) szValue;
+				AIK_DATA_DIR = (char*) szValue;
 				delete[] szValue;
 			}
 		}

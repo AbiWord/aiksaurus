@@ -33,7 +33,7 @@
 using namespace std;
 
 #if defined WIN32
-	extern std::string aik_data_dir;
+	extern std::string AIK_DATA_DIR;
 #endif
 
 namespace AiksaurusImpl
