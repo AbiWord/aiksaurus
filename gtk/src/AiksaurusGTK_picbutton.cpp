@@ -537,7 +537,7 @@ void AiksaurusGTK_picbutton::cbPopMenu(GtkWidget* w, gpointer data)
 	static_cast<AiksaurusGTK_picbutton*>(data)->popMenu();
 }
 
-void AiksaurusGTK_picbutton::cbPopupFunction(GtkMenu* menu, int* x, int* y, gpointer data)
+void AiksaurusGTK_picbutton::cbPopupFunction(GtkMenu* menu, int* x, int* y, gboolean* notUsedBool, gpointer data)
 {
 	static_cast<AiksaurusGTK_picbutton*>(data)->popupFunction(x, y);
 }

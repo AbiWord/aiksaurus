@@ -108,10 +108,10 @@ namespace AiksaurusGTK_impl
 
         else
         {
-            d_window_ptr = gtk_window_new(GTK_WINDOW_DIALOG);
+            d_window_ptr = gtk_dialog_new();
             gtk_widget_realize(d_window_ptr);
             
-            d_layout_ptr = gtk_vbox_new(false, 0);
+            d_layout_ptr = GTK_DIALOG(d_window_ptr)->vbox;
 
             d_toolbar_ptr = new Toolbar(*this, d_window_ptr);
             d_toolbar_ptr->focus();
@@ -137,7 +137,7 @@ namespace AiksaurusGTK_impl
                 d_replacebar_ptr = 0;
             }
             
-            gtk_container_add(GTK_CONTAINER(d_window_ptr), d_layout_ptr);
+            //gtk_container_add(GTK_CONTAINER(d_window_ptr), d_layout_ptr);
 
             gtk_window_set_title(GTK_WINDOW(d_window_ptr), d_title.c_str());
 
