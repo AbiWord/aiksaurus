@@ -340,7 +340,7 @@ void
 AiksaurusGTK_picbutton::selectionDone()
 {
 	d_menushowing = false;
-	handleRelief();
+    handleRelief();
 }
 
 
@@ -366,6 +366,7 @@ void
 AiksaurusGTK_picbutton::menuActivate(gpointer item)
 {
     AiksaurusGTK_menudata* data = static_cast<AiksaurusGTK_menudata*>(item);
+    selectionDone();
     d_onclick_function(data->d_glist_ptr, d_onclick_data);
 }
 
