@@ -207,8 +207,13 @@ AiksaurusGTK_picbutton::getMenu()
 void 
 AiksaurusGTK_picbutton::disable()
 {
-	d_enabled = false;
-
+    bool mousestate = d_mouseover;
+    d_mouseover = false;
+	handleRelief();
+    d_mouseover = mousestate;
+    
+    d_enabled = false;
+	
 	gtk_widget_set_sensitive(
 		d_button_ptr,
 		false
@@ -241,6 +246,8 @@ AiksaurusGTK_picbutton::enable()
 			true	
 		);
 	}
+
+    handleRelief();
 }
 
 
