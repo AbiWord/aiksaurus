@@ -92,6 +92,6 @@ namespace AiksaurusImpl
     };
 }
 
-typedef AiksaurusImpl::Aiksaurus Aiksaurus;
+typedef AIKEXPORT AiksaurusImpl::Aiksaurus Aiksaurus;
 
 #endif // INCLUDED_AIKSAURUS_H
