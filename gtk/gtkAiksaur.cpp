@@ -93,28 +93,40 @@ const char* ActivateThesaurus(const char* search)
 {
 	if (GtkAiksaur::s_instance == NULL)
 	{
-		GtkAiksaur::s_instance = new GtkAiksaur();
+		GtkAiksaur::s_instance = new GtkAiksaur;
 	}
 
 	// To do: run a search for 'search'.
+	
+	gtk_main();
+
+	return "Foo";
 }
 
 
 
+
+
+
+///////////////////////////////////////////////////////////////////////////////
+//
+// Implementation of GtkAiksaur Class
+//
+///////////////////////////////////////////////////////////////////////////////
+
 GtkAiksaur::GtkAiksaur()
-{
+{	
 	createWindow();
 	createToolbar();
 	
 	gtk_widget_show_all(d_window_ptr);
-	gtk_main();
+
 }
 
 
 const char* GtkAiksaur::getSearchText()
 {
-	cout << "GetSearchText called." << endl;
-	return "";
+	return gtk_entry_get_text( GTK_ENTRY(d_searchbar_ptr) );
 }
 
 
@@ -239,6 +251,8 @@ void GtkAiksaur::createSearchbar()
 	d_searchbar_label_ptr = gtk_label_new("  Look up:");
 	d_searchbar_ptr = gtk_entry_new();
 
+	cout << "Searchbar created: address is " << d_searchbar_ptr << endl;
+	
 	gtk_toolbar_append_widget(
 		GTK_TOOLBAR(d_toolbar_ptr),
 		d_searchbar_label_ptr,
@@ -280,7 +294,7 @@ GtkAiksaur_forwardButtonCallback(GtkWidget* w, gpointer data)
 static void 
 GtkAiksaur_searchButtonCallback(GtkWidget* w, gpointer data)
 {
-	cout << "Search button pressed." << endl;
+	cout << "Text is " << GtkAiksaur::s_instance->getSearchText() << endl;
 }
 
 static gint
