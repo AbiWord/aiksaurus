@@ -18,7 +18,7 @@ Package=<4>
 
 ###############################################################################
 
-Project: "AiksaurusLIB"=..\..\core\src\AiksaurusLIB.dsp - Package Owner=<4>
+Project: "AiksaurusLIB"=..\..\base\AiksaurusLIB.dsp - Package Owner=<4>
 
 Package=<5>
 {{{

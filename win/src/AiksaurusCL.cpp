@@ -19,9 +19,9 @@
  *
  */
 
-#include "..\..\core\src\Aiksaurus.h"
-#include "..\..\core\src\AsciiCompare.h"
-#include "..\..\core\src\config.h"
+#include "..\..\base\Aiksaurus.h"
+#include "..\..\base\AsciiCompare.h"
+#include "..\..\base\config.h"
 #include <iostream>
 #include <string>
 using namespace std;
