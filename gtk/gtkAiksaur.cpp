@@ -95,6 +95,7 @@ class AiksaurusGTK
 		// The main toolbar and its associated widgets
 		GtkWidget* d_toolbar_ptr;
 		
+		  GtkWidget* d_backbutton_box_ptr;
 		  AiksaurusGTK_picbutton* d_backbutton_ptr;
 		  AiksaurusGTK_picbutton* d_forwardbutton_ptr;
 		  AiksaurusGTK_picbutton* d_searchbutton_ptr;
@@ -582,8 +583,10 @@ void AiksaurusGTK::createBackbutton()
 		this	
 	);
 
+	d_backbutton_box_ptr = gtk_hbox_new(false, 0);
+	
 	gtk_box_pack_start(
-		GTK_BOX(d_toolbar_ptr),
+		GTK_BOX(d_backbutton_box_ptr),
 		d_backbutton_ptr->getButton(),
 		false,
 		false,
@@ -591,11 +594,19 @@ void AiksaurusGTK::createBackbutton()
 	);	
 
 	gtk_box_pack_start(
-		GTK_BOX(d_toolbar_ptr),
+		GTK_BOX(d_backbutton_box_ptr),
 		d_backbutton_ptr->getMenuButton(),
 		false,
 		false,
 		0
+	);
+
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
+		d_backbutton_box_ptr,
+		false,
+		false,
+		4
 	);
 }
 
@@ -623,8 +634,6 @@ void AiksaurusGTK::createForwardbutton()
 		"Forward"
 	);
 
-	d_forwardbutton_ptr->disable();
-	
 	gtk_signal_connect(
 		GTK_OBJECT(d_forwardbutton_ptr->getButton()),
 		"clicked",
@@ -647,7 +656,6 @@ void AiksaurusGTK::createForwardbutton()
 		false,
 		0
 	);
-
 }
 
 
