@@ -15,7 +15,7 @@ libAikSaurus_la_SOURCES = \
 
 libAikSaurus_la_LIBADD = -lbz2
 
-libAikSaurus_la_LDFLAGS = -version-info 0:10
+libAikSaurus_la_LDFLAGS = -version-info 0:11
  
 include_HEADERS = \
 	AikSaurus.h
