@@ -24,7 +24,23 @@
 @interface AiksaurusCocoa : NSObject
 {
 	void *	m_aiksaurus;
+
+	int		m_length;
+	int		m_position;
 }
 - (id)init;
 - (void)dealloc;
+
+- (BOOL)okay;
+- (NSString *)lastError;
+
+- (int)historyLength;
+- (int)historyPosition;
+
+- (BOOL)setHistoryPosition:(int)position;
+
+- (BOOL)historyBack;
+- (BOOL)historyForward;
+
+- (BOOL)lookupWord:(NSString *)word;
 @end

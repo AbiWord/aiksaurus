@@ -19,17 +19,24 @@
  * 02111-1307, USA.
  */
 
-#import <Cocoa/Cocoa.h>
+#import "AiksaurusCocoa.h"
 
 @interface AiksaurusCocoaMain : NSObject
 {
-    IBOutlet id oBack;
-    IBOutlet id oForward;
-    IBOutlet id oHistory;
-    IBOutlet id oResultsTable;
-    IBOutlet id oSearchField;
-    IBOutlet id oStatus;
+	AiksaurusCocoa *	m_aiksaurus;
+
+	IBOutlet NSButton *			oBack;
+	IBOutlet NSButton *			oForward;
+	IBOutlet NSPopUpButton *	oHistory;
+	IBOutlet NSTableView *		oResultsTable;
+	IBOutlet NSTextField *		oSearchField;
+	IBOutlet NSTextField *		oStatus;
 }
+- (void)awakeFromNib;
+- (void)dealloc;
+
+- (void)sync;
+
 - (IBAction)aBack:(id)sender;
 - (IBAction)aForward:(id)sender;
 - (IBAction)aHistory:(id)sender;

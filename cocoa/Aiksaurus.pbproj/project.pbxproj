@@ -117,7 +117,7 @@
 				INSTALL_PATH = "$(HOME)/Library/Frameworks";
 				LIBRARY_SEARCH_PATHS = "";
 				OTHER_CFLAGS = "-DAIK_DATA_DIR=\\\\\\\"\\\\\\\" -DHAVE_GETENV -DAIKSAURUS_COCOA_SOURCE";
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "-seg1addr 3ff00000";
 				PRODUCT_NAME = Aiksaurus;
 				SECTORDER_FLAGS = "";
 				WARNING_CFLAGS = "-Wmost -Wno-four-char-constants -Wno-unknown-pragmas";
@@ -276,6 +276,7 @@
 		1058C7B0FEA5585E11CA2CBB = {
 			children = (
 				1058C7B1FEA5585E11CA2CBB,
+				30C4BDDC045EBAA400A738B5,
 			);
 			isa = PBXGroup;
 			name = "Linked Frameworks";
@@ -326,12 +327,6 @@
 			path = app/AiksaurusCocoaMain.m;
 			refType = 4;
 		};
-		30B841FB045E8B8300A738B5 = {
-			fileRef = 30B841F9045E8B8100A738B5;
-			isa = PBXBuildFile;
-			settings = {
-			};
-		};
 		30B841FC045E8B8300A738B5 = {
 			fileRef = 30B841FA045E8B8100A738B5;
 			isa = PBXBuildFile;
@@ -346,6 +341,23 @@
 			isa = PBXGroup;
 			name = app;
 			refType = 4;
+		};
+		30C4BDD0045E9ECF00A738B5 = {
+			fileRef = 1058C7B1FEA5585E11CA2CBB;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30C4BDDC045EBAA400A738B5 = {
+			isa = PBXFrameworkReference;
+			path = Aiksaurus.framework;
+			refType = 3;
+		};
+		30C4BDDD045EBAA400A738B5 = {
+			fileRef = 30C4BDDC045EBAA400A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
 		};
 		30C8295B045D809500A738B5 = {
 			isa = PBXFileReference;
@@ -598,7 +610,6 @@
 		30C82986045D9E3400A738B5 = {
 			buildActionMask = 2147483647;
 			files = (
-				30B841FB045E8B8300A738B5,
 			);
 			isa = PBXHeadersBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -625,6 +636,8 @@
 		30C82989045D9E3400A738B5 = {
 			buildActionMask = 2147483647;
 			files = (
+				30C4BDD0045E9ECF00A738B5,
+				30C4BDDD045EBAA400A738B5,
 			);
 			isa = PBXFrameworksBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -645,6 +658,7 @@
 				30C8298A045D9E3400A738B5,
 			);
 			buildSettings = {
+				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -657,7 +671,7 @@
 			);
 			isa = PBXApplicationTarget;
 			name = AiksaurusCocoa;
-			productInstallPath = "$(USER_APPS_DIR)";
+			productInstallPath = "$(HOME)/Applications";
 			productName = AiksaurusCocoa;
 			productReference = 30C8298C045D9E3400A738B5;
 			productSettingsXML = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
@@ -667,7 +681,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>Aiksaurus</string>
+	<string>AiksaurusCocoa</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Aquatic front-end for Jared Aiken's thesaurus</string>
 	<key>CFBundleIconFile</key>
@@ -677,7 +691,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Aiksaurus</string>
+	<string>AiksaurusCocoa</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -686,6 +700,10 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>0.15.1d1</string>
+	<key>NSMainNibFile</key>
+	<string>MainMenu</string>
+	<key>NSPrincipalClass</key>
+	<string>NSApplication</string>
 </dict>
 </plist>
 ";
