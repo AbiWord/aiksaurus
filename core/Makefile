@@ -89,21 +89,22 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = data src
 
-EXTRA_DIST = autogen.sh README LICENSE CHANGES ChangeLog 
+EXTRA_DIST = autogen.sh AUTHORS README COPYING CHANGES ChangeLog Aiksaurus.spec 
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/src/config.h
-CONFIG_CLEAN_FILES =
+CONFIG_CLEAN_FILES = Aiksaurus.spec
 DIST_SOURCES =
 
 RECURSIVE_TARGETS = info-recursive dvi-recursive install-info-recursive \
 	uninstall-info-recursive all-recursive install-data-recursive \
 	install-exec-recursive installdirs-recursive install-recursive \
 	uninstall-recursive check-recursive installcheck-recursive
-DIST_COMMON = README ChangeLog Makefile.am Makefile.in aclocal.m4 \
-	config.guess config.sub configure configure.in depcomp \
-	install-sh ltmain.sh missing mkinstalldirs
+DIST_COMMON = README AUTHORS Aiksaurus.spec.in COPYING ChangeLog \
+	Makefile.am Makefile.in aclocal.m4 config.guess config.sub \
+	configure configure.in depcomp install-sh ltmain.sh missing \
+	mkinstalldirs
 DIST_SUBDIRS = $(SUBDIRS)
 all: all-recursive
 
@@ -132,6 +133,8 @@ $(srcdir)/configure:  $(srcdir)/configure.in $(ACLOCAL_M4) $(CONFIGURE_DEPENDENC
 
 $(ACLOCAL_M4):  configure.in 
 	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
+Aiksaurus.spec: $(top_builddir)/config.status Aiksaurus.spec.in
+	cd $(top_builddir) && CONFIG_FILES=$@ CONFIG_HEADERS= CONFIG_LINKS= $(SHELL) ./config.status
 uninstall-info-am:
 
 # This directory's subdirectories are mostly independent; you can cd
@@ -237,6 +240,7 @@ GZIP_ENV = --best
 distdir: $(DISTFILES)
 	-chmod -R a+w $(distdir) >/dev/null 2>&1; rm -rf $(distdir)
 	mkdir $(distdir)
+	$(mkinstalldirs) $(distdir)/.
 	@for file in $(DISTFILES); do \
 	  if test -f $$file; then d=.; else d=$(srcdir); fi; \
 	  dir=`echo "$$file" | sed -e 's,/[^/]*$$,,'`; \

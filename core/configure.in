@@ -28,8 +28,8 @@ then
 	prefix="$ac_default_prefix"
 fi
 aikdatadir=`eval echo $datadir/$PACKAGE/`
-	 
+
 AIK_CXXFLAGS="-DAIK_DATA_DIR=\\\"$aikdatadir\\\" -DNDEBUG"
 AC_SUBST(AIK_CXXFLAGS)
 
-AC_OUTPUT(Makefile src/Makefile data/Makefile)
+AC_OUTPUT(Makefile src/Makefile data/Makefile Aiksaurus.spec)

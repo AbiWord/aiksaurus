@@ -18,7 +18,7 @@
  * 02111-1307, USA.
  */
 
-#include "AiksaurusGTK.h"
+#include <AiksaurusGTK.h>
 #include "config.h"
 #include <gtk/gtk.h>
 #include <iostream>
