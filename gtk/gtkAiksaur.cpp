@@ -70,6 +70,7 @@ class AiksaurusGTK
 	// Callback functions.   
 	
 		static gint cbExit(GtkWidget* w, GdkEventAny* e, gpointer data);
+		static gint cbListClick(GtkCList* w, gint row, gint col, GdkEventButton *e, gpointer data);
 		static void cbClose(GtkWidget* w, GdkEventAny* e);
 		static void cbReplace(GtkWidget* w, gpointer data);
 		static void cbCancel(GtkWidget* w, gpointer data);
@@ -94,6 +95,7 @@ class AiksaurusGTK
 		  
 		// Word list widgets
 		GtkWidget* d_wordlist_ptr;	
+		  GtkWidget* d_wordlist_box_ptr;
 		  GtkWidget* d_wordlist_scroller_ptr;
 		  GtkWidget* d_wordlist_label_box_ptr;
 		  GtkWidget* d_wordlist_label_ptr;
@@ -166,15 +168,16 @@ class AiksaurusGTK
 		{
 			return d_originalword_ptr;
 		}
-
+		
 		void updateWordlistLabel(int count);
+
+		void listClick(GtkCList* w, int row, int col, GdkEventButton* e);
 };
 
 
 void AiksaurusGTK::updateWordlistLabel(int count)
 {
-	static const char* space = "  ";
-	static const char* nosyns_1 = "  No synonyms found for ";
+	static const char* nosyns_1 = "No synonyms found for ";
 	static const char* nosyns_2 = ".  Nearby words are:";
 	static const char* xfound = " synonyms found for ";
 	static const char* colon = ":";
@@ -196,13 +199,9 @@ void AiksaurusGTK::updateWordlistLabel(int count)
 	
 	else
 	{	
-		char* s0 = AiksaurusGTK_intToString(count);
-		if (!s0) AiksaurusGTK_memoryExhausted();
-
-		char* s1 = AiksaurusGTK_strConcat(space, s0);
+		char* s1 = AiksaurusGTK_intToString(count);
 		if (!s1) AiksaurusGTK_memoryExhausted();
-		delete[] s0;
-		
+
 		char* s2 = AiksaurusGTK_strConcat(s1, xfound);
 		if (!s2) AiksaurusGTK_memoryExhausted();
 		delete[] s1;
@@ -223,7 +222,6 @@ void AiksaurusGTK::updateWordlistLabel(int count)
 		d_wordlist_label_text_ptr
 	);
 }
-
 
 AiksaurusGTK* AiksaurusGTK::s_instance = NULL;
 char* AiksaurusGTK::s_replacement = NULL;
@@ -316,7 +314,7 @@ void AiksaurusGTK::createWordlist()
 		0
 	);
 	
-	d_wordlist_label_ptr = gtk_label_new("  Abiword Thesaurus");
+	d_wordlist_label_ptr = gtk_label_new("Abiword Thesaurus");
 
 	gtk_label_set_justify(
 		GTK_LABEL(d_wordlist_label_ptr),
@@ -328,7 +326,7 @@ void AiksaurusGTK::createWordlist()
 		d_wordlist_label_ptr,
 		false,
 		false,
-		0
+		4	
 	);
 	
 	d_wordlist_scroller_ptr = gtk_scrolled_window_new(
@@ -348,18 +346,35 @@ void AiksaurusGTK::createWordlist()
 		350,
 		300
 	);
+
+	gtk_signal_connect(
+		GTK_OBJECT(d_wordlist_ptr),
+		"select-row",
+		GTK_SIGNAL_FUNC(cbListClick),
+		this
+	);
 	
 	gtk_container_add(
 		GTK_CONTAINER(d_wordlist_scroller_ptr),
 		d_wordlist_ptr
 	);
 	
+	d_wordlist_box_ptr = gtk_hbox_new(false, 10);	
+	
 	gtk_box_pack_start(
-		GTK_BOX(d_layout_ptr),
+		GTK_BOX(d_wordlist_box_ptr),
 		d_wordlist_scroller_ptr,
 		true,
 		true,
-		0	
+		10	
+	);
+
+	gtk_box_pack_start(
+		GTK_BOX(d_layout_ptr),
+		d_wordlist_box_ptr,
+		true,
+		true,
+		0
 	);
 }
 
@@ -389,8 +404,10 @@ void AiksaurusGTK::performSearch()
 		GTK_CLIST(d_wordlist_ptr)
 	);
 
+	int count;
 	if (d_aiksaurus_ptr->find(str))
 	{
+		count = d_aiksaurus_ptr->count();
 		char pos;
 
 		for(const char* r = d_aiksaurus_ptr->next(pos);r[0] != '\0';r = d_aiksaurus_ptr->next(pos))
@@ -405,6 +422,7 @@ void AiksaurusGTK::performSearch()
 	
 	else
 	{
+		count = 0;
 		for(const char* r = d_aiksaurus_ptr->similar(); r[0] != '\0';r = d_aiksaurus_ptr->similar())
 		{
 			gtk_clist_append(
@@ -414,7 +432,7 @@ void AiksaurusGTK::performSearch()
 		}
 	}
 
-	updateWordlistLabel(d_aiksaurus_ptr->count());
+	updateWordlistLabel(count);
 		
 	gtk_clist_thaw(
 		GTK_CLIST(d_wordlist_ptr)
@@ -900,3 +918,34 @@ AiksaurusGTK::cbSelectChanged(GtkWidget* w, gpointer data)
 	cout << "AiksaurusGTK::cbSelectChanged() invoking search." << endl;
 	cbSearch(w, data);
 }
+
+
+gint 
+AiksaurusGTK::cbListClick(GtkCList* w, gint row, gint col, GdkEventButton *e, gpointer data)
+{
+	s_instance->listClick(w, row, col, e);
+	return 0;
+}
+		
+
+void AiksaurusGTK::listClick(GtkCList* w, int row, int col, GdkEventButton* e)
+{
+	char* text;
+	gtk_clist_get_text(w, row, col, &text);
+	
+	if (e->type == GDK_2BUTTON_PRESS)
+		cout << "Double click: " << text << endl;
+
+	else
+	{
+		cout << "Single click: " << text << endl;
+		gtk_entry_set_text(
+			GTK_ENTRY(d_replacewith_ptr),
+			text
+		);
+	}
+	
+}
+
+
+
