@@ -24,14 +24,19 @@ class AiksaurusGTK
 	// The actual thesaurus.
 	
 		AikSaurus *d_aiksaurus_ptr;
+	
+
+	// Copy of original word thesaurus was launched with.
+	
+		char* d_originalword_ptr;
 		
 		
 	// Pointer to a static instance.	
 	
 		static AiksaurusGTK* s_instance;
+		static char* s_replacement;
 
-
-		bool d_connected;
+		
 		
 	// Callback functions.   
 	
@@ -44,13 +49,19 @@ class AiksaurusGTK
 		static void cbBack(GtkWidget* w, gpointer data);
 
 		static void cbSearchKeyPressed(GtkWidget* w, GdkEventKey* k, gpointer data); 
+		static void cbReplaceKeyPressed(GtkWidget* w, GdkEventKey* k, gpointer data); 
+		
 		static void cbSelectChanged(GtkWidget* w, gpointer data);
 		
 		
 	// GUI Widgets.
 		
+		// Tooltips for the dialog.
+		GtkTooltips *d_tooltips_ptr;
+		
 		// The main window and its associated widgets
 		GtkWidget* d_window_ptr;	
+		bool d_window_destroyed;
 		  GtkWidget* d_layout_ptr;	
 		  GtkWidget* d_wordlist_ptr;	
 		  GtkWidget* d_wordlist_scroller_ptr;
@@ -87,13 +98,12 @@ class AiksaurusGTK
 		  GtkWidget *d_replacewith_label_ptr;
 		  GtkWidget *d_replacewith_ptr;
 
-		GtkTooltips *d_tooltips_ptr;
 	
 		  
 	// Creation and Destruction.
 		
 		AiksaurusGTK(const char* search = NULL);
-		// TO DO: ~AiksaurusGTK();
+		~AiksaurusGTK();
 		
 		friend const char* ActivateThesaurus(const char* search);
 
@@ -118,12 +128,6 @@ class AiksaurusGTK
 		  void createReplaceentry();
 
 	
-	// Dropdown box management
-	
-		void connectSearchbar();
-		void disconnectSearchbar();
-		  
-		  
 	// Inspection Functions
 
 		const char* getSearchText();
@@ -134,11 +138,16 @@ class AiksaurusGTK
 		
 		void performSearch();
 		void hide();	
+
+		const char* originalWord() const
+		{
+			return d_originalword_ptr;
+		}
 };
 
 
 AiksaurusGTK* AiksaurusGTK::s_instance = NULL;
-
+char* AiksaurusGTK::s_replacement = NULL;
 
 
 
@@ -150,14 +159,23 @@ AiksaurusGTK* AiksaurusGTK::s_instance = NULL;
 //   
 const char* ActivateThesaurus(const char* search)
 {
-	AiksaurusGTK::s_instance = new AiksaurusGTK;
+	if (AiksaurusGTK::s_replacement != NULL)
+	{
+		delete[] AiksaurusGTK::s_replacement;
+	}
+	
+	AiksaurusGTK::s_instance = new AiksaurusGTK(search);
 
+	cout << "Activating Thesaurus." << endl;
 	gtk_main();
+	cout << "ActivateThesaurus has control once again." << endl;
 
 	delete AiksaurusGTK::s_instance;
 	AiksaurusGTK::s_instance = NULL;
+
+	cout << "Thesaurus destroyed." << endl;
 	
-	return "Foo";
+	return AiksaurusGTK::s_replacement;
 }
 
 
@@ -174,7 +192,13 @@ const char* ActivateThesaurus(const char* search)
 AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 : d_searchbar_words(12)
 {
-	d_connected = false;
+	d_window_destroyed = false;
+	
+	if (search == 0)
+		d_originalword_ptr = AiksaurusGTK_strCopy("");
+	else
+		d_originalword_ptr = AiksaurusGTK_strCopy(search);
+	
 	d_aiksaurus_ptr = new AikSaurus;
 	
 	createWindow();
@@ -184,6 +208,17 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 	
 	gtk_widget_show_all(d_window_ptr);
 }
+
+
+AiksaurusGTK::~AiksaurusGTK()
+{
+	delete[] d_originalword_ptr;
+	delete d_aiksaurus_ptr;
+
+	if (!d_window_destroyed)
+		gtk_widget_destroy(d_window_ptr);
+}
+
 
 
 void AiksaurusGTK::createWordlist()
@@ -404,7 +439,14 @@ void AiksaurusGTK::createReplaceentry()
 	);
 
 	d_replacewith_ptr = gtk_entry_new();
-
+	
+	gtk_signal_connect(
+		GTK_OBJECT(d_replacewith_ptr),
+		"key-press-event",
+		GTK_SIGNAL_FUNC(cbReplaceKeyPressed),
+		NULL
+	);
+	
 	gtk_box_pack_start(
 		GTK_BOX(d_replacebar_ptr),
 		d_replacewith_ptr,
@@ -605,8 +647,6 @@ void AiksaurusGTK::createSearchbar()
 		GTK_COMBO(d_searchbar_ptr)
 	);
 
-//	connectSearchbar();
-	
 	gtk_signal_connect(
 		GTK_OBJECT(
 			GTK_COMBO(d_searchbar_ptr)->entry
@@ -631,44 +671,6 @@ void AiksaurusGTK::createSearchbar()
 		true,
 		5
 	);
-}
-
-
-void AiksaurusGTK::connectSearchbar()
-{
-	assert(!d_connected);
-	cout << "AiksaurusGTK::connectSearchbar()" << endl;
-	gtk_signal_connect(
-		GTK_OBJECT(
-			GTK_COMBO(d_searchbar_ptr)->list
-		),
-		"select-child",
-		GTK_SIGNAL_FUNC(cbSelectChanged),
-		d_searchbar_label_ptr
-	);
-	d_connected = true;
-}
-
-
-void AiksaurusGTK::disconnectSearchbar()
-{
-	assert(d_connected);
-	cout << "AiksaurusGTK::disconnectSearchbar()" << endl;
-	gtk_signal_disconnect_by_func(
-		GTK_OBJECT(
-			GTK_COMBO(d_searchbar_ptr)->list
-		),
-		GTK_SIGNAL_FUNC(cbSelectChanged),
-		d_searchbar_label_ptr
-	);
-	d_connected = false;
-}
-
-
-
-void AiksaurusGTK::hide()
-{
-	gtk_widget_destroy(d_window_ptr);
 }
 
 
@@ -703,7 +705,10 @@ AiksaurusGTK::cbSearch(GtkWidget* w, gpointer data)
 void
 AiksaurusGTK::cbCancel(GtkWidget* w, gpointer data)
 {
-	s_instance->hide();
+	s_replacement = AiksaurusGTK_strCopy(
+		s_instance->originalWord()
+	);
+	
 	gtk_main_quit();
 }
 
@@ -711,38 +716,60 @@ AiksaurusGTK::cbCancel(GtkWidget* w, gpointer data)
 void
 AiksaurusGTK::cbReplace(GtkWidget* w, gpointer data)
 {
-	cout << "Replace button pressed." << endl;
+	s_replacement = AiksaurusGTK_strCopy(
+		gtk_entry_get_text(GTK_ENTRY(s_instance->d_replacewith_ptr))
+	);
+	
+	gtk_main_quit();
 }
 
 
 gint
 AiksaurusGTK::cbExit(GtkWidget* w, GdkEventAny* e, gpointer data)
 {
-	s_instance->hide();
+	s_instance->d_window_destroyed = true;
+
+	s_replacement = AiksaurusGTK_strCopy(
+		s_instance->originalWord()
+	);
+	
 	gtk_main_quit();
+	
 	return 0;
 }
+
 
 
 void
 AiksaurusGTK::cbSearchKeyPressed(GtkWidget* w, GdkEventKey* e, gpointer data)
 {
+	// Here we are detecting enter-key presses and invoking a search if 
+	// the enter key is pressed.
 	if (GDK_Return == e->keyval)
 	{
-		// Enter was pressed.
-		cout << "AiksaurusGTK::cbSearchKeyPressed() invoking search." << endl;
 		cbSearch(w, data);
 	}
 	
 }
 
 
+
+void 
+AiksaurusGTK::cbReplaceKeyPressed(GtkWidget* w, GdkEventKey* e, gpointer data)
+{
+	// Here we are detecting enter-key presses in the replace-with entry 
+	// field.  If we detect an enter-key, we need to go ahead and execute
+	// the replace code.
+	if (GDK_Return == e->keyval)
+	{
+		cbReplace(w, data);		
+	}
+}
+
+
 void 
 AiksaurusGTK::cbSelectChanged(GtkWidget* w, gpointer data)
 {
-	if (!s_instance->d_connected)
-		return;
-
 	cout << "AiksaurusGTK::cbSelectChanged() invoking search." << endl;
 	cbSearch(w, data);
 }
