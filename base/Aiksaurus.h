@@ -38,7 +38,7 @@
 
 #include <string>
 
-namespace AiksaurusImpl
+namespace AIKEXPORT AiksaurusImpl
 {
     class ThesaurusImpl;
     class AIKEXPORT Aiksaurus
