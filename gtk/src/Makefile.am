@@ -11,8 +11,6 @@ libAiksaurusGTK_la_SOURCES = \
 	AiksaurusGTK_histlist.h \
 	AiksaurusGTK_history.cpp \
 	AiksaurusGTK_history.h \
-	AiksaurusGTK_icons.cpp \
-	AiksaurusGTK_icons.h \
 	AiksaurusGTK_picbutton.cpp \
 	AiksaurusGTK_picbutton.h \
 	AiksaurusGTK_strlist.cpp \
@@ -24,6 +22,8 @@ libAiksaurusGTK_la_SOURCES = \
 	Display.h \
 	Exception.cpp \
 	Exception.h \
+	Icons.cpp \
+	Icons.h \
 	Meaning.cpp \
 	Meaning.h \
 	Replacebar.cpp \

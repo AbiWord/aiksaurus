@@ -61,18 +61,17 @@ namespace AiksaurusGTK_impl
             void _setTooltip(GtkWidget* w, const char* str) throw();
 
             static void _backClicked(GtkWidget* w, gpointer data) throw();
-            static void _forwardClicked(GtkWidget* w, gpointer data) throw();
-            static void _searchClicked(GtkWidget* w, gpointer data) throw();
-
             static void _backMenuClicked(GList* element, gpointer data) throw();
+            
+            static void _forwardClicked(GtkWidget* w, gpointer data) throw();
             static void _forwardMenuClicked(GList* element, gpointer data) throw(); 
 
-            static void _searchBarUnselect(GtkWidget* w, gpointer data) throw();
             static void _searchBarChanged(GtkWidget* w, gpointer data) throw();
-
             static void _searchBarShow(GtkWidget* w, gpointer data) throw();
             static void _searchBarHide(GtkWidget* w, gpointer data) throw();
             static void _searchBarKeypress(GtkWidget* w, GdkEventKey *k, gpointer d) throw(); 
+            
+            static void _searchClicked(GtkWidget* w, gpointer data) throw();
 
         public:
 
