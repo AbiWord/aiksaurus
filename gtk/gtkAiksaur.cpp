@@ -340,39 +340,47 @@ void GtkAiksaur::createCancelbutton()
 
 void GtkAiksaur::createBackbutton()
 {
-	GdkBitmap *mask;
-	GtkStyle *style = gtk_widget_get_style(d_window_ptr);
-	
-	d_backicon_pic_ptr = gdk_pixmap_create_from_xpm_d(
-		d_window_ptr->window,
+	d_backbutton_ptr = gtk_button_new();
+
+#if 1
+	GdkBitmap *mask = 0;
+	GdkColormap *cmap = gtk_widget_get_colormap (d_window_ptr);
+	GtkStyle *style = gtk_widget_get_style(d_window_ptr);	
+
+	d_backicon_pic_ptr = gdk_pixmap_colormap_create_from_xpm_d(
+	        d_window_ptr->window,
+		cmap,
 		&mask,
 		&style->bg[GTK_STATE_NORMAL],
-		(gchar**)s_backIcon
+		(gchar**)GtkAiksaur::s_backIcon
 	);
-	
+
 	d_backicon_ptr = gtk_pixmap_new(
 		d_backicon_pic_ptr,
 		mask
 	);
-	
-	d_backbutton_ptr = gtk_button_new();
-	//d_backbutton_label_ptr = gtk_label_new("Back");
+
+	gdk_pixmap_unref (d_backicon_pic_ptr);
+	gdk_bitmap_unref (mask);
 
 	gtk_container_add(
 		GTK_CONTAINER(d_backbutton_ptr),
 		d_backicon_ptr
 	);
+#else
+	d_backbutton_label_ptr = gtk_label_new("Back");
 	
-	//gtk_container_add(
-	//	GTK_CONTAINER(d_backbutton_ptr),
-	//	d_backbutton_label_ptr
-	//);
+	gtk_container_add(
+		GTK_CONTAINER(d_backbutton_ptr),
+		d_backbutton_label_ptr
+	);
+#endif
 	
 	gtk_signal_connect(
 		GTK_OBJECT(d_backbutton_ptr),
 		"clicked",
 		GTK_SIGNAL_FUNC(GtkAiksaur_backButtonCallback),
-		d_backbutton_label_ptr	
+		static_cast<gpointer>(this)	
 	);
 
 	gtk_box_pack_start(
