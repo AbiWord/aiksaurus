@@ -62,7 +62,7 @@ namespace AiksaurusImpl
             // word(): returns current word that is being
             // searched for.  You should not try to delete 
             // this string.
-            AIKEXPORT const char* word() const throw();
+            const char* word() const throw();
     		
             // error(): empty string if no problems encountered.
             // otherwise, a human-suitable description of the 
@@ -82,7 +82,7 @@ namespace AiksaurusImpl
             //  + the first two words of any meaning are 
             //    titles for that meaning.
             //  + returns an empty string when out of synonyms.
-            AIKEXPORT const char* next(int& meaning) throw();
+            const char* next(int& meaning) throw();
             
             // similar(): repeatdly to return one "nearby word" 
             // at a time.  these are not synonyms: they are known
@@ -92,6 +92,6 @@ namespace AiksaurusImpl
     };
 }
 
-typedef AIKEXPORT AiksaurusImpl::Aiksaurus Aiksaurus;
+typedef AiksaurusImpl::Aiksaurus Aiksaurus;
 
 #endif // INCLUDED_AIKSAURUS_H

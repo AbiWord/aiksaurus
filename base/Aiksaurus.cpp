@@ -67,7 +67,7 @@ using namespace std;
 
 namespace AiksaurusImpl
 {
-    class ThesaurusImpl
+    class AIKEXPORT ThesaurusImpl
     {
         private:      
             
