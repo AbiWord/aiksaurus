@@ -1,4 +1,4 @@
-AC_INIT([Aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
+AC_INIT([aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
 AC_CONFIG_SRCDIR([core/src/Aiksaurus.h])
 
 # Aiksaurus, version 1.0
