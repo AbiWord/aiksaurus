@@ -1,0 +1,40 @@
+                  
+		  
+                             AikSaurus README File
+
+
+   AikSaurus Homepage:  
+   	
+	http://aiken.clan11.com/aiksaurus/
+
+
+   Build Instructions:
+   
+   	1.  run './configure'   (without the 'quotes')
+	2.  run 'make'
+	3.  run 'make install'
+	
+	
+   Build Problems and Solutions
+   
+     1.  thesaurus programs fail on startup with 'cannot open shared 
+         library libAikSaurus.so.0'
+
+	 By default, libAikSaurus.so.0 is installed in /usr/local/lib.
+	 Some systems do not look here.  You can find out if yours is 
+	 looking here by running strace on the program, and seeing 
+	 where it looks for the shared libraries. 
+	 If your system does not look in /usr/local/lib, or if you're
+	 unsure, you can try the following:
+	 	./configure --prefix=/usr
+	 Then do the make, make install again, and try recompiling your
+	 program.
+
+
+  If you have a problem not in this list, please submit a bug report. 
+ 
+ 
+  Thanks,
+
+	Jared
+
