@@ -9,6 +9,8 @@ libAikSaurus_la_SOURCES = \
 	bzreader.h \
 	AikSaurus.cpp \
 	AikSaurus.h \
+	AikString.h \
+	AikString.cpp \
 	StringLoopQueue.h 
 
 libAikSaurus_la_LIBADD = -lbz2
