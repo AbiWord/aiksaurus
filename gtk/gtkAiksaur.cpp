@@ -141,14 +141,18 @@ GtkAiksaur::GtkAiksaur()
 	
 	createWindow();
 	createToolbar();
-	createReplacebar();
 	
 	d_wordlist_ptr = gtk_list_new();
 
-	gtk_container_add(
-		GTK_CONTAINER(d_layout_ptr),
-		d_wordlist_ptr
+	gtk_box_pack_start(
+		GTK_BOX(d_layout_ptr),
+		d_wordlist_ptr,
+		true,
+		true,
+		5
 	);
+	
+	createReplacebar();
 	
 	gtk_widget_show_all(d_window_ptr);
 }
@@ -205,9 +209,9 @@ void GtkAiksaur::createWindow()
 
 void GtkAiksaur::createToolbar()
 {
-	d_toolbar_ptr = gtk_toolbar_new(
-		GTK_ORIENTATION_HORIZONTAL, 
-		GTK_TOOLBAR_ICONS
+	d_toolbar_ptr = gtk_hbox_new(
+		false, 
+		4	
 	);
 
 	createBackbutton();
@@ -215,9 +219,12 @@ void GtkAiksaur::createToolbar()
 	createSearchbar();
 	createSearchbutton();
 	
-	gtk_container_add(
-		GTK_CONTAINER(d_layout_ptr), 		
-		d_toolbar_ptr
+	gtk_box_pack_start(
+		GTK_BOX(d_layout_ptr), 		
+		d_toolbar_ptr,
+		false,
+		false,
+		5
 	);
 }
 
@@ -225,31 +232,40 @@ void GtkAiksaur::createReplacebar()
 {
 	d_replacebar_ptr = gtk_hbox_new(false, 4);
 
-	gtk_container_add(
-		GTK_CONTAINER(d_layout_ptr),
-		d_replacebar_ptr
+	gtk_box_pack_start(
+		GTK_BOX(d_layout_ptr),
+		d_replacebar_ptr,
+		false,
+		false,
+		5	
 	);
 
 	createReplaceentry();
-	createOkbutton();
 	createCancelbutton();
+	createOkbutton();
 }
 
 
 void GtkAiksaur::createReplaceentry()
 {
-	d_replacewith_label_ptr = gtk_label_new("Replace With: ");
+	d_replacewith_label_ptr = gtk_label_new("  Replace With:");
 	
-	gtk_container_add(
-		GTK_CONTAINER(d_replacebar_ptr),
-		d_replacewith_label_ptr
+	gtk_box_pack_start(
+		GTK_BOX(d_replacebar_ptr),
+		d_replacewith_label_ptr,
+		false,
+		false,
+		0			
 	);
 
 	d_replacewith_ptr = gtk_entry_new();
 
-	gtk_container_add(
-		GTK_CONTAINER(d_replacebar_ptr),
-		d_replacewith_ptr
+	gtk_box_pack_start(
+		GTK_BOX(d_replacebar_ptr),
+		d_replacewith_ptr,
+		false,
+		false,
+		2
 	);
 }
 
@@ -262,10 +278,13 @@ void GtkAiksaur::createOkbutton()
 		GTK_CONTAINER(d_okbutton_ptr),
 		d_okbutton_label_ptr
 	);
-	
-	gtk_container_add(
-		GTK_CONTAINER(d_replacebar_ptr),
-		d_okbutton_ptr
+
+	gtk_box_pack_end(
+		GTK_BOX(d_replacebar_ptr),
+		d_okbutton_ptr,
+		false,
+		false,
+		2
 	);
 }
 
@@ -279,9 +298,12 @@ void GtkAiksaur::createCancelbutton()
 		d_cancelbutton_label_ptr
 	);
 	
-	gtk_container_add(
-		GTK_CONTAINER(d_replacebar_ptr),
-		d_cancelbutton_ptr
+	gtk_box_pack_end(
+		GTK_BOX(d_replacebar_ptr),
+		d_cancelbutton_ptr,
+		false,
+		false,
+		5	
 	);
 }
 
@@ -302,11 +324,12 @@ void GtkAiksaur::createBackbutton()
 		d_backbutton_label_ptr	
 	);
 
-	gtk_toolbar_append_widget(
-		GTK_TOOLBAR(d_toolbar_ptr),
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
 		d_backbutton_ptr,
-		"Previous Search",
-		"Previous Search"
+		false,
+		false,
+		5
 	);	
 }
 
@@ -327,13 +350,15 @@ void GtkAiksaur::createForwardbutton()
 		GTK_SIGNAL_FUNC(GtkAiksaur_forwardButtonCallback),
 		d_forwardbutton_label_ptr	
 	);
-
-	gtk_toolbar_append_widget(
-		GTK_TOOLBAR(d_toolbar_ptr),
+	
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
 		d_forwardbutton_ptr,
-		"Next Search",
-		"Next Search"
+		false,
+		false,
+		5
 	);	
+
 }
 
 
@@ -354,11 +379,12 @@ void GtkAiksaur::createSearchbutton()
 		d_searchbutton_label_ptr	
 	);
 
-	gtk_toolbar_append_widget(
-		GTK_TOOLBAR(d_toolbar_ptr),
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
 		d_searchbutton_ptr,
-		"Perform Search",
-		"Perform Search"
+		false,
+		false,
+		5
 	);	
 }
 
@@ -366,22 +392,24 @@ void GtkAiksaur::createSearchbutton()
 void GtkAiksaur::createSearchbar()
 {
 	d_searchbar_label_ptr = gtk_label_new("  Look up:");
-	d_searchbar_ptr = gtk_entry_new();
+	d_searchbar_ptr = gtk_combo_new();
 
 	cout << "Searchbar created: address is " << d_searchbar_ptr << endl;
 	
-	gtk_toolbar_append_widget(
-		GTK_TOOLBAR(d_toolbar_ptr),
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
 		d_searchbar_label_ptr,
-		NULL,
-		NULL
-	);
+		false,
+		false,
+		5
+	);	
 
-	gtk_toolbar_append_widget(
-		GTK_TOOLBAR(d_toolbar_ptr),
+	gtk_box_pack_start(
+		GTK_BOX(d_toolbar_ptr),
 		d_searchbar_ptr,
-		NULL,
-		NULL
+		true,
+		true,
+		5
 	);
 }
 
