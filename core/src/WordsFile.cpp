@@ -77,7 +77,7 @@ int WordsFile::maxWordLength() throw()
 //
 const char* WordsFile::getWord() const throw()
 {
-//    strReplace(d_word, ASCII_COLON, ASCII_SPACE);
+    strReplace(d_word, ASCII_COLON, ASCII_SPACE);
     return d_word;
 }
 
