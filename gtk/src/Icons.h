@@ -21,7 +21,7 @@
 #ifndef INCLUDED_AIKSAURUSGTK_ICONS_H
 #define INCLUDED_AIKSAURUSGTK_ICONS_H
 
-class AiksaurusGTK_impl
+namespace AiksaurusGTK_impl
 {
     namespace Icons
     {
