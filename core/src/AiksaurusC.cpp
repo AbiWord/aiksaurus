@@ -7,7 +7,7 @@ static Aiksaurus *instance = 0;
 int Aiksaurus_init()
 {
     if (!instance)
-        instance = new(nothrow) Aiksaurus;
+        instance = new(std::nothrow) Aiksaurus;
     
     return (instance != 0); 
 }
