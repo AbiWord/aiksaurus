@@ -19,4 +19,4 @@ AM_PROG_LIBTOOL
 
 AC_CHECK_TOOL([STRIP],[strip])
     
-AC_OUTPUT(Makefile src/Makefile doc/Makefile)
+AC_OUTPUT(Makefile src/Makefile)
