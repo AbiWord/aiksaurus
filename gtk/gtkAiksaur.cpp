@@ -49,35 +49,51 @@ class GtkAiksaur
 		// Static pointer to the instance.
 		static GtkAiksaur* s_instance;
 	
-		// The main dialog window.
+		// The main dialog window and layout component.
 		GtkWidget* d_window_ptr;
+		  GtkWidget* d_layout_ptr;
 
-		// The main tool bar.
+		// The main tool bar and it's associated widgets 
 		GtkWidget* d_toolbar_ptr;
-	
-		// Back, forward, and search buttons.
-		GtkWidget* d_backbutton_ptr;
-		GtkWidget* d_backbutton_label_ptr;
-		GtkWidget* d_forwardbutton_ptr;
-		GtkWidget* d_forwardbutton_label_ptr;
-		GtkWidget* d_searchbutton_ptr;
-		GtkWidget* d_searchbutton_label_ptr;
-	
-		// User-editable "search bar" and "Look up:" label.
-		GtkWidget* d_searchbar_ptr;
-		GtkWidget* d_searchbar_label_ptr;
+		  GtkWidget* d_backbutton_ptr;
+		  GtkWidget* d_backbutton_label_ptr;
+		  GtkWidget* d_forwardbutton_ptr;
+		  GtkWidget* d_forwardbutton_label_ptr;
+		  GtkWidget* d_searchbutton_ptr;
+		  GtkWidget* d_searchbutton_label_ptr;
+		  GtkWidget* d_searchbar_ptr;
+		  GtkWidget* d_searchbar_label_ptr;
 
+		// A listbox to list our synonyms.
+		GtkWidget* d_wordlist_ptr;
+
+		// The replace/ok/cancel bar and associated widgets
+		GtkWidget *d_replacebar_ptr;
+		  GtkWidget *d_okbutton_ptr;
+		  GtkWidget *d_okbutton_label_ptr;
+		  GtkWidget *d_cancelbutton_ptr;
+		  GtkWidget *d_cancelbutton_label_ptr;
+		  GtkWidget *d_replacewith_label_ptr;
+		  GtkWidget *d_replacewith_ptr;
+		
+		  
 		// The Actual Thesaurus
 		AikSaurus *d_aiksaurus_ptr;
 		
 		// Component creation functions, actually build the UI.
 		void createWindow();
+		
 		void createToolbar();
-		void createBackbutton();
-		void createForwardbutton();	
-		void createSearchbutton();
-		void createSearchbar();
-	
+		  void createBackbutton();
+		  void createForwardbutton();	
+		  void createSearchbutton();
+		  void createSearchbar();
+		
+		void createReplacebar();
+		  void createOkbutton();
+		  void createCancelbutton();
+		  void createReplaceentry();
+		
 		void performSearch(const char* str);
 		
 		const char* getSearchText();
@@ -125,9 +141,16 @@ GtkAiksaur::GtkAiksaur()
 	
 	createWindow();
 	createToolbar();
+	createReplacebar();
+	
+	d_wordlist_ptr = gtk_list_new();
+
+	gtk_container_add(
+		GTK_CONTAINER(d_layout_ptr),
+		d_wordlist_ptr
+	);
 	
 	gtk_widget_show_all(d_window_ptr);
-
 }
 
 
@@ -170,6 +193,13 @@ void GtkAiksaur::createWindow()
 		GTK_SIGNAL_FUNC(GtkAiksaur_exitCallback), 
 		NULL
 	);
+
+	d_layout_ptr = gtk_vbox_new(false, 4);
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_window_ptr),
+		d_layout_ptr
+	);
 }
 
 
@@ -186,16 +216,79 @@ void GtkAiksaur::createToolbar()
 	createSearchbutton();
 	
 	gtk_container_add(
-		GTK_CONTAINER(d_window_ptr), 		
+		GTK_CONTAINER(d_layout_ptr), 		
 		d_toolbar_ptr
 	);
 }
 
+void GtkAiksaur::createReplacebar()
+{
+	d_replacebar_ptr = gtk_hbox_new(false, 4);
+
+	gtk_container_add(
+		GTK_CONTAINER(d_layout_ptr),
+		d_replacebar_ptr
+	);
+
+	createReplaceentry();
+	createOkbutton();
+	createCancelbutton();
+}
+
+
+void GtkAiksaur::createReplaceentry()
+{
+	d_replacewith_label_ptr = gtk_label_new("Replace With: ");
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_replacebar_ptr),
+		d_replacewith_label_ptr
+	);
+
+	d_replacewith_ptr = gtk_entry_new();
+
+	gtk_container_add(
+		GTK_CONTAINER(d_replacebar_ptr),
+		d_replacewith_ptr
+	);
+}
+
+void GtkAiksaur::createOkbutton()
+{
+	d_okbutton_ptr = gtk_button_new();
+	d_okbutton_label_ptr = gtk_label_new("Ok");
+
+	gtk_container_add(
+		GTK_CONTAINER(d_okbutton_ptr),
+		d_okbutton_label_ptr
+	);
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_replacebar_ptr),
+		d_okbutton_ptr
+	);
+}
+
+void GtkAiksaur::createCancelbutton()
+{
+	d_cancelbutton_ptr = gtk_button_new();
+	d_cancelbutton_label_ptr = gtk_label_new("Cancel");
+
+	gtk_container_add(
+		GTK_CONTAINER(d_cancelbutton_ptr),
+		d_cancelbutton_label_ptr
+	);
+	
+	gtk_container_add(
+		GTK_CONTAINER(d_replacebar_ptr),
+		d_cancelbutton_ptr
+	);
+}
 
 void GtkAiksaur::createBackbutton()
 {
 	d_backbutton_ptr = gtk_button_new();
-	d_backbutton_label_ptr = gtk_label_new("<-");
+	d_backbutton_label_ptr = gtk_label_new("Back");
 
 	gtk_container_add(
 		GTK_CONTAINER(d_backbutton_ptr),
@@ -221,7 +314,7 @@ void GtkAiksaur::createBackbutton()
 void GtkAiksaur::createForwardbutton()
 {
 	d_forwardbutton_ptr = gtk_button_new();
-	d_forwardbutton_label_ptr = gtk_label_new("->");
+	d_forwardbutton_label_ptr = gtk_label_new("Forward");
 	
 	gtk_container_add(
 		GTK_CONTAINER(d_forwardbutton_ptr),
