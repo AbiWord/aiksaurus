@@ -142,7 +142,7 @@ GtkAiksaur::GtkAiksaur()
 	createWindow();
 	createToolbar();
 	
-	d_wordlist_ptr = gtk_list_new();
+	d_wordlist_ptr = gtk_clist_new(1);
 
 	gtk_box_pack_start(
 		GTK_BOX(d_layout_ptr),
@@ -160,7 +160,9 @@ GtkAiksaur::GtkAiksaur()
 
 const char* GtkAiksaur::getSearchText()
 {
-	return gtk_entry_get_text( GTK_ENTRY(d_searchbar_ptr) );
+	return gtk_entry_get_text( 
+		GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry) 
+	);
 }
 
 
@@ -169,11 +171,22 @@ void GtkAiksaur::performSearch(const char* str)
 	if (d_aiksaurus_ptr->find(str))
 	{
 		char pos;
+
+		gtk_clist_clear(
+			GTK_CLIST(d_wordlist_ptr)
+		);
+		
 		for(const char* r = d_aiksaurus_ptr->next(pos);r[0] != '\0';r = d_aiksaurus_ptr->next(pos))
 		{
+			gtk_clist_append(
+				GTK_CLIST(d_wordlist_ptr),
+				const_cast<gchar**>(&r)
+			);
+			
 			cout << r << endl;
 		}
 	}
+	
 	else
 	{
 		cout << "No synonyms found." << endl;
