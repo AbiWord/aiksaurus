@@ -43,9 +43,9 @@ OTHERHEADERS = \
 	Replacebar.h \
 	Toolbar.h
 
-bin_PROGRAMS = AiksaurusGTK
+bin_PROGRAMS = gaiksaurus
 
-AiksaurusGTK_SOURCES = gtkAiksaur.t.cpp
-AiksaurusGTK_LDADD = libAiksaurusGTK.la
+gaiksaurus_SOURCES = gtkAiksaur.t.cpp
+gaiksaurus_LDADD = libAiksaurusGTK.la
 
 EXTRA_DIST = $(OTHERHEADERS)

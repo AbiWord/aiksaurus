@@ -1,4 +1,4 @@
-AC_INIT([aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
+AC_INIT([Aiksaurus],[1.0],[http://aiksaurus.sourceforge.net/])
 AC_CONFIG_SRCDIR([core/src/Aiksaurus.h])
 
 # Aiksaurus, version 1.0
@@ -65,7 +65,7 @@ AC_SUBST(LT_AIKGTK_VERSION_INFO)
 
 # initialize automake
 # 
-AM_INIT_AUTOMAKE(aiksaurus,$AIKSAURUS_VERSION)
+AM_INIT_AUTOMAKE(Aiksaurus,$AIKSAURUS_VERSION)
 
 # Specify a configuration file
 # 
@@ -97,8 +97,8 @@ AC_CHECK_FUNC(getenv)
 # 
 aik_fe_gtk=check
 
-AC_ARG_ENABLE(gtk,[  --enable-gtk        build gtk front-end],[
-	if test "$enableval" = "no"; then
+AC_ARG_WITH(gtk,[  --with-gtk              build gtk front-end],[
+	if test "$withval" = "no"; then
 		aik_fe_gtk=no
 	else
 		aik_fe_gtk=yes
@@ -137,11 +137,13 @@ AH_BOTTOM([
 ])
 
 AC_CONFIG_FILES([
-	Makefile
 	aiksaurus.spec
+	Makefile
+	core/aiksaurus-1.0.pc
 	core/Makefile
 	core/src/Makefile
 	core/data/Makefile
+	gtk/gaiksaurus-1.0.pc
 	gtk/Makefile
 	gtk/src/Makefile
 ])

@@ -1,0 +1,11 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: AiksaurusGTK
+Description: GTK+ front end for Aiksaurus, an English thesaurus
+Requires: aiksaurus-1.0
+Version: @AIKSAURUS_VERSION@
+Libs: -L${libdir} -lAiksaurusGTK
+Cflags: -I${includedir}/Aiksaurus
