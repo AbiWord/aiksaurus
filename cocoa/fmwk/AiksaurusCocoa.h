@@ -52,14 +52,15 @@
 - (BOOL)okay;
 - (NSString *)lastError;
 
-- (NSString *)historyWordAtPosition:(unsigned)position;
-- (unsigned)historyLength;
-- (int)historyPosition;
-- (BOOL)setHistoryPosition:(int)position;
 - (BOOL)historyBack;
 - (BOOL)historyForward;
+- (BOOL)historyCanGoBack;
+- (BOOL)historyCanGoForward;
 
-- (BOOL)lookupWord:(NSString *)word;
+- (void)setWord:(NSString *)word reorderHistory:(BOOL)reorder;
+- (NSString *)word;
+
+- (BOOL)lookupWord:(NSString *)word reorderHistory:(BOOL)reorder;
 
 - (AiksaurusCocoaMeaning *)meaningAtPosition:(unsigned)position;
 - (unsigned)meanings;

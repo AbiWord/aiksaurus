@@ -63,50 +63,61 @@
 
 - (void)sync
 {
-	int length   = [m_aiksaurus historyLength];
-	int position = [m_aiksaurus historyPosition];
-
-	if (length)
-		{
-			if (position == 0)
-				[oBack    setEnabled:NO];
-			else
-				[oBack    setEnabled:YES];
-			if (position == (length - 1))
-				[oForward setEnabled:NO];
-			else
-				[oForward setEnabled:YES];
-			[oHistory setEnabled:YES];
-			[oHistory selectItemAtIndex:position];
-		}
+	if ([m_aiksaurus historyCanGoBack])
+		[oBack    setEnabled:YES];
 	else
-		{
-			[oBack    setEnabled:NO];
-			[oForward setEnabled:NO];
-			[oHistory setEnabled:NO];
-		}
+		[oBack    setEnabled:NO];
+
+	if ([m_aiksaurus historyCanGoForward])
+		[oForward setEnabled:YES];
+	else
+		[oForward setEnabled:NO];
+
+	if ([m_aiksaurus word])
+		[oHistory setEnabled:YES];
+	else
+		[oHistory setEnabled:NO];
 }
 
 - (IBAction)aBack:(id)sender
 {
 	if ([m_aiksaurus historyBack])
-		[self sync];
+		{
+			[oHistory selectItemWithTitle:[m_aiksaurus word]];
+			[self sync];
+		}
 }
 
 - (IBAction)aForward:(id)sender
 {
 	if ([m_aiksaurus historyForward])
-		[self sync];
+		{
+			[oHistory selectItemWithTitle:[m_aiksaurus word]];
+			[self sync];
+		}
 }
 
 - (IBAction)aHistory:(id)sender
 {
-	int old_position = [m_aiksaurus historyPosition];
-	int new_position = [oHistory indexOfSelectedItem];
+	NSString * old_word = [m_aiksaurus word];
+	NSString * new_word = [oHistory titleOfSelectedItem];
 
-	if (old_position != new_position)
-		if ([m_aiksaurus setHistoryPosition:new_position])
-			[self sync];
+	if (old_word == nil)
+		{
+			if ([new_word length])
+				{
+					[m_aiksaurus lookupWord:new_word reorderHistory:NO];
+					[self sync];
+				}
+		}
+	else if ([new_word length])
+		{
+			if ([new_word isEqualToString:old_word] == NO)
+				{
+					[m_aiksaurus lookupWord:new_word reorderHistory:NO];
+					[self sync];
+				}
+		}
 }
 
 - (IBAction)aResultsTable:(id)sender
@@ -124,8 +135,10 @@
 
 	if (word)
 		{
-			if ([m_aiksaurus lookupWord:word])
+			if ([m_aiksaurus lookupWord:word reorderHistory:YES])
 				{
+					[oHistory insertItemWithTitle:word atIndex:0];
+					[oHistory selectItemAtIndex:0];
 					[self sync];
 					[oStatus setTextColor:[NSColor blackColor]];
 					[oStatus setStringValue:@"Next please..."];

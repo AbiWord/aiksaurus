@@ -147,69 +147,109 @@
 	return (*aik_error ? [NSString stringWithCString:aik_error] : nil);
 }
 
-- (NSString *)historyWordAtPosition:(unsigned)position
-{
-	if ((position >= 0) && (position < m_length))
-		{
-			return (NSString *) [m_history objectAtIndex:position];
-		}
-	return nil;
-}
-
-- (unsigned)historyLength
-{
-	return m_length;
-}
-
-- (int)historyPosition
-{
-	return m_position;
-}
-
-- (BOOL)setHistoryPosition:(int)position
-{
-	if ((position >= 0) && (position < (int) m_length))
-		{
-			m_position = position;
-			return YES;
-		}
-	return NO;
-}
-
 - (BOOL)historyBack
 {
-	if (m_position)
-		{
-			--m_position;
-			return YES;
-		}
-	return NO;
+	BOOL change = [self historyCanGoBack];
+
+	if (change) --m_position;
+
+	return change;
 }
 
 - (BOOL)historyForward
 {
-	if (m_position + 1 < (int) m_length)
-		{
-			++m_position;
-			return YES;
-		}
-	return NO;
+	BOOL change = [self historyCanGoForward];
+
+	if (change) ++m_position;
+
+	return change;
 }
 
-- (BOOL)lookupWord:(NSString *)word
+- (BOOL)historyCanGoBack
 {
-	if (!m_aiksaurus || !word) return NO;
+	return (m_position ? YES : NO);
+}
+
+- (BOOL)historyCanGoForward
+{
+	return ((m_position + 1 < (int) m_length) ? YES : NO);
+}
+
+- (void)setWord:(NSString *)newword reorderHistory:(BOOL)reorder
+{
+	if (newword == nil) return;
+	if ([newword length] == 0) return;
+
+	NSString * current = [self word];
+
+	if (current == nil)
+		{
+			[m_history addObject:newword];
+
+			m_length = [m_history count];
+			m_position = 0;
+		}
+	else if ([current isEqualToString:newword] == NO)
+		{
+			unsigned position = m_length;
+
+			for (unsigned i = 0; i < m_length; i++)
+				{
+					NSString * str = (NSString *) [m_history objectAtIndex:i];
+					if ([newword isEqualToString:str])
+						{
+							position = i;
+							break;
+						}
+				}
+			if (position == m_length)
+				{
+					[m_history addObject:newword];
+					m_length = [m_history count];
+					m_position = m_length - 1;
+				}
+			else if (reorder && (position < m_length - 1))
+				{
+					[m_history removeObjectAtIndex:position];
+					[m_history addObject:newword];
+					m_length = [m_history count];
+					m_position = m_length - 1;
+				}
+			else
+				{
+					m_position = position;
+				}
+		}
+}
+
+- (NSString *)word
+{
+	NSString * current = nil;
+
+	if (m_length) current = (NSString *) [m_history objectAtIndex:m_position];
+
+	return current;
+}
+
+- (BOOL)lookupWord:(NSString *)newword reorderHistory:(BOOL)reorder
+{
+	if (!m_aiksaurus || !newword)
+		return NO;
+	if ([newword length] == 0)
+		return NO;
+
+	NSString * current = [self word];
+	if (current)
+		if ([current isEqualToString:newword])
+			return YES;
 
 	Aiksaurus * aik = reinterpret_cast<Aiksaurus *>(m_aiksaurus);
 
-	if (!aik->find ([word UTF8String])) return NO;
+	if (!aik->find ([newword UTF8String])) return NO; // TODO: close matches
+
+	[self setWord:newword reorderHistory:reorder];
 
 	[m_meanings removeAllObjects];
-
-	[m_history addObject:word];
-
-	m_length = [m_history count];
-	m_position = m_length - 1;
 
 	int prev_meaning = -1;
 	int this_meaning = -1;
