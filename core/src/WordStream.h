@@ -38,17 +38,17 @@ namespace AiksaurusImpl
             
         public:     
            
-            WordStream(int* words);
-            ~WordStream();
+            WordStream(int* words) throw(std::bad_alloc);
+            ~WordStream() throw();
         
-            int next();
+            int next() throw();
     };
 
 }
     
 
 inline
-AiksaurusImpl::WordStream::WordStream(int* words)
+AiksaurusImpl::WordStream::WordStream(int* words) throw(std::bad_alloc)
 {
     for(int i = 0;words[i] != -1;++i)
         d_words.push(words[i]);
@@ -56,14 +56,14 @@ AiksaurusImpl::WordStream::WordStream(int* words)
 
     
 inline
-AiksaurusImpl::WordStream::~WordStream()
+AiksaurusImpl::WordStream::~WordStream() throw()
 {
     // nothing to destroy.
 }
 
 
 inline
-int AiksaurusImpl::WordStream::next()
+int AiksaurusImpl::WordStream::next() throw()
 {
     if (d_words.empty())
         return -1;

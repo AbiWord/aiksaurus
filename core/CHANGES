@@ -1,3 +1,11 @@
+Version 0.12b
+-------------------------------------------------------------------------------
+
+   Jared Davis
+
+     Added missing exception specifications to WordStream.h.
+     
+
 Version 0.12
 -------------------------------------------------------------------------------
    Capitalization changed to Aiksaurus instead of AikSaurus.
