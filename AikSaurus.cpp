@@ -50,16 +50,16 @@ class AikSaurusSynStream
 {
 	private:
 
-		const string& d_results_ref;
-		string::size_type d_position;
+		const std::string& d_results_ref;
+		unsigned int d_position;
 
 	public:
 
-		AikSaurusSynStream(const string& str)
+		AikSaurusSynStream(const std::string& str)
 		: d_results_ref(str), d_position(0) 
 		{}
 
-		bool operator>>(string& str)
+		bool operator>>(std::string& str)
 		{
 			str = "";
 			for(;d_position < d_results_ref.size();++d_position)
@@ -101,7 +101,7 @@ class AikSaurusImpl
 		// 
 		// location of data directory.
 		//
-		string d_dataDirectory;
+		AikString d_dataDirectory;
 
 
 		// 
@@ -123,7 +123,7 @@ class AikSaurusImpl
 		// of our datafiles, which we use to figure 
 		// out where our other words should be.
 		//
-		vector<string> d_topwords;
+		vector<AikString> d_topwords;
 
 
 	//
@@ -157,7 +157,7 @@ class AikSaurusImpl
 		// us very easily read the next synonym from this
 		// list.
 		//
-		string d_currentSynonyms;
+		AikString d_currentSynonyms;
 		AikSaurusSynStream *d_synstream_ptr;
 
 
@@ -186,17 +186,13 @@ class AikSaurusImpl
 		//   replace characters in strings, and convert
 		//   integers to strings.
 		//
-		inline 
-		void stringReplace(string& str, char old, char repl) const;
 		
 		inline 
 		void intToString(int i, string& str) const;
 
-		inline
-		void strLower(string& str) const;
 
 		inline
-		bool readEntry(BZReader& bzin, string& key, string& synonyms);
+		bool readEntry(BZReader& bzin, AikString& key, AikString& synonyms);
 
 		bool cleanupSimilar(BZReader& bzin);
 
@@ -206,7 +202,7 @@ class AikSaurusImpl
 		// should be in.
 		//
 		inline 
-		int lookupFile(const string& word);
+		int lookupFile(const AikString& word);
 
 
 		#ifndef NDEBUG
@@ -281,7 +277,7 @@ class AikSaurusImpl
 void AikSaurusImpl::debug()
 {
 	cout << "AikSaurusImpl::debug() information: " << endl;
-	cout << "Reading data from: " << d_dataDirectory << endl;
+	cout << "Reading data from: " << d_dataDirectory.c_str() << endl;
 	cout << "Number of words in d_topwords: " << d_topwords.size() << endl;
 	cout << "Current value of d_currentResult: " << d_currentResult << endl;
 	cout << "Current error status: " << d_error << endl;
@@ -311,14 +307,17 @@ AikSaurusImpl::AikSaurusImpl(const char* data_dir)
 		d_dataDirectory = AIK_DATA_DIR;
 
 	// Open the index.txt file from the data directory.
-	string indexfile = d_dataDirectory + "index.txt";
+	AikString indexfile(d_dataDirectory);
+	indexfile += "index.txt";
+	
 	ifstream index(indexfile.c_str());
 
 	string x;
 	while(index >> x)
 	{
-		stringReplace(x, ':', ' ');
-		d_topwords.push_back(x);
+		AikString xstr(x.c_str());
+		xstr.replaceAll(':', ' ');
+		d_topwords.push_back(xstr);
 	}
 
 	if (!d_topwords.size())
@@ -376,44 +375,6 @@ void AikSaurusImpl::intToString(int i, string& str) const
 
 
 //
-// AikSaurusImpl::stringReplace(string& str, char old, char repl)
-// ---------------------------------------
-//   Goes through a string and replaces all instances of old with repl.
-//   Words are stored in the datafiles with colons instead of spaces, 
-//   so this lets us convert them to normal form easily.
-//
-inline
-void AikSaurusImpl::stringReplace(string& str, char old, char repl) const
-{
-	for(register string::size_type i = 0;i < str.size();++i)
-	{
-		if (str[i] == old)
-		{
-			str[i] = repl;
-		}
-	}
-}
-
-
-//
-// AikSaurusImpl::strLower(string& str) 
-// ------------------------------------
-//   Converts the entire string to lowercase.  Used before searching
-//   begins.
-//
-inline
-void AikSaurusImpl::strLower(string& str) const
-{
-	for(register string::size_type i = 0;i < str.size();++i)
-	{
-		str[i] = tolower(str[i]);
-	}
-}
-
-
-
-
-//
 // AikSaurusImpl::lookupFile()
 // ----------------------------
 //   This function takes a word and compares it against the 
@@ -423,7 +384,7 @@ void AikSaurusImpl::strLower(string& str) const
 //   the word should be in, if it's in the thesaurus.
 //   
 inline
-int AikSaurusImpl::lookupFile(const string& word)
+int AikSaurusImpl::lookupFile(const AikString& word)
 {
 	int low = 0, high = d_topwords.size() - 1;
 
@@ -468,7 +429,7 @@ int AikSaurusImpl::lookupFile(const string& word)
 //   delimited string.
 //   
 inline
-bool AikSaurusImpl::readEntry(BZReader& bzin, string& key, string& synonyms)
+bool AikSaurusImpl::readEntry(BZReader& bzin, AikString& key, AikString& synonyms)
 {
 	if (!(bzin >> key))
 	{
@@ -503,7 +464,7 @@ bool AikSaurusImpl::cleanupSimilar(BZReader& bzin)
 {
 	int stop = d_similarWords.size() / 2;
 
-	string key, syns;
+	AikString key, syns;
 	for(int i = 0;i < stop;++i)
 	{
 		if (!readEntry(bzin, key, syns))
@@ -526,14 +487,18 @@ bool AikSaurusImpl::cleanupSimilar(BZReader& bzin)
 inline
 bool AikSaurusImpl::find(const char* findme)
 {
-	string word(findme);
-	strLower(word); // always search in lower case.
+	//
+	// Create a lower-case version of the word we're searching
+	// for.
+	// 
+	AikString word(findme);
+	word.strLower();        
+	
 	
 	// 
 	// delete the results pointer from the previous 
 	// search if it exists.
 	//
-	
 	if (d_synstream_ptr)
 	{
 		delete d_synstream_ptr;
@@ -548,7 +513,6 @@ bool AikSaurusImpl::find(const char* findme)
 	// figure out what file it's supposed to be in
 	// with a binary search against these.
 	//
-
 	int file = lookupFile(word);
 	
 	if (file == -1)
@@ -564,7 +528,7 @@ bool AikSaurusImpl::find(const char* findme)
 
 	string datafile;
 	intToString(file, datafile);
-	datafile = d_dataDirectory + datafile + ".bz2";
+	datafile = string(d_dataDirectory.c_str()) + datafile + ".bz2";
 
 	//
 	// now we can open the file with our bz2 reader 
@@ -573,7 +537,7 @@ bool AikSaurusImpl::find(const char* findme)
 	// this is fast enough if our datafiles are small.
 	//
 	
-	BZReader bzin(datafile);
+	BZReader bzin(datafile.c_str());
 
 	d_error = bzin.error();
 	if (d_error[0] != '\0')
@@ -581,7 +545,7 @@ bool AikSaurusImpl::find(const char* findme)
 		return false;
 	}
 
-	string key;
+	AikString key;
 
 	while(readEntry(bzin, key, d_currentSynonyms))
 	{
@@ -590,8 +554,10 @@ bool AikSaurusImpl::find(const char* findme)
 		
 		if (key == word) // found the right word.
 		{
-			stringReplace(d_currentSynonyms, ',', ' ');
-			d_synstream_ptr = new AikSaurusSynStream(d_currentSynonyms);
+			d_currentSynonyms.replaceAll(',', ' ');
+		
+			string Hack(d_currentSynonyms.c_str());
+			d_synstream_ptr = new AikSaurusSynStream(Hack);
 			cleanupSimilar(bzin);
 			return true;
 		}
@@ -657,7 +623,7 @@ const char* AikSaurusImpl::next(char& pos)
 inline
 const char* AikSaurusImpl::similar()
 {
-	d_currentSimilar = d_similarWords.pop();
+	d_currentSimilar = d_similarWords.pop().c_str();
 
 	return d_currentSimilar.c_str();
 }

@@ -67,6 +67,9 @@ class GtkAiksaur
 		GtkWidget* d_searchbar_ptr;
 		GtkWidget* d_searchbar_label_ptr;
 
+		// The Actual Thesaurus
+		AikSaurus *d_aiksaurus_ptr;
+		
 		// Component creation functions, actually build the UI.
 		void createWindow();
 		void createToolbar();
@@ -74,6 +77,8 @@ class GtkAiksaur
 		void createForwardbutton();	
 		void createSearchbutton();
 		void createSearchbar();
+	
+		void performSearch(const char* str);
 		
 		const char* getSearchText();
 		
@@ -116,6 +121,8 @@ const char* ActivateThesaurus(const char* search)
 
 GtkAiksaur::GtkAiksaur()
 {	
+	d_aiksaurus_ptr = new AikSaurus;
+	
 	createWindow();
 	createToolbar();
 	
@@ -127,6 +134,23 @@ GtkAiksaur::GtkAiksaur()
 const char* GtkAiksaur::getSearchText()
 {
 	return gtk_entry_get_text( GTK_ENTRY(d_searchbar_ptr) );
+}
+
+
+void GtkAiksaur::performSearch(const char* str)
+{
+	if (d_aiksaurus_ptr->find(str))
+	{
+		char pos;
+		for(const char* r = d_aiksaurus_ptr->next(pos);r[0] != '\0';r = d_aiksaurus_ptr->next(pos))
+		{
+			cout << r << endl;
+		}
+	}
+	else
+	{
+		cout << "No synonyms found." << endl;
+	}
 }
 
 
@@ -294,7 +318,11 @@ GtkAiksaur_forwardButtonCallback(GtkWidget* w, gpointer data)
 static void 
 GtkAiksaur_searchButtonCallback(GtkWidget* w, gpointer data)
 {
-	cout << "Text is " << GtkAiksaur::s_instance->getSearchText() << endl;
+	GtkAiksaur *instance = GtkAiksaur::s_instance;
+
+	instance->performSearch(
+		instance->getSearchText()
+	);
 }
 
 static gint
