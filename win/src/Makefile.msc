@@ -1,0 +1,39 @@
+# Makefile for Aiksaurus.exe
+
+!include <win32.mak>
+
+CC=cl
+LD=link
+RC=rc
+
+#for Normal builds
+CFLAGS=-nologo -DWIN32 -GX -MD -D_STATIC_BUILD
+LDFLAGS=-nologo -subsystem:windows -machine:I386
+OS_LIBS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib
+#for Debug builds
+#CFLAGS=/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "EXPORT_AIK" /FD /GZ
+#LDFLAGS=-subsystem:console -machine:I386 -debug 
+
+OBJS= AiksaurusApp.obj \
+      AiksaurusDlg.obj 
+
+RES= Aiksaurus.res
+
+all: Aiksaurus.exe
+
+Aiksaurus.exe: $(RES) $(OBJS) 
+	$(LD) $(LDFLAGS) -out:$@ $(OBJS) $(RES) $(OS_LIBS) ..\..\core\src\Aiksaurus.lib
+
+clean:
+	del *.res
+	del *.obj
+	del *.exe
+
+.cpp.obj:
+	$(CC) $(CFLAGS) -c $*.cpp
+
+.rc.res:
+	$(RC) -l 0x409 $*.rc
+
+
+

@@ -1,0 +1,32 @@
+# Makefile for Aiksaurus.lib
+
+!include <win32.mak>
+
+CC=cl
+LD=lib
+#for Normal builds
+CFLAGS=-nologo -DWIN32 -GX -MD -D_STATIC_BUILD
+LDFLAGS=-nologo -subsystem:windows -machine:I386
+#for Debug builds
+#CFLAGS=/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /D "EXPORT_AIK" /FD /GZ
+#LDFLAGS=-subsystem:console -machine:I386 -debug 
+
+OBJS= Aiksaurus.obj \
+      AiksaurusC.obj \
+      AiksaurusException.obj \
+      AsciiCompare.obj \
+      MeaningsFile.obj \
+      WordsFile.obj 
+
+all: Aiksaurus.lib 
+
+Aiksaurus.lib: $(OBJS)
+	$(LD) $(LDFLAGS) -out:$@ $(OBJS) 
+
+clean:
+	del *.obj
+	del *.lib
+
+.cpp.obj:
+	$(CC) $(CFLAGS) -c $*.cpp
+
