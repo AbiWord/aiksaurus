@@ -5,7 +5,7 @@
 		activeExecutable = 30C8298D045D9E3400A738B5;
 		activeTarget = 0867D69CFE84028FC02AAC07;
 		addToTargets = (
-			0867D69CFE84028FC02AAC07,
+			30C8298B045D9E3400A738B5,
 		);
 		executables = (
 			30C8298D045D9E3400A738B5,
@@ -18,7 +18,7 @@
 						Split0 = {
 							Split0 = {
 								NavContent0 = {
-									bookmark = 309F845D0462693600A738B5;
+									bookmark = 30B0813E0462986800A738B5;
 									history = (
 										30C8299C045DA80000A738B5,
 										30C8299D045DA80000A738B5,
@@ -45,9 +45,9 @@
 										30C4BDE0045F113700A738B5,
 										30C4BDE1045F113700A738B5,
 										30C4BDE3045F113700A738B5,
-										309F84590462693600A738B5,
 										309F845A0462693600A738B5,
-										30EE33470461C3AF00A738B5,
+										30B0813C0462986800A738B5,
+										309F84590462693600A738B5,
 									);
 									prevStack = (
 										30C829AD045DA80000A738B5,
@@ -113,6 +113,7 @@
 										30EE334E0461C3AF00A738B5,
 										309F845B0462693600A738B5,
 										309F845C0462693600A738B5,
+										30B0813D0462986800A738B5,
 									);
 								};
 								NavCount = 1;
@@ -295,7 +296,9 @@
 			309F845A0462693600A738B5 = 309F845A0462693600A738B5;
 			309F845B0462693600A738B5 = 309F845B0462693600A738B5;
 			309F845C0462693600A738B5 = 309F845C0462693600A738B5;
-			309F845D0462693600A738B5 = 309F845D0462693600A738B5;
+			30B0813C0462986800A738B5 = 30B0813C0462986800A738B5;
+			30B0813D0462986800A738B5 = 30B0813D0462986800A738B5;
+			30B0813E0462986800A738B5 = 30B0813E0462986800A738B5;
 			30B84200045E8D6000A738B5 = 30B84200045E8D6000A738B5;
 			30B84202045E8D6000A738B5 = 30B84202045E8D6000A738B5;
 			30B84203045E8D6000A738B5 = 30B84203045E8D6000A738B5;
@@ -370,7 +373,6 @@
 			30C829D1045DA80000A738B5 = 30C829D1045DA80000A738B5;
 			30C829D2045DA80000A738B5 = 30C829D2045DA80000A738B5;
 			30C829D3045DA80000A738B5 = 30C829D3045DA80000A738B5;
-			30EE33470461C3AF00A738B5 = 30EE33470461C3AF00A738B5;
 			30EE33490461C3AF00A738B5 = 30EE33490461C3AF00A738B5;
 			30EE334A0461C3AF00A738B5 = 30EE334A0461C3AF00A738B5;
 			30EE334B0461C3AF00A738B5 = 30EE334B0461C3AF00A738B5;
@@ -462,9 +464,45 @@
 		isa = PBXTargetBookmark;
 		trg = 0867D69CFE84028FC02AAC07;
 	};
-	309F845D0462693600A738B5 = {
+	30B0813C0462986800A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 30C8298B045D9E3400A738B5;
+		uiCtxt = {
+			TOCViewDetailVisibleRect = "{{0, 0}, {344, 168}}";
+			TOCViewExpandedItems = (
+				"com.apple.target-editor-pane.settings",
+				"com.apple.target-editor-pane.settings.simple",
+				"com.apple.target-editor-pane.info-plist",
+				"com.apple.target-editor-pane.info-plist.simple",
+				"com.apple.target-editor-pane.buildphases",
+			);
+			TOCViewMasterVisibleRect = "{{0, 0}, {133, 168}}";
+			TOCViewSelectedItems = (
+				PBXTargetSummarySettingsModule,
+			);
+		};
+	};
+	30B0813D0462986800A738B5 = {
+		isa = PBXTargetBookmark;
+		trg = 30C8298B045D9E3400A738B5;
+		uiCtxt = {
+			TOCViewDetailVisibleRect = "{{0, 0}, {344, 168}}";
+			TOCViewExpandedItems = (
+				"com.apple.target-editor-pane.settings",
+				"com.apple.target-editor-pane.settings.simple",
+				"com.apple.target-editor-pane.info-plist",
+				"com.apple.target-editor-pane.info-plist.simple",
+				"com.apple.target-editor-pane.buildphases",
+			);
+			TOCViewMasterVisibleRect = "{{0, 0}, {133, 168}}";
+			TOCViewSelectedItems = (
+				PBXTargetSummarySettingsModule,
+			);
+		};
+	};
+	30B0813E0462986800A738B5 = {
+		fRef = 30C8295B045D809500A738B5;
+		isa = PBXBookmark;
 	};
 	30B84200045E8D6000A738B5 = {
 		fRef = 30B841FA045E8B8100A738B5;
@@ -1123,10 +1161,6 @@
 		rType = 0;
 		vrLen = 869;
 		vrLoc = 0;
-	};
-	30EE33470461C3AF00A738B5 = {
-		isa = PBXTargetBookmark;
-		trg = 30C8298B045D9E3400A738B5;
 	};
 	30EE33490461C3AF00A738B5 = {
 		isa = PBXTargetBookmark;

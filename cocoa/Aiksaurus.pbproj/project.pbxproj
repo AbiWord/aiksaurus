@@ -222,6 +222,8 @@
 				30C8295D045D80E100A738B5,
 				30C8295E045D80E100A738B5,
 				30C82995045DA3D900A738B5,
+				30B08138046293D500A738B5,
+				30B0813A0462952E00A738B5,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -313,6 +315,28 @@
 //302
 //303
 //304
+		30B08138046293D500A738B5 = {
+			isa = PBXFileReference;
+			path = "arrow-left.png";
+			refType = 4;
+		};
+		30B08139046293D500A738B5 = {
+			fileRef = 30B08138046293D500A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
+		30B0813A0462952E00A738B5 = {
+			isa = PBXFileReference;
+			path = "arrow-right.png";
+			refType = 4;
+		};
+		30B0813B0462952E00A738B5 = {
+			fileRef = 30B0813A0462952E00A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		30B841F9045E8B8100A738B5 = {
 			fileEncoding = 30;
 			isa = PBXFileReference;
@@ -620,6 +644,8 @@
 				30C8298F045D9F8400A738B5,
 				30C82990045D9FA600A738B5,
 				30C82997045DA3D900A738B5,
+				30B08139046293D500A738B5,
+				30B0813B0462952E00A738B5,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;

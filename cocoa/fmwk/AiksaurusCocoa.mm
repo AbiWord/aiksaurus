@@ -95,8 +95,8 @@
 
 	if (rowIndex)
 		{
-			int index = (rowIndex - 1) << 2 + colIndex;
-			if (index < [m_synonyms count])
+			int index = (rowIndex - 1) * 4 + colIndex;
+			if (index < (int) [m_synonyms count])
 				value = (NSString *) [m_synonyms objectAtIndex:index];
 		}
 	else if (colIndex == 0)
@@ -193,7 +193,8 @@
 {
 	BOOL change = [self historyCanGoBack];
 
-	if (change) --m_position;
+	if (change)
+		[self lookupWord:(NSString *)[m_history objectAtIndex:(m_position-1)] reorderHistory:NO];
 
 	return change;
 }
@@ -202,7 +203,8 @@
 {
 	BOOL change = [self historyCanGoForward];
 
-	if (change) ++m_position;
+	if (change)
+		[self lookupWord:(NSString *)[m_history objectAtIndex:(m_position+1)] reorderHistory:NO];
 
 	return change;
 }
