@@ -69,7 +69,7 @@ namespace AiksaurusGTK_impl
             static void _searchBarChanged(GtkWidget* w, gpointer data) throw();
             static void _searchBarShow(GtkWidget* w, gpointer data) throw();
             static void _searchBarHide(GtkWidget* w, gpointer data) throw();
-            static void _searchBarKeypress(GtkWidget* w, GdkEventKey *k, gpointer d) throw(); 
+            static void _searchBarActivate(GtkWidget* w, gpointer d) throw(); 
             
             static void _searchClicked(GtkWidget* w, gpointer data) throw();
 

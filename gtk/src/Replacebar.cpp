@@ -45,16 +45,16 @@ namespace AiksaurusGTK_impl
    
         // Connect relevant signals. 
         g_signal_connect(
-            GTK_OBJECT(d_replacewith_ptr), "key-press-event",
-	    	GTK_SIGNAL_FUNC(_keyPressed), this	
+            G_OBJECT(d_replacewith_ptr), "key-press-event",
+	    	G_CALLBACK(_keyPressed), this	
     	);
 	    g_signal_connect(
-    		GTK_OBJECT(d_replacebutton_ptr), "clicked",
-    		GTK_SIGNAL_FUNC(_replaceClicked), this	
+    		G_OBJECT(d_replacebutton_ptr), "clicked",
+    		G_CALLBACK(_replaceClicked), this	
     	);
 	    g_signal_connect(
-            GTK_OBJECT(d_cancelbutton_ptr), "clicked", 
-            GTK_SIGNAL_FUNC(_cancelClicked), this	
+            G_OBJECT(d_cancelbutton_ptr), "clicked", 
+            G_CALLBACK(_cancelClicked), this	
     	);
     }
 

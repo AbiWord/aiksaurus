@@ -55,8 +55,8 @@ namespace AiksaurusGTK_impl
             gtk_widget_set_name(d_lists[i], "wbg");  // <-- this one!!
             gtk_box_pack_start( GTK_BOX(d_subLayout), d_lists[i], 1, 1, 0 );
             g_signal_connect(
-                GTK_OBJECT(d_lists[i]), "select-row", 
-                GTK_SIGNAL_FUNC(_wordclick), this
+                G_OBJECT(d_lists[i]), "select-row", 
+                G_CALLBACK(_wordclick), this
             );
         }
 
