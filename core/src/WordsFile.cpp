@@ -23,7 +23,6 @@
 #include "WordsHash.h"
 #include "AsciiCompare.h"     
 
-#include <iostream>
 #include <cassert>             
 #include <new>
 
@@ -291,7 +290,7 @@ void WordsFile::loadWord(int id) throw(AiksaurusException)
     }   
 
     int line = partition_start * s_offsetModulus;
-    for(; line < id; ++line)
+    for(; line <= id; ++line)
     {
         _readWord();
     }

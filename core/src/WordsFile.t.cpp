@@ -21,7 +21,7 @@ int main()
         {
             wf.loadWord(i);
     
-            out << wf.getWord() << ' ';
+            out << i << "  " << wf.getWord() << ' ';
 
             const int* links = wf.getLinks();
             for(int i = 0; links[i] != -1;++i)
