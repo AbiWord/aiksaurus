@@ -52,7 +52,7 @@ char* AiksaurusGTK_strCopy(const char* str)
 	
 	if (!str)
 	{
-		ret = new(nothrow) char[1];
+		ret = new(std::nothrow) char[1];
 		
 		if (!ret)
 			return ret;
@@ -65,7 +65,7 @@ char* AiksaurusGTK_strCopy(const char* str)
 	{
 		const int len = strlen(str);
 
-		ret = new(nothrow) char[len+1];
+		ret = new(std::nothrow) char[len+1];
 	
 		if (!ret)
 			return ret;
@@ -87,7 +87,7 @@ char* AiksaurusGTK_strConcat(const char* a, const char* b)
 	int len_a = strlen(a);
 	int len_b = strlen(b);
 
-	char* ret = new(nothrow) char[len_a + len_b + 1];
+	char* ret = new(std::nothrow) char[len_a + len_b + 1];
 
 	if (!ret)
 		return ret;

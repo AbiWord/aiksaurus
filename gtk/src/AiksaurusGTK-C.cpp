@@ -27,7 +27,7 @@ static AiksaurusGTK *instance = 0;
 int AiksaurusGTK_init()
 {
     if (!instance)
-        instance = new(nothrow) AiksaurusGTK;
+        instance = new(std::nothrow) AiksaurusGTK;
 
     return (instance != 0);
 }

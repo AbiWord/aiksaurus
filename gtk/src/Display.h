@@ -26,14 +26,14 @@ namespace AiksaurusGTK_impl
             GtkWidget* d_scroller;
             GtkWidget* d_white;
             GtkWidget* d_layout;
-            vector<Meaning*> d_meanings;
+            std::vector<Meaning*> d_meanings;
 
             void _handleSelection(GtkWidget* list) throw();
             void _handleClick(bool isDoubleClick, const char* text) throw(std::bad_alloc);
         
             void _resetDisplay() throw();
             
-            void _createMeaning(const string& title, vector<string>& words) 
+            void _createMeaning(const std::string& title, std::vector<std::string>& words) 
                 throw(std::bad_alloc);
             
             void _displayResults(const char* word) throw(Exception, std::bad_alloc);
