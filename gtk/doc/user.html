@@ -1,0 +1,164 @@
+<html>
+<head>
+<title>AiksaurusGTK User's Guide</title>
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<h2 align="center">AiksaurusGTK User's Guide</h2>
+<hr noshade size="1">
+
+</blockquote>
+
+<h3>Installation Instructions</h3>
+<blockquote>
+<p><strong>Note:</strong> these instructions require root access to your 
+computer.  If you want to install AiksaurusGTK on a computer that isn't 
+yours, you should get permission from your systems administrator first.
+</p>
+
+<dl><dt><strong>Step 1: Install GTK+</strong></dt>
+<dd>
+<p>AiksaurusGTK requires the <a href="http://www.gtk.org/">GTK+</a> library to 
+work correctly.  Most Linux systems will already have this installed.  You can 
+run the command:
+</p>
+<p><code>gtk-config --version</code></p>
+<p>To find out what version of GTK you have installed.  If you get the message 
+"command not found", this means that you will need to install GTK+ first.  
+Please consult the GTK+ web site for how to do this.</p>
+</dd>
+</dl>
+<br />
+
+<dl><dt><strong>Step 2: Install Aiksaurus Core Library</strong></dt>
+<dd>
+<p>AiksaurusGTK also requires the <a href="http://www.aiksaurus.com/">Aiksaurus</a>
+core library.  Your system probably does not have this installed already.  However,
+you can run the command:
+</p>
+<p><code>aiksaurus --version</code></p>
+<p>To find out what version of the core library you have installed.  If you get
+the message "command not found", this means you will need to install the core library
+first.  Please consult the Aiksaurus web site for how to do this.
+</p>
+</dd>
+</dl>
+<br />
+
+<dl><dt><strong>Step 3: Download AiksaurusGTK Package</strong></dt>
+<dd>
+
+<p>You should now be ready to download 
+<a href="http://www.aiksaurus.com/gtk/">AiksaurusGTK</a>.  </p>
+
+<p>You should download a file named AiksaurusGTK-?.??.tar.gz 
+(where ?.?? is the most recent version of AiksaurusGTK). 
+</p>
+
+<p>Now, this is a compressed file.  You should be able to extract 
+it by running the commands: </p>
+<p><code>
+gunzip AiksaurusGTK-?.??.tar.gz<br />
+tar xvf AiksaurusGTK-?.??.tar
+</code></p>
+
+<p>This will create the directory AiksaurusGTK-?.??.  Go to this new directory
+and type in:</p>
+
+<p><code>
+./configure
+</code></p>
+
+<p>This should do a lot of stuff and eventually tell you something like:
+</p>
+
+<p><code>
+config.status: creating Makefile<br />
+config.status: creating src/Makefile<br />
+config.status: creating src/config.h<br />
+</code></p>
+
+<p>If so, you've configured to build successfully.  If not, please check your 
+dependencies (steps 1 and 2).  If this fails, send me an email and we'll figure 
+out what's wrong.
+</p>
+
+<p>Once ./configure is done, you should be able to compile the program using 
+the command </p>
+
+<p><code>make</code></p>
+
+<p>This should spit out a lot of output and not produce any errors.  If it does 
+produce an error, please email me because there's a serious problem.
+</p>
+
+<p>Finally, you need to become root (via "su") and run the command</p>
+
+<p><code>make install</code></p>
+
+<p>This will install a library to /usr/lib, a header file to /usr/include, and 
+a program to /usr/bin.  You can then become your regular user again (via "exit").  AiksaurusGTK should now be installed.
+</p>
+
+<p>You can test your installation by running the command:</p>
+<p><code>AiksaurusGTK</code></p>
+
+<p>Which should pop up the thesaurus.</p>
+</dd>
+</dl>
+
+<br />
+<dl>
+<dt><strong>Step 4: Cleaning Up (optional)</strong></dt>
+<dd>
+<p>You can delete the entire Aiksaurus-?.?? directory that was created, and the 
+Aiksaurus-?.??.tar file that you downloaded.  These files are not needed for
+Aiksaurus to run, and can clear up some disk space.</p>
+</dd>
+</dl>
+
+</blockquote>
+
+
+
+<h3>Using the Thesaurus</h3>
+
+<blockquote>
+<p>The thesaurus should be fairly self-explanatory.  The back and forward buttons
+let you go to previous and future searches like a web browser.  The dropdown box
+in the toolbar lets you type in words to search for or access recent searches.  
+Finally, you can double-click on listed synonyms to jump to them.
+</p>
+
+<p>There are some command line switches which can be viewed by running
+</p>
+
+<p><code>AiksaurusGTK --help</code></p>
+</blockquote>
+
+<h3>Uninstallation Instructions</h3>
+<blockquote>
+<p>If you still have the Aiksaurus-?.?? directory around, you can uninstall the
+thesaurus by running "make uninstall" in that directory.  This will require 
+root access.
+</p>
+
+<p>If you deleted that directory, you can still manually uninstall by deleting
+the files:
+</p>
+<ul> 
+ <li>/usr/lib/libAiksaurusGTK.*
+ <li>/usr/include/AiksaurusGTK.*
+ <li>/usr/bin/AiksaurusGTK
+</ul>
+
+
+</blockquote>
+
+<br />
+</blockquote>
+<hr noshade size="1">
+Copyright &copy; 2001 by <a href="mailto:jared@aiksaurus.com">Jared Davis</a>. <br />
+This documentation may be freely distributed and modified without restriction.
+
+</body>
+</html>

@@ -1,0 +1,72 @@
+<html>
+<head>
+<title>AiksaurusGTK Developer's Guide</title>
+</head>
+<body bgcolor="#ffffff" text="#000000">
+<h2 align="center">AiksaurusGTK Developer's Guide</h2>
+<hr noshade size="1">
+
+<p>This document discusses how to use AiksaurusGTK in your own programs.  It does
+<em>not</em> cover the Aiksaurus core library.  If you want to use the Aiksaurus 
+core library to do something like create a new interface to Aiksaurus in something
+other than GTK, you should read the core library documentation instead.
+</p>
+
+<h3>Overview</h3>
+
+<p>AiksaurusGTK allows you to easily create a modal thesaurus dialog within your 
+application.  This is almost certainly what you want if you're doing any kind of 
+text editing software -- the user selects the word, then pops up the thesaurus 
+and chooses a replacement.
+</p>
+
+
+<h3>Interface Reference</h3>
+
+<p>The interface is fairly self-explanatory:</p>
+
+<dl><dt><strong>AiksaurusGTK::AiksaurusGTK()</strong></dt>
+<dd>Construct an AiksaurusGTK object.  Generally the first thing you do 
+when you're ready to pop up the thesaurus.</dd></dl>
+
+<dl><dt><strong>void AiksaurusGTK::setTitle(const char* title)</strong></dt>
+<dd>Set the title of the thesaurus window.  This lets you customize the 
+dialog, i.e. say something like "AbiWord Thesaurus" or "Evolution Thesaurus".
+The default title is simply "Aiksaurus".
+</dd></dl>
+
+<dl><dt><strong>void AiksaurusGTK::setInitialMessage(const char* message)</strong></dt>
+<dd>If the thesaurus is activated with no word selected, you can pass this 
+initial message to the user.  You should look at gtkAiksaur.t.cpp to see how
+the standalone program uses this.
+</dd></dl>
+
+<dl><dt><strong>void hideReplacebar()</strong></dt>
+<dd>If you want to have no "replace-with" bar on your thesaurus, you can use this.
+This probably isn't what you want if you're wanting to have the thesaurus integrated
+with your project -- it was added mainly for the standalone version.
+</dd></dl>
+
+<dl><dt><strong>const char* runThesaurus(const char* word)</strong></dt>
+<dd>Call this function to pop up the thesaurus dialog in a modal setting.
+'word' is the word you want to be searched for initially.  Return value
+is the user's new selection.
+</dd>
+</dl>
+
+
+<h3>Distribution Issues</h3>
+
+<p>Adding AiksaurusGTK to your program will incur you two dependencies:
+one on AiksaurusGTK and one on Aiksaurus itself.  These packages both 
+have configure scripts and should be easy to turn into RPMs or DEBs or
+binaries or whatever you want to package them as.
+</p>
+
+<br />
+<hr noshade size="1">
+Copyright &copy; 2001 by <a href="mailto:jared@aiksaurus.com">Jared Davis</a>. <br />
+This documentation may be freely distributed and modified without restriction.
+
+</body>
+</html>
