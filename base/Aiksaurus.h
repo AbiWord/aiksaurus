@@ -40,7 +40,7 @@
 
 namespace AiksaurusImpl
 {
-    class ThesaurusImpl;
+    class AIKEXPORT ThesaurusImpl;
     class AIKEXPORT Aiksaurus
     {
 	    private:
