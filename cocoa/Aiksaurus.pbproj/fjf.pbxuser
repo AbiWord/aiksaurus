@@ -11,17 +11,17 @@
 			30C8298D045D9E3400A738B5,
 		);
 		perUserDictionary = {
-			PBXPerProjectTemplateStateSaveDate = 74017534;
+			PBXPerProjectTemplateStateSaveDate = 74089408;
 			"PBXTemplateGeometry-F5CA7ECB015C094F0DCA290F" = {
-				ContentSize = "{750, 530}";
+				ContentSize = "{668, 532}";
 				LeftSlideOut = {
 					Collapsed = NO;
-					Frame = "{{0, 0}, {750, 530}}";
+					Frame = "{{0, 0}, {668, 532}}";
 					Split0 = {
 						Collapsed = NO;
-						Frame = "{{0, 0}, {750, 530}}";
+						Frame = "{{0, 0}, {668, 532}}";
 						Split0 = {
-							Frame = "{{0, 0}, {750, 530}}";
+							Frame = "{{0, 0}, {668, 532}}";
 						};
 						SplitCount = 1;
 						Tab0 = {
@@ -136,7 +136,7 @@
 				StatusViewVisible = NO;
 				Template = F5CA7ECB015C094F0DCA290F;
 				ToolbarVisible = NO;
-				WindowLocation = "{23, 26}";
+				WindowLocation = "{67, 24}";
 			};
 			PBXWorkspaceContents = (
 				{
@@ -579,7 +579,7 @@
 					WindowLocation = "{67, 24}";
 				},
 			);
-			PBXWorkspaceStateSaveDate = 74017534;
+			PBXWorkspaceStateSaveDate = 74089408;
 		};
 		perUserProjectItems = {
 			30795FEF04696ADD00A738B5 = 30795FEF04696ADD00A738B5;
@@ -977,7 +977,7 @@
 		isa = PBXTextBookmark;
 		name = "English: 5";
 		rLen = 0;
-		rLoc = 234;
+		rLoc = 239;
 		rType = 0;
 		vrLen = 373;
 		vrLoc = 0;
@@ -1141,7 +1141,7 @@
 		isa = PBXTextBookmark;
 		name = "English: 5";
 		rLen = 0;
-		rLoc = 242;
+		rLoc = 244;
 		rType = 0;
 		vrLen = 293;
 		vrLoc = 0;
@@ -1161,7 +1161,7 @@
 		isa = PBXTextBookmark;
 		name = "English: 5";
 		rLen = 0;
-		rLoc = 227;
+		rLoc = 239;
 		rType = 0;
 		vrLen = 373;
 		vrLoc = 0;
@@ -1275,7 +1275,7 @@
 		isa = PBXTextBookmark;
 		name = "English: 5";
 		rLen = 0;
-		rLoc = 234;
+		rLoc = 239;
 		rType = 0;
 		vrLen = 373;
 		vrLoc = 0;

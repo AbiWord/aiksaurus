@@ -224,6 +224,7 @@
 				30C82995045DA3D900A738B5,
 				30B08138046293D500A738B5,
 				30B0813A0462952E00A738B5,
+				3045B5F7046AA01F00A738B5,
 			);
 			isa = PBXGroup;
 			name = Resources;
@@ -315,6 +316,28 @@
 //302
 //303
 //304
+		3045B5F7046AA01F00A738B5 = {
+			children = (
+				3045B5F8046AA01F00A738B5,
+			);
+			isa = PBXVariantGroup;
+			name = AiksaurusHelp;
+			path = "";
+			refType = 4;
+		};
+		3045B5F8046AA01F00A738B5 = {
+			includeInIndex = 1;
+			isa = PBXFolderReference;
+			name = English;
+			path = English.lproj/AiksaurusHelp;
+			refType = 4;
+		};
+		3045B5FB046AA01F00A738B5 = {
+			fileRef = 3045B5F7046AA01F00A738B5;
+			isa = PBXBuildFile;
+			settings = {
+			};
+		};
 		30B08138046293D500A738B5 = {
 			isa = PBXFileReference;
 			path = "arrow-left.png";
@@ -646,6 +669,7 @@
 				30C82997045DA3D900A738B5,
 				30B08139046293D500A738B5,
 				30B0813B0462952E00A738B5,
+				3045B5FB046AA01F00A738B5,
 			);
 			isa = PBXResourcesBuildPhase;
 			runOnlyForDeploymentPostprocessing = 0;
@@ -710,6 +734,10 @@
 	<string>AiksaurusCocoa</string>
 	<key>CFBundleGetInfoString</key>
 	<string>Aquatic front-end for Jared Aiken's thesaurus</string>
+	<key>CFBundleHelpBookFolder</key>
+	<string>AiksaurusHelp</string>
+	<key>CFBundleHelpBookName</key>
+	<string>Aiksaurus Help</string>
 	<key>CFBundleIconFile</key>
 	<string>AikSaurus.icns</string>
 	<key>CFBundleIdentifier</key>
