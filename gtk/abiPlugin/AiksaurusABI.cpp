@@ -28,24 +28,25 @@
 #include "ev_Menu.h"
 #include "ev_Menu_Layouts.h"
 #include "ev_Menu_Labels.h"
+//#include "av_View.h"
+#include "ev_EditMethod.h"
 
 #include <iostream>
 using namespace std;
 
+bool AiksaurusABI_callback(AV_View*, EV_EditMethodCallData*);
+void AiksaurusABI_addToMenus();
 void AiksaurusABI_invoke();
+
+
+const char* AiksaurusABI_MenuLabel = "&Thesaurus";
+const char* AiksaurusABI_MenuTooltip = "Opens the thesaurus and finds synonyms.";
 
 // -----------------------------------------------------------------------
 //
 //      Abiword Plugin Code
 //
 // -----------------------------------------------------------------------
-
-static EV_Menu_Action* ThesaurusAction = NULL;
-static EV_Menu_LayoutItem* ThesaurusLayoutItem = NULL;
-static EV_Menu_Label* ThesaurusLabel = NULL;
-
-// to do: figure out a real id to use here.
-static XAP_Menu_Id ThesaurusID = AP_MENU_ID__BOGUS2__ + 3;
 
 ABI_FAR extern "C"
 int abi_plugin_register (XAP_ModuleInfo * mi)
@@ -59,35 +60,7 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
     
     AiksaurusGTK_setTitle("AbiWord Thesaurus");
 
-    if (ThesaurusLabel == NULL)
-    {
-        ThesaurusLabel = new EV_Menu_Label(
-            ThesaurusID,
-            "/&Plugins/Thesaurus",
-            "Activate Thesaurus Dialog"       
-        );
-    }
-    
-    if (ThesaurusLayoutItem == NULL)
-    {
-        ThesaurusLayoutItem = new EV_Menu_LayoutItem(
-            ThesaurusID,
-            EV_MLF_Normal
-        );
-    }
-    
-    if (ThesaurusAction == NULL)
-    {
-        ThesaurusAction = new EV_Menu_Action(
-            ThesaurusID,
-            0, // no sub menu
-            1, // yes raises dialog
-            0, // no not checkable
-            "/&Tools/AikSaurus", // method name ??
-            NULL,
-            NULL    
-        );
-    }
+    AiksaurusABI_addToMenus();
     
     return 1;
 }
@@ -96,11 +69,6 @@ int abi_plugin_register (XAP_ModuleInfo * mi)
 ABI_FAR extern "C"
 int abi_plugin_unregister (XAP_ModuleInfo * mi)
 {
-    if (ThesaurusAction != NULL)
-    {
-        delete ThesaurusAction;
-    }
-    
     mi->name = 0;
     mi->desc = 0;
     mi->version = 0;
@@ -118,6 +86,71 @@ int abi_plugin_supports_version (UT_uint32 major, UT_uint32 minor, UT_uint32 rel
 
 
 
+
+// AiksaurusABI_callback
+// ---------------------
+//   Callback function that will be called when we need to activate the 
+//   thesaurus dialog.
+//    
+bool AiksaurusABI_callback(AV_View* v, EV_EditMethodCallData* d)
+{
+    AiksaurusABI_invoke();
+    return true;
+}
+
+
+
+// AiksaurusABI_addToMenus
+// -----------------------
+//   Adds "Thesaurus" option to AbiWord's Tools Menu.
+//
+void
+AiksaurusABI_addToMenus()
+{
+    XAP_App *pApp = XAP_App::getApp();
+
+    EV_Menu_ActionSet* pActionSet = pApp->getMenuActionSet();
+   
+    EV_EditMethodContainer* pEMC = pApp->getEditMethodContainer();
+    
+    pEMC->addEditMethod(new EV_EditMethod(
+        "AiksaurusABI_callback",
+        AiksaurusABI_callback,
+        0,
+        ""
+    ));
+        
+    
+    int frameCount = pApp->getFrameCount();
+    for(int i = 0;i < frameCount;++i)
+    {
+        XAP_Frame* pFrame = pApp->getFrame(i);
+        EV_Menu* pMenu = pFrame->getMainMenu();
+        
+        EV_Menu_Layout* pLayout = const_cast<EV_Menu_Layout*>(pMenu->getMenuLayout());
+        
+        XAP_Menu_Id id = pLayout->addLayoutItem(1, EV_MLF_Normal);
+        
+        EV_Menu_LabelSet* pLabelSet = const_cast<EV_Menu_LabelSet*>(pMenu->getMenuLabelSet());
+        pLabelSet->addLabel(
+                new EV_Menu_Label(
+                    id, 
+                    AiksaurusABI_MenuLabel,
+                    AiksaurusABI_MenuTooltip
+                )
+        );
+        
+        pActionSet->addAction(new EV_Menu_Action(
+            id,
+            0, // no, don't have a sub menu.
+            1, // yes, raises a dialog.
+            0, // no, don't have a checkbox.
+            "AiksaurusABI_callback",
+            NULL,
+            NULL        
+        ));
+    }
+}
 
 
 
