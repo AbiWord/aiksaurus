@@ -5,79 +5,67 @@
 using namespace std;
 
 
-//
-// GtkAiksaur Callback Functions
-// -----------------------------
-//   GTK uses callback functions for us to know when things have happened.
-//   These callback functions are needed for the thesaurus dialog to handle
-//   user input.  We can make them static to keep from polluting the global
-//   namespace too much.
-//
-
-static gint 
-GtkAiksaur_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data);
-	
-static void 
-GtkAiksaur_backButtonCallback(GtkWidget* w, gpointer data);
-	
-static void 
-GtkAiksaur_forwardButtonCallback(GtkWidget* w, gpointer data);
-	
-static void 
-GtkAiksaur_searchButtonCallback(GtkWidget* w, gpointer data);
-
-
 // 
 // GtkAiksaur Class 
 // ----------------
 //   A GTK-based interface to the AikSaurus library.
 //   Eventually this should be very embeddable and nice. 
 //   
-class GtkAiksaur
+class AiksaurusGTK
 {
-	// Callback Function Friendships
-	friend gint GtkAiksaur_exitCallback(GtkWidget *w, GdkEventAny *e, gpointer data);
-	friend void GtkAiksaur_backButtonCallback(GtkWidget *w, gpointer data);
-	friend void GtkAiksaur_forwardButtonCallback(GtkWidget *w, gpointer data);
-	friend void GtkAiksaur_searchButtonCallback(GtkWidget *w, gpointer data);
-	
-	// Activate Function Friendship
-	friend const char* ActivateThesaurus(const char* search);
-	
 	private:
 	
-		// Static pointer to the instance.
-		static GtkAiksaur* s_instance;
+	// The actual thesaurus.
+	
+		AikSaurus *d_aiksaurus_ptr;
+	
+		
+	// Pointer to a static instance.	
+	
+		static AiksaurusGTK* s_instance;
 
 		
-		// The main dialog window and layout component.
-		GtkWidget* d_window_ptr;
-		  GtkWidget* d_layout_ptr;
-
-		// The main tool bar and it's associated widgets 
+	// Callback functions.   
+	
+		static gint cbExit(GtkWidget* w, GdkEventAny *e, gpointer data);
+		static void cbClose(GtkWidget* w, GdkEventAny *e);
+		static void cbReplace(GtkWidget* w, gpointer data);
+		static void cbCancel(GtkWidget* w, gpointer data);
+		static void cbSearch(GtkWidget* w, gpointer data);
+		static void cbForward(GtkWidget* w, gpointer data);
+		static void cbBack(GtkWidget* w, gpointer data);
+		
+	
+	// GUI Widgets.
+		
+		// The main window and its associated widgets
+		GtkWidget* d_window_ptr;	
+		  GtkWidget* d_layout_ptr;	
+		  GtkWidget* d_wordlist_ptr;	
+		
+		// The main toolbar and its associated widgets
 		GtkWidget* d_toolbar_ptr;
+		
+		  static const char* s_backIcon[];
 		  GtkWidget* d_backbutton_ptr;
 		  GtkWidget* d_backbutton_label_ptr;
+		  GdkPixmap* d_backicon_pic_ptr;
+		  GtkWidget* d_backicon_ptr;
+		  
+		  static const char* s_forwardIcon[];
 		  GtkWidget* d_forwardbutton_ptr;
 		  GtkWidget* d_forwardbutton_label_ptr;
+		  GdkPixmap* d_forwardicon_pic_ptr;
+		  GtkWidget* d_forwardicon_ptr;
+		  
 		  GtkWidget* d_searchbutton_ptr;
 		  GtkWidget* d_searchbutton_label_ptr;
+		
 		  GtkWidget* d_searchbar_ptr;
 		  GtkWidget* d_searchbar_label_ptr;
 		
-		// Icons for the tool bar.
-		static const char* s_forwardIcon[];
-		  GdkPixmap* d_forwardicon_pic_ptr;
-		  GtkWidget* d_forwardicon_ptr;
-		static const char* s_backIcon[];
-		  GdkPixmap* d_backicon_pic_ptr;
-		  GtkWidget* d_backicon_ptr;
 
-		  
-		// A listbox to list our synonyms.
-		GtkWidget* d_wordlist_ptr;
-
-		// The replace/ok/cancel bar and associated widgets
+		// The lower replacement/ok/cancel bar and associated widgets.
 		GtkWidget *d_replacebar_ptr;
 		  GtkWidget *d_replacebutton_ptr;
 		  GtkWidget *d_replacebutton_label_ptr;
@@ -86,11 +74,19 @@ class GtkAiksaur
 		  GtkWidget *d_replacewith_label_ptr;
 		  GtkWidget *d_replacewith_ptr;
 
+	
 		  
-		// The Actual Thesaurus
-		AikSaurus *d_aiksaurus_ptr;
+	// Creation and Destruction.
 		
-		// Component creation functions, actually build the UI.
+		AiksaurusGTK();
+		// TO DO: ~AiksaurusGTK();
+		
+		friend const char* ActivateThesaurus(const char* search);
+
+		
+		
+	// GUI Initialization Routines
+	
 		void createWindow();
 		
 		void createToolbar();
@@ -100,19 +96,29 @@ class GtkAiksaur
 		  void createSearchbar();
 		
 		void createReplacebar();
-		  void createOkbutton();
+		  void createReplacebutton();
 		  void createCancelbutton();
 		  void createReplaceentry();
+
+		
+		  
+	// Inspection Functions
+
+		const char* getSearchText();
+
+
+		
+	// Manipulation Functions
 		
 		void performSearch(const char* str);
-		
-		const char* getSearchText();
-		
-		GtkAiksaur();	
+
 };
 
 
-GtkAiksaur* GtkAiksaur::s_instance = NULL;
+AiksaurusGTK* AiksaurusGTK::s_instance = NULL;
+
+
+
 
 //
 // Interface Functions
@@ -122,9 +128,9 @@ GtkAiksaur* GtkAiksaur::s_instance = NULL;
 //   
 const char* ActivateThesaurus(const char* search)
 {
-	if (GtkAiksaur::s_instance == NULL)
+	if (AiksaurusGTK::s_instance == NULL)
 	{
-		GtkAiksaur::s_instance = new GtkAiksaur;
+		AiksaurusGTK::s_instance = new AiksaurusGTK;
 	}
 
 	// To do: run a search for 'search'.
@@ -141,11 +147,11 @@ const char* ActivateThesaurus(const char* search)
 
 ///////////////////////////////////////////////////////////////////////////////
 //
-// Implementation of GtkAiksaur Class
+// Implementation of AiksaurusGTK Class
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-GtkAiksaur::GtkAiksaur()
+AiksaurusGTK::AiksaurusGTK()
 {	
 	d_aiksaurus_ptr = new AikSaurus;
 	
@@ -155,12 +161,6 @@ GtkAiksaur::GtkAiksaur()
 	
 	d_wordlist_ptr = gtk_clist_new(1);
 	
-	gtk_clist_set_column_auto_resize(
-		GTK_CLIST(d_wordlist_ptr),
-		0, 
-		false
-	);
-
 	gtk_box_pack_start(
 		GTK_BOX(d_layout_ptr),
 		d_wordlist_ptr,
@@ -176,7 +176,7 @@ GtkAiksaur::GtkAiksaur()
 }
 
 
-const char* GtkAiksaur::getSearchText()
+const char* AiksaurusGTK::getSearchText()
 {
 	return gtk_entry_get_text( 
 		GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry) 
@@ -184,12 +184,16 @@ const char* GtkAiksaur::getSearchText()
 }
 
 
-void GtkAiksaur::performSearch(const char* str)
+void AiksaurusGTK::performSearch(const char* str)
 {
 	if (d_aiksaurus_ptr->find(str))
 	{
 		char pos;
 
+		gtk_clist_freeze(
+			GTK_CLIST(d_wordlist_ptr)
+		);
+		
 		gtk_clist_clear(
 			GTK_CLIST(d_wordlist_ptr)
 		);
@@ -203,6 +207,10 @@ void GtkAiksaur::performSearch(const char* str)
 			
 			cout << r << endl;
 		}
+		
+		gtk_clist_thaw(
+			GTK_CLIST(d_wordlist_ptr)
+		);
 	}
 	
 	else
@@ -212,7 +220,7 @@ void GtkAiksaur::performSearch(const char* str)
 }
 
 
-void GtkAiksaur::createWindow()
+void AiksaurusGTK::createWindow()
 {
 	d_window_ptr = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 
@@ -225,7 +233,7 @@ void GtkAiksaur::createWindow()
 	gtk_signal_connect(
 		GTK_OBJECT(d_window_ptr), 
 		"delete_event", 
-		GTK_SIGNAL_FUNC(GtkAiksaur_exitCallback), 
+		GTK_SIGNAL_FUNC(cbExit), 
 		NULL
 	);
 
@@ -238,7 +246,7 @@ void GtkAiksaur::createWindow()
 }
 
 
-void GtkAiksaur::createToolbar()
+void AiksaurusGTK::createToolbar()
 {
 	d_toolbar_ptr = gtk_hbox_new(
 		false, 
@@ -259,7 +267,7 @@ void GtkAiksaur::createToolbar()
 	);
 }
 
-void GtkAiksaur::createReplacebar()
+void AiksaurusGTK::createReplacebar()
 {
 	d_replacebar_ptr = gtk_hbox_new(false, 4);
 
@@ -273,11 +281,11 @@ void GtkAiksaur::createReplacebar()
 
 	createReplaceentry();
 	createCancelbutton();
-	createOkbutton();
+	createReplacebutton();
 }
 
 
-void GtkAiksaur::createReplaceentry()
+void AiksaurusGTK::createReplaceentry()
 {
 	d_replacewith_label_ptr = gtk_label_new("  Replace With:");
 	
@@ -300,7 +308,7 @@ void GtkAiksaur::createReplaceentry()
 	);
 }
 
-void GtkAiksaur::createOkbutton()
+void AiksaurusGTK::createReplacebutton()
 {
 	d_replacebutton_ptr = gtk_button_new();
 	d_replacebutton_label_ptr = gtk_label_new("Replace");
@@ -317,9 +325,16 @@ void GtkAiksaur::createOkbutton()
 		false,
 		2
 	);
+
+	gtk_signal_connect(
+		GTK_OBJECT(d_replacebutton_ptr),
+		"clicked",
+		GTK_SIGNAL_FUNC(cbReplace),
+		d_replacebutton_label_ptr	
+	);
 }
 
-void GtkAiksaur::createCancelbutton()
+void AiksaurusGTK::createCancelbutton()
 {
 	d_cancelbutton_ptr = gtk_button_new();
 	d_cancelbutton_label_ptr = gtk_label_new("Cancel");
@@ -336,9 +351,16 @@ void GtkAiksaur::createCancelbutton()
 		false,
 		5	
 	);
+
+	gtk_signal_connect(
+		GTK_OBJECT(d_cancelbutton_ptr),
+		"clicked",
+		GTK_SIGNAL_FUNC(cbCancel),
+		d_cancelbutton_label_ptr	
+	);
 }
 
-void GtkAiksaur::createBackbutton()
+void AiksaurusGTK::createBackbutton()
 {
 	d_backbutton_ptr = gtk_button_new();
 
@@ -352,7 +374,7 @@ void GtkAiksaur::createBackbutton()
 		cmap,
 		&mask,
 		&style->bg[GTK_STATE_NORMAL],
-		(gchar**)GtkAiksaur::s_backIcon
+		(gchar**)AiksaurusGTK::s_backIcon
 	);
 
 	d_backicon_ptr = gtk_pixmap_new(
@@ -379,7 +401,7 @@ void GtkAiksaur::createBackbutton()
 	gtk_signal_connect(
 		GTK_OBJECT(d_backbutton_ptr),
 		"clicked",
-		GTK_SIGNAL_FUNC(GtkAiksaur_backButtonCallback),
+		GTK_SIGNAL_FUNC(cbBack),
 		static_cast<gpointer>(this)	
 	);
 
@@ -393,7 +415,7 @@ void GtkAiksaur::createBackbutton()
 }
 
 
-void GtkAiksaur::createForwardbutton()
+void AiksaurusGTK::createForwardbutton()
 {
 	d_forwardbutton_ptr = gtk_button_new();
 	d_forwardbutton_label_ptr = gtk_label_new("Forward");
@@ -406,7 +428,7 @@ void GtkAiksaur::createForwardbutton()
 	gtk_signal_connect(
 		GTK_OBJECT(d_forwardbutton_ptr),
 		"clicked",
-		GTK_SIGNAL_FUNC(GtkAiksaur_forwardButtonCallback),
+		GTK_SIGNAL_FUNC(cbForward),
 		d_forwardbutton_label_ptr	
 	);
 	
@@ -421,7 +443,7 @@ void GtkAiksaur::createForwardbutton()
 }
 
 
-void GtkAiksaur::createSearchbutton()
+void AiksaurusGTK::createSearchbutton()
 {
 	d_searchbutton_ptr = gtk_button_new();
 	d_searchbutton_label_ptr = gtk_label_new("Search");
@@ -434,7 +456,7 @@ void GtkAiksaur::createSearchbutton()
 	gtk_signal_connect(
 		GTK_OBJECT(d_searchbutton_ptr),
 		"clicked",
-		GTK_SIGNAL_FUNC(GtkAiksaur_searchButtonCallback),
+		GTK_SIGNAL_FUNC(cbSearch),
 		d_searchbutton_label_ptr	
 	);
 
@@ -448,7 +470,7 @@ void GtkAiksaur::createSearchbutton()
 }
 
 
-void GtkAiksaur::createSearchbar()
+void AiksaurusGTK::createSearchbar()
 {
 	d_searchbar_label_ptr = gtk_label_new("  Look up:");
 	d_searchbar_ptr = gtk_combo_new();
@@ -483,30 +505,47 @@ void GtkAiksaur::createSearchbar()
 //
 // 
 
-static void 
-GtkAiksaur_backButtonCallback(GtkWidget* w, gpointer data)
+void 
+AiksaurusGTK::cbBack(GtkWidget* w, gpointer data)
 {
 	cout << "Back button pressed." << endl;
 }
 
-static void 
-GtkAiksaur_forwardButtonCallback(GtkWidget* w, gpointer data)
+
+void 
+AiksaurusGTK::cbForward(GtkWidget* w, gpointer data)
 {
 	cout << "Forward button pressed." << endl;
 }
 
-static void 
-GtkAiksaur_searchButtonCallback(GtkWidget* w, gpointer data)
+
+void 
+AiksaurusGTK::cbSearch(GtkWidget* w, gpointer data)
 {
-	GtkAiksaur *instance = GtkAiksaur::s_instance;
+	AiksaurusGTK *instance = AiksaurusGTK::s_instance;
 
 	instance->performSearch(
 		instance->getSearchText()
 	);
 }
 
-static gint
-GtkAiksaur_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data)
+
+void
+AiksaurusGTK::cbCancel(GtkWidget* w, gpointer data)
+{
+	cout << "Cancel button pressed." << endl;
+}
+
+
+void
+AiksaurusGTK::cbReplace(GtkWidget* w, gpointer data)
+{
+	cout << "Replace button pressed." << endl;
+}
+
+
+gint
+AiksaurusGTK::cbExit(GtkWidget* w, GdkEventAny* e, gpointer data)
 {
 	cout << "Exit button pressed." << endl;
 	exit(0);
@@ -522,7 +561,7 @@ GtkAiksaur_exitCallback(GtkWidget* w, GdkEventAny* e, gpointer data)
 //
 //////////////////////////////////////////////////////////////////////////
 
-const char *GtkAiksaur::s_forwardIcon[] = {
+const char *AiksaurusGTK::s_forwardIcon[] = {
 "16 16 47 1",
 " 	g None",
 ".	g #000000",
@@ -590,7 +629,7 @@ const char *GtkAiksaur::s_forwardIcon[] = {
 };
 
 
-const char* GtkAiksaur::s_backIcon[] = {
+const char* AiksaurusGTK::s_backIcon[] = {
 "16 16 47 1",
 " 	g None",
 ".	g #424242",
