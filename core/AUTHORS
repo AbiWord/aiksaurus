@@ -10,4 +10,7 @@ Aiksaurus Core Library - Authors File
     John Levon  <moz@compsoc.man.ac.uk>
         Initial build system.
 
+    Michael Pritchett <mike.pritchett@sti-i.com>
+        Win32 Port
+        
 ==========================================================================        
