@@ -59,6 +59,8 @@
 	[oResultsTable setIntercellSpacing:size];
 	[oResultsTable setDoubleAction:@selector(aDoubleClick:)];
 
+	[NSApp setServicesProvider:self];
+
 	[self sync];
 }
 
@@ -70,6 +72,23 @@
 			m_aiksaurus = nil;
 		}
 	[super dealloc];
+}
+
+- (void)pasteViaService:(NSPasteboard *)pboard userData:(NSString *)userData error:(NSString **)error
+{
+	NSString * word = nil;
+
+	NSArray * types = [pboard types];
+
+	if ([types containsObject:NSStringPboardType])
+		{
+			word = [pboard stringForType:NSStringPboardType];
+			if (word)
+				{
+					[oSearchField setStringValue:word];
+					[self aSearchField:self];
+				}
+		}
 }
 
 - (void)sync

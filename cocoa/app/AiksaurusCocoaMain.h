@@ -35,6 +35,8 @@
 - (void)awakeFromNib;
 - (void)dealloc;
 
+- (void)pasteViaService:(NSPasteboard *)pboard userData:(NSString *)userData error:(NSString **)error;
+
 - (void)sync;
 
 - (IBAction)aBack:(id)sender;

@@ -730,6 +730,24 @@
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSServices</key>
+	<array>
+		<dict>
+			<key>NSMenuItem</key>
+			<dict>
+				<key>default</key>
+				<string>English Aik(The)saurus</string>
+			</dict>
+			<key>NSMessage</key>
+			<string>pasteViaService</string>
+			<key>NSPortName</key>
+			<string>AiksaurusCocoa</string>
+			<key>NSSendTypes</key>
+			<array>
+				<string>NSStringPboardType</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
 ";
