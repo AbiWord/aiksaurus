@@ -50,7 +50,13 @@
 	id <NSObject, XAP_CocoaPlugin_Document> doc = [m_AbiWord currentDocument]; /* may return nil */
 	if (doc)
 		{
-			NSString * word = [doc selectWord];
+			NSString * word = [doc selectedText];
+			if (!word)
+				{
+					/* No current selection, so try to select a word
+					 */
+					word = [doc selectWord];
+				}
 			if (word)
 				{
 					if (!m_aiksaurus)
@@ -79,7 +85,7 @@
 {
 	m_AbiWord = AbiWord;
 
-	return ((interface >= 20050303) ? YES : NO);
+	return ((interface >= 20050304) ? YES : NO);
 }
 
 - (BOOL)pluginIsActive

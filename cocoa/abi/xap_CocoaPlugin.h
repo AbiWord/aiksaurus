@@ -22,14 +22,14 @@
 #ifndef XAP_COCOAPLUGIN_H
 #define XAP_COCOAPLUGIN_H
 
-#define XAP_COCOAPLUGIN_INTERFACE 20050301 /** The current version of the CocoaPlugin API. */
+#define XAP_COCOAPLUGIN_INTERFACE 20050304 /** The current version of the CocoaPlugin API. */
 
 #import <Cocoa/Cocoa.h>
 
 @class XAP_CocoaPlugin;
 
 /**
- * \protocol XAP_CocoaPlugin_ContextMenuItem XAP_CocoaPlugin.h "XAP_CocoaPlugin.h"
+ * \protocol XAP_CocoaPlugin_MenuItem XAP_CocoaPlugin.h "XAP_CocoaPlugin.h"
  * 
  * A reference to a context menu item.
  */
@@ -160,6 +160,13 @@
 - (NSString *)selectWord;
 
 /**
+ * Returns the current selection, if any.
+ * 
+ * \return The currently selected text, or nil if none is selected.
+ */
+- (NSString *)selectedText;
+
+/**
  * Insert a text string into the document.
  * 
  * \param text The string to insert.
@@ -213,6 +220,8 @@
 - (BOOL)pluginCanRegisterForAbiWord:(XAP_CocoaPlugin *)AbiWord version:(NSString *)version interface:(unsigned long)interface;
 
 /**
+ * Returns whether the plug-in is active or not.
+ * 
  * \return Should return YES if the plug-in is active; otherwise NO.
  */
 - (BOOL)pluginIsActive;
@@ -243,26 +252,36 @@
 - (void)pluginCurrentDocumentHasChanged;
 
 /**
+ * The name of the plug-in.
+ * 
  * \return The name of the plug-in.
  */
 - (NSString *)pluginName;
 
 /**
+ * The name(s) of the plug-in author(s).
+ * 
  * \return The name(s) of the plug-in author(s).
  */
 - (NSString *)pluginAuthor;
 
 /**
+ * The version of the plug-in.
+ * 
  * \return The version of the plug-in.
  */
 - (NSString *)pluginVersion;
 
 /**
+ * A short description of what the plug-in does.
+ * 
  * \return A short description of what the plug-in does.
  */
 - (NSString *)pluginDescription;
 
 /**
+ * A short description of how to use the plug-in.
+ * 
  * \return A short description of how to use the plug-in.
  */
 - (NSString *)pluginUsage;
@@ -276,7 +295,7 @@
  */
 @interface XAP_CocoaPlugin : NSObject
 {
-	id <NSObject, XAP_CocoaPluginDelegate>	m_delegate;
+	id <NSObject, XAP_CocoaPluginDelegate>	m_delegate; /** The plug-in's delegate, by default the bundle's principal class. */
 }
 
 /**
@@ -312,6 +331,8 @@
 - (void)setDelegate:(id <NSObject, XAP_CocoaPluginDelegate>)delegate;
 
 /**
+ * The plug-in's delegate.
+ * 
  * \return The delegate object - the bundle's principal class, unless the plug-in has
  *         substituted another.
  */
@@ -319,6 +340,11 @@
 
 /**
  * Add a menu item to the end of the Tools menu.
+ * 
+ * This is an NSMenuItem object that the plug-in makes itself (or loads from a nib file) and
+ * so can have submenus etc. This procedure for adding menu items to AbiWord's main menu
+ * does not use AbiWord's cross-platform method for adding menu items (which may not currently
+ * work anyway - I'm not sure).
  * 
  * \param menuItem The menu item to add to the Tools menu.
  */
@@ -332,6 +358,8 @@
 - (void)removeMenuItem:(NSMenuItem *)menuItem;
 
 /**
+ * Get a reference to the current document window, if any.
+ * 
  * Please bear in mind that documents can be closed, so be careful when keeping references
  * to documents lying around for future use.
  * 
@@ -343,6 +371,8 @@
 - (id <NSObject, XAP_CocoaPlugin_Document>)currentDocument; // may return nil;
 
 /**
+ * Get an array of references to the current document windows, if any.
+ * 
  * Please bear in mind that documents can be closed, so be careful when keeping references
  * to documents lying around for future use.
  * 
@@ -389,11 +419,11 @@
  * You should retain the returned context menu item object, since the menu item is removed from
  * the context menu when the object is deleted.
  * 
- * \param title The title of the menu item in the context menu.
+ * \param label The label of the menu item in the context menu.
  * 
  * \return A reference to a context menu item object.
  * 
- * \see XAP_CocoaPlugin_ContextMenuItem
+ * \see XAP_CocoaPlugin_MenuItem
  */
 - (id <NSObject, XAP_CocoaPlugin_MenuItem>)contextMenuItemWithLabel:(NSString *)label;
 
