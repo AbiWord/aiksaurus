@@ -27,7 +27,7 @@
     
     
     const char* 
-    AiksaurusGTK_doSearch(const char* str = 0);
+    AiksaurusGTK_doSearch(const char* str = 0, const char* data_dir = 0);
     
 	
 #endif // INCLUDED_JARED_GPL_AIKSAURUSGTK_H

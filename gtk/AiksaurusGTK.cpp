@@ -58,9 +58,9 @@ class AiksaurusGTK
 	private:
 
 		friend void AiksaurusGTK_setTitle(const char* str);
-        friend const char* AiksaurusGTK_doSearch(const char* search);
+        friend const char* AiksaurusGTK_doSearch(const char* search, const char* data_dir);
 
-		AiksaurusGTK(const char* search = NULL);
+		AiksaurusGTK(const char* search = NULL, const char* data_dir = NULL);
 		~AiksaurusGTK();
 
 		static char* s_replacement;
@@ -203,14 +203,14 @@ AiksaurusGTK_setTitle(const char* str)
 
 
 const char*
-AiksaurusGTK_doSearch(const char* search)
+AiksaurusGTK_doSearch(const char* search, const char* data_dir)
 {
 	if (AiksaurusGTK::s_replacement != NULL)
 	{
 		delete[] AiksaurusGTK::s_replacement;
 	}
 
-	AiksaurusGTK::s_instance = new AiksaurusGTK(search);
+	AiksaurusGTK::s_instance = new AiksaurusGTK(search, data_dir);
 
 	gtk_main();
 
@@ -234,7 +234,7 @@ AiksaurusGTK_doSearch(const char* search)
 //
 //////////////////////////////////////////////////////////////////////////
 
-AiksaurusGTK::AiksaurusGTK(const char* search = 0)
+AiksaurusGTK::AiksaurusGTK(const char* search = 0, const char* data_dir = 0)
 : d_searchbar_words(12)
 {
     d_cursor_ptr = NULL;
@@ -255,7 +255,7 @@ AiksaurusGTK::AiksaurusGTK(const char* search = 0)
 	else
 		d_originalword_ptr = AiksaurusGTK_strCopy(search);
 
-	d_aiksaurus_ptr = new AikSaurus;
+	d_aiksaurus_ptr = new AikSaurus(data_dir);
 
 	dialogCreate();
 	toolbarCreate();
