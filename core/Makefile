@@ -85,14 +85,14 @@ AUTOMAKE_OPTIONS = foreign
 
 SUBDIRS = data src
 
-EXTRA_DIST = autogen.sh README LICENSE CHANGES 
+EXTRA_DIST = autogen.sh README LICENSE CHANGES ChangeLog 
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = ./src/config.h
 CONFIG_CLEAN_FILES = 
-DIST_COMMON =  README Makefile.am Makefile.in aclocal.m4 config.guess \
-config.sub configure configure.in install-sh ltmain.sh missing \
-mkinstalldirs
+DIST_COMMON =  README ChangeLog Makefile.am Makefile.in aclocal.m4 \
+config.guess config.sub configure configure.in install-sh ltmain.sh \
+missing mkinstalldirs
 
 
 DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)

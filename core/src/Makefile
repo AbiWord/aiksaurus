@@ -85,7 +85,7 @@ AUTOMAKE_OPTIONS = foreign
 
 lib_LTLIBRARIES = libAiksaurus.la
 
-CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -Wall -s -g -O2
+CXXFLAGS = -DAIK_DATA_DIR=\"/usr/local/share/Aiksaurus/\" -Wall -s 
 
 libAiksaurus_la_SOURCES =  	Aiksaurus.cpp 	Aiksaurus.h 	AiksaurusException.cpp 	AiksaurusException.h 	AsciiCompare.cpp 	AsciiCompare.h 	FileArray.cpp 	FileArray.h 	MeaningsFile.cpp 	MeaningsFile.h 	MeaningsHash.h 	WordStream.h 	WordsFile.cpp 	WordsFile.h 
 

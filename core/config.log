@@ -130,11 +130,11 @@ configure:2275: $? = 0
 configure:2278: test -s conftest.o
 configure:2281: $? = 0
 configure:2291: result: yes
-configure:2331: g++ -c -g -O2  conftest.cc >&5
+configure:2331: g++ -c   conftest.cc >&5
 configure:2334: $? = 0
 configure:2337: test -s conftest.o
 configure:2340: $? = 0
-configure:2362: g++ -c -g -O2  conftest.cc >&5
+configure:2362: g++ -c   conftest.cc >&5
 configure:2365: $? = 0
 configure:2368: test -s conftest.o
 configure:2371: $? = 0
@@ -210,11 +210,11 @@ configure: failed program was:
 configure:3556: checking the maximum length of command line arguments
 configure:3605: result: 49153
 configure:3613: checking command to parse /usr/bin/nm -B output from gcc object
-configure:3698: g++ -c -Wall -s -g -O2  conftest.cc >&5
+configure:3698: g++ -c -Wall -s   conftest.cc >&5
 configure:3701: $? = 0
 configure:3705: /usr/bin/nm -B conftest.o \| sed -n -e 's/^.*[ 	]\([ABCDGISTW][ABCDGISTW]*\)[ 	][ 	]*\(\)\([_A-Za-z][_A-Za-z0-9]*\)$/\1 \2\3 \3/p' \> conftest.nm
 configure:3708: $? = 0
-configure:3760: g++ -o conftest -Wall -s -g -O2   conftest.cc conftstm.o >&5
+configure:3760: g++ -o conftest -Wall -s    conftest.cc conftstm.o >&5
 configure:3763: $? = 0
 configure:3801: result: ok
 configure:3805: checking for objdir
@@ -258,7 +258,7 @@ configure:6470: result: yes
 configure:6549: creating libtool
 configure:7259: checking whether the g++ linker (/usr/bin/ld) supports shared libraries
 configure:7910: result: yes
-configure:7926: g++ -c -Wall -s -g -O2  conftest.cc >&5
+configure:7926: g++ -c -Wall -s   conftest.cc >&5
 configure:7929: $? = 0
 configure:8262: result: -fPIC
 configure:8269: checking if g++ PIC flag -fPIC works
@@ -268,7 +268,7 @@ configure:8358: result: yes
 configure:8383: checking whether the g++ linker (/usr/bin/ld) supports shared libraries
 configure:8386: result: yes
 configure:8408: checking whether -lc should be explicitly linked in
-configure:8413: g++ -c -Wall -s -g -O2  conftest.cc >&5
+configure:8413: g++ -c -Wall -s   conftest.cc >&5
 conftest.cc:1: warning: `int dummy' defined but not used
 configure:8416: $? = 0
 configure:8430: g++ -shared -nostdlib  conftest.o   -v -Wl,-soname -Wl,conftest -o conftest 2\>\&1 \| grep  -lc  \>/dev/null 2\>\&1
@@ -375,7 +375,7 @@ ac_cv_env_CPP_set=
 ac_cv_env_CPP_value=
 ac_cv_env_CXXCPP_set=
 ac_cv_env_CXXCPP_value=
-ac_cv_env_CXXFLAGS_set=
+ac_cv_env_CXXFLAGS_set=set
 ac_cv_env_CXXFLAGS_value=
 ac_cv_env_CXX_set=
 ac_cv_env_CXX_value=
@@ -439,31 +439,3 @@ lt_lt_cv_sys_global_symbol_to_cdecl=$'"sed -n -e \'s/^. .* \\\\(.*\\\\)\\$/exter
 
 
 configure: exit 0
-
-## ----------------------- ##
-## Running config.status.  ##
-## ----------------------- ##
-
-This file was extended by config.status 2.52, executed with
-  CONFIG_FILES    = src/Makefile
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  > ./config.status 
-on kinowin
-
-config.status:13663: creating src/Makefile
-
-## ----------------------- ##
-## Running config.status.  ##
-## ----------------------- ##
-
-This file was extended by config.status 2.52, executed with
-  CONFIG_FILES    = Makefile
-  CONFIG_HEADERS  = 
-  CONFIG_LINKS    = 
-  CONFIG_COMMANDS = 
-  > ./config.status 
-on kinowin
-
-config.status:13663: creating Makefile

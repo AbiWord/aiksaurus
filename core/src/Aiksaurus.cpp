@@ -180,16 +180,6 @@ const char* ThesaurusImpl::next(int& id) throw(AiksaurusException)
         d_currentSynonym = d_words.getWord();
     }    
 
-    const unsigned int size = d_currentSynonym.size();
-    for(unsigned int i = 0;i < size;++i)
-    {
-        const char ASCII_COLON = 58;
-        const char ASCII_SPACE = 32;
-        
-        if (d_currentSynonym[i] == ASCII_COLON)
-            d_currentSynonym[i] = ASCII_SPACE;
-    }
-    
     return d_currentSynonym.c_str();
 }
 

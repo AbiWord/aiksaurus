@@ -22,8 +22,8 @@
 #include "WordsFile.h"         // Header we're implementing.
 #include "FileArray.h"         // Basis of words file.
 #include "AsciiCompare.h"      // For AsciiCompare function.
-#include <cassert>             // We like assert().
-#include <new>                 // Needed for "nothrow" option.
+#include <cassert>             
+#include <new>
 
 namespace AiksaurusImpl
 {
@@ -54,10 +54,10 @@ static const int ASCII_COLON = 58;
 static inline void 
 strReplace(char* str, char a, char b) throw()
 {
-    for(register unsigned int i = 0; str[i] != 0; ++i)
+    for(;*str;++str)
     {
-        if (str[i] == a)
-            str[i] = b;
+        if (*str == a) 
+            *str = b;
     }
 }
 
@@ -188,6 +188,7 @@ WordsFile::~WordsFile() throw()
 const char* 
 WordsFile::getWord() const throw()
 {
+    strReplace(d_word, ASCII_COLON, ASCII_SPACE);
     return d_word;
 }
 

@@ -4,7 +4,10 @@ Version 0.12b
    Jared Davis
 
      Added missing exception specifications to WordStream.h.
-     
+
+     Moved strReplace code to WordsFile.cpp, fixed bug with similar() 
+     returning colons instead of spaces.
+
 
 Version 0.12
 -------------------------------------------------------------------------------
