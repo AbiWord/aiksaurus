@@ -1,5 +1,5 @@
 /*
- * AikSaurus - An open source thesaurus library
+ * Aiksaurus - An open source thesaurus library
  * Copyright (C) 2001 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
@@ -21,93 +21,96 @@
 
 #include "MeaningsFile.h"
 #include "MeaningsHash.h"
-#include <iostream>
-#include <string>
 
-
-// BUF_SIZE: number of links to read from the meanings file 
-// per read.  Note: will read (BUF_SIZE * 2) bytes per read
-// since each link is 2 bytes long.
-static const int BUF_SIZE = 256;
-
-
-// MeaningStream Class: Efficiently reads from a Meanings file
-class MeaningStream
+namespace AiksaurusImpl 
 {
-    private:
+    // BUF_SIZE: number of links to read from the meanings file 
+    // per read.  Note: will read (BUF_SIZE * 2) bytes per read
+    // since each link is 2 bytes long.
+    static const int BUF_SIZE = 256;
 
-        // No copying or assignment, please.
-        MeaningStream(MeaningStream& rhs);
-        MeaningStream& operator=(MeaningStream& rhs);
+    // MeaningStream Class: Efficiently reads from a Meanings file
+    class MeaningStream
+    {
+        private:
+
+            // No copying or assignment, please.
+            MeaningStream(MeaningStream& rhs);
+            MeaningStream& operator=(MeaningStream& rhs);
         
-        // d_file_ptr: pointer to the meanings file stream.
-        FILE* d_file_ptr;
+            // d_file_ptr: pointer to the meanings file stream.
+            FILE* d_file_ptr;
 
-        // d_position: our current position in our read buffer.
-        int d_position;
+            // d_position: our current position in our read buffer.
+            int d_position;
 
-        // d_end: the size of our read buffer.
-        int d_end;
+            // d_end: the size of our read buffer.
+            int d_end;
 
-        // d_buffer: our read buffer itself.
-        unsigned char d_buffer[BUF_SIZE * 2];
+            // d_buffer: our read buffer itself.
+            unsigned char d_buffer[BUF_SIZE * 2];
         
         
-    public:
+        public:
 
-        // MeaningStream Constructor:
-        //   Initialize d_file_ptr to the correct FILE* structure.
-        //   Initialize d_position and d_end so that the stream will
-        //   be read at first call to read().
-        MeaningStream(FILE* file_ptr)
-        : d_file_ptr(file_ptr), d_position(0), d_end(0)
-        {
-            
-        }
+            // MeaningStream Constructor:
+            //   Initialize d_file_ptr to the correct FILE* structure.
+            //   Initialize d_position and d_end so that the stream will
+            //   be read at first call to read().
+            MeaningStream(FILE* file_ptr);
                 
-        // MeaningStream::read
-        //   Put the next integer in the stream into x.
-        //   Return true normally, false if cannot read any more.
-        //   SHOULD BE INLINE.
-        bool read(int& x)
-        {
-            bool ret = true;
+            // MeaningStream::read
+            //   Put the next integer in the stream into x.
+            //   Return true normally, false if cannot read any more.
+            bool read(int& x);
+    };
+}
+
+
+inline
+AiksaurusImpl::MeaningStream::MeaningStream(FILE* file_ptr)
+: d_file_ptr(file_ptr), d_position(0), d_end(0)
+{
+            
+}
+
+
+inline
+bool AiksaurusImpl::MeaningStream::read(int& x)
+{
+    bool ret = true;
     
-            if (d_position < d_end)
-            {
-                x = d_buffer[d_position++] << 8;
-                x |= d_buffer[d_position++];
-            }
+    if (d_position < d_end)
+    {
+        x = d_buffer[d_position++] << 8;
+        x |= d_buffer[d_position++];
+    }
 
-            else
-            {
-                d_end = fread(d_buffer, 1, BUF_SIZE * 2, d_file_ptr);
+    else
+    {
+        d_end = fread(d_buffer, 1, BUF_SIZE * 2, d_file_ptr);
 
-                if (d_end) 
-                {
-                    d_position = 0;
-                    x = d_buffer[d_position++] << 8;
-                    x |= d_buffer[d_position++];
-                }
-        
-                else
-                {
-                    ret = false;
-                }
-            }
-
-            return ret;
+        if (d_end) 
+        {
+            d_position = 0;
+            x = d_buffer[d_position++] << 8;
+            x |= d_buffer[d_position++];
         }
-};
+        
+        else
+        {
+            ret = false;
+        }
+    }
+
+    return ret;
+}
 
 
 
 
 
-
-
-
-MeaningsFile::MeaningsFile(const char* fname)
+AiksaurusImpl::MeaningsFile::MeaningsFile(const char* fname)
 : d_error(false)
 {
     d_file_ptr = fopen(fname, "r");
@@ -117,7 +120,7 @@ MeaningsFile::MeaningsFile(const char* fname)
 }
 
 
-MeaningsFile::~MeaningsFile()
+AiksaurusImpl::MeaningsFile::~MeaningsFile()
 {
     if (d_file_ptr)
         fclose(d_file_ptr);
@@ -125,7 +128,7 @@ MeaningsFile::~MeaningsFile()
 
 
 int
-MeaningsFile::readline(MeaningStream& s, int* buffer) const
+AiksaurusImpl::MeaningsFile::readline(MeaningStream& s, int* buffer) const
 {
     int i = 0;
     int x;
@@ -144,7 +147,7 @@ MeaningsFile::readline(MeaningStream& s, int* buffer) const
 
 
 int* 
-MeaningsFile::getWords(int id) const
+AiksaurusImpl::MeaningsFile::getWords(int id) const
 {  
     static int buffer[s_dataMaxLineLength / 2];
    
@@ -165,7 +168,7 @@ MeaningsFile::getWords(int id) const
 
 
 bool
-MeaningsFile::error() const
+AiksaurusImpl::MeaningsFile::error() const
 {
     return d_error;
 }

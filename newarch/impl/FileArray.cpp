@@ -1,5 +1,5 @@
 /*
- * AikSaurus - An open source thesaurus library
+ * Aiksaurus - An open source thesaurus library
  * Copyright (C) 2001 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
@@ -21,34 +21,32 @@
 
 #include "FileArray.h"
 #include <cassert>
-#include <iostream>
 
-FileArray::FileArray(const char* file, long structsize, bool& ok)
+AiksaurusImpl::FileArray::FileArray(const char* file, long structsize, bool& ok)
 : d_file(fopen(file, "r")), 
   d_structsize(structsize), 
   d_bytes_cached(false)
 {
     assert(d_structsize > 0);
     ok = d_file;
-    cout << "ok is " << ok << endl;
 }
 
 
-FileArray::~FileArray()
+AiksaurusImpl::FileArray::~FileArray()
 {
     fclose(d_file);
 }
 
 
 long 
-FileArray::getStructSize() const
+AiksaurusImpl::FileArray::getStructSize() const
 {
     return d_structsize;   
 }
 
 
 long
-FileArray::getBytes() const
+AiksaurusImpl::FileArray::getBytes() const
 {
     if (d_bytes_cached)
         return d_bytes;
@@ -64,7 +62,7 @@ FileArray::getBytes() const
 
 
 bool 
-FileArray::at(long position, unsigned char* buf) const
+AiksaurusImpl::FileArray::at(long position, unsigned char* buf) const
 {
     assert(position >= 0);
 

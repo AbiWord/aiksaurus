@@ -19,60 +19,63 @@
  *
  */
 
-#ifndef INCLUDED_GPL_JARED_AIKSAURUS_H
-#define INCLUDED_GPL_JARED_AIKSAURUS_H
+#ifndef INCLUDED_AIKSAURUS_H
+#define INCLUDED_AIKSAURUS_H
 
-class AiksaurusImpl;
-class Aiksaurus
+namespace AiksaurusImpl
 {
-	private:
+    class ThesaurusImpl;
 
-		AiksaurusImpl *d_impl_ptr;
+    class Aiksaurus
+    {
+	    private:
+            ThesaurusImpl *d_impl_ptr;
 		
-		// prevent copying or assignment, since this is 
-		// a large object to create and destroy.
-		Aiksaurus(const AikSaurus& rhs);
-		const Aiksaurus& operator=(const AikSaurus& rhs);
+    		// prevent copying or assignment, since this is 
+	    	// a large object to create and destroy.
+    		Aiksaurus(const Aiksaurus& rhs);
+	    	const Aiksaurus& operator=(const Aiksaurus& rhs);
 		
-	public:
+    	public:
+       		Aiksaurus();
+	    	~Aiksaurus();
 		
-		AikSaurus();
-		~AikSaurus();
+    		// call 'word' to figure out what word is current.
+	    	const char* word() const;
 		
-		// call 'word' to figure out what word is current.
-		const char* word() const;
-		
-		// call 'find' to set up which word you want 
-		// the results from. Returns true if the word is
-		// found, false otherwise.
-		bool find(const char* word);
+    		// call 'find' to set up which word you want 
+	    	// the results from. Returns true if the word is
+		    // found, false otherwise.
+    		bool find(const char* word);
 	
-        // call 'next' repeatedly to return one synonym
-        // at a time, until it returns empty string.  
-        // you should not delete the string:  the next 
-        // call to 'next' will overwrite the string.
-        // 'meaning' is an integer indicating which
-        // meaning this synonym belongs to.  
-        const char* next(int& meaning);
+            // call 'next' repeatedly to return one synonym
+            // at a time, until it returns empty string.  
+            // you should not delete the string:  the next 
+            // call to 'next' will overwrite the string.
+            // 'meaning' is an integer indicating which
+            // meaning this synonym belongs to.  
+            const char* next(int& meaning);
         
-        // call 'label' to return the label for a 
-        // meaning id.  NOT IMPLEMENTED YET.
-        // at present, this will just return
-        // 'null'.
-        const char* label(int meaning); 
+            // call 'label' to return the label for a 
+            // meaning id.  NOT IMPLEMENTED YET.
+            // at present, this will just return
+            // 'null'.
+            const char* label(int meaning); 
+		    
+    		// call 'similar' repeatdly to return one 
+	    	// "nearby word" at a time.  these are not 
+		    // synonyms: they are known words that are 
+    		// alphabetically near the searched-for word.
+	    	const char* similar();
 		
-		// call 'similar' repeatdly to return one 
-		// "nearby word" at a time.  these are not 
-		// synonyms: they are known words that are 
-		// alphabetically near the searched-for word.
-		const char* similar();
-		
-		// call 'error' to find out if something went 
-		// wrong.  will be empty if no problems.  you
-		// do not have to delete this string, it is 
-		// managed automatically.
-		const char* error() const;
+    		// call 'error' to find out if something went 
+	    	// wrong.  will be empty if no problems.  you
+		    // do not have to delete this string, it is 
+    		// managed automatically.
+	    	const char* error();
+    };
+}
 
-};
+typedef AiksaurusImpl::Aiksaurus Aiksaurus;
 
-#endif // INCLUDED_GPL_JARED_AIKSAURUS_H
+#endif // INCLUDED_AIKSAURUS_H

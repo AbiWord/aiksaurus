@@ -24,35 +24,37 @@
 
 #include <cstdio>
 
-class FileArray
+namespace AiksaurusImpl
 {
-    private:
+    class FileArray
+    {
+        private:
 
-    // Prevent copying and assignment.
-        FileArray(const FileArray& rhs);
-        FileArray& operator=(const FileArray& rhs);
+        // Prevent copying and assignment.
+            FileArray(const FileArray& rhs);
+            FileArray& operator=(const FileArray& rhs);
         
-    // Pointer to an ANSI-C file structure    
-        mutable FILE* d_file;
+        // Pointer to an ANSI-C file structure    
+            mutable FILE* d_file;
         
-    // Size of structures held by the file.    
-        const long d_structsize;
+        // Size of structures held by the file.    
+            const long d_structsize;
 
-    // File size in bytes.    
-        mutable bool d_bytes_cached;
-        mutable long d_bytes;
+        // File size in bytes.    
+            mutable bool d_bytes_cached;
+            mutable long d_bytes;
+       
+        public:
 
-        
-    public:
+            FileArray(const char* file, long structsize, bool& ok);
+            ~FileArray();    
 
-        FileArray(const char* file, long structsize, bool& ok);
-        ~FileArray();    
+            long getBytes() const;
+            long getStructSize() const;        
 
-        long getBytes() const;
-        long getStructSize() const;        
-
-        bool at(long position, unsigned char* buf) const;
-};
+            bool at(long position, unsigned char* buf) const;
+    };
+}
 
 #endif // INCLUDED_FILEARRAY_H
 

@@ -1,5 +1,5 @@
 /*
- * AikSaurus - An open source thesaurus library
+ * Aiksaurus - An open source thesaurus library
  * Copyright (C) 2001 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
@@ -84,7 +84,7 @@ bool MeaningStream::read(int& x)
 
 const char* copyright =
 "/*\n"
-" * AikSaurus - An open source thesaurus library\n"
+" * Aiksaurus - An open source thesaurus library\n"
 " * Copyright (C) 2001 by Jared Davis\n"
 " *\n"
 " * This program is free software; you can redistribute it and/or\n"
@@ -127,9 +127,9 @@ int main(int argc, const char** argv)
     
     cout << copyright << autogen << endl;
     
-    cout << "const int MeaningsFile::s_offsetModulus = " << split_size << ";\n\n";
+    cout << "const int AiksaurusImpl::MeaningsFile::s_offsetModulus = " << split_size << ";\n\n";
     
-    cout << "const int MeaningsFile::s_offsetData[] = \n{\n";
+    cout << "const int AiksaurusImpl::MeaningsFile::s_offsetData[] = \n{\n";
       
     cout << "\t0,\t // 0 lines\n";
     
@@ -163,7 +163,7 @@ int main(int argc, const char** argv)
 
     cout << "};\n\n";
     
-    cout << "const int MeaningsFile::s_dataMaxLineLength = " 
+    cout << "const int AiksaurusImpl::MeaningsFile::s_dataMaxLineLength = " 
          << max_line_length << ";\n\n";
     
     cout << "\n// total bytes read: " << bytes_read << endl;

@@ -1,5 +1,5 @@
 /*
- * AikSaurus - An open source thesaurus library
+ * Aiksaurus - An open source thesaurus library
  * Copyright (C) 2001 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
@@ -22,48 +22,56 @@
 #ifndef INCLUDED_WORDSFILE_H
 #define INCLUDED_WORDSFILE_H
 
-class FileArray;
-
-class WordsFile
+namespace AiksaurusImpl
 {
-    private:
-
-    // No copying or assignment allowed.
-        WordsFile(const WordsFile& rhs);
-        WordsFile& operator=(const WordsFile& rhs);
-        
-    // Information about maximum word size, link size.
-        static const int s_maxwords;
-        static const int s_maxlinks;
-        static const int s_structsize;
     
-    // Any error is a problem with the file.
-        bool d_error;
+    class FileArray;
+
+    class WordsFile
+    {
+        private:
+
+        // No copying or assignment allowed.
+            WordsFile(const WordsFile& rhs);
+            WordsFile& operator=(const WordsFile& rhs);
+        
+        // Information about maximum word size, link size.
+            static const int s_maxwords;
+            static const int s_maxlinks;
+            static const int s_structsize;
     
-    // Pointer to a file array, accesses the data.       
-        FileArray* d_data_ptr;
+        // Any error is a problem with the file.
+            bool d_error;
+    
+        // Pointer to a file array, accesses the data.       
+            FileArray* d_data_ptr;
 
-    // Storage for arrays when doing word lookups.
-        char *d_word;
-        int *d_links;       
+        // Storage for arrays when doing word lookups.
+            char *d_word;
+            int *d_links;       
         
-    public:
+        public:
 
-    // Creation and Destruction
-        WordsFile(const char* fname);
-        ~WordsFile();
+        // Creation and Destruction
+            WordsFile(const char* fname);
+            ~WordsFile();
         
-    // Word Lookup        
-        int findWord(const char* str);
+        // Word Lookup        
+            int findWord(const char* str);
 
-    // Word/Links Retrieval   
-        void loadWord(int id);
-        const char* getWord() const;
-        const int* getLinks() const;
+        // Word/Links Retrieval   
+            void loadWord(int id);
+            const char* getWord() const;
+            const int* getLinks() const;
 
-    // Error Checking
-        bool error() const;
-};
+        // Error Checking
+            bool error() const;
 
+        // Constants
+            static int maxWordLength();    
+    };
+
+}
+    
 #endif // INCLUDED_WORDSFILE_H
 

@@ -5,7 +5,7 @@
 #include <string>
 #include <fstream>
 using namespace std;
-
+using namespace AiksaurusImpl;
 int main(int argc, const char** argv)
 {
     Arguments A(argc, argv);

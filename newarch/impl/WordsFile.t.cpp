@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 
+using namespace AiksaurusImpl;
 int main()
 {
     cout << "Enter input file: " << flush;

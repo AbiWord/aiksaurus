@@ -24,6 +24,8 @@
 
 #include <cstdio>
 
+namespace AiksaurusImpl {
+
 class MeaningStream;
 class MeaningsFile
 {
@@ -58,6 +60,8 @@ class MeaningsFile
     // Error Checking
         bool error() const;
 };
+
+}
 
 #endif // INCLUDED_MEANINGSFILE_H
 

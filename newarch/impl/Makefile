@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -ansi -pg -fprofile-arcs -O2  
+CPPFLAGS = -Wall -ansi   
 LIBS =
 
 # Erase all suffixes and set our own
@@ -9,9 +9,9 @@ LIBS =
 # $@ = .o file
 # $^ = all listed dependancies
 .cpp.o:
-	$(CC) $(CFLAGS) -c $<
+	$(CC) $(CPPFLAGS) -c $<
 .o:
-	$(CC) $(CFLAGS) -o $@ $^ $(LIBS)
+	$(CC) $(CPPFLAGS) -o $@ $^ $(LIBS)
 
 all: fake_all
 
@@ -21,7 +21,9 @@ include MakeDepend
 fake_all: $(TARGETS)
 
 MakeDepend: *.cpp *.h
-	g++ -MM *.cpp > MakeDepend
+	@echo "Generating dependency information..."
+	@g++ -MM *.cpp > MakeDepend
+	@echo "Dependency information created."
 
 clean:
 	rm -f *.o $(TARGETS) MakeDepend

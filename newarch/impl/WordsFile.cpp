@@ -22,17 +22,24 @@
 #include "WordsFile.h"
 #include "FileArray.h"
 #include <cassert>
+#include <string>
 #include <new>
 
-const int WordsFile::s_maxwords = 17;
 
-const int WordsFile::s_maxlinks = 5;
+const int AiksaurusImpl::WordsFile::s_maxwords = 17;
 
-const int WordsFile::s_structsize = 
+const int AiksaurusImpl::WordsFile::s_maxlinks = 5;
+
+const int AiksaurusImpl::WordsFile::s_structsize = 
     (2 * WordsFile::s_maxlinks) + WordsFile::s_maxwords;
 
 
-WordsFile::WordsFile(const char* fname)
+int AiksaurusImpl::WordsFile::maxWordLength() 
+{
+    return s_maxwords;
+}
+    
+AiksaurusImpl::WordsFile::WordsFile(const char* fname)
 : d_error(false),
   d_data_ptr(new FileArray(fname, s_structsize, d_error)),
   d_word(new char[s_maxwords+1]),
@@ -45,14 +52,14 @@ WordsFile::WordsFile(const char* fname)
     d_links[s_maxlinks] = -1;
 }
        
-WordsFile::~WordsFile()
+AiksaurusImpl::WordsFile::~WordsFile()
 {
     delete d_data_ptr;
     delete d_links;
     delete d_word;
 }
        
-void WordsFile::loadWord(int id)
+void AiksaurusImpl::WordsFile::loadWord(int id)
 {
     assert(id >= 0);
     unsigned char wd[s_structsize];
@@ -86,27 +93,49 @@ void WordsFile::loadWord(int id)
 }
 
 const char* 
-WordsFile::getWord() const
+AiksaurusImpl::WordsFile::getWord() const
 {
     return d_word;
 }
 
 const int*
-WordsFile::getLinks() const
+AiksaurusImpl::WordsFile::getLinks() const
 {
     return d_links;
 }
 
 
 int 
-WordsFile::findWord(const char* str)
+AiksaurusImpl::WordsFile::findWord(const char* str)
 {
-    return 0;
+    static int high_start = 
+        (d_data_ptr->getBytes() / d_data_ptr->getStructSize());
+        
+    int low = 0, high = high_start - 1;
+
+    std::string s(str);
+    
+    while(low <= high)
+    {
+        int mid = (high + low) / 2;
+        
+        loadWord(mid);
+        std::string w(getWord());
+        
+        if (s < w)
+            high = mid - 1;
+        else if (s > w)
+            low = mid + 1;
+        else
+            return mid;
+    }
+
+    return -1;
 }
 
 
 bool 
-WordsFile::error() const
+AiksaurusImpl::WordsFile::error() const
 {
     return d_error;
 }
