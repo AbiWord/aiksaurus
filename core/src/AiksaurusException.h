@@ -22,15 +22,17 @@
 #ifndef INCLUDED_AIKSAURUS_EXCEPTION_H
 #define INCLUDED_AIKSAURUS_EXCEPTION_H
 
+#include <string>
+
 namespace AiksaurusImpl
 {
     class AiksaurusException
     {
         private:
-            const char* d_description; 
-        
+            std::string d_description; 
+            AiksaurusException& operator=(const AiksaurusException& rhs);
+            
         public:
-       
             static const char* MemoryError;
             
             enum Code {
@@ -42,6 +44,7 @@ namespace AiksaurusImpl
             };
 
             AiksaurusException(Code description) throw();
+            AiksaurusException(const AiksaurusException& rhs) throw();
             ~AiksaurusException() throw();
 
             const char* getDescription() const throw();

@@ -39,6 +39,18 @@ namespace AiksaurusImpl
         "could try closing some other programs to make more \n"
         "memory available.\n";
 
+   
+    AiksaurusException::AiksaurusException(const AiksaurusException& rhs) throw()
+    {
+        try {
+            d_description = rhs.getDescription();
+        }
+        catch(std::bad_alloc)
+        {
+            d_description = MemoryError;
+        }
+    }
+        
     
     AiksaurusException::AiksaurusException(Code code) throw()
     {
@@ -52,21 +64,18 @@ namespace AiksaurusImpl
 
         if (code == CANNOT_ALLOCATE_MEMORY)
         {
-            d_description = MemoryError;
             return;
         }
         
         try 
         {    
-            string err;
-
             switch(code)
             {
                 case CANNOT_OPEN_MEANINGS_FILE:
-                    err = "Error: Cannot Open Meanings File\n"
+                    d_description = "Error: Cannot Open Meanings File\n"
                           "There has been a problem opening the file:\n   ";
-                    err += AIK_DATA_DIR;
-                    err += "meanings.dat\n\n"
+                    d_description += AIK_DATA_DIR;
+                    d_description += "meanings.dat\n\n"
                            "This most likely indicates that the file has been \n"
                            "moved or deleted.  If you cannot find the file, you \n"
                            "can download a new copy from: \n"
@@ -75,10 +84,10 @@ namespace AiksaurusImpl
 
                     
                 case CORRUPT_MEANINGS_FILE:
-                    err = "Error: Corrupt Meanings File\n"
+                    d_description = "Error: Corrupt Meanings File\n"
                           "There has been a problem reading the file:\n   ";
-                    err += AIK_DATA_DIR;
-                    err += "meanings.dat\n\n"
+                    d_description += AIK_DATA_DIR;
+                    d_description += "meanings.dat\n\n"
                            "The file exists, but was not read correctly.  Either \n"
                            "the file has become corrupt or this is a bug. \n\n"
                            "Please download a new copy of the file from: \n"
@@ -89,10 +98,10 @@ namespace AiksaurusImpl
         
                     
                 case CANNOT_OPEN_WORDS_FILE:
-                    err = "Error: Cannot Open Words File\n"
+                    d_description = "Error: Cannot Open Words File\n"
                           "There has been a problem opening the file:\n   ";
-                    err += AIK_DATA_DIR;
-                    err += "words.dat\n\n"
+                    d_description += AIK_DATA_DIR;
+                    d_description += "words.dat\n\n"
                            "This most likely indicates that the file has been \n"
                            "moved or deleted.  If you cannot find the file, you \n"
                            "can download a new copy from: \n"
@@ -101,10 +110,10 @@ namespace AiksaurusImpl
     
                     
                 case CORRUPT_WORDS_FILE: 
-                    err = "Error: Corrupt Words File\n"
+                    d_description = "Error: Corrupt Words File\n"
                           "There has been a problem reading the file:\n   ";
-                    err += AIK_DATA_DIR;
-                    err += "words.dat\n\n"        
+                    d_description += AIK_DATA_DIR;
+                    d_description += "words.dat\n\n"        
                            "The file exists, but was not read correctly.  Either \n"
                            "the file has become corrupt or this is a bug. \n\n"
                            "Please download a new copy of the file from: \n"
@@ -119,33 +128,29 @@ namespace AiksaurusImpl
                     break;
                     
             }
-            
-            d_description = new char[err.size() + 1];
-            strcpy(const_cast<char*>(d_description), err.c_str());
         }
         
         catch(std::bad_alloc)
         {
-            d_description = MemoryError;
+            d_description = "";
         }
     }
 
     
     AiksaurusException::~AiksaurusException() throw()
     {
-        if( d_description != MemoryError )
-		{
-#if !defined WIN32
-			delete[] d_description;
-#endif
-		}
     }
 
 
     const char* 
     AiksaurusException::getDescription() const throw()
     {
-        return d_description;
+        try {
+            return (d_description != "") ? d_description.c_str() : MemoryError;
+        }
+        catch(std::bad_alloc) {
+            return MemoryError;
+        }
     }
 }
 

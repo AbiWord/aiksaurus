@@ -259,9 +259,6 @@ void WordsFile::_readWord()
         int x1 = fgetc(d_file_ptr), 
             x2 = fgetc(d_file_ptr);
 
-		int myfeof = feof(d_file_ptr);
-		int myferror = ferror(d_file_ptr);
-
         if (ferror(d_file_ptr) || feof(d_file_ptr)) 
             throw AiksaurusException(AiksaurusException::CORRUPT_WORDS_FILE);
       
