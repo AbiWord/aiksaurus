@@ -38,7 +38,7 @@
 
 #include <string>
 
-namespace AIKEXPORT AiksaurusImpl
+namespace AiksaurusImpl
 {
     class ThesaurusImpl;
     class AIKEXPORT Aiksaurus
@@ -62,7 +62,7 @@ namespace AIKEXPORT AiksaurusImpl
             // word(): returns current word that is being
             // searched for.  You should not try to delete 
             // this string.
-            const char* word() const throw();
+            AIKEXPORT const char* word() const throw();
     		
             // error(): empty string if no problems encountered.
             // otherwise, a human-suitable description of the 
@@ -82,7 +82,7 @@ namespace AIKEXPORT AiksaurusImpl
             //  + the first two words of any meaning are 
             //    titles for that meaning.
             //  + returns an empty string when out of synonyms.
-            const char* next(int& meaning) throw();
+            AIKEXPORT const char* next(int& meaning) throw();
             
             // similar(): repeatdly to return one "nearby word" 
             // at a time.  these are not synonyms: they are known
