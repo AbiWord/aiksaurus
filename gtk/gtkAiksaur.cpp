@@ -1,5 +1,6 @@
 #include <AikSaurus.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <iostream>
 #include <cstdlib>
 using namespace std;
@@ -27,14 +28,15 @@ class AiksaurusGTK
 		
 	// Callback functions.   
 	
-		static gint cbExit(GtkWidget* w, GdkEventAny *e, gpointer data);
-		static void cbClose(GtkWidget* w, GdkEventAny *e);
+		static gint cbExit(GtkWidget* w, GdkEventAny* e, gpointer data);
+		static void cbClose(GtkWidget* w, GdkEventAny* e);
 		static void cbReplace(GtkWidget* w, gpointer data);
 		static void cbCancel(GtkWidget* w, gpointer data);
 		static void cbSearch(GtkWidget* w, gpointer data);
 		static void cbForward(GtkWidget* w, gpointer data);
 		static void cbBack(GtkWidget* w, gpointer data);
-		
+
+		static void cbSearchKeyPressed(GtkWidget* w, GdkEventKey* k, gpointer data); 
 	
 	// GUI Widgets.
 		
@@ -478,7 +480,7 @@ void AiksaurusGTK::createSearchbutton()
 		GTK_SIGNAL_FUNC(cbSearch),
 		d_searchbutton_label_ptr	
 	);
-
+	
 	gtk_box_pack_start(
 		GTK_BOX(d_toolbar_ptr),
 		d_searchbutton_ptr,
@@ -494,6 +496,19 @@ void AiksaurusGTK::createSearchbar()
 	d_searchbar_label_ptr = gtk_label_new("  Look up:");
 	d_searchbar_ptr = gtk_combo_new();
 
+	gtk_combo_disable_activate(
+		GTK_COMBO(d_searchbar_ptr)
+	);
+
+	gtk_signal_connect(
+		GTK_OBJECT(
+			GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry)
+		),
+		"key-press-event",
+		GTK_SIGNAL_FUNC(cbSearchKeyPressed),
+		d_searchbar_label_ptr
+	);
+	
 	cout << "Searchbar created: address is " << d_searchbar_ptr << endl;
 	
 	gtk_box_pack_start(
@@ -571,6 +586,18 @@ AiksaurusGTK::cbExit(GtkWidget* w, GdkEventAny* e, gpointer data)
 }
 
 
+void
+AiksaurusGTK::cbSearchKeyPressed(GtkWidget* w, GdkEventKey* e, gpointer data)
+{
+	// We 
+	if (GDK_Return == e->keyval)
+	{
+		// Enter was pressed.
+		cout << "Detected enter key pressed in search bar. Searching." << endl;
+		cbSearch(w, data);
+	}
+	
+}
 
 
 
