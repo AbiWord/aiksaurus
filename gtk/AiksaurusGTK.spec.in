@@ -1,0 +1,42 @@
+Name: @PACKAGE@
+Version: @VERSION@
+Release: 1
+Summary: A GTK+ thesaurus library.
+License: GPL
+Group: System Environment/Libraries
+Source: @PACKAGE@-@VERSION@.tar.gz
+BuildRoot: /var/tmp/%{name}-buildroot
+Prefix: /usr
+
+%description
+AiksaurusGTK is a GTK+ interface to the Aiksaurus library.  
+It provides an attractive thesaurus interface, and can be embedded
+in GTK+ projects, notably AbiWord.  A standalone thesaurus program
+is also provided.
+
+%prep
+%setup
+%build
+./configure --prefix=%{prefix}
+make
+
+%install
+rm -rf $RPM_BUILD_ROOT
+mkdir -p $RPM_BUILD_ROOT
+make install-strip DESTDIR=$RPM_BUILD_ROOT
+
+%post
+/sbin/ldconfig
+
+%postun
+/sbin/ldconfig
+
+%files
+%doc CHANGES ChangeLog README COPYING AUTHORS
+%defattr(-, root, root)
+%{prefix}/bin/AiksaurusGTK
+%{prefix}/include/AiksaurusGTK.h
+%{prefix}/include/AiksaurusGTK-C.h
+%{prefix}/lib/lib@PACKAGE@.a
+%{prefix}/lib/lib@PACKAGE@.so.0.@VERSION@
+
