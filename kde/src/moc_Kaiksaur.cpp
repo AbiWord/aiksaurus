@@ -2,7 +2,7 @@
 ** KAikSaurus meta object code from reading C++ file 'Kaiksaur.h'
 **
 ** Created: Thu Jul 19 19:30:26 2001
-**      by: The Qt MOC ($Id: moc_Kaiksaur.cpp,v 1.1 2001/08/10 23:27:46 aiken Exp $)
+**      by: The Qt MOC ($Id: moc_Kaiksaur.cpp,v 1.1 2001/12/30 06:47:21 aiken Exp $)
 **
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
