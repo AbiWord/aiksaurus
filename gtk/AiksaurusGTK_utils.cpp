@@ -1,3 +1,23 @@
+/*
+ * AiksaurusGTK - A GTK interface to the AikSaurus library
+ * Copyright (C) 2001 by Jared Davis
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
+ * 02111-1307, USA.
+ */
+
 // header file that we are implementing here.
 #include "AiksaurusGTK_utils.h"
 
@@ -56,6 +76,67 @@ char* AiksaurusGTK_strCopy(const char* str)
 		}
 
 		ret[len] = '\0';
+	}
+
+	return ret;
+}
+
+
+char* AiksaurusGTK_intToString(int x)
+{
+	if (x == 0)
+	{
+		char* ret = new(nothrow) char[2];
+		
+		if (!ret) 
+			return 0;
+		
+		ret[0] = '0';
+		ret[1] = '\0';
+		return ret;
+	}
+	
+	
+	bool minus = false;
+	
+	// first, figure out number of digits needed.
+	unsigned int numdigits = 0;
+	if (x < 0) 
+	{
+		minus = true;   // mark that we are negative.
+		numdigits++;	// create space for a minus sign.
+		x = -x;         // change into postive number.
+	}
+
+	if (x == 0)
+		numdigits = 1;
+	else
+	{
+	
+ 		int digitshelper = x;
+		while(digitshelper > 0)
+		{
+			digitshelper /= 10;
+			numdigits++;
+		}
+	}
+
+	// We will build a string from the back forward.
+	char* ret = new(nothrow) char[numdigits+1];
+
+	if (ret)
+	{
+		ret[numdigits] = '\0';
+		
+		while(x > 0)
+		{
+			numdigits--;
+			ret[numdigits] = '0' + (x % 10);
+			x /= 10;
+		}
+		
+		if (minus)
+			ret[0] = '-';
 	}
 
 	return ret;
