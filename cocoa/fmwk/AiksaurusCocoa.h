@@ -21,12 +21,30 @@
 
 #import <Cocoa/Cocoa.h>
 
+@interface AiksaurusCocoaMeaning : NSObject
+{
+	NSString *	m_title_1;
+	NSString *	m_title_2;
+
+	NSMutableArray *	m_synonyms;
+}
+- (id)initWithTitle:(NSString *)title withAlternativeTitle:(NSString *)alt;
+- (void)dealloc;
+
+- (void)synonymAdd:(NSString *)synonym;
+- (NSString *)synonymAtPosition:(unsigned)position;
+- (unsigned)synonyms;
+@end
+
 @interface AiksaurusCocoa : NSObject
 {
 	void *	m_aiksaurus;
 
-	int		m_length;
-	int		m_position;
+	unsigned	m_length;
+	int			m_position;
+
+	NSMutableArray *	m_history;
+	NSMutableArray *	m_meanings;
 }
 - (id)init;
 - (void)dealloc;
@@ -34,13 +52,15 @@
 - (BOOL)okay;
 - (NSString *)lastError;
 
-- (int)historyLength;
+- (NSString *)historyWordAtPosition:(unsigned)position;
+- (unsigned)historyLength;
 - (int)historyPosition;
-
 - (BOOL)setHistoryPosition:(int)position;
-
 - (BOOL)historyBack;
 - (BOOL)historyForward;
 
 - (BOOL)lookupWord:(NSString *)word;
+
+- (AiksaurusCocoaMeaning *)meaningAtPosition:(unsigned)position;
+- (unsigned)meanings;
 @end

@@ -3,7 +3,7 @@
 	0867D690FE84028FC02AAC07 = {
 		activeBuildStyle = 014CEA440018CDF011CA2923;
 		activeExecutable = 30C8298D045D9E3400A738B5;
-		activeTarget = 30C8298B045D9E3400A738B5;
+		activeTarget = 0867D69CFE84028FC02AAC07;
 		addToTargets = (
 			30C8298B045D9E3400A738B5,
 		);
@@ -11,7 +11,7 @@
 			30C8298D045D9E3400A738B5,
 		);
 		perUserDictionary = {
-			PBXPerProjectTemplateStateSaveDate = 73309659;
+			PBXPerProjectTemplateStateSaveDate = 73400275;
 			PBXWorkspaceContents = (
 				{
 					LeftSlideOut = {
@@ -274,7 +274,7 @@
 					WindowLocation = "{0, 4}";
 				},
 			);
-			PBXWorkspaceStateSaveDate = 73309659;
+			PBXWorkspaceStateSaveDate = 73400275;
 		};
 		perUserProjectItems = {
 			307ABAA6045E8FB200A738B5 = 307ABAA6045E8FB200A738B5;
@@ -535,51 +535,14 @@
 	30C4BDE3045F113700A738B5 = {
 		exec = 30C8298D045D9E3400A738B5;
 		isa = PBXExecutableBookmark;
-		uiCtxt = {
-			buildSettingsExpandedSubviews = (
-				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-			);
-			buildSettingsVisRect = "{{0, 0}, {570, 48}}";
-		};
 	};
 	30C4BDE4045F113700A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 30C8298B045D9E3400A738B5;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 96}, {345, 336}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {132, 336}}";
-			TOCViewSelectedItems = (
-				"com.apple.target-editor-pane.settings",
-			);
-		};
 	};
 	30C4BDE5045F113700A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 0867D69CFE84028FC02AAC07;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 765}, {393, 48}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.settings",
-				"com.apple.target-editor-pane.settings.simple",
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {153, 48}}";
-			TOCViewSelectedItems = (
-				"com.apple.target-editor-pane.settings",
-			);
-		};
 	};
 	30C4BDE6045F113700A738B5 = {
 		fRef = 30C82982045D968B00A738B5;
@@ -594,18 +557,6 @@
 	30C4BDE7045F113700A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 30C8298B045D9E3400A738B5;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 68}, {347, 347}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {130, 347}}";
-			TOCViewSelectedItems = (
-				"com.apple.target-editor-pane.info-plist",
-			);
-		};
 	};
 	30C4BDE8045F113700A738B5 = {
 		fRef = 30C8295B045D809500A738B5;
@@ -614,85 +565,22 @@
 	30C4BDE9045F113700A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 30C8298B045D9E3400A738B5;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 96}, {393, 347}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {153, 347}}";
-			TOCViewSelectedItems = (
-				"com.apple.target-editor-pane.info-plist",
-			);
-		};
 	};
 	30C4BDEA045F113700A738B5 = {
 		exec = 30C8298D045D9E3400A738B5;
 		isa = PBXExecutableBookmark;
-		uiCtxt = {
-			buildSettingsExpandedSubviews = (
-				0,
-				1,
-				2,
-				3,
-				4,
-				5,
-			);
-			buildSettingsVisRect = "{{0, 0}, {570, 48}}";
-		};
 	};
 	30C4BDEB045F113700A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 0867D69CFE84028FC02AAC07;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 765}, {393, 48}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.settings",
-				"com.apple.target-editor-pane.settings.simple",
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {153, 48}}";
-			TOCViewSelectedItems = (
-				"com.apple.target-editor-pane.settings",
-			);
-		};
 	};
 	30C4BDEC045F113700A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 30C8298B045D9E3400A738B5;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 96}, {345, 336}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {132, 336}}";
-			TOCViewSelectedItems = (
-				"com.apple.target-editor-pane.settings",
-			);
-		};
 	};
 	30C4BDED045F113700A738B5 = {
 		isa = PBXTargetBookmark;
 		trg = 0867D69CFE84028FC02AAC07;
-		uiCtxt = {
-			TOCViewDetailVisibleRect = "{{0, 11}, {344, 168}}";
-			TOCViewExpandedItems = (
-				"com.apple.target-editor-pane.settings",
-				"com.apple.target-editor-pane.settings.simple",
-				"com.apple.target-editor-pane.info-plist",
-				"com.apple.target-editor-pane.info-plist.simple",
-				"com.apple.target-editor-pane.buildphases",
-			);
-			TOCViewMasterVisibleRect = "{{0, 0}, {133, 168}}";
-			TOCViewSelectedItems = (
-				"com.apple.target-editor-pane.settings",
-			);
-		};
 	};
 	30C4BDEE045F113700A738B5 = {
 		isa = PBXFileReference;

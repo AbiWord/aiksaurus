@@ -22,6 +22,56 @@
 #include "AiksaurusCocoa.h"
 #include "Aiksaurus.h"
 
+@implementation AiksaurusCocoaMeaning
+
+- (id)initWithTitle:(NSString *)title withAlternativeTitle:(NSString *)alt
+{
+	[super init];
+
+	m_title_1 = title;
+	m_title_2 = alt;
+
+	[m_title_1 retain];
+	[m_title_2 retain];
+
+	m_synonyms = [NSMutableArray array];
+
+	[m_synonyms retain];
+
+	return self;
+}
+
+- (void)dealloc
+{
+	[m_title_1 release];
+	[m_title_2 release];
+
+	[m_synonyms release];
+
+	[super dealloc];
+}
+
+- (void)synonymAdd:(NSString *)synonym
+{
+	[m_synonyms addObject:synonym];
+}
+
+- (NSString *)synonymAtPosition:(unsigned)position
+{
+	if ((position >= 0) && (position < [m_synonyms count]))
+		{
+			return (NSString *) [m_synonyms objectAtIndex:position];
+		}
+	return nil;
+}
+
+- (unsigned)synonyms
+{
+	return [m_synonyms count];
+}
+
+@end
+
 @implementation AiksaurusCocoa
 
 - (id)init
@@ -32,6 +82,12 @@
 
 	m_length   = 0;
 	m_position = 0;
+
+	m_history  = [NSMutableArray array];
+	m_meanings = [NSMutableArray array];
+
+	[m_history  retain];
+	[m_meanings retain];
 
 	NSBundle * bundle = [NSBundle bundleForClass:[self class]];
 
@@ -62,6 +118,10 @@
 			delete aik;
 			m_aiksaurus = 0;
 		}
+
+	[m_history  release];
+	[m_meanings release];
+
 	[super dealloc];
 }
 
@@ -87,7 +147,16 @@
 	return (*aik_error ? [NSString stringWithCString:aik_error] : nil);
 }
 
-- (int)historyLength
+- (NSString *)historyWordAtPosition:(unsigned)position
+{
+	if ((position >= 0) && (position < m_length))
+		{
+			return (NSString *) [m_history objectAtIndex:position];
+		}
+	return nil;
+}
+
+- (unsigned)historyLength
 {
 	return m_length;
 }
@@ -99,7 +168,7 @@
 
 - (BOOL)setHistoryPosition:(int)position
 {
-	if ((position >= 0) && (position < m_length))
+	if ((position >= 0) && (position < (int) m_length))
 		{
 			m_position = position;
 			return YES;
@@ -119,7 +188,7 @@
 
 - (BOOL)historyForward
 {
-	if (m_position + 1 < m_length)
+	if (m_position + 1 < (int) m_length)
 		{
 			++m_position;
 			return YES;
@@ -135,6 +204,13 @@
 
 	if (!aik->find ([word UTF8String])) return NO;
 
+	[m_meanings removeAllObjects];
+
+	[m_history addObject:word];
+
+	m_length = [m_history count];
+	m_position = m_length - 1;
+
 	int prev_meaning = -1;
 	int this_meaning = -1;
 
@@ -145,15 +221,34 @@
 					NSString * title_1 = [NSString stringWithUTF8String:r];
 					r = aik->next (this_meaning);
 					NSString * title_2 = [NSString stringWithUTF8String:r];
-					// TODO
+
+					AiksaurusCocoaMeaning * acm = nil;
+					acm = [[AiksaurusCocoaMeaning alloc] initWithTitle:title_1 withAlternativeTitle:title_2];
+
+					[m_meanings addObject:acm];
+					[acm release]; // ??
 				}
 			else
 				{
-					NSString * synonym = [NSString stringWithUTF8String:r];
-					// TODO
+					AiksaurusCocoaMeaning * acm = (AiksaurusCocoaMeaning *) [m_meanings lastObject];
+					if (acm) [acm synonymAdd:[NSString stringWithUTF8String:r]];
 				}
 		}
 	return YES;
+}
+
+- (AiksaurusCocoaMeaning *)meaningAtPosition:(unsigned)position
+{
+	if ((position >= 0) && (position < [m_meanings count]))
+		{
+			return (AiksaurusCocoaMeaning *) [m_history objectAtIndex:position];
+		}
+	return nil;
+}
+
+- (unsigned)meanings
+{
+	return [m_meanings count];
 }
 
 @end
