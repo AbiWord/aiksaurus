@@ -5,7 +5,7 @@
 #define HAVE_DLFCN_H 1
 
 /* Define if you have the <string.h> header file. */
-/* #undef HAVE_STRING_H */
+#define HAVE_STRING_H 1
 
 /* Name of package */
 #define PACKAGE "Aiksaurus"

@@ -8,6 +8,8 @@ Version 0.12b
      Moved strReplace code to WordsFile.cpp, fixed bug with similar() 
      returning colons instead of spaces.
 
+     Upgrade to automake 1.5, library now intalls stripped.  
+     
 
 Version 0.12
 -------------------------------------------------------------------------------

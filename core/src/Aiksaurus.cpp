@@ -223,7 +223,7 @@ Aiksaurus::Aiksaurus() throw()
     }
     catch(std::bad_alloc)
     {
-        d_error = AiksaurusException::CANNOT_ALLOCATE_MEMORY;
+        d_error = AiksaurusException::MemoryError;
     }
     catch(AiksaurusException& e)
     {
