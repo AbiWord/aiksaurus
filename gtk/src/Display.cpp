@@ -18,6 +18,8 @@
  * 02111-1307, USA.
  */
 
+#include <strings.h>
+
 #include "Display.h"
 #include "Meaning.h"
 #include "DialogMediator.h"

@@ -22,6 +22,7 @@
 #include "Aiksaurus.h"
 #include "AsciiCompare.h"
 #include "config.h"
+#include <stdlib.h>
 #include <iostream>
 #include <string>
 using namespace std;
