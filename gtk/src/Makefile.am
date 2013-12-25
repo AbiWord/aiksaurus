@@ -1,7 +1,5 @@
 AM_CXXFLAGS = @GTK_CFLAGS@ @GTK_DEFS@ -Wall -I../.. -I$(top_srcdir)/base
 
-lib_LTLIBRARIES = libAiksaurusGTK3.la
-
 libAiksaurusGTK3_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_AIKGTK_VERSION_INFO) -export-dynamic
 
 libAiksaurusGTK3_la_LIBADD = $(GTK_LIBS) ../../base/libAiksaurus.la
