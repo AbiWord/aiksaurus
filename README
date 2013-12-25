@@ -3,15 +3,16 @@ Aiksaurus
 
 Now hosted by SourceForge: http://aiksaurus.sourceforge.net/
 
-CVS Generously hosted by AbiWord (http://www.abisource.com/)
+Git repository now on Github.
+  https://github.com/AbiWord/aiksaurus
 
 Relevant Directories:
 
    base/
-     Contains Aiksaurus Core Library. 
+     Contains Aiksaurus Core Library.
 
    cocoa/
-     Contains Aiksaurus Cocoa port. 
+     Contains Aiksaurus Cocoa port.
 
    gtk/
      Contains gaiksaurus & GTK+ interface library.
@@ -22,15 +23,14 @@ Relevant Directories:
    kde/
      Contains AiksaurusKDE interface library.
 
-28th May, 2003
-Francis James Franklin <fjf@alinameridon.com>
-
 
 Thesaurus Development
 =====================
+
+* POSSIBLY OBSOLETE INFO *
 
 If you want to do work on the thesaurus data, i.e. add synonyms or 
 so forth, please contact Jared Davis <jared@cs.utexas.edu> and ask
 for a copy of the data tools.  They are about 100 MB so I am not 
 going to put them in CVS.
-   
+
