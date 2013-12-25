@@ -1,4 +1,4 @@
-AM_CPPFLAGS = -I.. -DAIK_DATA_DIR=\"$(pkgdatadir)/\"
+AM_CPPFLAGS = -I.. -DAIK_DATA_DIR=\"$(pkgdatadir)/\" -Wall
 
 lib_LTLIBRARIES = libAiksaurus.la
 
