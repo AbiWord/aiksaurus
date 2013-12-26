@@ -4,6 +4,9 @@
 #include <set>
 #include <strstream>
 #include <algorithm>
+#include <iterator>
+
+using namespace std;
 
 class insensitiveStringCompare
 {

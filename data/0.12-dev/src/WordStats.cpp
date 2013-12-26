@@ -3,6 +3,8 @@
 #include <strstream>
 #include <vector>
 
+using namespace std;
+
 int main()
 {
     vector<int> sizes;

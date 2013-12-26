@@ -7,6 +7,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <iterator>
 using namespace std;
 
 double MIN_RATIO;

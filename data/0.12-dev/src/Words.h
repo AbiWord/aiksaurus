@@ -24,6 +24,6 @@ class Word
         }
 };
 
-void extractWords(istream& file, vector<Word>& words);
+void extractWords(std::istream& file, std::vector<Word>& words);
 
 #endif // INCLUDED_WORDS_H

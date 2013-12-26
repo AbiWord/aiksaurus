@@ -3,6 +3,7 @@
 #include <iostream>
 #include <algorithm>
 #include <strstream>
+#include <iterator>
 using namespace std;
 
 int main()
