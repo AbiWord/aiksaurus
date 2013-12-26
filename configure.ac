@@ -94,11 +94,9 @@ AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
-
-LT_PREREQ([2.2.6])
-# Make --disable-static the default
-LT_INIT([disable-static])
-
+AC_DISABLE_STATIC
+AC_LIBTOOL_WIN32_DLL
+AM_PROG_LIBTOOL
 IT_PROG_INTLTOOL([0.50.0])
 
 AC_HEADER_STDC
@@ -214,8 +212,8 @@ AC_CONFIG_FILES([
 	gtk2/Makefile
 	gtk2/src/Makefile
 	data/Makefile
-    gaiksaurus.desktop.in
-    po/Makefile.in
+        gaiksaurus.desktop.in
+        po/Makefile.in
 ])
 AC_OUTPUT
 
