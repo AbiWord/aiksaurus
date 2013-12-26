@@ -91,6 +91,7 @@ AC_PROG_MAKE_SET
 AC_DISABLE_STATIC
 AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
+IT_PROG_INTLTOOL([0.50.0])
 
 AC_HEADER_STDC
 
@@ -165,6 +166,8 @@ AC_CONFIG_FILES([
 	gtk/Makefile
 	gtk/src/Makefile
 	data/Makefile
+        gaiksaurus.desktop.in
+        po/Makefile.in
 ])
 AC_OUTPUT
 

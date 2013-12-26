@@ -34,3 +34,7 @@ mkinstalldirs
 stamp-*
 stamp-h
 stamp-h1
+gaiksaurus.desktop
+gaiksaurus.desktop.in
+po/POTFILES
+po/Makefile.in.in

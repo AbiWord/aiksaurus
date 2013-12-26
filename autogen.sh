@@ -81,4 +81,6 @@ autoconf || {
     exit 1
 }
 
+intltoolize --force
+
 echo "autogen.sh: configuration generated successfully"

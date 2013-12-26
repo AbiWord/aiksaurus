@@ -18,6 +18,15 @@ COCOASOURCES = cocoa/*.lproj cocoa/*.png cocoa/*.icns cocoa/*.ai \
 
 WINSOURCES = win/src/*.*
 
+desktopdir = $(datadir)/applications
+desktop_in_files = gaiksaurus.desktop.in.in
+desktop_DATA = $(desktop_in_files:.desktop.in.in=.desktop)
+@INTLTOOL_DESKTOP_RULE@
+
+CLEANFILES = \
+	$(desktop_DATA)	\
+	$(NULL)
+
 EXTRA_DIST =	\
 	$(PHPSOURCES)			\
 	$(COCOASOURCES)			\

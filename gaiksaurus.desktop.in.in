@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Encoding=UTF-8
+Name=GTK Aiksaurus
+GenericName=Thesaurus
+Comment=Find Synonyms and Homonyms
+Type=Application
+Exec=gaiksaurus
+Icon=gaiksaurus
+Categories=GNOME;Office;
