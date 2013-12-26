@@ -1,0 +1,252 @@
+AikSaurus 0.11 ==> 0.12 ToolSet                             Readme File
+-----------------------------------------------------------------------
+
+   Many apologies in advance for the severe disarray of this toolset.
+
+Introduction
+============
+
+   This is a collection of utility programs which were used in the 
+   transition from AikSaurus 0.11's flat database style to the new,
+   bipartite-graph model used in AikSaurus 0.12.
+
+   The transition is an expensive process computationally, and a 
+   delicate process to do well.  My results are certainly not 
+   optimal, so for those (if any) who are interested in playing
+   with the problem themselves, these tools might come in handy.
+   You may want to expand onto them or refine them in some way.
+
+   I would *highly recommend* reading the paper "Building a Better
+   Mousetrap: Architectural Changes behind AikSaurus 0.12" and 
+   comprehending it before you try to do a whole lot with these
+   things.  It will give you a good feel for what these programs
+   do and what good ways to use them are.
+
+   These tools are almost exclusively written in C++.  They rely
+   heavily on the power of the standard template library, and thus
+   an understanding of the STL is nearly prerequisite to trying to 
+   modify much of the code.
+
+   You will need a relatively powerful machine to do much with 
+   this code.  It is not uncommon for these programs to allocate 
+   up to around 150 megs of memory, and keep that memory allocated
+   for a good hour or two while they work.  You should NOT run 
+   these programs on shared computers/servers without permission
+   from your systems administrator.  While virtual memory is a 
+   wonderful thing, you want to avoid it because it will severly
+   slow down these operations which are computationally expensive
+   anyway.
+
+   In extreme cases, some of these programs can take literally
+   hours to complete.  For example, running MergeEngine against
+   30,000 words took my Athlon 650 a little over 9 hours.  
+   MergeEngine is an O(n^2) operation and a slow one at that,
+   so it should be used with caution on large data sets.
+
+
+Explanation of Contents
+=======================
+
+   ./gen_pms
+   
+       Contains utilities to create the preliminary meaning 
+       set families.  This code is the roughest you'll find 
+       here because once I had the initial preliminary set,
+       there wasn't a whole lot of reason to generate it 
+       again.
+
+       You will need to create a symlink to ./src/thesaurus.in
+       named "thesaurus.in" in this directory in order for any
+       of the programs to work.
+       
+       I honestly don't know what a lot of the files in this
+       directory were ever used for.  There's no nice make 
+       system, you'll have to compile the programs by hand.
+       The source is the only documentation.  Sorry.
+
+       
+   ./src
+   
+       Contains all the source code for the main refinement 
+       programs.  This includes the merge engine and so forth.
+
+       Also includes programs used to create the final 
+       implementation files.
+
+       Also includes the file "thesaurus.in" -- a very slightly 
+       modified Moby thesaurus file. (24 MB)
+
+       You should run "make" in the source directory before 
+       too long.
+
+
+   ./old_data
+
+       Contains a bunch of my failed attempts at creating a nice
+       set of data.  
+
+       Interesting files:
+         
+       ./old_data/d.initial/m.0  
+            initial preliminary meaning sets file with 66683 words.  
+            unaltered output from ./gen_pms/engine program.
+
+       ./old_data/d.initial/m.1
+            same as m.0, but with subset elimination reducing about
+            half of the sets.  This is my recommended starting place
+            for you if you want to play with data.  It's the most 
+            usable while-still-being-pure meanings file available 
+            out of the box.
+
+            
+   ./datagen
+   
+       Works with ./src in order to convert a finalized meanings.text
+       file into implementation form.  Creates words.dat, meanings.dat, 
+       and MeaningsHash.h which are used in the implementation.
+
+       This is the final step once you get your thesaurus data assembled.
+       Just throw it into here, run make, and then copy those files into
+       the Aiksaurus implementation directory, rebuild Aiksaurus, and you
+       should have a new thesaurus based on your data files.
+            
+
+   ./meanings.text
+
+       This is what I came up with for my meanings file before throwing
+       it into the implementation.
+       
+       
+Programs and Conventions
+========================
+
+   You will probably find that you are generating a lot of files,
+   possibly in an interative fashion.  If you want to keep your 
+   previous files while iterating (which is nice to be able to 
+   look back on and see how you've progressed), I found that some
+   naming conventions on the files were useful.
+
+   
+   Generating Meanings Files
+   -------------------------
+   
+   The original input file is a slightly modified Moby Thesaurus 
+   File, which you will find is named "thesaurus.in".  This file
+   is used in many of the programs to calculate various ratios 
+   and is hence included in the distribution.  It's also 24 megs,
+   which is one of the many reasons the toolset is so huge.
+
+   The program "engine" can convert the thesaurus.in file into a 
+   meanings file.  It is a slow program and took slightly over an 
+   hour to run on my Athlon 650.  Your times should differ from 
+   this figure based on your system's speed, and also based on 
+   what smallmerge-ratio you decide to use for your engine run.
+   The default is .5 and is hard-coded in, so you will have to 
+   change it in the source code if you want to use a new value.
+   Moreover, engine is the least mature program in the toolset
+   and so maybe I'll work on it a little later, but engine isn't 
+   used very often so it's kind of a why-pursue-that sort of deal...
+
+   Anyway, I named my initial meanings file m.0 and suggest that 
+   you do the same.  You'll find that as you crop out meaning sets
+   you might want to compare what you've done at each step.  It is
+   easy to do this if you name each iteration m.1, m.2, m.3, etc., 
+   and the other programs in the toolset will prompt you for 
+   "meaning files" and suggest (m.#) as the file name.
+   
+   
+   Cropping and Merging Meanings
+   -----------------------------
+
+   Most of the time you will be very interested in reducing the
+   size of your meanings file.  You can do this through two primary
+   ways: 
+
+      1) removing meaning sets entirely
+      2) merging together existing meaning sets
+
+   The "MergeEngine" program can do merging based on the smallmerge
+   and also does subset elimination (set ratio=1 to do pure subset
+   elimination with no merging).
+   
+   Note that MergeEngine is extremely computationally expensive and 
+   you should not try to run it on files of much more than 30,000 
+   sets if you want it to complete within a day.  You can run it in
+   an iterative fashion using fixed size blocks, which will give you
+   drastic reductions at first but then will see decreasing returns
+   on subsequent runs of same sized blocks.
+   
+   
+   Generating Words Files from Meanings
+   ------------------------------------
+   
+   Once you have a meaning set file, you may wish to extract a list
+   of all words in the file.  The "ExtractWords" program can do 
+   this for you.  I tend to name the words files with a (w.#) filename
+   so that you can easily tell which meaning file they were created
+   from.  "ExtractWords" is relatively fast and should complete in 
+   under a minute on most data sets.  It is O(n) where n is the total
+   number of _words_ in the meanings file.
+
+   With a words file extracted, you can created a Linked Words File
+   which contains entries such as:
+        fool 102 394 2933 3948 
+
+   Where these numbers refer to meaning sets that fool appears in.
+   The "LinkWords" program can do this for you.  I named my linked-words
+   files "link.#" where # corresponded to the meanings files, words files,
+   etc.  LinkWords is relatively quick and should execute in a few 
+   minutes for most data sets.  
+
+
+   Generating Random-Word Reports
+   ------------------------------
+   
+   With a linked words file, you can generate RandomWords reports.  These
+   are really useful in seeing how you're doing.  The first thing you need
+   to do is create a file with a few random words in it, just list one 
+   per line.  Now, run the RandomWords program and it will let you create
+   an HTML report that tells you how many links those words have, shows
+   you the sets, and calculates some statistics about those sets.  These 
+   let you spot trends visually in the data and see where improvements
+   could be made.  In particular, the observation that large sets tend to 
+   have low link ratios was almost instantly obvious once I saw one of 
+   these random-word reports, whereas before it didn't even cross my mind.
+   They can be a good source for inspiration when trying to think of 
+   better ways to extract meanings, combine sets, etc.
+
+   A word of warning, "RandomWords" is a slow program.  Its speed will be
+   based on the number of words in your random words file and the number of
+   meaning sets that each of those words belongs to.
+
+
+   
+Link Ratios and Link Ratio Based Analysis
+==========================================
+
+   You should read over the directLinkRatio and returnLinkRatio
+   parts of the paper and become familiar with these measurements,
+   since they give you an added weapon to use to identify "bad" 
+   meaning sets.
+
+   Probably the most useful aspect of these ratios is that a 
+   meanDirectLinkRatio / meanReturnLinkRatio are very good at 
+   indicating how good the interlinking is between the synonyms
+   of a set.  In addition, since they boil down to an actual 
+   number you can use them to very quickly sort out by arbitrary
+   criteria, for example "show me only the sets with mdlr+mrlr < .2"
+   will give you very weakly linked sets which you can then choose
+   to split up, discard, or what have you.
+
+   The program "RatioAdder" will take a meanings file and change
+   it so that the first two entries are the mdlr and mrlr of the set,
+   respectively.  This is a slow program and may take a couple of 
+   hours to complete if pitted up against a large meanings file.
+   However, it does provide you the ability to specify only a block
+   of the file to process at a time, and does not require iterations
+   like MergeEngine.
+   
+   
+   
+   
+_______________________________________________________________________

@@ -1,0 +1,10 @@
+TARGETS = FileArray.t WordsFile.t MeaningsFile.t Aiksaurus.t
+
+Aiksaurus.t :           Aiksaurus.t.o MeaningsFile.o WordsFile.o FileArray.o \
+                        Aiksaurus.o AiksaurusErrors.o
+                        
+WordsFile.t :           WordsFile.t.o WordsFile.o FileArray.o AiksaurusErrors.o
+MeaningsFile.t :        MeaningsFile.t.o MeaningsFile.o WordsFile.o \
+                        FileArray.o Arguments.o AiksaurusErrors.o
+
+FileArray.t :           FileArray.t.o FileArray.o

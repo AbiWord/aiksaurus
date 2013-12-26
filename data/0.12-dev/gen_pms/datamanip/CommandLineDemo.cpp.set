@@ -1,0 +1,130 @@
+/*
+ * AikSaurus - An open source thesaurus library
+ * Copyright (C) 2001 by Jared Davis
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  
+ * 02111-1307, USA.
+ *
+ */
+
+
+#include "AikSaurus.h"
+#include <iostream>
+#include <cstdlib>
+#include <set>
+#include <string>
+#include <algorithm>
+
+using namespace std;
+
+void checkError(const AikSaurus& T)
+{
+	const char* err = T.error();
+	
+	if (err[0] != '\0')
+	{
+		cout << "Error: " << err << endl;
+		exit(1);
+	}
+}
+
+//
+// fillSet
+// -------
+// 'word' is looked up in AikSaurus, and the set s is filled with it's synonyms 
+//
+void fillSet( const char *word, set<string> &s )
+{
+    AikSaurus T;
+    char code;
+
+    s.clear();
+
+    if ( T.find( word ) )
+    {
+        for(const char* result = T.next(code); result[0] != '\0'; result = T.next(code))
+        {
+            s.insert( result );
+        }
+    }
+}
+
+//
+// setInt
+// ------
+// This function makes 'a' the set intersection of 'a' and 'b'
+// It is the mathematical equivalent of a = a^b
+//
+void setInt( set<string> &a, set<string> &b )
+{
+    set< string > result;
+
+    set_intersection( a.begin(), a.end(), b.begin(), b.end(), 
+        inserter( result, result.begin() ) );
+
+    a.swap( result );
+}
+
+//
+// equivClass
+// ----------
+// This function takes two words and propogates their appropriate class into rval
+//
+void equivClass( const char *first, const char *second, set<string> &rval )
+{
+    rval.clear();
+
+    set< string > candidates;
+    set< string > tmp;
+	
+    fillSet( first, candidates );
+    rval.insert( first );
+
+    fillSet( second, tmp );
+    rval.insert( second );
+
+    setInt( candidates, tmp );
+
+    while ( ! candidates.empty() )
+    {
+        fillSet( candidates.begin()->c_str(), tmp );
+        if ( includes( tmp.begin(), tmp.end(), rval.begin(), rval.end() ) )
+        {
+            rval.insert( *(candidates.begin()) );
+            setInt( candidates, tmp );
+        }
+        else
+        {
+            candidates.erase( candidates.begin() );
+        }
+    }
+}
+
+
+int main(int argc, const char** argv)
+{
+    if ( argc != 3 )
+    {
+        cerr << "Usage: " << argv[0] << " [word] [word]" << endl;
+        return 1;
+    }
+
+    set<string> equiv;
+    equivClass( argv[1], argv[2], equiv );
+
+    copy( equiv.begin(), equiv.end(), ostream_iterator<string>(cout, "\n"));
+
+	return 0;
+}

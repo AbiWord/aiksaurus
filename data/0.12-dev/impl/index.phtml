@@ -1,0 +1,143 @@
+<html>
+<head>
+<title>Aiksaurus 0.12 BETA demo</title>
+<style>
+<!--
+body {
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+}
+
+td {
+    padding-left: .2in;
+}
+-->
+</style>
+
+</head>
+
+<body bgcolor="#ffffff" background="web_bg.png" text="#000000" onLoad="document.forms[0].elements[0].focus()">
+
+<form name="searchform" method="post" action="index.phtml">
+<table border="0" height="45" width="100%" bgcolor="#fffff0" cellspacing="0" cellpadding="5">
+<tr>
+<td><big>Synonyms for <font color="#ff0000"><? print ucwords(strtolower($searchfor)); ?></font></big></td>
+<td align="right">
+Look up: 
+<input type="text" name="searchfor" size="15" value="" />
+ &nbsp; <input type="submit" value="Go">
+</td>
+</tr>
+</form>
+</table>
+
+<?
+
+function makeLink($word) 
+{
+    print "<a href=\"index.phtml?searchfor=" . rawurlencode($word) . "\">$word</a>";
+}
+
+function printResults($res, $title)
+{
+    if (count($res) == 0)
+        return;
+ 
+    switch(count($res) % 4)
+    {
+        case 0:
+        case 3:
+            $stop1 = count($res) / 4;
+            $stop2 = 2 * $stop1;
+            $stop3 = 3 * $stop1;
+            $stop4 = count($res);
+            break;
+
+        case 1:
+            $stop1 = (count($res) / 4);
+            $stop2 = $stop1 + count($res) / 4;
+            $stop3 = $stop2 + count($res) / 4;
+            $stop4 = count($res);
+            break;
+
+        case 2:
+            $stop1 = count($res) / 4;
+            $stop2 = 1 + $stop1 + count($res) / 4;
+            $stop3 = $stop2 + count($res) / 4;
+            $stop4 = count($res);
+            break;
+    }
+
+    print "<table border=\"0\" width=\"100%\" cellpadding=\"5\" cellspacing=\"0\">";
+
+    print "<tr>";
+    print "<th align=\"left\" width=\"100%\" colspan=\"4\" bgcolor=\"#f0f0f0\">";
+    print "<big>$title - (" . count($res) . " Synonyms)</big>";
+    print "</th></tr>";
+
+    print "<tr><td width=\"25%\" valign=\"top\">";
+    for($i = 0;$i < $stop1;++$i)
+    {
+        print makeLink($res[$i]) . "<br>";
+    }
+
+    print "</td><td width=\"25%\" valign=\"top\">";
+
+    for(; $i < $stop2; ++$i)
+    {
+        print makeLink($res[$i]) . "<br>";
+    }
+
+    print "</td><td width=\"25%\" valign=\"top\">";
+
+    for(; $i < $stop3; ++$i)
+    {
+        print makeLink($res[$i]) . "<br>";
+    }
+
+    print "</td><td width=\"25%\" valign=\"top\">";
+
+    for(; $i < $stop4; ++$i)
+    {
+        print makeLink($res[$i]) . "<br>";
+    }
+
+    print "</td></tr></table><br>";
+}
+
+
+
+
+if (!empty($searchfor))
+{
+    $ret = exec("./Aiksaurus.t \"$searchfor\"", $out);
+
+    if ($ret == "*** No synonyms known. ***")
+    {
+        print "No Synonyms Found";
+    }
+    
+    else
+    {
+        for($i = 0;$i < count($out);++$i)
+        {
+            if (ereg("^# Meaning", $out[$i]))
+            {
+                continue;
+            }
+
+            if ($out[$i] == "")
+                continue;
+       
+            
+            $words = explode(", ", $out[$i]);
+            
+            printResults($words, "Meaning " . ++$meaning);
+        }
+    }
+}
+?>
+
+</body>
+</html>

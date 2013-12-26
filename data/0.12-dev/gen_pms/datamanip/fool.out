@@ -1,0 +1,28 @@
+#
+# Entering Phase 1 (generate preliminary classes)
+#
+
+{fool, Punch} => {fool, Punch, }
+{fool, apish} => {fool, apish, asinine, beguiled, besotted, crazy, credulous, dazed, dizzy, doting, dumb, flaky, fond, foolish, futile, goofy, idiotic, inept, insane, mad, senseless, sentimental, silly, stupid, thoughtless, wacky, wet, }
+(Skipping asinine).
+{fool, ass} => {fool, ass, buffoon, clown, doodle, ignoramus, jackass, lunatic, }
+{fool, babe} => {fool, babe, dupe, innocent, }
+{fool, banter} => {fool, banter, jest, joke, jolly, kid, rag, rib, }
+(Skipping beguiled).
+(Skipping besotted).
+{fool, bluff} => {fool, bluff, beguile, betray, deceive, dupe, gull, mislead, trick, }
+{fool, boob} => {fool, boob, dupe, fish, gull, innocent, monkey, patsy, pigeon, plaything, sap, stooge, sucker, toy, victim, }
+{fool, booby} => {fool, booby, boob, jerk, sap, }
+(Skipping buffoon).
+{fool, butt} => {fool, butt, byword, dupe, game, goat, jest, joke, laughingstock, mockery, monkey, stock, target, toy, victim, }
+(Skipping byword).
+{fool, cheat} => {fool, cheat, beguile, deceive, defraud, dupe, gull, pigeon, trick, }
+{fool, clod} => {fool, clod, clown, gawk, }
+(Skipping clown).
+{fool, comedian} => {fool, comedian, clown, jester, }
+{fool, comic} => {fool, comic, clown, comedian, jester, }
+{fool, con} => {fool, con, cheat, chisel, defraud, gull, have, pigeon, swindle, victimize, }
+(Skipping crazy).
+(Skipping credulous).
+{fool, cretin} => {fool, cretin, natural, }
+{fool, cull} => 

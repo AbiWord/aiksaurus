@@ -1,0 +1,43 @@
+TARGETS = UnImplementMeanings \
+          ImplMeanings \
+          RatioStats \
+          RatioAdder \
+          RandomWords \
+          WordInspect \
+          LinkWords \
+          ExtractWords \
+          MergeEngine \
+          SplitBad \
+          HexView \
+          WordStats \
+          SortLinks \
+          BigWords \
+          ImplWords \
+          FileArray.t \
+          UnLink \
+          ImplMeaningsTxt \
+          InsensitiveSorter \
+          SortMeanings \
+          MkOffsetTable 
+
+MkOffsetTable :         MkOffsetTable.o Arguments.o            
+SortMeanings :          SortMeanings.o
+InsensitiveSorter :     InsensitiveSorter.o 
+UnImplementMeanings :   UnImplementMeanings.o MeaningStream.o Arguments.o
+ImplMeaningsTxt  :      ImplMeaningsTxt.o Meanings.o
+ImplMeanings :          ImplMeanings.o Meanings.o Arguments.o 
+ImplWords :             ImplWords.o Arguments.o 
+RatioStats :            RatioStats.o Meanings.o
+RatioAdder :            RatioAdder.o Ratios.o Meanings.o FastSaurus.o 
+WordStats :             WordStats.o
+RandomWords :           RandomWords.o Meanings.o Words.o FastSaurus.o Ratios.o
+WordInspect :           WordInspect.o Meanings.o Words.o Ratios.o FastSaurus.o
+LinkWords :             LinkWords.o Meanings.o Arguments.o
+ExtractWords :          ExtractWords.o 
+MergeEngine :           MergeEngine.o SmallMerge.o Meanings.o Arguments.o
+SplitBad :              SplitBad.o Meanings.o FastSaurus.o Ratios.o Arguments.o
+HexView :               HexView.o
+SortLinks :             SortLinks.o
+BigWords :              BigWords.o Arguments.o
+FileArray.t :           FileArray.t.o FileArray.o
+UnLink :                UnLink.o Meanings.o Ratios.o FastSaurus.o
