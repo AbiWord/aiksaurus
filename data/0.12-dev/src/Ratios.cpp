@@ -1,5 +1,7 @@
 #include "FastSaurus.h"
 #include "Ratios.h"
+
+using namespace std;
     
 double 
 returnLinkRatio(const std::string& word, const MeaningSet& meanings)

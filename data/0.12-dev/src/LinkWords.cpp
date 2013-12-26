@@ -4,19 +4,20 @@
 #include <fstream>
 #include <map>
 #include <algorithm>
+#include <iterator>
 using namespace std;
 
 class WriteFile
 {
     private:
-        ostream& d_out;
+        std::ostream& d_out;
 
         static vector<int> d_sizes;
         static int d_max, d_min;
         
     public:
         
-        WriteFile(ostream& out) 
+        WriteFile(std::ostream& out) 
         : d_out(out) 
         {
         

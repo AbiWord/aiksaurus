@@ -116,9 +116,9 @@ AiksaurusImpl::WordsFile::maxWordLength()
 AiksaurusImpl::WordsFile::WordsFile(const char* fname)
 {
     bool ok;
-    d_data_ptr = new(nothrow) FileArray(fname, s_structsize, ok);
-    d_word = new(nothrow) char[s_maxwords + 1];
-    d_links = new(nothrow) int[s_maxlinks + 1];
+    d_data_ptr = new(std::nothrow) FileArray(fname, s_structsize, ok);
+    d_word = new(std::nothrow) char[s_maxwords + 1];
+    d_links = new(std::nothrow) int[s_maxlinks + 1];
     
     // Ensure that all of our memory allocations succeeded.
     if (!d_data_ptr || !d_word || !d_links)

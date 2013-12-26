@@ -48,11 +48,11 @@
     void extractMeaningFamily(
             std::istream& lines, 
             MeaningFamily& family,
-            vector<double>& dlrs, 
-            vector<double>& rlrs
+            std::vector<double>& dlrs, 
+            std::vector<double>& rlrs
     );
 
-    bool inMeaningSet(const string& str, const MeaningSet& ms);
+    bool inMeaningSet(const std::string& str, const MeaningSet& ms);
 
     class ostream;
     void printMeaningSet(ostream& out, const MeaningSet& ms);

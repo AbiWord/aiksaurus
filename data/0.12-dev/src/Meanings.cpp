@@ -2,12 +2,14 @@
 #include <strstream>
 #include <algorithm>
 #include <iostream>
+#include <iterator>
+
 using namespace std;
 
 static const int MAX_LINE_SIZE = 64000;
 
 
-void printMeaningSet(ostream& out, const MeaningSet& set)
+void printMeaningSet(std::ostream& out, const MeaningSet& set)
 {
     out << "{ ";
     copy(set.begin(), set.end(), ostream_iterator<string>(cout, ", "));

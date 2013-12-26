@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <string>
+#include <iterator>
 using namespace std;
 
 typedef vector<int> LinkList;

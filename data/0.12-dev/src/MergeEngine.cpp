@@ -5,6 +5,7 @@
 #include <fstream>
 #include <cmath>
 #include <ctime>
+#include <iterator>
 using namespace std;
 
 static void
@@ -19,10 +20,10 @@ makeName(string basename, int index, string& name)
 
 class OutputMeaningSet
 {
-    ostream& d_out;
+    std::ostream& d_out;
     
     public:
-        OutputMeaningSet(ostream& out) : d_out(out) { }
+        OutputMeaningSet(std::ostream& out) : d_out(out) { }
 
         void operator()(const MeaningSet& x)
         {

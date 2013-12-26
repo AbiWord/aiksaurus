@@ -2,6 +2,7 @@
 #include "SetUtils.h"
 #include <algorithm> // needed for std::binary_search
 #include <iostream> // needed for std::cout
+#include <iterator>
 using namespace std;
 
 // DEBUGGING OPTIONS: 

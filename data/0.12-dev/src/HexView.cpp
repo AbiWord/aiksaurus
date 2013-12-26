@@ -6,6 +6,8 @@
 #include <iomanip>
 #include <string>
 
+using namespace std;
+
 int main(int argc, const char** argv)
 {
 	int mode = 0;

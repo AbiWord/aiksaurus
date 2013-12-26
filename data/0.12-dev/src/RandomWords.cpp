@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <strstream>
 #include <map>
+#include <iterator>
 using namespace std;
 
 

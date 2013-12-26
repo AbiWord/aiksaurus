@@ -16,7 +16,7 @@ class AikSaurusFAST
 
         AikSaurusFAST();
         
-        const std::vector<std::string>& getSynonyms(const string& word);
+        const std::vector<std::string>& getSynonyms(const std::string& word);
 };
 
 extern AikSaurusFAST Thesaurus;

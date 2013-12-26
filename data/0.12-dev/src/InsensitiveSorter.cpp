@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <vector>
 #include <cstring>
+#include <iterator>
 #include "InsensitiveSort.h"
 using namespace std;
 
