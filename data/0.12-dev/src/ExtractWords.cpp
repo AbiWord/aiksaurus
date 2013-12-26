@@ -4,9 +4,6 @@
 #include <set>
 #include <strstream>
 #include <algorithm>
-#include <iterator>
-
-using namespace std;
 
 class insensitiveStringCompare
 {
@@ -24,17 +21,17 @@ class insensitiveStringCompare
 int main()
 {
     string s;
-    
+
     set<string> words;
-    
+
     while(cin >> s)
-        words.insert(s);    
-    
+        words.insert(s);
+
     vector<string> v;
     v.reserve(words.size());
-    
+
     copy(words.begin(), words.end(), back_inserter(v));
-    
+
     sort(v.begin(), v.end(), insensitiveStringCompare());
     copy(v.begin(), v.end(), ostream_iterator<string>(cout, "\n"));
 

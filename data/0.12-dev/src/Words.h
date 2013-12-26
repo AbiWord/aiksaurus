@@ -9,21 +9,21 @@ class Word
     private:
         std::string d_name;
         std::vector<int> d_meanings;
-        
-    public:   
+
+    public:
         Word(const char* line);
-        
+
         std::string& getWord()
         {
             return d_name;
         }
-        
+
         std::vector<int>& getMeanings()
         {
             return d_meanings;
         }
 };
 
-void extractWords(std::istream& file, std::vector<Word>& words);
+void extractWords(istream& file, vector<Word>& words);
 
 #endif // INCLUDED_WORDS_H

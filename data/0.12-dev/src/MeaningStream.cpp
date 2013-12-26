@@ -15,7 +15,7 @@ MeaningStream::~MeaningStream()
 
 bool MeaningStream::operator>>(int& id)
 {
-    char x1, x2;
+    unsigned char x1, x2;
 
     if (!d_in.get(x1))
         return false;

@@ -15,10 +15,10 @@ class AikSaurusFAST
     public:
 
         AikSaurusFAST();
-        
-        const std::vector<std::string>& getSynonyms(const std::string& word);
+
+        const std::vector<std::string>& getSynonyms(const string& word);
 };
 
 extern AikSaurusFAST Thesaurus;
 
-#endif 
+#endif

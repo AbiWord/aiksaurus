@@ -1,37 +1,36 @@
 /*
  * Arguments 2.0 Beta - A Command Line Processing Library
- * Copyright (C) 2000, 2001 Jared Davis 
+ * Copyright (C) 2000, 2001 Jared Davis
  *
- * This program is free software; you can redistribute it and/or modify it 
- * under the terms of the GNU General Public License as published by the 
- * Free Software Foundation; either version 2 of the License, or (at your 
- * option) any later version. 
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the
+ * Free Software Foundation; either version 2 of the License, or (at your
+ * option) any later version.
  *
- * This program is distributed in the hope that it will be useful, but 
- * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY 
- * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License 
- * for more details. 
+ * This program is distributed in the hope that it will be useful, but
+ * WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+ * or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
+ * for more details.
  *
- * You should have received a copy of the GNU General Public License along 
- * with this program; if not, write to the Free Software Foundation, Inc., 
- * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA. 
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
  */
 
 #include "Arguments.h"
 #include <algorithm>
-#include <iterator>
 
 using namespace std;
 
 std::vector<std::string> Arguments::s_spaceArgs;
 
-// 
+//
 // ExplodeString function
 // ----------------------
 //   Explodes a string into tokens, which it adds to a vector.
 //   (This function is taken from the AFA library, also by Jared Davis)
 //
-void Arguments::ExplodeString(const std::string& str, std::vector<std::string>& tokens, char delimiter) 
+void Arguments::ExplodeString(const std::string& str, std::vector<std::string>& tokens, char delimiter)
 throw(std::bad_alloc)
 {
 	string::size_type next, prev = 0;
@@ -39,7 +38,7 @@ throw(std::bad_alloc)
 	do
 	{
 		next = str.find(delimiter, prev);
-		
+
 		tokens.push_back( str.substr(prev, next - prev) );
 
 		prev = next + 1;
@@ -47,10 +46,10 @@ throw(std::bad_alloc)
 	} while(next != string::npos);
 }
 
-// 
+//
 // findArgument
 // ------------
-//   Performs a binary search on the argument vector and returns the integer 
+//   Performs a binary search on the argument vector and returns the integer
 //   corresponding to the argument, if it exists.  Otherwise returns -1.
 //   arg is a pipe-delimited list of acceptable arguments.
 //
@@ -73,17 +72,17 @@ int Arguments::findArgument(const string& arg) const throw()
 		{
 			unsigned int mid = (low + high) / 2;
 
-			if (tokens[i] < d_arguments[mid].first)	
+			if (tokens[i] < d_arguments[mid].first)
 			{
 				high = mid - 1;
 			}
 
-			else if (tokens[i] > d_arguments[mid].first) 
+			else if (tokens[i] > d_arguments[mid].first)
 			{
 				low = mid + 1;
 			}
-			
-			else 
+
+			else
 			{
 				return mid;
 			}
@@ -94,13 +93,13 @@ int Arguments::findArgument(const string& arg) const throw()
 }
 
 
-// 
+//
 // Arguments::setArgumentsWithSpaces
 // ---------------------------------
 //   Adds all tokens of the pipe-delimited string, args, to the
 //   spaces vector.  keeps the vector sorted.
 //
-void Arguments::setArgumentsWithSpaces(const string& args) 
+void Arguments::setArgumentsWithSpaces(const string& args)
 throw(std::bad_alloc)
 {
 	ExplodeString(args, s_spaceArgs, '|');
@@ -111,7 +110,7 @@ throw(std::bad_alloc)
 Arguments::Arguments(int argc, const char** argv) throw(std::bad_alloc)
 {
 	// start at 1 to skip program's name.
-	for(int i = 1;i < argc;++i)   
+	for(int i = 1;i < argc;++i)
 	{
 		// Extract this token.
 		string this_arg = argv[i];
@@ -126,8 +125,8 @@ Arguments::Arguments(int argc, const char** argv) throw(std::bad_alloc)
 		// Add arg/val pair if we have a colon or equals sign.
 		if (colon != string::npos)
 		{
-			d_arguments.push_back(make_pair( 
-				this_arg.substr(0, colon), 
+			d_arguments.push_back(make_pair(
+				this_arg.substr(0, colon),
 				make_pair(this_arg.substr(colon + 1), true)
 			));
 
@@ -141,7 +140,7 @@ Arguments::Arguments(int argc, const char** argv) throw(std::bad_alloc)
 			if (std::binary_search(s_spaceArgs.begin(), s_spaceArgs.end(), this_arg))
 			{
 				d_arguments.push_back(make_pair(
-					this_arg, 
+					this_arg,
 					make_pair(argv[++i], true)
 				));
 
@@ -150,10 +149,10 @@ Arguments::Arguments(int argc, const char** argv) throw(std::bad_alloc)
 		}
 
 		// If we get here, we either don't have a space, or we are at the last
-		// argument that we were passed, so we can't possibly have a value for 
+		// argument that we were passed, so we can't possibly have a value for
 		// this argument. Throw it into the map with an empty value.
 		d_arguments.push_back(make_pair(
-			this_arg, 
+			this_arg,
 			make_pair(string(""), false)
 		));
 	}
@@ -163,12 +162,12 @@ Arguments::Arguments(int argc, const char** argv) throw(std::bad_alloc)
 }
 
 
-// 
+//
 // Arguments::size
 // ---------------
-//   Returns the number of command-line arguments that your program was passed. 
-//   This is not the same as argc: it does not include your program's name, nor 
-//   does it include the values passed to your command-line arguments. 
+//   Returns the number of command-line arguments that your program was passed.
+//   This is not the same as argc: it does not include your program's name, nor
+//   does it include the values passed to your command-line arguments.
 //
 unsigned int Arguments::size() const throw()
 {
@@ -176,7 +175,7 @@ unsigned int Arguments::size() const throw()
 }
 
 
-// 
+//
 // Arguments::has
 // --------------
 //   Cycle through the tokens of argument and return true if any of them
@@ -204,7 +203,7 @@ bool Arguments::has(const std::string& argument) const throw(std::bad_alloc)
 		cout << "Arguments Map: " << size() << " Elements. " << endl;
 		for(unsigned int i = 0;i < size();++i)
 		{
-			cout << "\t" << d_arguments[i].first << " = " << d_arguments[i].second.first << "   (" 
+			cout << "\t" << d_arguments[i].first << " = " << d_arguments[i].second.first << "   ("
 				<< d_arguments[i].second.second << ")\n";
 		}
 		cout << "\n-----End of Arguments Debug Information" << endl;

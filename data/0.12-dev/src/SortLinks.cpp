@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <vector>
 #include <string>
-#include <iterator>
 using namespace std;
 
 typedef vector<int> LinkList;
@@ -20,23 +19,23 @@ class LLSorter
 
             if (lsize == rsize)
                return lhs.first < rhs.first;
-            
+
             else
                return lhs.second.size() < rhs.second.size();
-        }   
+        }
 };
 
 class LLPrinter
 {
     ostream& d_out;
-    
+
     public:
         LLPrinter(ostream& out) : d_out(out) {}
 
         void operator()(const lnode& x)
         {
             d_out << x.first << ' ';
-            copy(x.second.begin(), x.second.end(), 
+            copy(x.second.begin(), x.second.end(),
                  ostream_iterator<int>(cout, " "));
             d_out << '\n';
         }
@@ -47,7 +46,7 @@ int main()
     char buf[64000];
 
     StrLinkList words;
-    
+
     while(cin.getline(buf, 64000))
     {
         istrstream ss(buf);
@@ -65,6 +64,6 @@ int main()
     sort(words.begin(), words.end(), LLSorter());
 
     for_each(words.begin(), words.end(), LLPrinter(cout));
-    
+
     return 0;
 }

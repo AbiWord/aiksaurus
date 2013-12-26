@@ -2,14 +2,12 @@
 #include <strstream>
 #include <algorithm>
 #include <iostream>
-#include <iterator>
-
 using namespace std;
 
 static const int MAX_LINE_SIZE = 64000;
 
 
-void printMeaningSet(std::ostream& out, const MeaningSet& set)
+void printMeaningSet(ostream& out, const MeaningSet& set)
 {
     out << "{ ";
     copy(set.begin(), set.end(), ostream_iterator<string>(cout, ", "));
@@ -23,7 +21,7 @@ bool inMeaningSet(const string& str, const MeaningSet& set)
 }
 
 
-// extractMeaningSet: 
+// extractMeaningSet:
 //   generate a meaning set from a line of input.
 //   words assumed to be separated by spaces.
 void extractMeaningSet(const char* line, MeaningSet& set)
@@ -39,9 +37,9 @@ void extractMeaningSet(const char* line, MeaningSet& set)
 
 
 void extractMeaningSet(
-        const char* line, 
-        MeaningSet& set, 
-        double& dlr, 
+        const char* line,
+        MeaningSet& set,
+        double& dlr,
         double& rlr
 )
 {
@@ -56,7 +54,7 @@ void extractMeaningSet(
     }
 }
 
-    
+
 // extractMeaningFamily
 //   generate a family of meaning sets from an
 //   input file.  file format: one meaning set
@@ -68,12 +66,12 @@ void extractMeaningFamily(std::istream& in, MeaningFamily& family)
     while(in.getline(buf, MAX_LINE_SIZE))
     {
         family.push_back(MeaningSet());
-        extractMeaningSet(buf, family.back()); 
+        extractMeaningSet(buf, family.back());
     }
 }
 
 void extractMeaningFamily(
-        std::istream& in, 
+        std::istream& in,
         MeaningFamily& family,
         vector<double>& dlr,
         vector<double>& rlr
@@ -81,7 +79,7 @@ void extractMeaningFamily(
 {
     char buf[MAX_LINE_SIZE];
     double dlr_temp, rlr_temp;
-    
+
     while(in.getline(buf, MAX_LINE_SIZE))
     {
         family.push_back(MeaningSet());

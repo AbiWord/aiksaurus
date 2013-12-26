@@ -1,24 +1,23 @@
 #include "WordsFile.h"
 #include <string>
-#include <iostream>
 #include <fstream>
 
 using namespace AiksaurusImpl;
 int main()
 {
-    std::cout << "Enter input file: " << std::flush;
-    std::string input; std::cin >> input;
+    cout << "Enter input file: " << flush;
+    string input; cin >> input;
  
-    std::cout << "Enter output file: " << std::flush;
-    std::string ofile; std::cin >> ofile;
+    cout << "Enter output file: " << flush;
+    string ofile; cin >> ofile;
 
-    std::ofstream out(ofile.c_str());
+    ofstream out(ofile.c_str());
    
     WordsFile wf(input.c_str());
 
     if (wf.getError().isError())
     {
-        std::cerr << wf.getError().getDescription() << std::endl;
+        cerr << wf.getError().getDescription() << endl;
         return 1;
     }
     
@@ -28,7 +27,7 @@ int main()
 
         if (wf.getError().isError())
         {
-            std::cerr << wf.getError().getDescription() << std::endl;
+            cerr << wf.getError().getDescription() << endl;
             return 1;
         }
         
