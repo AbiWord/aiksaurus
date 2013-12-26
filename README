@@ -27,10 +27,24 @@ Relevant Directories:
 Thesaurus Development
 =====================
 
-* POSSIBLY OBSOLETE INFO *
+There is some good documentation available at the developer section
+of the web site:
+
+    http://www.aiksaurus.com/developers/
+     
 
 If you want to do work on the thesaurus data, i.e. add synonyms or 
-so forth, please contact Jared Davis <jared@cs.utexas.edu> and ask
-for a copy of the data tools.  They are about 100 MB so I am not 
-going to put them in CVS.
+so forth, please visit 
+
+    http://www.aiksaurus.com/developers/datatools/
+
+The data tools are very large (~100MB!) so I've kept them out of CVS.
+
+
+Feel free to contact me with any questions!  I'd love to hear about 
+what you're working on.
+
+    Jared Davis
+    jared@aiksaurus.com
+   
 
