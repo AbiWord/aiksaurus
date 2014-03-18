@@ -308,7 +308,7 @@ AiksaurusGTK_picbutton::selectionDone()
 //  just call menuActivate on the correct picbutton.
 //
 void
-AiksaurusGTK_picbutton::cbMenuActivate(GtkMenuItem*, gpointer data)
+AiksaurusGTK_picbutton::cbMenuActivate(GtkMenuItem* item, gpointer data)
 {
     static_cast<AiksaurusGTK_menudata*>(data)->d_picbutton_ptr->menuActivate(data);
 }
