@@ -1,12 +1,12 @@
-AM_CXXFLAGS = @GTK_CFLAGS@ @GTK_DEFS@ -Wall -I../.. -I$(top_srcdir)/base
+AM_CXXFLAGS = @GTK2_CFLAGS@ @GTK2_DEFS@ -Wall -I../.. -I$(top_srcdir)/base
 
-lib_LTLIBRARIES = libAiksaurusGTK3.la
+lib_LTLIBRARIES = libAiksaurusGTK.la
 
-libAiksaurusGTK3_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_AIKGTK_VERSION_INFO) -export-dynamic
+libAiksaurusGTK_la_LDFLAGS = -no-undefined -release $(LT_RELEASE) -version-info $(LT_AIKGTK_VERSION_INFO) -export-dynamic
 
-libAiksaurusGTK3_la_LIBADD = $(GTK_LIBS) ../../base/libAiksaurus.la
+libAiksaurusGTK_la_LIBADD = $(GTK2_LIBS) ../../base/libAiksaurus.la
 
-libAiksaurusGTK3_la_SOURCES = \
+libAiksaurusGTK_la_SOURCES = \
 	AiksaurusGTK.cpp \
 	AiksaurusGTK_histlist.cpp \
 	AiksaurusGTK_history.cpp \
@@ -38,10 +38,5 @@ OTHERHEADERS = \
 	Meaning.h \
 	Replacebar.h \
 	Toolbar.h
-
-bin_PROGRAMS = gaiksaurus
-
-gaiksaurus_SOURCES = gtkAiksaur.t.cpp
-gaiksaurus_LDADD = $(GTK_LIBS) libAiksaurusGTK3.la 
 
 EXTRA_DIST = $(OTHERHEADERS)

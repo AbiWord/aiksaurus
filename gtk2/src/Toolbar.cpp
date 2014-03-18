@@ -23,28 +23,29 @@
 #include "DialogMediator.h"
 #include <gdk/gdkkeysyms.h>
 
-namespace AiksaurusGTK_impl
+namespace AiksaurusGTK_impl 
 {
 
     Toolbar::Toolbar(DialogMediator& mediator, GtkWidget* window) throw(std::bad_alloc)
-        : d_mediator(mediator),
-          d_searchbar_words(12),
-          d_ishistorymove(false),
+        : d_mediator(mediator), 
+          d_searchbar_words(12), 
+          d_ishistorymove(false), 
           d_searchhack(false),
           d_window_ptr(window)
     {
-        d_toolbar_ptr = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,	0);
+        d_tooltips_ptr = gtk_tooltips_new();
+        d_toolbar_ptr = gtk_hbox_new(false,	0);
 
         // Create back button and menu
-        d_backbutton_box_ptr = gtk_box_new(GTK_ORIENTATION_HORIZONTAL,	0);
-        d_backbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, "go-previous");
+        d_backbutton_box_ptr = gtk_hbox_new(false, 0);
+        d_backbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, GTK_STOCK_GO_BACK);
         d_backbutton_ptr->addMenu(d_history.list_back(), G_CALLBACK(_backMenuClicked), this);
         d_backbutton_ptr->limitVisibleOptions(10);
         _setTooltip(d_backbutton_ptr->getButton(), "Back");
 
         // Create forward button and menu
-        d_forwardbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, "go-next");
-        d_forwardbutton_ptr->addMenu(d_history.list_forward(),
+        d_forwardbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, GTK_STOCK_GO_FORWARD);
+        d_forwardbutton_ptr->addMenu(d_history.list_forward(), 
                                      G_CALLBACK(_forwardMenuClicked), this);
         d_forwardbutton_ptr->limitVisibleOptions(10);
         _setTooltip(d_forwardbutton_ptr->getButton(), "Forward");
@@ -52,11 +53,13 @@ namespace AiksaurusGTK_impl
 
         // Create search dropdown bar.
         d_searchbar_label_ptr = gtk_label_new("  Look up:");
-        d_searchbar_ptr = gtk_combo_box_text_new_with_entry();
-        _setTooltip(GTK_WIDGET(gtk_bin_get_child(GTK_BIN(d_searchbar_ptr))), "Enter word to look up");
+        d_searchbar_ptr = gtk_combo_new();
+        gtk_combo_set_use_arrows(GTK_COMBO(d_searchbar_ptr), false);
+        gtk_combo_disable_activate(GTK_COMBO(d_searchbar_ptr));
+        _setTooltip(GTK_WIDGET(GTK_COMBO(d_searchbar_ptr)->entry), "Enter word to look up");
 
         // Create search button
-        d_searchbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, "go-jump");
+        d_searchbutton_ptr = new AiksaurusGTK_picbutton(d_window_ptr, GTK_STOCK_JUMP_TO);
         _setTooltip(d_searchbutton_ptr->getButton(), "Find Synonyms");
 
 
@@ -70,6 +73,7 @@ namespace AiksaurusGTK_impl
         gtk_box_pack_start(GTK_BOX(d_toolbar_ptr), d_searchbar_ptr, 1, 1, 5);
         gtk_box_pack_start(GTK_BOX(d_toolbar_ptr), d_searchbutton_ptr->getButton(), 0, 0, 4);
 
+
         // Connect all relevant signals.
         g_signal_connect(G_OBJECT(d_backbutton_ptr->getButton()), "clicked",
                            G_CALLBACK(_backClicked), this);
@@ -77,11 +81,11 @@ namespace AiksaurusGTK_impl
                            G_CALLBACK(_forwardClicked), this);
         g_signal_connect(G_OBJECT(d_searchbutton_ptr->getButton()), "clicked",
                            G_CALLBACK(_searchClicked), this);
-        g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(d_searchbar_ptr))), "activate",
+        g_signal_connect(G_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), "activate",
                            G_CALLBACK(_searchBarActivate), this);
-        g_signal_connect(G_OBJECT(GTK_COMBO_BOX(d_searchbar_ptr)), "popdown",
+        g_signal_connect(G_OBJECT(GTK_COMBO(d_searchbar_ptr)->popwin), "hide",
                            G_CALLBACK(_searchBarHide), this);
-        g_signal_connect(G_OBJECT(gtk_bin_get_child(GTK_BIN(d_searchbar_ptr))), "changed",
+        g_signal_connect(G_OBJECT(GTK_COMBO(d_searchbar_ptr)->entry), "changed",
                            G_CALLBACK(_searchBarChanged), this);
 
         _updateNavigation();
@@ -91,7 +95,7 @@ namespace AiksaurusGTK_impl
     {
 
     }
-
+    
     void Toolbar::_updateNavigation() throw(std::bad_alloc)
     {
         if (d_history.size_back())
@@ -115,30 +119,29 @@ namespace AiksaurusGTK_impl
     {
         if (!d_ishistorymove)
             d_history.search(str);
-		GtkComboBoxText *combo = GTK_COMBO_BOX_TEXT(d_searchbar_ptr);
 
         _updateNavigation();
 
         d_searchbar_words.addItem(str);
-		gtk_combo_box_text_remove_all(combo);
-		const GList *ptr = d_searchbar_words.list();
-		for (; ptr; ptr = ptr->next)
-			gtk_combo_box_text_append_text(combo, reinterpret_cast<const char*>(ptr->data));
+        gtk_combo_set_popdown_strings(
+            GTK_COMBO(d_searchbar_ptr),
+            const_cast<GList*>(d_searchbar_words.list())
+        );
     }
-
+   
     void Toolbar::_setTooltip(GtkWidget* w, const char* str) throw()
     {
-        gtk_widget_set_tooltip_text(w,	str);
+        gtk_tooltips_set_tip(d_tooltips_ptr, w,	str, 0);
     }
-
+ 
     void Toolbar::focus() throw()
     {
-        gtk_window_set_focus(GTK_WINDOW(d_window_ptr), gtk_bin_get_child(GTK_BIN(d_searchbar_ptr)));
+        gtk_window_set_focus(GTK_WINDOW(d_window_ptr), GTK_COMBO(d_searchbar_ptr)->entry);
     }
-
+    
     const char* Toolbar::getText() const throw()
     {
-        return gtk_entry_get_text(GTK_ENTRY(gtk_bin_get_child(GTK_BIN(d_searchbar_ptr))));
+        return gtk_entry_get_text(GTK_ENTRY(GTK_COMBO(d_searchbar_ptr)->entry));
     }
 
     GtkWidget* Toolbar::getToolbar() throw()
@@ -147,7 +150,7 @@ namespace AiksaurusGTK_impl
     }
 
 
-
+    
     void Toolbar::_backClicked(GtkWidget* w, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);
@@ -183,17 +186,15 @@ namespace AiksaurusGTK_impl
         tb->d_mediator.eventSearch( tb->d_history.current() );
         tb->d_ishistorymove = false;
     }
-
+    
     void Toolbar::_searchBarChanged(GtkWidget* w, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);
-		bool popup_visible;
-		g_object_get (tb->d_searchbar_ptr, "popup-shown", &popup_visible, NULL);
 
-        if (popup_visible)
+        if (GTK_WIDGET_VISIBLE(GTK_COMBO(tb->d_searchbar_ptr)->popwin))
             tb->d_searchhack = true;
-    }
-
+    }   
+    
     void Toolbar::_searchBarHide(GtkWidget* w, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);

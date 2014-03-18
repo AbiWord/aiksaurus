@@ -27,9 +27,9 @@ using namespace std;
 // AiksaurusGTK_menudata class
 // ---------------------------
 //   This is a hack job that allows us to pass more info through
-//   the gtk callback functions.
+//   the gtk callback functions.  
 //
-//   See the comments in the menu functions below for an explanation of why
+//   See the comments in the menu functions below for an explanation of why 
 //   this is here and what it is used for.
 //
 class AiksaurusGTK_menudata
@@ -57,6 +57,8 @@ class AiksaurusGTK_menudata
 AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char* stock)
 {
 	d_window_ptr = window;
+	d_style_ptr = gtk_widget_get_style(window);
+
 
     // Initialize with no menu stuff at all.
 	d_hasmenu = false;
@@ -72,12 +74,15 @@ AiksaurusGTK_picbutton::AiksaurusGTK_picbutton(GtkWidget *window, const char* st
 
 	d_button_ptr = gtk_button_new();
 	gtk_widget_show(d_button_ptr);
-	gtk_widget_set_can_focus (d_button_ptr, false);
-
-	d_pixmap_ptr = gtk_image_new_from_icon_name(stock,GTK_ICON_SIZE_SMALL_TOOLBAR);
+	GTK_WIDGET_UNSET_FLAGS(
+		d_button_ptr, 
+		GTK_CAN_FOCUS
+	);
+	
+	d_pixmap_ptr = gtk_image_new_from_stock(stock,GTK_ICON_SIZE_SMALL_TOOLBAR);
 
 	gtk_widget_show(d_pixmap_ptr);
-
+	
 	gtk_container_add(
 		GTK_CONTAINER(d_button_ptr),
 		d_pixmap_ptr
@@ -108,12 +113,12 @@ AiksaurusGTK_picbutton::~AiksaurusGTK_picbutton()
 {
     // TO DO: what if this is null?
     gtk_widget_destroy(d_menu_ptr);
-
+    
     if (d_menu_data_ptr != NULL)
         delete[] d_menu_data_ptr;
 }
 
-GtkWidget*
+GtkWidget* 
 AiksaurusGTK_picbutton::getButton()
 {
 	return d_button_ptr;
@@ -264,7 +269,7 @@ void
 AiksaurusGTK_picbutton::popMenu()
 {
 	d_menushowing = true;
-
+	
     gtk_menu_popup(
 		GTK_MENU(d_menu_ptr),
 		NULL,
@@ -279,13 +284,13 @@ AiksaurusGTK_picbutton::popMenu()
 
 //
 // popupFunction: invoked by gtk_menu_popup in popMenu().
-//   Calculates the coordinates for the popup menu to appear at.
+//   Calculates the coordinates for the popup menu to appear at. 
 //
 void
 AiksaurusGTK_picbutton::popupFunction(int* x, int* y)
 {
-	gdk_window_get_origin(gtk_widget_get_window (d_button_ptr), x, y);
-	(*y) += gtk_widget_get_allocated_height (d_button_ptr);
+	gdk_window_get_origin(d_button_ptr->window, x, y);
+	(*y) += d_button_ptr->allocation.height;
 }
 
 
@@ -302,12 +307,12 @@ AiksaurusGTK_picbutton::selectionDone()
 }
 
 
-//
+// 
 // cbMenuActivate: invoked when menu option is clicked.
 //  gpointer is a pointer-to-AiksaurusGTK_menudata (implemented at top of file).
 //  just call menuActivate on the correct picbutton.
 //
-void
+void 
 AiksaurusGTK_picbutton::cbMenuActivate(GtkMenuItem* item, gpointer data)
 {
     static_cast<AiksaurusGTK_menudata*>(data)->d_picbutton_ptr->menuActivate(data);
@@ -317,7 +322,7 @@ AiksaurusGTK_picbutton::cbMenuActivate(GtkMenuItem* item, gpointer data)
 // menuActivate: invoked by cbMenuActivate
 //  gpointer is pointer-to-AiksaurusGTK_menudata (implemented at top of file).
 //  call a callback function of the form
-//     void callback(GList* entry, gpointer data)
+//     void callback(GList* entry, gpointer data) 
 //  where 'data' is user-data send to addMenu function.
 //
 typedef void (*AikCallbackFn)(gpointer, gpointer);
@@ -333,13 +338,13 @@ AiksaurusGTK_picbutton::menuActivate(gpointer item)
 }
 
 
-//
+// 
 // addMenu function: invoked by user.
 //   add a menu button to the picbutton and prepare for running a menu.
 //
 void
 AiksaurusGTK_picbutton::addMenu
-(const AiksaurusGTK_strlist& options, GCallback onClick, gpointer onClickData)
+(const AiksaurusGTK_strlist& options, GtkSignalFunc onClick, gpointer onClickData)
 {
     d_onclick_function = onClick;
     d_onclick_data = onClickData;
@@ -349,7 +354,10 @@ AiksaurusGTK_picbutton::addMenu
 	d_menu_button_ptr = gtk_button_new();
 	gtk_widget_show(d_menu_button_ptr);
 
-	gtk_widget_set_can_focus(d_menu_button_ptr, false);
+	GTK_WIDGET_UNSET_FLAGS(
+		d_menu_button_ptr,
+		GTK_CAN_FOCUS
+	);
 
 	d_menu_pixmap_widget_ptr = gtk_arrow_new(GTK_ARROW_DOWN,GTK_SHADOW_NONE);
 
@@ -436,7 +444,7 @@ AiksaurusGTK_picbutton::updateMenuOptions()
             if (i >= d_numVisible)
                 break;
         }
-
+        
         d_menu_data_ptr[i].d_picbutton_ptr = this;
         d_menu_data_ptr[i].d_glist_ptr = itor;
 

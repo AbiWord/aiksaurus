@@ -1,7 +1,8 @@
 pkgconfigdir = $(libdir)/pkgconfig
 
-pkgconfig_DATA = gaiksaurus-1.0.pc
+pkgconfig_DATA = aiksaurusgtk3-1.0.pc
 
 SUBDIRS = src 
 
-EXTRA_DIST = gaiksaurus-1.0.pc.in
+EXTRA_DIST = aiksaurusgtk3-1.0.pc.in
+

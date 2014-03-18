@@ -1,5 +1,5 @@
 /*
- * AiksaurusGTK - A GTK interface to the Aiksaurus library
+ * AiksaurusGTK - A GTK interface to the AikSaurus library
  * Copyright (C) 2001 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
@@ -18,26 +18,36 @@
  * 02111-1307, USA.
  */
 
-#ifndef INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
-#define INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
+#ifndef INCLUDED_JARED_GPL_AIKSAURUSGTK_HISTORYLIST_H
+#define INCLUDED_JARED_GPL_AIKSAURUSGTK_HISTORYLIST_H
 
-namespace AiksaurusGTK_impl
+#include <glib.h>
+
+class AiksaurusGTK_strlist;
+class AiksaurusGTK_histlist
 {
-    class Exception
-    {
-        private:
-            const char* d_description;
+	private:
 
-        public:
+		AiksaurusGTK_strlist* d_list_ptr;
+		unsigned int d_maxElements;
+		
+		// Prevent copying and assignment.
+		AiksaurusGTK_histlist(const AiksaurusGTK_histlist& rhs);
+		const AiksaurusGTK_histlist& operator=(const AiksaurusGTK_histlist& rhs);
+		
+	public:
 
-            Exception(const char* description) throw()
-                : d_description(description) { }
+		AiksaurusGTK_histlist(unsigned int maxElements);
+		~AiksaurusGTK_histlist();
 
-            const char* getDescription() const throw()
-                { return d_description; }
+		void addItem(const char* str);
 
-            static const char* CANNOT_ALLOCATE_MEMORY;
-    };
-}
+		const GList* list() const;	
 
-#endif // INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
+		#ifndef NDEBUG
+		void debug();
+		#endif // NDEBUG
+};
+
+
+#endif // INCLUDED_JARED_GPL_AIKSAURUSGTK_HISTLIST_H

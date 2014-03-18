@@ -1,5 +1,5 @@
 /*
- * AiksaurusGTK - A GTK interface to the Aiksaurus library
+ * AiksaurusGTK - A GTK interface to the AikSaurus library
  * Copyright (C) 2001 by Jared Davis
  *
  * This program is free software; you can redistribute it and/or
@@ -18,26 +18,34 @@
  * 02111-1307, USA.
  */
 
-#ifndef INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
-#define INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
+#ifndef INCLUDED_JARED_GPL_AIKSAURUSGTK_H
+#define INCLUDED_JARED_GPL_AIKSAURUSGTK_H
 
 namespace AiksaurusGTK_impl
 {
-    class Exception
+    class DialogImpl;
+    class AiksaurusGTK
     {
         private:
-            const char* d_description;
-
+            AiksaurusGTK(const AiksaurusGTK& rhs);
+            AiksaurusGTK& operator=(const AiksaurusGTK& rhs);
+            
+            DialogImpl* d_impl_ptr;
+            
         public:
-
-            Exception(const char* description) throw()
-                : d_description(description) { }
-
-            const char* getDescription() const throw()
-                { return d_description; }
-
-            static const char* CANNOT_ALLOCATE_MEMORY;
+            AiksaurusGTK();
+            ~AiksaurusGTK();
+            
+            void setTitle(const char* title);
+           
+            void setInitialMessage(const char* message); 
+            void showReplacebar();
+            void hideReplacebar();
+            
+            const char* runThesaurus(const char* word);
     };
 }
 
-#endif // INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
+typedef AiksaurusGTK_impl::AiksaurusGTK AiksaurusGTK;
+
+#endif // INCLUDED_JARED_GPL_AIKSAURUSGTK_H

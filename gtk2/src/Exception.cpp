@@ -18,26 +18,12 @@
  * 02111-1307, USA.
  */
 
-#ifndef INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
-#define INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
+#include "Exception.h"
 
 namespace AiksaurusGTK_impl
 {
-    class Exception
-    {
-        private:
-            const char* d_description;
-
-        public:
-
-            Exception(const char* description) throw()
-                : d_description(description) { }
-
-            const char* getDescription() const throw()
-                { return d_description; }
-
-            static const char* CANNOT_ALLOCATE_MEMORY;
-    };
+    const char* Exception::CANNOT_ALLOCATE_MEMORY =
+        "Critical Error: Cannot Allocate Memory\n"
+        "A memory request was denied.  Please try to close some programs\n"
+        "and free up some memory.\n";
 }
-
-#endif // INCLUDED_AIKSAURUS_GTK_EXCEPTION_H

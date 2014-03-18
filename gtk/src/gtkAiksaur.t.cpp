@@ -28,16 +28,16 @@ using namespace std;
 
 int main(int argc, char** argv)
 {
-    const char* description = 
+    const char* description =
         "Aiksaurus is an English-language thesuarus library.  This\n"
         "is a graphical interface to it.\n\n"
         "   -v, --version      Output version information and quit.\n"
         "   -h, --help         Output this help message and quit.\n\n"
         "For more information, visit\n"
         "   http://www.aiksaurus.com/\n\n";
-    
+
     const char* license =
-        "AiksaurusGTK, Version " VERSION "\n" 
+        "AiksaurusGTK, Version " VERSION "\n"
         "Copyright (C) 2001 by Jared Davis.\n\n"
         "This program is free software; you can redistribute it and/or\n"
         "modify it under the terms of the GNU General Public License\n"
@@ -51,23 +51,23 @@ int main(int argc, char** argv)
         "along with this program; if not, write to the Free Software\n"
         "Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA\n"
         "02111-1307, USA.\n\n";
-   
-    const char* opening = 
+
+    const char* opening =
         "Welcome to AiksaurusGTK, Version " VERSION "\n"
         "    http://www.aiksaurus.com/\n\n"
-        
+
         "To find synonyms for a word, enter the word into the \"look\n"
         "up\" box above.\n\n"
-        
+
         "Command line arguments are:\n"
         "   --help, -h      Displays a help message, then exits.\n"
-        "   --version, -v  Displays version and license, then exits.\n\n"   
+        "   --version, -v  Displays version and license, then exits.\n\n"
 
         "Also, you can send a word as an argument to this program \n"
         "to skip this screen and jump right to that word.";
-    
+
 	gtk_init(&argc, &argv);
-  
+
     for(int i = 1;i < argc;++i)
     {
         string s(argv[i]);
@@ -78,18 +78,18 @@ int main(int argc, char** argv)
         }
         else if ((s == "--version") || (s == "-v"))
         {
-            cout << license;            
+            cout << license;
             exit(0);
         }
     }
-   
+
     const char* search = (argc > 1) ? (argv[argc-1]) : (0);
-    
-    AiksaurusGTK thesaurus; 
+
+    AiksaurusGTK thesaurus;
     thesaurus.setTitle("AiksaurusGTK");
     thesaurus.setInitialMessage(opening);
     thesaurus.hideReplacebar();
     thesaurus.runThesaurus(search);
-    
+
 	return 0;
 };

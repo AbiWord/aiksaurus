@@ -18,26 +18,26 @@
  * 02111-1307, USA.
  */
 
-#ifndef INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
-#define INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
+#ifndef INCLUDED_AIKSAURUSGTK_C_H
+#define INCLUDED_AIKSAURUSGTK_C_H
 
-namespace AiksaurusGTK_impl
-{
-    class Exception
-    {
-        private:
-            const char* d_description;
+#if defined (__cplusplus)
+extern "C" {
+#endif
 
-        public:
+    int AiksaurusGTK_init();
+    void AiksaurusGTK_destroy();
 
-            Exception(const char* description) throw()
-                : d_description(description) { }
+    void AiksaurusGTK_setTitle(const char* title);
+    void AiksaurusGTK_setInitialMessage(const char* message);
+      
+    void AiksaurusGTK_showReplacebar();
+    void AiksaurusGTK_hideReplacebar();
 
-            const char* getDescription() const throw()
-                { return d_description; }
+    const char* AiksaurusGTK_runThesaurus(const char* word);
 
-            static const char* CANNOT_ALLOCATE_MEMORY;
-    };
+#if defined (__cplusplus)    
 }
+#endif
 
-#endif // INCLUDED_AIKSAURUS_GTK_EXCEPTION_H
+#endif 

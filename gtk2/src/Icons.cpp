@@ -52,7 +52,7 @@ namespace AiksaurusGTK_impl
         };
 
 
-        const char *backHover[] =
+        const char *backHover[] = 
         {
             "20 16 6 1",
             "a c #005d00",
@@ -80,7 +80,7 @@ namespace AiksaurusGTK_impl
         };
 
 
-        const char *forwardNormal[] =
+        const char *forwardNormal[] = 
         {
             "20 16 5 1",
             "c c #4a484a",
@@ -107,7 +107,7 @@ namespace AiksaurusGTK_impl
         };
 
 
-        const char *forwardHover[] =
+        const char *forwardHover[] = 
         {
             "20 16 6 1",
             "d c #005d00",
@@ -135,7 +135,7 @@ namespace AiksaurusGTK_impl
         };
 
 
-        const char *searchNormal[] =
+        const char *searchNormal[] = 
         {
             "61 16 6 1",
             "d c #000000",
@@ -163,7 +163,7 @@ namespace AiksaurusGTK_impl
         };
 
 
-        const char *searchHover[] =
+        const char *searchHover[] = 
         {
             "61 16 7 1",
             "d c #000000",

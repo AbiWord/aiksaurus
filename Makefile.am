@@ -1,4 +1,4 @@
-DIST_SUBDIRS = base gtk data
+DIST_SUBDIRS = base gtk gtk2 data po
 
 if AIK_FE_GTK
 GTKSRCDIR = gtk
@@ -6,17 +6,23 @@ else
 GTKSRCDIR = 
 endif
 
-SUBDIRS = base $(GTKSRCDIR) data
+if AIK_FE_GTK2
+GTK2SRCDIR = gtk2
+else
+GTK2SRCDIR = 
+endif
 
-PHPSOURCES = php/*.png php/*.php php/*.phps
+SUBDIRS = base $(GTKSRCDIR) $(GTK2SRCDIR) data po
 
-COCOASOURCES = cocoa/*.lproj cocoa/*.png cocoa/*.icns cocoa/*.ai \
-	cocoa/app \
-	cocoa/fmwk \
-	cocoa/Aiksaurus.pbproj/project.pbxproj \
-	cocoa/main.m
+# PHPSOURCES = php/*.png php/*.php php/*.phps
 
-WINSOURCES = win/src/*.*
+# COCOASOURCES = cocoa/*.lproj cocoa/*.png cocoa/*.icns cocoa/*.ai \
+#	cocoa/app \
+#	cocoa/fmwk \
+#	cocoa/Aiksaurus.pbproj/project.pbxproj \
+#	cocoa/main.m
+
+# WINSOURCES = win/src/*.*
 
 desktopdir = $(datadir)/applications
 desktop_in_files = gaiksaurus.desktop.in.in
