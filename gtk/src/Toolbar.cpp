@@ -148,7 +148,7 @@ namespace AiksaurusGTK_impl
 
 
 
-    void Toolbar::_backClicked(GtkWidget* w, gpointer data) throw()
+    void Toolbar::_backClicked(GtkWidget*, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);
         tb->d_history.move_back();
@@ -166,7 +166,7 @@ namespace AiksaurusGTK_impl
         tb->d_ishistorymove = false;
     }
 
-    void Toolbar::_forwardClicked(GtkWidget* w, gpointer data) throw()
+    void Toolbar::_forwardClicked(GtkWidget*, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);
         tb->d_history.move_forward();
@@ -184,7 +184,7 @@ namespace AiksaurusGTK_impl
         tb->d_ishistorymove = false;
     }
 
-    void Toolbar::_searchBarChanged(GtkWidget* w, gpointer data) throw()
+    void Toolbar::_searchBarChanged(GtkWidget*, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);
 		bool popup_visible;
@@ -194,7 +194,7 @@ namespace AiksaurusGTK_impl
             tb->d_searchhack = true;
     }
 
-    void Toolbar::_searchBarHide(GtkWidget* w, gpointer data) throw()
+    void Toolbar::_searchBarHide(GtkWidget*, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);
 
@@ -209,7 +209,7 @@ namespace AiksaurusGTK_impl
       _searchClicked(w, data);
     }
 
-    void Toolbar::_searchClicked(GtkWidget* w, gpointer data) throw()
+    void Toolbar::_searchClicked(GtkWidget*, gpointer data) throw()
     {
         Toolbar* tb = static_cast<Toolbar*>(data);
         tb->d_mediator.eventSearch( tb->getText() );

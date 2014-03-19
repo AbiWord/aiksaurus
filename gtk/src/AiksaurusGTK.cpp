@@ -90,7 +90,7 @@ namespace AiksaurusGTK_impl
     }
 
 
-    gint DialogImpl::_closeDialog(GtkWidget *w, GdkEventAny *e, gpointer data)
+    gint DialogImpl::_closeDialog(GtkWidget *, GdkEventAny *, gpointer data)
     {
         DialogImpl* di = static_cast<DialogImpl*>(data);
         di->d_window_ptr = 0;

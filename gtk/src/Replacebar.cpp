@@ -64,14 +64,14 @@ namespace AiksaurusGTK_impl
 
     }
 
-    void Replacebar::_cancelClicked(GtkWidget* w, gpointer data)
+    void Replacebar::_cancelClicked(GtkWidget*, gpointer data)
     {
         Replacebar* rb = static_cast<Replacebar*>(data);
         rb->d_mediator.eventCancel();
     }
 
 
-    void Replacebar::_replaceClicked(GtkWidget* w, gpointer data)
+    void Replacebar::_replaceClicked(GtkWidget*, gpointer data)
     {
         Replacebar* rb = static_cast<Replacebar*>(data);
         rb->d_mediator.eventReplace( rb->getText() );
