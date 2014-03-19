@@ -7,5 +7,5 @@ Name: AiksaurusGTK
 Description: GTK+-3.0 front end for Aiksaurus, an English thesaurus
 Requires: aiksaurus-1.0 gtk+-3.0
 Version: @AIKSAURUS_VERSION@
-Libs: -L${libdir} -lAiksaurusGTK
+Libs: -L${libdir} -lAiksaurusGTK3
 Cflags: -I${includedir}/Aiksaurus
