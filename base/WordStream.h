@@ -23,43 +23,47 @@
 #define INCLUDED_AIKSAURUS_WORDSTREAM_H
 
 #include <queue>
+#include <new>
 
 namespace AiksaurusImpl
 {
-	class WordStream
-	{
-	  private:
+    //
+    // WordStream
+    //   This is a simple wrapper around a queue of integers.
+    //   It's used to represent a stream of words.
+    //
+    class WordStream
+    {
+        private:
+            // No copying or assignment allowed.
+            WordStream(const WordStream& rhs);
+            WordStream& operator=(const WordStream& rhs);
+            
+            std::queue<int> d_words;
+            
+        public:     
+            
+            WordStream(int* words)
+            {
+                for(int i = 0;words[i] != -1;++i)
+                    d_words.push(words[i]);
+            }
 
-		WordStream (WordStream & rhs);
-		WordStream & operator= (const WordStream & rhs);
+            int next() noexcept
+            {
+                int ret;
+                
+                if (d_words.empty())
+                    ret = -1;
 
-		  std::queue < int >d_words;
-
-
-	  public:
-
-		  WordStream (int *words) throw (std::bad_alloc)
-		{
-			for (int i = 0; words[i] != -1; ++i)
-				d_words.push (words[i]);
-		}
-
-		int next () throw ()
-		{
-			int ret;
-
-			if (d_words.empty ())
-				  ret = -1;
-
-			else
-			  {
-				  ret = d_words.front ();
-				  d_words.pop ();
-			  }
-
-			return ret;
-		}
-	};
+                else {
+                    ret = d_words.front();
+                    d_words.pop();
+                }
+                
+                return ret;
+            }
+    };
 }
-
+    
 #endif // INCLUDED_AIKSAURUS_WORDSTREAM_H

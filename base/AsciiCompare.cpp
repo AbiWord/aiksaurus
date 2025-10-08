@@ -25,9 +25,9 @@
 
 namespace AiksaurusImpl
 {
-	int AsciiCompare (const char *lhs, const char *rhs)
-	{
-		register char a, b;
+    int AsciiCompare(const char* lhs, const char* rhs)
+    {
+        char a, b;
 
 		for (; *lhs && *rhs; ++lhs, ++rhs)
 		  {
