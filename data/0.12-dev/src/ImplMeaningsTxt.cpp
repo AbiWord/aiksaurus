@@ -3,6 +3,7 @@
 #include <fstream>
 #include <string>
 #include <map>
+#include <cassert>
 using namespace std;
 
 const char* message = 
@@ -10,7 +11,7 @@ const char* message =
     "implementation file.  It requires a meanings file (m.#) and an \n"
     "associated words file (w.#).  \n";
 
-const char NEWLINE[3] = { 0xFF, 0xFF, 0 };
+const char NEWLINE[3] = { static_cast<char>(0xFF), static_cast<char>(0xFF), 0 };
     
 int main()
 {

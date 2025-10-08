@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -Wall -O3 -s  
+CFLAGS = -Wall -O3 -s -std=c++11  
 LDFLAGS =
 
 # Erase all suffixes and set our own

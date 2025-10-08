@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
     vector< vector<string> > lines;
-    
+
     char buf[64000];
     while(cin.getline(buf, 64000))
     {
@@ -25,6 +25,6 @@ int main()
         copy(line.begin(), line.end(), ostream_iterator<string>(cout, " "));
         cout << '\n';
     }
-    
+
     return 0;
 }

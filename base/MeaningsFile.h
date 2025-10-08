@@ -25,39 +25,81 @@
 #include <cstdio>
 #include "AiksaurusException.h"
 
-namespace AiksaurusImpl 
+namespace AiksaurusImpl
 {
-    class MeaningStream;
-    class MeaningsFile
+    //
+    // BUF_SIZE: number of links to read from the meanings file 
+    // per read.  Note: will read (BUF_SIZE * 2) bytes per read
+    // since each link is 2 bytes long.
+    //
+    // This constant is completely arbitrary.  Other values may 
+    // provide better performance, but I haven't tested for this 
+    // since 256 seems to work well enough.
+    //
+    static const int BUF_SIZE = 256;
+
+    
+    //
+    // MeaningStream Class
+    //   Purpose: read input from the Meanings file.
+    //
+    class MeaningStream
     {
         private:
 
-            // No copying or assignment allowed.
-            MeaningsFile(const MeaningsFile& rhs);
-            MeaningsFile& operator=(const MeaningsFile& rhs);
+            // Prevent copying, assignment.
+            MeaningStream(MeaningStream& rhs);
+            MeaningStream& operator=(MeaningStream& rhs);
             
-            // Offset information for hash structure.
-            static const int s_offsetModulus;
-            static const int s_offsetData[];
-            static const int s_dataMaxLineLength;
+            unsigned char d_buffer[BUF_SIZE * 2]; // read buffer
+            FILE* d_file_ptr;  // file we read from
+            int d_position;    // current pos in read buffer
+            int d_end;         // size of read buffer
 
-            // Pointer to the actual meanings file.
-            FILE* d_file_ptr;
+            
+        public:
+
+            // MeaningStream Constructor:
+            //   Initialize d_file_ptr to the correct FILE* structure.
+            //   Initialize d_position and d_end so that the stream will
+            //   be read at first call to read().
+            MeaningStream(FILE* file_ptr);
+           
+
+            // MeaningStream::read
+            //   Put the next integer in the stream into x.
+            //   Return true normally, false if EOF.
+            bool read(int& x);
+    };
+
+    class MeaningsFile
+    {
+      private:
+
+        // No copying or assignment allowed.
+        MeaningsFile (const MeaningsFile & rhs);
+          MeaningsFile & operator= (const MeaningsFile & rhs);
+
+        // Offset information for hash structure.
+        static const int s_offsetModulus;
+        static const int s_offsetData[];
+        static const int s_dataMaxLineLength;
+
+        // Pointer to the actual meanings file.
+        FILE* d_file_ptr;
 
             // Utility function
-            int _readline(MeaningStream& s, int* buffer) 
-                throw(AiksaurusException);
+            int _readline(MeaningStream& s, int* buffer);
             
         public:
 
             // Creation and Destruction
-            MeaningsFile(const char* fname) throw(AiksaurusException);
-            ~MeaningsFile() throw();
+            MeaningsFile(const char* fname);
+            ~MeaningsFile();
 
             // Word Lookup        
-            int* getWords(int id) throw(AiksaurusException);
+            int* getWords(int id);
     };
 }
 
-#endif // INCLUDED_MEANINGSFILE_H
-
+#endif							// INCLUDED_MEANINGSFILE_H

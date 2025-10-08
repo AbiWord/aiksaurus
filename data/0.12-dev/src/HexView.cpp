@@ -44,8 +44,8 @@ int main(int argc, const char** argv)
 		{
 			for(int i = 0;i < bytesRead;++i)
 			{
-				cout << setw(4) << hex 
-				     << static_cast<unsigned int>(input_buffer[i]); 
+				cout << setw(4) << hex
+				     << static_cast<unsigned int>(input_buffer[i]);
 
 				if ((i % 16) == 15)
 				{
@@ -58,7 +58,7 @@ int main(int argc, const char** argv)
 		{
 			for(int i = 0;i < bytesRead;++i)
 			{
-				cout << setw(8) << static_cast<unsigned int>(input_buffer[i]); 
+				cout << setw(8) << static_cast<unsigned int>(input_buffer[i]);
 
 				if ((i % 8) == 7)
 				{

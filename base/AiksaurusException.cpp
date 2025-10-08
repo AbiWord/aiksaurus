@@ -23,44 +23,45 @@
 #include "config.h"
 #endif
 
-#include "AiksaurusException.h"     // Header we're implementing.
+#include "AiksaurusException.h"	// Header we're implementing.
 
-#include <cassert>                   
-#include <string>                   // for std::string
-#include <cstring>                  // for strcpy
-#include <new>                      // for std::bad_alloc
+#include <cassert>
+#include <string>				// for std::string
+#include <cstring>				// for strcpy
+#include <new>					// for std::bad_alloc
 
 using namespace std;
 
 #if defined WIN32
-#ifdef AIK_DATA_DIR
-#undef AIK_DATA_DIR
-#endif
-	extern std::string AIK_DATA_DIR;
+extern
+	std::string
+	aik_data_dir;
 #endif
 
-namespace AiksaurusImpl
+namespace
+	AiksaurusImpl
 {
-    const char* AiksaurusException::MemoryError = 
-        "Error: Cannot Allocate Memory\n"
-        "No memory was available for the Thesaurus.  You  \n"
-        "could try closing some other programs to make more \n"
-        "memory available.\n";
+	const char *
+		AiksaurusException::MemoryError =
+		"Error: Cannot Allocate Memory\n"
+		"No memory was available for the Thesaurus.  You  \n"
+		"could try closing some other programs to make more \n"
+		"memory available.\n";
 
    
-    AiksaurusException::AiksaurusException(const AiksaurusException& rhs) throw()
+    AiksaurusException::AiksaurusException(const AiksaurusException& rhs)
     {
         try {
             d_description = rhs.getDescription();
         }
-        catch(std::bad_alloc)
+        catch(const std::bad_alloc&)
         {
             d_description = MemoryError;
         }
     }
         
     
-    AiksaurusException::AiksaurusException(Code code) throw()
+    AiksaurusException::AiksaurusException(Code code)
     {
         assert(
             (code == CANNOT_OPEN_MEANINGS_FILE) ||
@@ -70,10 +71,6 @@ namespace AiksaurusImpl
             (code == CANNOT_ALLOCATE_MEMORY)
         );
 
-        if (code == CANNOT_ALLOCATE_MEMORY)
-        {
-            return;
-        }
         
         try 
         {    
@@ -137,28 +134,26 @@ namespace AiksaurusImpl
                     
             }
         }
-        
-        catch(std::bad_alloc)
+        catch(const std::bad_alloc&)
         {
-            d_description = "";
+            d_description = MemoryError;
         }
     }
 
     
-    AiksaurusException::~AiksaurusException() throw()
+    AiksaurusException::~AiksaurusException()
     {
     }
 
 
     const char* 
-    AiksaurusException::getDescription() const throw()
+    AiksaurusException::getDescription() const
     {
         try {
             return (d_description != "") ? d_description.c_str() : MemoryError;
         }
-        catch(std::bad_alloc) {
+        catch(const std::bad_alloc&) {
             return MemoryError;
         }
     }
 }
-

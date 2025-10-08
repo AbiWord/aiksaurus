@@ -43,11 +43,11 @@ namespace AiksaurusImpl
                 CORRUPT_WORDS_FILE
             };
 
-            AiksaurusException(Code description) throw();
-            AiksaurusException(const AiksaurusException& rhs) throw();
-            ~AiksaurusException() throw();
+            AiksaurusException(Code description);
+            AiksaurusException(const AiksaurusException& rhs);
+            ~AiksaurusException();
 
-            const char* getDescription() const throw();
+            const char* getDescription() const;
     };
 }
 

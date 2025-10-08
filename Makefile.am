@@ -12,7 +12,7 @@ else
 GTK2SRCDIR = 
 endif
 
-SUBDIRS = base $(GTKSRCDIR) $(GTK2SRCDIR) data po
+SUBDIRS = base $(GTKSRCDIR) $(GTK2SRCDIR) po
 
 # PHPSOURCES = php/*.png php/*.php php/*.phps
 

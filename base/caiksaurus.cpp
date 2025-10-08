@@ -254,7 +254,7 @@ static void handleArguments(int argc, char** argv)
         /* see if we got --version. */
         if ( !strcmp(arg, "--version") || !strcmp(arg, "-v") )
         {
-            printf(version);
+            printf("%s", version);
             exit(0);
         }
 
@@ -262,7 +262,7 @@ static void handleArguments(int argc, char** argv)
         else if ( !strcmp(arg, "--help") || !strcmp(arg, "-h") )
         {
             printf("Usage: %s [word]\n\n", argv[0]);
-            printf(help);
+            printf("%s", help);
             exit(0);
         }   
     }
@@ -271,7 +271,7 @@ static void handleArguments(int argc, char** argv)
     if (argc != 2)
     {
         printf("Usage: %s [word]\n", argv[0]);
-        printf(help);
+        printf("%s", help);
         exit(1);
     }
 }

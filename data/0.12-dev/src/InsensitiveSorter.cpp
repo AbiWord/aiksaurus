@@ -21,5 +21,5 @@ int main()
 
     copy(lines.begin(), lines.end(), ostream_iterator<string>(cout, "\n"));
 
-    return 0;  
+    return 0;
 }

@@ -13,11 +13,11 @@ int main(int argc, const char** argv)
 
     char buf[64000];
     string x;
-    
+
     while(cin.getline(buf, 64000))
     {
         bool nl = false;
-        
+
         istrstream ss(buf);
         while(ss >> x)
         {
@@ -27,7 +27,7 @@ int main(int argc, const char** argv)
                 nl = true;
             }
         }
-    
+
         if (nl)
             cout << endl;
     }

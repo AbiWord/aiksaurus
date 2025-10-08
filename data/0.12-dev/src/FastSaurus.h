@@ -21,4 +21,4 @@ class AikSaurusFAST
 
 extern AikSaurusFAST Thesaurus;
 
-#endif 
+#endif

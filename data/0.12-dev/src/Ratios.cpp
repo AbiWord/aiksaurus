@@ -11,7 +11,7 @@ returnLinkRatio(const std::string& word, const MeaningSet& meanings)
     {
         if (*i == word)
             continue;
-        
+
         const vector<string>& synonyms = Thesaurus.getSynonyms(*i);
 
         for(vector<string>::const_iterator j = synonyms.begin(); j != synonyms.end();++j)
@@ -35,7 +35,7 @@ directLinkRatio(const std::string& word, const MeaningSet& meanings)
     double ratio = 0;
 
     const vector<string>& wordmean = Thesaurus.getSynonyms(word);
-    
+
     for(MeaningSet::const_iterator i = meanings.begin(); i != meanings.end(); ++i)
     {
         if (*i == word)
@@ -60,14 +60,14 @@ double
 meanReturnLinkRatio(const MeaningSet& meanings)
 {
     double ratio = 0;
-    
+
     for(MeaningSet::const_iterator i = meanings.begin();i != meanings.end();++i)
     {
         ratio += returnLinkRatio(*i, meanings);
     }
 
     ratio /= meanings.size();
-    
+
     return ratio;
 }
 

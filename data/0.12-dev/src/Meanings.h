@@ -6,47 +6,47 @@
 #include <string>
 
 
-    // MeaningSet 
+    // MeaningSet
     //   a single meaning set.  A vector of strings that
     //   are somehow related.
     typedef std::vector<std::string> MeaningSet;
 
 
     // MeaningFamily
-    //   a family of meaning sets.  This represents a 
+    //   a family of meaning sets.  This represents a
     //   collection of meaning sets.
     typedef std::vector<MeaningSet> MeaningFamily;
 
 
-    // extractMeaningSet: 
+    // extractMeaningSet:
     //   generate a meaning set from a line of input.
     //   words assumed to be separated by spaces.
     void extractMeaningSet(
-            const char* line, 
+            const char* line,
             MeaningSet& set
     );
-    
+
     // extractMeaningSet:
     //   rlr+dlr version of same function.
     void extractMeaningSet(
-            const char* line, 
-            MeaningSet& set, 
+            const char* line,
+            MeaningSet& set,
             double& dlr, double& rlr
     );
 
-    
+
     // extractMeaningFamily
     //   generate a family of meaning sets from an
     //   input file.  file format: one meaning set
     //   per line, words separated by spaces.
     void extractMeaningFamily(
-            std::istream& lines, 
+            std::istream& lines,
             MeaningFamily& family
     );
 
     // extractMeaningFamily: rlr/dlr version
     void extractMeaningFamily(
-            std::istream& lines, 
+            std::istream& lines,
             MeaningFamily& family,
             std::vector<double>& dlrs, 
             std::vector<double>& rlrs
@@ -56,5 +56,5 @@
 
     class ostream;
     void printMeaningSet(ostream& out, const MeaningSet& ms);
-    
+
 #endif // INCLUDED_MEANINGS_H

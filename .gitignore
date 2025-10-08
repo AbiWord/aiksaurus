@@ -38,3 +38,5 @@ gaiksaurus.desktop
 gaiksaurus.desktop.in
 po/POTFILES
 po/Makefile.in.in
+po/.intltool-merge-cache
+po/.intltool-merge-cache.lock

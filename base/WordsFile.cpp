@@ -62,7 +62,7 @@ static inline void strReplace(char* str, char a, char b) throw()
 //   static function to return maximum length of any word.
 //   just returns s_wordlen to the user.
 //
-int WordsFile::maxWordLength() throw()
+int WordsFile::maxWordLength()
 {
     return s_maxWordLength;
 }
@@ -75,7 +75,7 @@ int WordsFile::maxWordLength() throw()
 //   last requested word that succeeded, or the empty string if no
 //   calls to loadWord() were ever successful.
 //
-const char* WordsFile::getWord() const throw()
+const char* WordsFile::getWord() const
 {
     strReplace(d_word, ASCII_COLON, ASCII_SPACE);
     return d_word;
@@ -88,7 +88,7 @@ const char* WordsFile::getWord() const throw()
 //   getWord(), this will return the last successful results or an
 //   empty list if there were no successful loads.
 //
-const int* WordsFile::getLinks() const throw()
+const int* WordsFile::getLinks() const
 {
     return d_links;
 }
@@ -100,8 +100,7 @@ const int* WordsFile::getLinks() const throw()
 //   ask to load words, they should be in the range [0, getSize).  In 
 //   other words, getSize() - 1 is the last entry.
 //
-int 
-AiksaurusImpl::WordsFile::getSize() const throw()
+int WordsFile::getSize() const
 {
     return s_numLines;
 }
@@ -112,7 +111,7 @@ AiksaurusImpl::WordsFile::getSize() const throw()
 //   Attempt to safely initialize the Words file.  Might have problems
 //   with running out of memory or file not found.
 //
-WordsFile::WordsFile(const char* fname) throw(AiksaurusException)
+WordsFile::WordsFile(const char* fname)
 {
     
     try
@@ -132,7 +131,7 @@ WordsFile::WordsFile(const char* fname) throw(AiksaurusException)
         }
     }
     
-    catch(std::bad_alloc)
+    catch(const std::bad_alloc&)
     {
         delete[] d_word;
         delete[] d_links;
@@ -171,7 +170,7 @@ WordsFile::~WordsFile() throw()
 //   Returns the index of the word on success, or -1 on 
 //   failure.
 //
-bool WordsFile::findWord(const char* str, int& index) throw(AiksaurusException)
+bool WordsFile::findWord(const char* str, int& index)
 {  
     // Create copy of str, so that we can turn spaces into colons.
     // We only need to copy the first s_wordlen + 1 bytes to ensure
@@ -259,6 +258,8 @@ void WordsFile::_readWord()
         int x1 = fgetc(d_file_ptr), 
             x2 = fgetc(d_file_ptr);
 
+
+
         if (ferror(d_file_ptr) || feof(d_file_ptr)) 
             throw AiksaurusException(AiksaurusException::CORRUPT_WORDS_FILE);
       
@@ -280,7 +281,7 @@ void WordsFile::_readWord()
 // loadWord()
 //   Read a particular word from the Words file. 
 //
-void WordsFile::loadWord(int id) throw(AiksaurusException)
+void WordsFile::loadWord(int id)
 {
     assert(id >= 0);
     assert(id < getSize());

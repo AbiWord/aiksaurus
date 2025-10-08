@@ -1,4 +1,4 @@
-AM_CXXFLAGS = @GTK2_CFLAGS@ @GTK2_DEFS@ -Wall -I../.. -I$(top_srcdir)/base
+AM_CXXFLAGS = @GTK2_CFLAGS@ @GTK2_DEFS@ -Wall -Werror -I../.. -I$(top_srcdir)/base
 
 lib_LTLIBRARIES = libAiksaurusGTK.la
 

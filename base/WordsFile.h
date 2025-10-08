@@ -23,55 +23,53 @@
 #define INCLUDED_WORDSFILE_H
 
 #include <cstdio>
-#include "AiksaurusException.h"   
+#include "AiksaurusException.h"
 
 namespace AiksaurusImpl
 {
-    class WordsFile
-    {
-        private:
+	class WordsFile
+	{
+	  private:
 
-        // No copying or assignment allowed.
-            WordsFile(const WordsFile& rhs);
-            WordsFile& operator=(const WordsFile& rhs);
-        
-        // Static information about our datafile.
-            static const int s_offsetModulus;
-            static const int s_offsetData[];
-            static const int s_numLines;
-            static const int s_maxWordLength;
-            static const int s_maxLinks;
-   
-        // File pointer to the datafile itself.
-            FILE* d_file_ptr;
-            
-        // Storage for loading each word.
-            char *d_word;
-            int *d_links;       
-          
-        // Helper functions for file i/o   
-            void _readWord(); 
-            
-        public:
-
-        // Creation and Destruction
-            WordsFile(const char* fname) throw(AiksaurusException);
-            ~WordsFile() throw();
-        
-        // Word Lookup        
-            void loadWord(int id) throw(AiksaurusException);
-            bool findWord(const char* str, int& index) throw(AiksaurusException);
-
-        // Inspection  
-            int getSize() const throw();
-            const char* getWord() const throw();
-            const int* getLinks() const throw();
-            
-        // Constants
-            static int maxWordLength() throw();    
+		        // No copying or assignment allowed.
+		            WordsFile(const WordsFile& rhs);
+		            WordsFile& operator=(const WordsFile& rhs);
+		        
+		        // Static information about our datafile.
+		            static const int s_offsetModulus;
+		            static const int s_offsetData[];
+		            static const int s_numLines;
+		            static const int s_maxWordLength;
+		            static const int s_maxLinks;
+		   
+		        // File pointer to the datafile itself.
+		            FILE* d_file_ptr;
+		            
+		        // Storage for loading each word.
+		            char *d_word;
+		            int *d_links;       
+		          
+		        // Helper functions for file i/o   
+		            void _readWord(); 
+		            
+		        public:
+		        // Creation and Destruction
+		            WordsFile(const char* fname);
+		            ~WordsFile();
+		        
+		        // Word Lookup        
+		            void loadWord(int id);
+		            bool findWord(const char* str, int& index);
+		
+		        // Inspection  
+		            int getSize() const;
+		            const char* getWord() const;
+		            const int* getLinks() const;
+		            
+		        // Constants
+		            static int maxWordLength();    
     };
 
 }
-    
-#endif // INCLUDED_WORDSFILE_H
 
+#endif							// INCLUDED_WORDSFILE_H
