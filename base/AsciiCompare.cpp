@@ -21,34 +21,33 @@
  */
 
 #include "AsciiCompare.h"
-#include <cctype>           // for tolower()
+#include <cctype>				// for tolower()
 
 namespace AiksaurusImpl
 {
-    int AsciiCompare(const char* lhs, const char* rhs)
-    {
-        register char a, b;
+	int AsciiCompare (const char *lhs, const char *rhs)
+	{
+		register char a, b;
 
-        for(; *lhs && *rhs; ++lhs, ++rhs)
-        {
-            a = tolower(*lhs);
-            b = tolower(*rhs);
+		for (; *lhs && *rhs; ++lhs, ++rhs)
+		  {
+			  a = tolower (*lhs);
+			  b = tolower (*rhs);
 
-            if (a < b) 
-                return -1;
+			  if (a < b)
+				  return -1;
 
-            else if (a > b) 
-                return 1;
-        } 
+			  else if (a > b)
+				  return 1;
+		  }
 
-        if (!*lhs && !*rhs) 
-            return 0;
+		if (!*lhs && !*rhs)
+			  return 0;
 
-        else if (!*lhs) 
-            return -1;
+		else if (!*lhs)
+			return -1;
 
-        else 
-            return 1;
-    }
+		else
+			return 1;
+	}
 }
-

@@ -25,39 +25,38 @@
 #include <cstdio>
 #include "AiksaurusException.h"
 
-namespace AiksaurusImpl 
+namespace AiksaurusImpl
 {
-    class MeaningStream;
-    class MeaningsFile
-    {
-        private:
+	class MeaningStream;
+	class MeaningsFile
+	{
+	  private:
 
-            // No copying or assignment allowed.
-            MeaningsFile(const MeaningsFile& rhs);
-            MeaningsFile& operator=(const MeaningsFile& rhs);
-            
-            // Offset information for hash structure.
-            static const int s_offsetModulus;
-            static const int s_offsetData[];
-            static const int s_dataMaxLineLength;
+		// No copying or assignment allowed.
+		MeaningsFile (const MeaningsFile & rhs);
+		  MeaningsFile & operator= (const MeaningsFile & rhs);
 
-            // Pointer to the actual meanings file.
-            FILE* d_file_ptr;
+		// Offset information for hash structure.
+		static const int s_offsetModulus;
+		static const int s_offsetData[];
+		static const int s_dataMaxLineLength;
 
-            // Utility function
-            int _readline(MeaningStream& s, int* buffer) 
-                throw(AiksaurusException);
-            
-        public:
+		// Pointer to the actual meanings file.
+		FILE *d_file_ptr;
 
-            // Creation and Destruction
-            MeaningsFile(const char* fname) throw(AiksaurusException);
-            ~MeaningsFile() throw();
+		// Utility function
+		int _readline (MeaningStream & s, int *buffer)
+			throw (AiksaurusException);
 
-            // Word Lookup        
-            int* getWords(int id) throw(AiksaurusException);
-    };
+	  public:
+
+		// Creation and Destruction
+		  MeaningsFile (const char *fname) throw (AiksaurusException);
+		 ~MeaningsFile () throw ();
+
+		// Word Lookup        
+		int *getWords (int id) throw (AiksaurusException);
+	};
 }
 
-#endif // INCLUDED_MEANINGSFILE_H
-
+#endif							// INCLUDED_MEANINGSFILE_H

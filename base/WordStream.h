@@ -26,39 +26,40 @@
 
 namespace AiksaurusImpl
 {
-    class WordStream
-    {
-        private:
-        
-            WordStream(WordStream& rhs);
-            WordStream& operator=(const WordStream& rhs);
-            
-            std::queue<int> d_words;   
-        
-            
-        public:     
-            
-            WordStream(int* words) throw(std::bad_alloc)
-            {
-                for(int i = 0;words[i] != -1;++i)
-                    d_words.push(words[i]);
-            }
+	class WordStream
+	{
+	  private:
 
-            int next() throw()
-            {
-                int ret;
-                
-                if (d_words.empty())
-                    ret = -1;
+		WordStream (WordStream & rhs);
+		WordStream & operator= (const WordStream & rhs);
 
-                else {
-                    ret = d_words.front();
-                    d_words.pop();
-                }
-                
-                return ret;
-            }
-    };
+		  std::queue < int >d_words;
+
+
+	  public:
+
+		  WordStream (int *words) throw (std::bad_alloc)
+		{
+			for (int i = 0; words[i] != -1; ++i)
+				d_words.push (words[i]);
+		}
+
+		int next () throw ()
+		{
+			int ret;
+
+			if (d_words.empty ())
+				  ret = -1;
+
+			else
+			  {
+				  ret = d_words.front ();
+				  d_words.pop ();
+			  }
+
+			return ret;
+		}
+	};
 }
-    
+
 #endif // INCLUDED_AIKSAURUS_WORDSTREAM_H

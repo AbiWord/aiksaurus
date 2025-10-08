@@ -26,29 +26,30 @@
 
 namespace AiksaurusImpl
 {
-    class AiksaurusException
-    {
-        private:
-            std::string d_description; 
-            AiksaurusException& operator=(const AiksaurusException& rhs);
-            
-        public:
-            static const char* MemoryError;
-            
-            enum Code {
-                CANNOT_ALLOCATE_MEMORY,
-                CANNOT_OPEN_MEANINGS_FILE,
-                CORRUPT_MEANINGS_FILE,
-                CANNOT_OPEN_WORDS_FILE,
-                CORRUPT_WORDS_FILE
-            };
+	class AiksaurusException
+	{
+	  private:
+		std::string d_description;
+		AiksaurusException & operator= (const AiksaurusException & rhs);
 
-            AiksaurusException(Code description) throw();
-            AiksaurusException(const AiksaurusException& rhs) throw();
-            ~AiksaurusException() throw();
+	  public:
+		static const char *MemoryError;
 
-            const char* getDescription() const throw();
-    };
+		enum Code
+		{
+			CANNOT_ALLOCATE_MEMORY,
+			CANNOT_OPEN_MEANINGS_FILE,
+			CORRUPT_MEANINGS_FILE,
+			CANNOT_OPEN_WORDS_FILE,
+			CORRUPT_WORDS_FILE
+		};
+
+		  AiksaurusException (Code description) throw ();
+		  AiksaurusException (const AiksaurusException & rhs) throw ();
+		 ~AiksaurusException () throw ();
+
+		const char *getDescription () const throw ();
+	};
 }
 
-#endif // INCLUDED_AIKSAURUS_EXCEPTION_H
+#endif							// INCLUDED_AIKSAURUS_EXCEPTION_H
